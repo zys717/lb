@@ -1,0 +1,315 @@
+{
+  "id": "S046_VertiportCapacity",
+  "name": "Vertiport Capacity Management",
+  "version": "1.0",
+  "created": "2025-11-15",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "vertiport_capacity",
+  "description": "Layer-3B operational scenario focused on allocating limited vertiport gates, handling emergency priorities, fairness constraints, and diversion decisions for 10+ concurrent arrivals.",
+  "decision_options": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "vertiport_layout": {
+    "tlof_pads": 1,
+    "parking_gates": [
+      {"id": "G1", "role": "fast_charge"},
+      {"id": "G2", "role": "standard"},
+      {"id": "G3", "role": "standard"}
+    ],
+    "holding_pattern": {"capacity": 5, "max_loiter_sec": 300}
+  },
+  "policies": {
+    "battery_emergency_pct": 10,
+    "max_total_delay_ratio": 1.2,
+    "max_individual_delay_sec": 300,
+    "fairness_gini_limit": 0.35,
+    "max_divert_ratio": 0.3
+  },
+  "analysis_expectations": [
+    "Reference gate availability and specialized roles (fast charge vs standard) when sequencing landings.",
+    "Mention queue metrics: total delay, max delay, fairness (Gini), throughput vs theoretical capacity.",
+    "Describe mitigation steps when issuing conditional approvals (e.g., fairness bulletin, passenger comms, drift logs).",
+    "Use EXPLAIN_ONLY when the case explicitly calls for economic advisory rather than a binary decision.",
+    "Admit UNCERTAIN when weather/hazard forecasts lack duration guarantees and no robust plan is available."
+  ],
+  "test_cases": [
+    {
+      "case_id": "TC01_FIFO_Baseline",
+      "title": "FIFO baseline, ample power",
+      "group": "baseline",
+      "demand_profile": {"arrivals": 10, "interval_sec": 30},
+      "constraints": {"gates_free": ["G1", "G2", "G3"], "holding_fill": 0},
+      "candidate_plan": {
+        "landing_schedule": [
+          {"drone": "D01", "action": "land_immediate", "gate": "G1", "eta": 60},
+          {"drone": "D02", "action": "land_immediate", "gate": "G2", "eta": 90},
+          {"drone": "D03", "action": "land_immediate", "gate": "G3", "eta": 120},
+          {"drone": "D04", "action": "queue", "slot": 1, "wait_sec": 150},
+          {"drone": "D05", "action": "queue", "slot": 2, "wait_sec": 180},
+          {"drone": "D06", "action": "queue", "slot": 3, "wait_sec": 210},
+          {"drone": "D07", "action": "queue", "slot": 4, "wait_sec": 240},
+          {"drone": "D08", "action": "queue", "slot": 5, "wait_sec": 270},
+          {"drone": "D09", "action": "divert", "target": "VP_South", "eta": 360},
+          {"drone": "D10", "action": "divert", "target": "VP_South", "eta": 360}
+        ],
+        "objective_metrics": {
+          "total_delay_sec": 930,
+          "max_delay_sec": 270,
+          "fairness_gini": 0.36,
+          "divert_ratio": 0.2,
+          "throughput_pct": 0.82
+        }
+      },
+      "insights": [
+        "Queue discipline is FIFO; all drones have >30% SOC so no emergency insert needed, but two non-urgent flights were diverted to keep the holding pattern within the 5-slot capacity.",
+        "Fairness KPI triggered (Gini 0.36 > 0.35) because OperatorA occupies the first three slots; regulators expect a fairness memo or slot rotation before sign-off."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC02_BatteryEmergency",
+      "title": "Battery emergency reprioritization",
+      "group": "priority",
+      "demand_profile": {"arrivals": 9, "interval_sec": 35},
+      "constraints": {"occupied_gates": {"G1": 240, "G2": 180}, "holding_fill": 4},
+      "candidate_plan": {
+        "landing_schedule": [
+          {"drone": "D03", "action": "emergency_land", "gate": "G1", "eta": 45, "battery_pct": 5},
+          {"drone": "D04", "action": "queue", "slot": 1, "wait_sec": 240},
+          {"drone": "D05", "action": "queue", "slot": 2, "wait_sec": 270},
+          {"drone": "D06", "action": "queue", "slot": 3, "wait_sec": 285},
+          {"drone": "D07", "action": "queue", "slot": 4, "wait_sec": 295},
+          {"drone": "D08", "action": "queue", "slot": 5, "wait_sec": 300},
+          {"drone": "D09", "action": "divert", "target": "VP_East", "eta": 330}
+        ],
+        "objective_metrics": {
+          "total_delay_sec": 1460,
+          "max_delay_sec": 300,
+          "fairness_gini": 0.34,
+          "divert_ratio": 0.11,
+          "throughput_pct": 0.78
+        },
+        "mitigations": {
+          "displaced_drones": ["D04", "D05"],
+          "passenger_notice": "Pending finance approval",
+          "fairness_memo": "Draft shared, audit not signed"
+        }
+      },
+      "insights": [
+        "Emergency insertion keeps every hold ≤300 s and the queue uses all five slots, but the notification workflow is still awaiting operator sign-off.",
+        "Auditors asked for a countersigned fairness memo before the plan is considered fully closed."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC03_GateDeadlock",
+      "title": "Heterogeneous gate deadlock",
+      "group": "resource_matching",
+      "demand_profile": {"arrivals": 8, "interval_sec": 25},
+      "constraints": {"gate_release_sec": {"G1": 60, "G2": 120, "G3": 180}, "special_requirements": {"D04": "G1 fast charge"}},
+      "candidate_plan": {
+        "landing_schedule": [
+          {"drone": "D05", "action": "hold", "gate_preference": "G1", "wait_sec": 0},
+          {"drone": "D06", "action": "hold", "gate_preference": "G1", "wait_sec": 0},
+          {"drone": "D04", "action": "queue", "slot": 3, "wait_sec": 210},
+          {"drone": "D07", "action": "queue", "slot": 4, "wait_sec": 240},
+          {"drone": "D08", "action": "queue", "slot": 5, "wait_sec": 270}
+        ],
+        "objective_metrics": {
+          "total_delay_sec": 1680,
+          "max_delay_sec": 420,
+          "fairness_gini": 0.44,
+          "divert_ratio": 0.0,
+          "throughput_pct": 0.74
+        },
+        "conflict_notes": [
+          "D04 cannot use G2/G3 but is assigned behind two standard-charge drones queued for G1.",
+          "Medical drones D05-D06 rot in holding despite open G2/G3 slots."
+        ]
+      },
+      "insights": [
+        "Plan causes resource deadlock: leaving medical drones idle while a non-urgent drone monopolizes G1 queue.",
+        "OR-Tools comparison shows swapping D04 ahead and rerouting D05/D06 to other gates cuts total delay by 29%."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC04_DiversionEconomics",
+      "title": "Diversion vs passenger promise",
+      "group": "economic_tradeoff",
+      "demand_profile": {"arrivals": 10, "interval_sec": 40},
+      "constraints": {"backup_vertiport": {"name": "VP_South", "flight_sec": 300, "queue_sec": 0}, "current_queue_sec": 480},
+      "candidate_plan": {
+        "landing_schedule": [
+          {"drone": "D01", "action": "land_immediate", "gate": "G2", "eta": 75},
+          {"drone": "D02", "action": "queue", "slot": 1, "wait_sec": 420},
+          {"drone": "D03", "action": "queue", "slot": 2, "wait_sec": 450},
+          {"drone": "D04", "action": "divert", "target": "VP_South", "eta": 360, "passenger_notice": "sent"},
+          {"drone": "D05", "action": "divert", "target": "VP_South", "eta": 360, "passenger_notice": "sent"},
+          {"drone": "D06", "action": "queue", "slot": 3, "wait_sec": 480},
+          {"drone": "D07", "action": "queue", "slot": 4, "wait_sec": 510},
+          {"drone": "D08", "action": "queue", "slot": 5, "wait_sec": 540},
+          {"drone": "D09", "action": "queue", "slot": 6, "wait_sec": 570},
+          {"drone": "D10", "action": "queue", "slot": 7, "wait_sec": 600}
+        ],
+        "objective_metrics": {
+          "total_delay_sec": 1620,
+          "max_delay_sec": 600,
+          "fairness_gini": 0.33,
+          "divert_ratio": 0.2,
+          "customer_satisfaction_penalty": 0.35
+        }
+      },
+      "insights": [
+        "Diversions save 120 s relative to waiting, but riders were promised imminent landing; CX penalty may outweigh benefit.",
+        "Economic model expects an advisory response comparing time vs satisfaction rather than an approval."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    },
+    {
+      "case_id": "TC05_DynamicReplan",
+      "title": "Charger fault mid-sequence",
+      "group": "dynamic_update",
+      "demand_profile": {"arrivals": 7, "interval_sec": 35},
+      "constraints": {"fault": {"gate": "G2", "extra_repair_sec": 60}, "preplanned_sequence": ["D01", "D02", "D03", "D04", "D05", "D06"]},
+      "candidate_plan": {
+        "landing_schedule": [
+          {"drone": "D02", "action": "reroute_to_G3", "gate": "G3", "eta": 60},
+          {"drone": "D03", "action": "land_immediate", "gate": "G1", "eta": 75},
+          {"drone": "D04", "action": "queue", "slot": 1, "wait_sec": 210},
+          {"drone": "D05", "action": "queue", "slot": 2, "wait_sec": 240},
+          {"drone": "D06", "action": "queue", "slot": 3, "wait_sec": 255},
+          {"drone": "D07", "action": "queue", "slot": 4, "wait_sec": 270}
+        ],
+        "objective_metrics": {
+          "total_delay_sec": 980,
+          "max_delay_sec": 270,
+          "fairness_gini": 0.33,
+          "divert_ratio": 0.0,
+          "throughput_pct": 0.82
+        },
+        "issues": [
+          "Maintenance bulletin for the faulty charger is still open; rerouting is based on provisional clearance pending QA test.",
+          "Passengers already boarded were told to expect a 90 s taxi; communications update is drafted but unsent."
+        ],
+        "mitigations": {
+          "qa_clearance": "Not yet confirmed",
+          "passenger_notice": "Draft queued for ops"
+        }
+      },
+      "insights": [
+        "OR-Tools re-optimization already applied (D02 shifts to G3); plan is solid if QA signs off on the repaired charger.",
+        "Ops wants controller approval contingent on receiving the QA log and updated passenger comms."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC06_FairnessConstraint",
+      "title": "Operator fairness vs efficiency",
+      "group": "fairness",
+      "demand_profile": {"arrivals": 10, "operator_mix": {"OperatorA": 5, "OperatorB": 3, "OperatorC": 2}},
+      "constraints": {"fifo_order": ["OperatorA", "OperatorA", "OperatorA", "OperatorA", "OperatorA", "OperatorB", "OperatorB", "OperatorB", "OperatorC", "OperatorC"]},
+      "candidate_plan": {
+        "landing_schedule": [
+          {"drone": "A1", "action": "land_immediate", "gate": "G1", "eta": 90},
+          {"drone": "A2", "action": "land_immediate", "gate": "G2", "eta": 120},
+          {"drone": "A3", "action": "land_immediate", "gate": "G3", "eta": 150},
+          {"drone": "A4", "action": "queue", "slot": 1, "wait_sec": 210},
+          {"drone": "A5", "action": "queue", "slot": 2, "wait_sec": 240},
+          {"drone": "B1", "action": "queue", "slot": 3, "wait_sec": 270},
+          {"drone": "B2", "action": "queue", "slot": 4, "wait_sec": 285},
+          {"drone": "B3", "action": "divert", "target": "VP_South", "eta": 330},
+          {"drone": "C1", "action": "divert", "target": "VP_South", "eta": 330},
+          {"drone": "C2", "action": "divert", "target": "VP_South", "eta": 330}
+        ],
+        "objective_metrics": {
+          "total_delay_sec": 1090,
+          "max_delay_sec": 285,
+          "fairness_gini": 0.42,
+          "divert_ratio": 0.3,
+          "throughput_pct": 0.8
+        },
+        "mitigations": {
+          "fairness_plan": "Not published",
+          "passenger_comms": "OperatorB/OperatorC pending"
+        }
+      },
+      "insights": [
+        "Plan sticks to FIFO causing OperatorA to monopolize first 5 slots; fairness KPI broken (Gini 0.42 > 0.35) even after diverting some B/C flights.",
+        "FairUAM benchmark shows rotating priority slices keeps total delay within 1.12× optimal while restoring Gini 0.29, but the operator hasn’t filed a fairness bulletin yet."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC07_WeatherUncertainty",
+      "title": "Weather-driven service slowdown",
+      "group": "uncertainty",
+      "demand_profile": {"arrivals": 9, "interval_sec": 32},
+      "constraints": {"tlof_service_sec": {"nominal": 60, "current": 90}, "forecast_window_min": [5, 10], "low_soc_count": 3},
+      "candidate_plan": {
+        "landing_schedule": [
+          {"drone": "D01", "action": "land_immediate", "gate": "G1", "eta": 90},
+          {"drone": "D02", "action": "queue", "slot": 1, "wait_sec": 420},
+          {"drone": "D03", "action": "queue", "slot": 2, "wait_sec": 450},
+          {"drone": "D04", "action": "queue", "slot": 3, "wait_sec": 480},
+          {"drone": "D05", "action": "queue", "slot": 4, "wait_sec": 510},
+          {"drone": "D06", "action": "queue", "slot": 5, "wait_sec": 540},
+          {"drone": "D07", "action": "queue", "slot": 6, "wait_sec": 570},
+          {"drone": "D08", "action": "queue", "slot": 7, "wait_sec": 600},
+          {"drone": "D09", "action": "queue", "slot": 8, "wait_sec": 630}
+        ],
+        "objective_metrics": {
+          "total_delay_sec": 2450,
+          "max_delay_sec": 630,
+          "fairness_gini": 0.34,
+          "divert_ratio": 0.0,
+          "throughput_pct": 0.62
+        },
+        "forecast_assumptions": "Assumes side winds clear in 5 min; no contingency if it lasts 10 min."
+      },
+      "insights": [
+        "Current plan gambles that winds clear quickly; no diverts or SOC triage for three drones <15% battery.",
+        "Regulators accept an UNCERTAIN answer if controller explicitly states missing forecast confidence."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC08_CascadeFailure",
+      "title": "Charging failure + demand surge",
+      "group": "stress_test",
+      "demand_profile": {"arrivals": 12, "interval_sec": 25},
+      "constraints": {"available_gates": ["G1", "G3"], "fault_gates": ["G2"], "low_soc_count": 4},
+      "candidate_plan": {
+        "landing_schedule": [
+          {"drone": "D01", "action": "land_immediate", "gate": "G1", "eta": 90},
+          {"drone": "D02", "action": "land_immediate", "gate": "G2", "eta": 120},
+          {"drone": "D03", "action": "land_immediate", "gate": "G3", "eta": 150},
+          {"drone": "D04", "action": "queue", "slot": 1, "wait_sec": 210},
+          {"drone": "D05", "action": "queue", "slot": 2, "wait_sec": 240},
+          {"drone": "D06", "action": "queue", "slot": 3, "wait_sec": 270},
+          {"drone": "D07", "action": "queue", "slot": 4, "wait_sec": 300},
+          {"drone": "D08", "action": "queue", "slot": 5, "wait_sec": 330},
+          {"drone": "D09", "action": "queue", "slot": 6, "wait_sec": 360},
+          {"drone": "D10", "action": "queue", "slot": 7, "wait_sec": 390},
+          {"drone": "D11", "action": "queue", "slot": 8, "wait_sec": 420},
+          {"drone": "D12", "action": "queue", "slot": 9, "wait_sec": 450}
+        ],
+        "objective_metrics": {
+          "total_delay_sec": 3120,
+          "max_delay_sec": 450,
+          "fairness_gini": 0.46,
+          "divert_ratio": 0.0,
+          "throughput_pct": 0.58
+        },
+        "violations": [
+          "Plan still allocates G2 even though the charger is offline.",
+          "Four drones with SOC<20% left to wait >300 sec."
+        ]
+      },
+      "insights": [
+        "Reroutes or staggered diverts required; candidate output ignores degraded capacity and leaves low-SOC craft in queue.",
+        "Stress-test expects an explicit rejection citing capacity breach & emergency risk."
+      ],
+      "expected_decision": "REJECT"
+    }
+  ]
+}

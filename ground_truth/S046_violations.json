@@ -1,0 +1,51 @@
+{
+  "scenario_id": "S046_VertiportCapacity",
+  "scenario_name": "Vertiport Capacity Management",
+  "version": "1.0",
+  "created": "2025-11-15",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "summary": "Eight vertiport capacity cases spanning FIFO baselines, battery emergencies, gate deadlocks, diversion economics, dynamic replans, fairness constraints, weather uncertainty, and cascade failures.",
+  "test_cases": [
+    {
+      "case_id": "TC01_FIFO_Baseline",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["FIFO", "fairness memo", "Gini 0.36", "slot rotation"]
+    },
+    {
+      "case_id": "TC02_BatteryEmergency",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["battery 5%", "queue at capacity", "notices pending", "fairness audit outstanding"]
+    },
+    {
+      "case_id": "TC03_GateDeadlock",
+      "expected_decision": "REJECT",
+      "required_keywords": ["deadlock", "fast charge G1", "medical queue", "swap order"]
+    },
+    {
+      "case_id": "TC04_DiversionEconomics",
+      "expected_decision": "REJECT",
+      "required_keywords": ["max delay 600", "customer penalty 0.35", "CX promise", "reject plan"]
+    },
+    {
+      "case_id": "TC05_DynamicReplan",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["reroute to G3", "qa clearance pending", "passenger comms outstanding", "conditional"]
+    },
+    {
+      "case_id": "TC06_FairnessConstraint",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["Gini 0.42", "rotate priority", "FairUAM", "publish fairness plan"]
+    },
+    {
+      "case_id": "TC07_WeatherUncertainty",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": ["side wind", "forecast 5-10 min", "SOC <15%", "insufficient confidence"]
+    },
+    {
+      "case_id": "TC08_CascadeFailure",
+      "expected_decision": "REJECT",
+      "required_keywords": ["G2 offline", "capacity breach", "low SOC queue", "divert required"]
+    }
+  ]
+}

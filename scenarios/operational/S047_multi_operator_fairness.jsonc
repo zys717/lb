@@ -1,0 +1,255 @@
+{
+  "id": "S047_MultiOperatorFairness",
+  "name": "Multi-Operator Fairness & Governance",
+  "version": "1.0",
+  "created": "2025-11-15",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "multi_operator_fairness",
+  "description": "Layer-3B scenario where the controller arbitrates resources among three heterogeneous UAM operators while balancing efficiency, fairness, ethics, and incentive compatibility.",
+  "decision_options": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "operators": [
+    {
+      "id": "OperatorA_MegaCorp",
+      "profile": "Large e-commerce logistics fleet",
+      "fleet_size": 50,
+      "daily_demand": 150,
+      "service_type": "Parcel delivery",
+      "market_share": 0.50,
+      "financial_strength": "high",
+      "political_influence": "medium"
+    },
+    {
+      "id": "OperatorB_MedicalDrone",
+      "profile": "Emergency medical transport",
+      "fleet_size": 15,
+      "daily_demand": 30,
+      "service_type": "Med-evac / urgent labs",
+      "market_share": 0.20,
+      "financial_strength": "medium",
+      "social_priority": "high"
+    },
+    {
+      "id": "OperatorC_Startup",
+      "profile": "Tourism startup",
+      "fleet_size": 10,
+      "daily_demand": 45,
+      "service_type": "Aerial sightseeing",
+      "market_share": 0.30,
+      "financial_strength": "low",
+      "innovation_potential": "high"
+    }
+  ],
+  "fairness_metrics": {
+    "gini_threshold": 0.35,
+    "jain_target": 0.85,
+    "max_efficiency_drop_pct": 10,
+    "auction_payments_allowed": false
+  },
+  "analysis_expectations": [
+    "Reference allocation counts, rejection counts, and normalized fairness ratios for each operator.",
+    "Report Gini, Jain, and (when relevant) Nash Social Welfare; explain trade-offs between efficiency and equity.",
+    "Explicitly mention outstanding governance steps (fairness bulletins, passenger comms, audit logs) when using conditional approvals.",
+    "For mechanism-design cases, discuss incentive compatibility (truthful reporting) and why a proposed mechanism is or isn’t strategy-proof.",
+    "State when objectives are jointly infeasible and propose second-best solutions rather than promising the impossible."
+  ],
+  "test_cases": [
+    {
+      "case_id": "TC01_UtilitarianBaseline",
+      "title": "Demand below capacity, pure efficiency",
+      "group": "baseline",
+      "scenario_notes": {
+        "total_demand": 225,
+        "capacity": 250,
+        "slot_ratio": {"OperatorA": 150, "OperatorB": 30, "OperatorC": 45}
+      },
+      "candidate_plan": {
+        "allocation": {"OperatorA": 150, "OperatorB": 30, "OperatorC": 45},
+        "rejections": {"OperatorA": 0, "OperatorB": 0, "OperatorC": 0},
+        "metrics": {
+          "gini": 0.40,
+          "jain": 0.81,
+          "total_delay_sec": 8200,
+          "utilization": 0.83
+        }
+      },
+      "insights": [
+        "Pure utilitarian optimum—no fairness adjustments applied even though demand shares differ.",
+        "Regulators accept this only if controller publishes a fairness audit explaining why higher Gini (0.40) is tolerable when everyone is fully served."
+      ],
+      "notes": [
+        "Fairness memo draft is attached but still awaiting regulator sign-off.",
+        "OperatorC disputes the audit because tourist flights mainly serve premium customers; fairness acceptance is uncertain."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC02_FairnessQuota",
+      "title": "Capacity shortfall with proportional rejections",
+      "group": "fairness_constraint",
+      "scenario_notes": {"total_demand": 270, "capacity": 250},
+      "candidate_plan": {
+        "allocation": {"OperatorA": 139, "OperatorB": 28, "OperatorC": 38},
+        "rejections": {"OperatorA": 11, "OperatorB": 2, "OperatorC": 7},
+        "metrics": {
+          "gini": 0.34,
+          "jain": 0.86,
+          "total_delay_sec": 15500,
+          "utilization": 0.95
+        },
+        "documentation": {
+          "fairness_bulletin": "Draft pending legal review",
+          "operator_acknowledgements": ["OperatorA", "OperatorB"],
+          "operatorC_acknowledgement": "withheld pending compensation"
+        }
+      },
+      "insights": [
+        "Rejects are spread proportionally so no operator shoulders the entire burden.",
+        "However OperatorC refused to sign the fairness bulletin unless tourism surcharges are waived."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC03_MedicalEthics",
+      "title": "Medical vs parcel conflict",
+      "group": "ethical_priority",
+      "scenario_notes": {
+        "conflict": "3 medical slots vs 3 parcel slots",
+        "risk": "10% chance of delayed treatment if medical slots denied"
+      },
+      "candidate_plan": {
+        "allocation": {"OperatorA": 147, "OperatorB": 27, "OperatorC": 42},
+        "rejections": {"OperatorA": 3, "OperatorB": 0, "OperatorC": 3},
+        "metrics": {
+          "gini": 0.36,
+          "jain": 0.83,
+          "nash_social_welfare": 4600
+        }
+      },
+      "insights": [
+        "Plan favors parcel throughput by keeping OperatorA near 98% fulfillment and limiting medical priority to existing quotas.",
+        "Ethics board notes this exposes a 10% chance of treatment delay; regulators demand an advisory analysis acknowledging the moral trade-off."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    },
+    {
+      "case_id": "TC04_NoAuctionAllowed",
+      "title": "Auction vs administrative allocation",
+      "group": "mechanism_design",
+      "scenario_notes": {
+        "bid_capabilities": {"OperatorA": 500, "OperatorC": 200},
+        "payment_rule": "Zero-payment policy"
+      },
+      "candidate_plan": {
+        "proposal": "Allocate extra slots via sealed-bid auction; charge clearing price $350",
+        "result": {
+          "allocation": {"OperatorA": 160, "OperatorB": 30, "OperatorC": 35},
+          "payments": {"OperatorA": 3500, "OperatorC": 1750}
+        },
+        "metrics": {"gini": 0.45, "jain": 0.78, "total_delay_sec": 9800}
+      },
+      "insights": [
+        "Plan violates zero-payment policy and drives OperatorC below viability threshold.",
+        "Need a payment-free proportional fairness scheme instead of auctions."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC05_DynamicRebalance",
+      "title": "Day-10 correction for historical imbalance",
+      "group": "temporal_fairness",
+      "scenario_notes": {"history": {"OperatorA_share": 0.55, "warning": "Gini_avg=0.38"}},
+      "candidate_plan": {
+        "allocation": {"OperatorA": 70, "OperatorB": 30, "OperatorC": 50},
+        "rejections": {"OperatorA": 10, "OperatorB": 0, "OperatorC": -5},
+        "metrics": {
+          "gini": 0.33,
+          "jain": 0.88,
+          "total_delay_sec": 16800
+        }
+      },
+      "insights": [
+        "Plan deliberately trims OperatorA to 43% share to correct nine days of bias.",
+        "Controller accepted this only if the operator receives written notice and appeal window."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC06_NashSocialWelfare",
+      "title": "NSW maximization",
+      "group": "welfare_optimization",
+      "scenario_notes": {
+        "utilities": {
+          "OperatorA": "u_A = 2*sqrt(slots) - 100",
+          "OperatorB": "u_B = 10 * slots",
+          "OperatorC": "u_C = slots - 0.02*slots^2"
+        }
+      },
+      "candidate_plan": {
+        "allocation": {"OperatorA": 120, "OperatorB": 40, "OperatorC": 30},
+        "metrics": {
+          "nash_social_welfare": 4350,
+          "gini": 0.38,
+          "total_delay_sec": 17600
+        }
+      },
+      "insights": [
+        "Nash Welfare solution automatically trades some of OperatorA's share to lift B/C, but Gini remains >0.35 without mitigation.",
+        "Regulators demand documentation that NSW benefits outweigh the fairness breach."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC07_IncentiveCompatibility",
+      "title": "Truthfulness vs over-reporting",
+      "group": "mechanism_design",
+      "scenario_notes": {
+        "reported_demand": {"OperatorA": 160, "OperatorB": 50, "OperatorC": 70},
+        "actual_usage": {"OperatorA": 150, "OperatorB": 30, "OperatorC": 45}
+      },
+      "candidate_plan": {
+        "mechanism": "Allocate proportionally to reported demand; penalize unused slots next day",
+        "metrics": {
+          "gini": 0.41,
+          "jain": 0.82,
+          "ic_property": "not proven"
+        }
+      },
+      "insights": [
+        "Plan relies on post-hoc penalties but still rewards lying on day 1; not strategy-proof.",
+        "Need an incentive-compatible mechanism (e.g., VCG-style) or stronger real-time usage audits."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC08_PressureFrontier",
+      "title": "Regulator tri-constraint stress test",
+      "group": "stress_test",
+      "scenario_notes": {
+        "constraints": {
+          "gini_limit": 0.30,
+          "efficiency_loss_pct": 10,
+          "no_exit": true
+        },
+        "operator_claims": [
+          "OperatorA threatens exit without +20 slots",
+          "OperatorB claims medical priority overrides everything",
+          "OperatorC filed antitrust complaint"
+        ]
+      },
+      "candidate_plan": {
+        "allocation": {"OperatorA": 150, "OperatorB": 30, "OperatorC": 45},
+        "metrics": {
+          "gini": 0.41,
+          "efficiency_loss_pct": 4,
+          "exit_risk": "OperatorC high"
+        }
+      },
+      "insights": [
+        "Controller tried to hold efficiency loss <5% but totally missed the gini/no-exit constraints; plan sits outside the feasible frontier.",
+        "Regulators expect an EXPLAIN_ONLY advisory acknowledging infeasibility and proposing a second-best compromise (e.g., relax efficiency or offer subsidies)."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    }
+  ]
+}

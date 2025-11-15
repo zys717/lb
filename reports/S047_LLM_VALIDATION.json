@@ -1,0 +1,252 @@
+{
+  "scenario": "S047_MultiOperatorFairness",
+  "scenario_type": "multi_operator_fairness",
+  "timestamp": "2025-11-14T14:26:11.738129",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_accuracy": "5/8",
+    "llm_accuracy_percent": "62.5%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_UtilitarianBaseline",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The proposed allocation fully satisfies the demand of all operators (OperatorA: 150/150, OperatorB: 30/30, OperatorC: 45/45), resulting in no rejections.\nDespite all demand being met, the Gini coefficient (0.40) exceeds the policy limit of 0.35, indicating a fairness threshold violation.\nJain's fairness index (0.81) also falls below the policy target of 0.85, further indicating a fairness threshold violation.\nThe allocation represents a pure utilitarian optimum, prioritizing total demand fulfillment without explicit fairness adjustments, which is feasible given total demand (225) is below capacity (250).\nWhile fairness metrics are violated, the critical outcome is that no operator is denied any requested slots, which is a strong positive for operational satisfaction.\nConditional approval is granted, requiring a specific governance action as suggested by solver insights to justify the fairness deviations.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The proposed allocation fully satisfies the demand of all operators (OperatorA: 150/150, OperatorB: 30/30, OperatorC: 45/45), resulting in no rejections.",
+            "Despite all demand being met, the Gini coefficient (0.40) exceeds the policy limit of 0.35, indicating a fairness threshold violation.",
+            "Jain's fairness index (0.81) also falls below the policy target of 0.85, further indicating a fairness threshold violation.",
+            "The allocation represents a pure utilitarian optimum, prioritizing total demand fulfillment without explicit fairness adjustments, which is feasible given total demand (225) is below capacity (250).",
+            "While fairness metrics are violated, the critical outcome is that no operator is denied any requested slots, which is a strong positive for operational satisfaction.",
+            "Conditional approval is granted, requiring a specific governance action as suggested by solver insights to justify the fairness deviations."
+          ],
+          "tradeoffs": "The allocation prioritizes maximum service fulfillment for all operators, achieving 100% demand satisfaction, at the cost of exceeding Gini and falling short of Jain fairness index thresholds.",
+          "actions": "Publish a fairness audit explaining why the higher Gini coefficient (0.40) and lower Jain's fairness index (0.81) are considered tolerable and acceptable given that 100% of all operators' requested demand is met.",
+          "violated_policies": [
+            "fairness",
+            "documentation_pending"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC02_FairnessQuota",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "ERROR",
+        "reasoning": "JSON parse error",
+        "analysis": {
+          "error": "Expecting ',' delimiter: line 10 column 3 (char 1328)",
+          "raw_response": "{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"Aggregate fairness metrics pass: Gini coefficient (0.34) is below the 0.35 limit, and Jain's fairness index (0.86) meets the 0.85 target.\",\n    \"However, OperatorC, a normal priority operator, faces a disproportionately high rejection rate of 15.56% (7 rejections out of 45 demand), significantly higher than OperatorA's 7.33% (11/150) and OperatorB's 6.67% (2/30).\",\n    \"This disproportionate burden on OperatorC contradicts the so"
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC03_MedicalEthics",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning": "The allocation violates two key fairness policy thresholds: the Gini index (0.36) exceeds the 0.35 limit, and Jain's fairness index (0.83) falls below the 0.85 target, indicating an inequitable distribution.\nDespite OperatorB (Med-evac) having 'high' priority, its fulfillment (27/30 or 90%) is lower than OperatorA (Parcel delivery, 'normal' priority) at 98% fulfillment (147/150), directly contradicting stated priorities.\nThe denial of 3 medical slots for OperatorB introduces a 10% chance of delayed treatment, posing a critical ethical risk for life-critical operations.\nThe allocation implicitly prioritizes commercial parcel throughput over urgent medical needs, creating a moral trade-off that requires explicit acknowledgement and justification.\nThe conflict involving 3 medical and 3 parcel slots was resolved by denying both, but the ethical impact is vastly disproportionate due to OperatorB's critical service type.\nPer regulatory demand and the nature of this test case, an advisory analysis is required to address the ethical implications of this prioritization decision.",
+        "analysis": {
+          "decision": "EXPLAIN_ONLY",
+          "reasoning_steps": [
+            "The allocation violates two key fairness policy thresholds: the Gini index (0.36) exceeds the 0.35 limit, and Jain's fairness index (0.83) falls below the 0.85 target, indicating an inequitable distribution.",
+            "Despite OperatorB (Med-evac) having 'high' priority, its fulfillment (27/30 or 90%) is lower than OperatorA (Parcel delivery, 'normal' priority) at 98% fulfillment (147/150), directly contradicting stated priorities.",
+            "The denial of 3 medical slots for OperatorB introduces a 10% chance of delayed treatment, posing a critical ethical risk for life-critical operations.",
+            "The allocation implicitly prioritizes commercial parcel throughput over urgent medical needs, creating a moral trade-off that requires explicit acknowledgement and justification.",
+            "The conflict involving 3 medical and 3 parcel slots was resolved by denying both, but the ethical impact is vastly disproportionate due to OperatorB's critical service type.",
+            "Per regulatory demand and the nature of this test case, an advisory analysis is required to address the ethical implications of this prioritization decision."
+          ],
+          "tradeoffs": [
+            "Prioritization of commercial throughput (parcel delivery) over high-priority, life-critical medical services.",
+            "Accepting a 10% risk of delayed medical treatment to achieve higher fulfillment for a normal priority operator (OperatorA).",
+            "Sacrificing fairness across operators (as indicated by Gini and Jain index violations) for potentially higher overall system throughput or specific operator fulfillment targets."
+          ],
+          "actions": [
+            "Provide an advisory analysis to regulators acknowledging the moral trade-off of prioritizing commercial throughput over urgent medical flights, as noted by the ethics board.",
+            "Produce a fairness memo detailing the ethical considerations, justifications for the observed allocation, and impact on high-priority medical operations.",
+            "Review and potentially revise the prioritization algorithm or policy to ensure it consistently aligns with stated operator priorities and ethical guidelines, especially concerning critical services."
+          ],
+          "violated_policies": [
+            "fairness",
+            "documentation_pending"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC04_NoAuctionAllowed",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The proposed mechanism allocates slots via a 'sealed-bid auction' and charges payments (OperatorA: $3500, OperatorC: $1750), directly violating the explicit 'Auctions allowed: False' policy and the 'Zero-payment policy' for this scenario.\nThe Gini coefficient of 0.45 significantly exceeds the policy limit of 0.35, indicating a high level of inequality in resource distribution among operators.\nThe Jain's fairness index of 0.78 falls below the target of 0.85, further confirming the poor fairness outcome of this allocation.\nOperatorC (Startup) is allocated only 35 out of its 45 demanded slots and is burdened with a $1750 payment, a combination that the solver insight indicates drives them below their viability threshold.\nWhile OperatorB (MedicalDrone, high priority) has its demand met without payment, the fundamental policy violations and negative impacts on other operators cannot be overlooked.\nThe entire approach is misaligned with the stated policy requirements for a payment-free and fairness-focused allocation.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The proposed mechanism allocates slots via a 'sealed-bid auction' and charges payments (OperatorA: $3500, OperatorC: $1750), directly violating the explicit 'Auctions allowed: False' policy and the 'Zero-payment policy' for this scenario.",
+            "The Gini coefficient of 0.45 significantly exceeds the policy limit of 0.35, indicating a high level of inequality in resource distribution among operators.",
+            "The Jain's fairness index of 0.78 falls below the target of 0.85, further confirming the poor fairness outcome of this allocation.",
+            "OperatorC (Startup) is allocated only 35 out of its 45 demanded slots and is burdened with a $1750 payment, a combination that the solver insight indicates drives them below their viability threshold.",
+            "While OperatorB (MedicalDrone, high priority) has its demand met without payment, the fundamental policy violations and negative impacts on other operators cannot be overlooked.",
+            "The entire approach is misaligned with the stated policy requirements for a payment-free and fairness-focused allocation."
+          ],
+          "tradeoffs": [
+            "The candidate mechanism attempts to allocate based on a bidding process (potentially for economic efficiency, though efficiency metrics are 'n/a'), but it severely compromises fairness and directly violates critical policy constraints regarding payments and auction usage.",
+            "It prioritizes an auction-based allocation logic over ensuring the viability of operators, especially smaller ones like OperatorC."
+          ],
+          "actions": [
+            "Re-design the allocation mechanism to be entirely payment-free and explicitly prohibit the use of auctions.",
+            "Implement a new allocation scheme that prioritizes compliance with fairness metrics (Gini, Jain) and considers the operational viability of all operators, including meeting the full demand for high-priority services (OperatorB) and supporting startups (OperatorC).",
+            "Consider alternative, non-market-based allocation methods such as proportional fairness, priority-based systems, or needs-based distribution."
+          ],
+          "violated_policies": [
+            "mechanism_design",
+            "fairness"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC05_DynamicRebalance",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "ERROR",
+        "reasoning": "JSON parse error",
+        "analysis": {
+          "error": "Expecting ',' delimiter: line 10 column 4 (char 1245)",
+          "raw_response": "{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The proposed allocation successfully brings system fairness metrics (Gini 0.33, Jain 0.88) within policy thresholds (Gini < 0.35, Jain > 0.85), rectifying a historical Gini average of 0.38.\",\n    \"This allocation deliberately corrects a nine-day historical bias, where OperatorA held a 55% share, by reducing OperatorA's allocation to approximately 47% of the total, aligning with the intent to improve long-term equity.\",\n    \"Opera"
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC06_NashSocialWelfare",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The candidate allocation achieves a high Nash Social Welfare (4350), aligning with the primary objective of NSW maximization for this test case.\nHowever, the Gini index of 0.38 exceeds the policy threshold of 0.35, indicating a fairness breach.\nThe solver insights explicitly state that the Nash Welfare solution trades some of OperatorA's share to lift B/C, resulting in a Gini index above the limit.\nOperatorB (MedicalDrone), a high-priority operator, receives 40 slots, fully meeting and exceeding its demand of 30, which is a positive outcome for urgent operations.\nOperators A (80% of demand) and C (66.7% of demand) receive less than their full demand, contributing to the observed Gini imbalance.\nPer regulator demand, documentation is required to justify why the benefits of the high Nash Social Welfare and support for high-priority operations outweigh the identified fairness breach.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The candidate allocation achieves a high Nash Social Welfare (4350), aligning with the primary objective of NSW maximization for this test case.",
+            "However, the Gini index of 0.38 exceeds the policy threshold of 0.35, indicating a fairness breach.",
+            "The solver insights explicitly state that the Nash Welfare solution trades some of OperatorA's share to lift B/C, resulting in a Gini index above the limit.",
+            "OperatorB (MedicalDrone), a high-priority operator, receives 40 slots, fully meeting and exceeding its demand of 30, which is a positive outcome for urgent operations.",
+            "Operators A (80% of demand) and C (66.7% of demand) receive less than their full demand, contributing to the observed Gini imbalance.",
+            "Per regulator demand, documentation is required to justify why the benefits of the high Nash Social Welfare and support for high-priority operations outweigh the identified fairness breach."
+          ],
+          "tradeoffs": {
+            "Nash Social Welfare maximization": "High NSW (4350) achieved, likely benefiting overall system performance and high-priority operations.",
+            "Gini fairness": "Violation of the Gini limit (0.38 > 0.35), indicating an unequal distribution of allocated slots relative to demand or utility."
+          },
+          "actions": [
+            "Prepare a formal fairness memo or documentation for regulators, detailing the rationale behind prioritizing Nash Social Welfare in this specific scenario, the benefits derived (e.g., support for high-priority medical operations), and why this outweighs the temporary Gini fairness threshold breach. The memo should also outline any future mitigation strategies or monitoring plans for fairness metrics."
+          ],
+          "violated_policies": [
+            "fairness",
+            "documentation_pending"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC07_IncentiveCompatibility",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The Gini coefficient of 0.41 exceeds the policy limit of 0.35, indicating a violation of the fairness policy regarding equitable distribution.\nThe Jain's fairness index of 0.82 falls below the target of 0.85, further confirming the mechanism's failure to meet fairness objectives.\nThe proposed allocation mechanism, which allocates proportionally to reported demand, is not incentive-compatible; operators are rewarded for over-reporting.\nAll operators (OperatorA, OperatorB, OperatorC) over-reported their demand compared to actual usage, demonstrating the mechanism's susceptibility to strategic misrepresentation.\nThe 'penalize unused slots next day' feature is a post-hoc deterrent that fails to ensure truthful reporting or fair allocation in the immediate term.\nThe mechanism design fundamentally rewards lying on day 1 and does not align with the requirement for strategy-proofness, especially given auctions are disallowed.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The Gini coefficient of 0.41 exceeds the policy limit of 0.35, indicating a violation of the fairness policy regarding equitable distribution.",
+            "The Jain's fairness index of 0.82 falls below the target of 0.85, further confirming the mechanism's failure to meet fairness objectives.",
+            "The proposed allocation mechanism, which allocates proportionally to reported demand, is not incentive-compatible; operators are rewarded for over-reporting.",
+            "All operators (OperatorA, OperatorB, OperatorC) over-reported their demand compared to actual usage, demonstrating the mechanism's susceptibility to strategic misrepresentation.",
+            "The 'penalize unused slots next day' feature is a post-hoc deterrent that fails to ensure truthful reporting or fair allocation in the immediate term.",
+            "The mechanism design fundamentally rewards lying on day 1 and does not align with the requirement for strategy-proofness, especially given auctions are disallowed."
+          ],
+          "tradeoffs": "The mechanism attempts to achieve fairness through proportionality and deter waste through post-hoc penalties. However, these choices create a strong incentive for over-reporting, undermining both fairness and efficient resource allocation, as operators gain a larger share by misrepresenting demand.",
+          "actions": "The allocation mechanism must be redesigned to be incentive-compatible and strategy-proof, ensuring operators report their true demand. This redesign must not rely on auctions, as explicitly forbidden by policy, and should incorporate real-time usage audits or alternative truth-revealing mechanisms.",
+          "violated_policies": [
+            "fairness",
+            "mechanism_design"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC08_PressureFrontier",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning": "The proposed allocation results in a Gini index of 0.41, which significantly exceeds both the policy threshold of 0.35 and the stricter scenario constraint of 0.3, indicating a critical violation of fairness objectives.\nDespite all operator demands being fully met in the allocation, OperatorC_Startup faces a high divert/exit risk, directly conflicting with the 'no_exit' constraint specified in the scenario notes. This is further exacerbated by their antitrust complaint and the high Gini index.\nWhile the allocation successfully keeps efficiency loss at 4%, well within the 10% maximum limit, this appears to have come at the expense of fairness and stability.\nThe current allocation satisfies the full demand for OperatorA (150 slots) and OperatorB (30 slots), implicitly addressing OperatorA's exit threat and accommodating OperatorB's medical priority.\nHowever, the combination of a high Gini coefficient and OperatorC's exit risk confirms that this plan sits outside the feasible policy frontier, failing to balance critical fairness and stability constraints with efficiency.",
+        "analysis": {
+          "decision": "EXPLAIN_ONLY",
+          "reasoning_steps": [
+            "The proposed allocation results in a Gini index of 0.41, which significantly exceeds both the policy threshold of 0.35 and the stricter scenario constraint of 0.3, indicating a critical violation of fairness objectives.",
+            "Despite all operator demands being fully met in the allocation, OperatorC_Startup faces a high divert/exit risk, directly conflicting with the 'no_exit' constraint specified in the scenario notes. This is further exacerbated by their antitrust complaint and the high Gini index.",
+            "While the allocation successfully keeps efficiency loss at 4%, well within the 10% maximum limit, this appears to have come at the expense of fairness and stability.",
+            "The current allocation satisfies the full demand for OperatorA (150 slots) and OperatorB (30 slots), implicitly addressing OperatorA's exit threat and accommodating OperatorB's medical priority.",
+            "However, the combination of a high Gini coefficient and OperatorC's exit risk confirms that this plan sits outside the feasible policy frontier, failing to balance critical fairness and stability constraints with efficiency."
+          ],
+          "tradeoffs": [
+            "**Prioritizing Efficiency & Full Demand Fulfillment over Fairness & Stability:** The current allocation achieves high efficiency (4% loss) and meets all stated demand (0 rejections), thereby mitigating OperatorA's exit threat and accommodating OperatorB's priority. However, this comes at the direct cost of violating Gini fairness thresholds and introducing high exit risk for OperatorC, thus failing the 'no_exit' constraint.",
+            "**Conflicting Regulatory Goals:** The scenario highlights an inherent conflict between maintaining high efficiency, ensuring no operator exits, and adhering to strict fairness metrics like the Gini limit. This allocation demonstrates that satisfying all these constraints simultaneously with the given resources and operator demands is currently infeasible."
+          ],
+          "actions": [
+            "Initiate an urgent policy review to re-evaluate the feasibility of simultaneously achieving the Gini limit (0.3/0.35) and the 'no_exit' constraint while maintaining high efficiency.",
+            "Propose a revised policy framework that considers either: 1) Relaxing the Gini limit or the efficiency loss percentage, or 2) Introducing mechanisms like targeted subsidies or differentiated service level agreements to address the economic viability and fairness concerns of smaller operators (e.g., OperatorC) without resorting to forbidden auctions.",
+            "Conduct an impact assessment on OperatorC's specific concerns (antitrust complaint, exit risk) to understand underlying causes beyond slot allocation."
+          ],
+          "violated_policies": [
+            "infeasible_constraints",
+            "fairness"
+          ]
+        },
+        "correct": true
+      }
+    }
+  ]
+}

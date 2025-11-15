@@ -1,0 +1,99 @@
+{
+  "scenario_id": "S043_PeakValleyDynamicRepositioning",
+  "scenario_name": "Peak-Valley Dynamic Fleet Repositioning",
+  "version": "1.0",
+  "created": "2025-11-14",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "UNCERTAIN", "EXPLAIN_ONLY"],
+  "summary": "Eight dispatch strategies across morning peaks, midday valleys, and evening surges. Constraints: avg wait <5 min, empty-leg % <15 (unless justified), utilization >70%, and reposition costs should be justified when exceeding $150.",
+  "test_cases": [
+    {
+      "case_id": "TC01_PrepositionAligned",
+      "expected_decision": "APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Recognize the fleet is already pre-positioned correctly; no extra moves needed.",
+          "Mention avg wait 3.2 min and empty-leg 11% as evidence."
+        ],
+        "required_keywords": ["prepositioned", "no_reposition_needed"]
+      }
+    },
+    {
+      "case_id": "TC02_EmergencyRebalanceMorning",
+      "expected_decision": "REJECT",
+      "expected_behavior": {
+        "notes": [
+          "Reactive plan still yields wait 7.8 min, empty-leg 22%, utilization 0.64; regulators prefer delaying departures until proactive staging recovers.",
+          "Make clear that without a forward staging plan, the cost/benefit does not justify the ad-hoc move."
+        ],
+        "required_keywords": ["reject", "utilization 0.64", "proactive staging needed"]
+      }
+    },
+    {
+      "case_id": "TC03_ValleyRechargePlan",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Utilization 0.68 < 0.70, so approval requires a demand-sharing or temporary redeployment plan before launch.",
+          "Response should cite SOC recovery benefits plus the mitigation commitment."
+        ],
+        "required_keywords": ["utilization 0.68", "charter partnership", "conditional valley approval"]
+      }
+    },
+    {
+      "case_id": "TC04_ValleyOverCharging",
+      "expected_decision": "REJECT",
+      "expected_behavior": {
+        "notes": [
+          "Leaving only 8 active aircraft drives wait 9.4 min and utilization 0.41; reject until operator publishes staggered charging plan with coverage guarantees.",
+          "Response must cite the >30% simultaneous charging violation."
+        ],
+        "required_keywords": ["reject", "stagger plan debate", "utilization 0.41"]
+      }
+    },
+    {
+      "case_id": "TC05_EveningPeakMismatch",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Regulators will allow a temporary dynamic-pricing pilot if monitoring + rollback triggers are documented (target spill ≤6%).",
+          "Decision must reference the pilot requirements rather than blanket rejection."
+        ],
+        "required_keywords": ["dynamic pricing pilot", "spill target 6%", "conditional approval"]
+      }
+    },
+    {
+      "case_id": "TC06_EveningShiftPlan",
+      "expected_decision": "APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Pre-staging 6 aircraft at airport yields avg wait 4.7 and utilization 0.75; reposition cost 180 USD acceptable.",
+          "Mention 3-aircraft CBD reserve."
+        ],
+        "required_keywords": ["pre-staging", "airport buffer risk", "reposition cost 180"]
+      }
+    },
+    {
+      "case_id": "TC07_WeatherClosureScenario",
+      "expected_decision": "REJECT",
+      "expected_behavior": {
+        "notes": [
+          "Finance refuses to fund two standby aircraft; regulators require buffer commitment before operations resume.",
+          "Response should demand buffer budgeting plus passenger compensation instead of conditionally approving."
+        ],
+        "required_keywords": ["reject", "buffer commitment", "compensation"]
+      }
+    },
+    {
+      "case_id": "TC08_RL_vs_LLM_Benchmark",
+      "expected_decision": "EXPLAIN_ONLY",
+      "expected_behavior": {
+        "notes": [
+          "Provide advisory comparison vs RL baseline (profit 128k vs 122k) and recommend rolling 30-min dispatch horizon.",
+          "No approval; deliver roadmap and action items."
+        ],
+        "required_keywords": ["RL baseline", "rolling horizon", "advisory"]
+      }
+    }
+  ]
+}

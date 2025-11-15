@@ -1,0 +1,224 @@
+{
+  "scenario": "S046_VertiportCapacity",
+  "scenario_type": "vertiport_capacity",
+  "timestamp": "2025-11-14T12:26:32.121071",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_accuracy": "5/8",
+    "llm_accuracy_percent": "62.5%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_FIFO_Baseline",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The initial three arrivals (D01-D03) are efficiently assigned to the three available gates (G1, G2, G3) for immediate landing.\nThe vertiport effectively manages its holding pattern capacity by queuing five drones (D04-D08) which is precisely the maximum allowed.\nIndividual drone delays (max 270 s) remain below the policy threshold of 300 s, ensuring acceptable wait times for queued aircraft.\nTwo drones (D09, D10) were diverted, resulting in a divert ratio of 0.2, which is well within the acceptable policy limit of 0.3.\nNo battery emergency threshold (10%) was triggered, as all drones reportedly had over 30% SOC.\nThe Fairness Gini index of 0.36 exceeds the policy limit of 0.35, indicating a fairness violation, likely due to a single operator (OperatorA) occupying initial slots, as noted by the solver.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The initial three arrivals (D01-D03) are efficiently assigned to the three available gates (G1, G2, G3) for immediate landing.",
+            "The vertiport effectively manages its holding pattern capacity by queuing five drones (D04-D08) which is precisely the maximum allowed.",
+            "Individual drone delays (max 270 s) remain below the policy threshold of 300 s, ensuring acceptable wait times for queued aircraft.",
+            "Two drones (D09, D10) were diverted, resulting in a divert ratio of 0.2, which is well within the acceptable policy limit of 0.3.",
+            "No battery emergency threshold (10%) was triggered, as all drones reportedly had over 30% SOC.",
+            "The Fairness Gini index of 0.36 exceeds the policy limit of 0.35, indicating a fairness violation, likely due to a single operator (OperatorA) occupying initial slots, as noted by the solver."
+          ],
+          "tradeoffs": "The schedule prioritizes throughput and holding pattern capacity management, successfully keeping individual delays and diversion ratios within limits. However, this comes at the cost of exceeding the fairness Gini index, suggesting an imbalance in access for different operators or drones.",
+          "actions": [
+            "Issue a fairness memo explaining the slot allocation rationale to regulators.",
+            "Implement a slot rotation or more equitable allocation policy for future demand to address and mitigate fairness concerns."
+          ],
+          "violated_policies": [
+            "fairness"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC02_BatteryEmergency",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "Drone D03 with 5% battery is correctly prioritized for an emergency landing, adhering to the 10% battery emergency threshold.\nAll individual drone delays in the schedule, including D03's wait of 195s, are within the 300-second maximum individual delay and holding pattern loiter limits.\nThe schedule effectively utilizes all five holding pattern slots without exceeding the vertiport's capacity, managing current demand.\nThe calculated Gini index of 0.34 is critically close to the 0.35 policy limit, necessitating formal audit sign-off for the fairness memo.\nPassenger notifications for displaced drones D04 and D05 are pending finance approval, requiring immediate action to manage passenger experience.\nThe divert ratio of 0.11 remains well below the 0.3 policy threshold, indicating effective demand management for the current interval.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "Drone D03 with 5% battery is correctly prioritized for an emergency landing, adhering to the 10% battery emergency threshold.",
+            "All individual drone delays in the schedule, including D03's wait of 195s, are within the 300-second maximum individual delay and holding pattern loiter limits.",
+            "The schedule effectively utilizes all five holding pattern slots without exceeding the vertiport's capacity, managing current demand.",
+            "The calculated Gini index of 0.34 is critically close to the 0.35 policy limit, necessitating formal audit sign-off for the fairness memo.",
+            "Passenger notifications for displaced drones D04 and D05 are pending finance approval, requiring immediate action to manage passenger experience.",
+            "The divert ratio of 0.11 remains well below the 0.3 policy threshold, indicating effective demand management for the current interval."
+          ],
+          "tradeoffs": [
+            "Prioritizing the emergency landing for D03 led to the displacement of drones D04 and D05 and full utilization of holding capacity.",
+            "Maintaining individual delays within policy limits necessitated diverting one drone (D09).",
+            "The near-limit Gini index reflects a challenging balance between achieving fairness and optimizing operational efficiency (delay/throughput)."
+          ],
+          "actions": [
+            "Finalize the audit and obtain operator sign-off for the fairness memo to ensure full compliance with fairness policy.",
+            "Secure finance approval and promptly issue passenger notices for displaced drones D04 and D05."
+          ],
+          "violated_policies": [
+            "fairness"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC03_GateDeadlock",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The proposed schedule violates the maximum individual delay policy, with a max delay of 420 seconds exceeding the 300-second threshold.\nFairness is significantly compromised, as the Gini coefficient of 0.44 is above the policy limit of 0.35, indicating an inequitable distribution of delays.\nThe total delay of 1680 seconds far exceeds the policy's maximum allowable total delay (1.2x optimal), as an alternative plan identified by OR-Tools could reduce this by 29% (implying the current plan is ~40% above optimal).\nThe solver insights identify a resource deadlock and inefficient gate utilization, specifically for Gate G1, which leads to prolonged queues and potentially idles more urgent traffic.\nThe schedule inefficiently assigns gates; Drones D05 and D06 prefer G1, while D04 *requires* G1 but is queued late (210s wait), despite other standard gates (G2, G3) being available for general use.\nA demonstrably better schedule exists, capable of cutting total delay by 29% by re-prioritizing G1-required traffic (D04) and optimally rerouting other drones (D05/D06), underscoring the severe sub-optimality of the current proposal.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The proposed schedule violates the maximum individual delay policy, with a max delay of 420 seconds exceeding the 300-second threshold.",
+            "Fairness is significantly compromised, as the Gini coefficient of 0.44 is above the policy limit of 0.35, indicating an inequitable distribution of delays.",
+            "The total delay of 1680 seconds far exceeds the policy's maximum allowable total delay (1.2x optimal), as an alternative plan identified by OR-Tools could reduce this by 29% (implying the current plan is ~40% above optimal).",
+            "The solver insights identify a resource deadlock and inefficient gate utilization, specifically for Gate G1, which leads to prolonged queues and potentially idles more urgent traffic.",
+            "The schedule inefficiently assigns gates; Drones D05 and D06 prefer G1, while D04 *requires* G1 but is queued late (210s wait), despite other standard gates (G2, G3) being available for general use.",
+            "A demonstrably better schedule exists, capable of cutting total delay by 29% by re-prioritizing G1-required traffic (D04) and optimally rerouting other drones (D05/D06), underscoring the severe sub-optimality of the current proposal."
+          ],
+          "tradeoffs": "Rejecting this plan prioritizes adherence to safety, fairness, and efficiency policies, preventing excessive delays and potential operational paralysis. Accepting it would lead to significant passenger dissatisfaction, potential safety risks due to prolonged waits, and inefficient use of costly vertiport infrastructure.",
+          "actions": [],
+          "violated_policies": [
+            "individual_delay",
+            "fairness",
+            "optimality_gap"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC04_DiversionEconomics",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "ERROR",
+        "reasoning": "JSON parse error",
+        "analysis": {
+          "error": "Expecting ',' delimiter: line 10 column 4 (char 922)",
+          "raw_response": "{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"reasoning_steps\": [\n    \"The proposed schedule requires 7 drones to be queued, exceeding the physical holding pattern capacity of 5, and all queued drones exceed the maximum loiter time of 300 seconds.\",\n    \"Multiple drones are scheduled with individual wait times up to 600 seconds, significantly violating the maximum individual delay policy of 300 seconds.\",\n    \"The overall divert ratio of 0.2 (2 out of 10 drones) is within the policy threshold of 0.3.\",\n   "
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC05_DynamicReplan",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "ERROR",
+        "reasoning": "JSON parse error",
+        "analysis": {
+          "error": "Expecting ',' delimiter: line 10 column 3 (char 1131)",
+          "raw_response": "{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The proposed schedule adheres to all key policy thresholds, including max individual delay (270s vs. 300s limit), fairness Gini (0.33 vs. 0.35 limit), and maintaining a zero divert ratio.\",\n    \"The plan effectively mitigates the G2 charger fault by dynamically rerouting D02 to G3 and utilizing G1 for D03, demonstrating adaptive gate management.\",\n    \"Holding pattern capacity is well within limits, with 4 drones queued (D04-D07)"
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC06_FairnessConstraint",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "ERROR",
+        "reasoning": "JSON parse error",
+        "analysis": {
+          "error": "Expecting value: line 12 column 43 (char 1185)",
+          "raw_response": "{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The proposed landing schedule violates the fairness Gini limit (0.42), which exceeds the policy threshold of 0.35, primarily due to strict FIFO prioritization favoring OperatorA.\",\n    \"The divert ratio is at the maximum allowable threshold (0.3), with 3 out of 10 arrivals being diverted, severely impacting OperatorB and OperatorC flights.\",\n    \"OperatorA monopolizes the first five landing slots, resulting in all OperatorB and O"
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC07_WeatherUncertainty",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "UNCERTAIN",
+        "reasoning": "The proposed schedule includes a maximum individual delay of 630 seconds, significantly exceeding the policy threshold of 300 seconds.\nThe plan schedules 8 drones in a queue, which exceeds the vertiport's holding pattern capacity of 5 drones.\nMultiple drones are scheduled for wait times (e.g., 630 seconds) that exceed the maximum permissible loiter time of 300 seconds for the holding pattern.\nThree drones are identified with <15% battery. With delays up to 630 seconds, there is a high risk they could drop below the 10% battery emergency threshold before landing.\nThe forecast window for 'gate status' (5-10 minutes) is insufficient to confidently predict weather changes over a 630-second (10.5 minute) delay period, which is critical for managing low SOC drones.\nThe Solver Insights explicitly state the plan 'gambles that winds clear quickly' and that forecast confidence is missing, preventing a confident assessment of battery risk and the feasibility of avoiding diverts/triage.",
+        "analysis": {
+          "decision": "UNCERTAIN",
+          "reasoning_steps": [
+            "The proposed schedule includes a maximum individual delay of 630 seconds, significantly exceeding the policy threshold of 300 seconds.",
+            "The plan schedules 8 drones in a queue, which exceeds the vertiport's holding pattern capacity of 5 drones.",
+            "Multiple drones are scheduled for wait times (e.g., 630 seconds) that exceed the maximum permissible loiter time of 300 seconds for the holding pattern.",
+            "Three drones are identified with <15% battery. With delays up to 630 seconds, there is a high risk they could drop below the 10% battery emergency threshold before landing.",
+            "The forecast window for 'gate status' (5-10 minutes) is insufficient to confidently predict weather changes over a 630-second (10.5 minute) delay period, which is critical for managing low SOC drones.",
+            "The Solver Insights explicitly state the plan 'gambles that winds clear quickly' and that forecast confidence is missing, preventing a confident assessment of battery risk and the feasibility of avoiding diverts/triage."
+          ],
+          "tradeoffs": "The current plan prioritizes avoiding diversions (0% divert ratio) but at the cost of severely violating individual delay limits, exceeding holding pattern capacity, and introducing significant, unmitigated battery emergency risks due to insufficient weather forecast confidence.",
+          "actions": [],
+          "violated_policies": [
+            "max_individual_delay",
+            "capacity",
+            "battery_emergency"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC08_CascadeFailure",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The candidate schedule attempts to allocate Drone D02 to Gate G2, which is explicitly offline due to a fault, rendering this allocation impossible and highlighting a fundamental planning error.\nSeveral drones (D08-D12) are scheduled to wait in queue for periods significantly exceeding the maximum individual delay policy of 300 seconds, with delays up to 450 seconds.\nFour drones identified with low SOC (<20%) are designated to queue for extended periods (>300 seconds), creating a severe battery emergency risk and likely pushing them below the 10% emergency threshold before landing.\nThe proposed plan results in a Gini coefficient of 0.46, which violates the fairness policy threshold of 0.35, indicating an unacceptable and inequitable distribution of delays.\nGiven the degraded capacity (only two functional gates for three roles) and the holding pattern's limited max loiter time (300s for 5 drones), queuing 9 drones out of 12 arrivals represents a critical capacity breach and an unmanageable demand surge that cannot be safely absorbed.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The candidate schedule attempts to allocate Drone D02 to Gate G2, which is explicitly offline due to a fault, rendering this allocation impossible and highlighting a fundamental planning error.",
+            "Several drones (D08-D12) are scheduled to wait in queue for periods significantly exceeding the maximum individual delay policy of 300 seconds, with delays up to 450 seconds.",
+            "Four drones identified with low SOC (<20%) are designated to queue for extended periods (>300 seconds), creating a severe battery emergency risk and likely pushing them below the 10% emergency threshold before landing.",
+            "The proposed plan results in a Gini coefficient of 0.46, which violates the fairness policy threshold of 0.35, indicating an unacceptable and inequitable distribution of delays.",
+            "Given the degraded capacity (only two functional gates for three roles) and the holding pattern's limited max loiter time (300s for 5 drones), queuing 9 drones out of 12 arrivals represents a critical capacity breach and an unmanageable demand surge that cannot be safely absorbed."
+          ],
+          "tradeoffs": "Rejecting this plan prevents immediate safety hazards, potential asset loss, and severe policy breaches. However, it necessitates prompt re-routing or diversion of the arriving drones, incurring additional operational costs, potential passenger inconvenience, and requiring coordination with other vertiports or alternative landing sites.",
+          "actions": [],
+          "violated_policies": [
+            "capacity",
+            "battery_emergency",
+            "fairness",
+            "optimality_gap"
+          ]
+        },
+        "correct": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "scenario_id": "S041_FleetSizingSpillTradeoff",
+  "scenario_name": "Fleet Sizing vs Demand Spill Trade-off",
+  "version": "1.0",
+  "created": "2025-11-13",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "UNCERTAIN", "EXPLAIN_ONLY"],
+  "summary": "Eight operational test cases spanning zero-spill baselines, light spill acceptance, under/over provisioning, asymmetric demand rebalancing, spike contingencies, and medium-term planning envelopes.",
+  "metrics_reference": {
+    "spill_rate": "Fraction of passenger requests not served within 10 minutes.",
+    "idle_rate": "Share of total aircraft time spent idle or charging at 80% SOC.",
+    "utilization": "Fleet busy-time percentage (flying + passenger boarding) over horizon."
+  },
+  "test_cases": [
+    {
+      "case_id": "TC01_ZeroSpillBaseline",
+      "expected_decision": "APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Acknowledge cost inefficiency (idle 35%) but keep as safety baseline.",
+          "Highlight that this plan guarantees zero spill for critical corridors."
+        ],
+        "required_keywords": ["zero-spill reference", "cost of over-provisioning"],
+        "metrics": {"spill_rate": 0.0, "idle_rate": 0.35, "utilization": 0.72}
+      }
+    },
+    {
+      "case_id": "TC02_LightSpillAcceptable",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Acceptable trade-off: spill 4.2% < 5% threshold, idle 12%.",
+          "Require mitigation plan (customer comms, surge leasing trigger)."
+        ],
+        "required_keywords": ["acceptable_tradeoff", "spill_notification"],
+        "metrics": {"spill_rate": 0.042, "idle_rate": 0.12, "utilization": 0.78}
+      }
+    },
+    {
+      "case_id": "TC03_SevereSpill",
+      "expected_decision": "REJECT",
+      "expected_behavior": {
+        "notes": [
+          "Spill 18.2% violates 5% policy; highlight reputational and SLA risk.",
+          "Recommend minimum fleet ≥6."
+        ],
+        "required_keywords": ["spill_violation", "k>=6 recommendation"],
+        "metrics": {"spill_rate": 0.182, "idle_rate": 0.09, "utilization": 0.91}
+      }
+    },
+    {
+      "case_id": "TC04_FragmentedNFZBaseline",
+      "expected_decision": "REJECT",
+      "expected_behavior": {
+        "notes": [
+          "Idle 48% and utilization 0.64 imply trapped capital; redirect assets.",
+          "Zero spill isn’t enough to justify carrying 12 aircraft."
+        ],
+        "required_keywords": ["over_provision", "capital efficiency"],
+        "metrics": {"spill_rate": 0.0, "idle_rate": 0.48, "utilization": 0.64}
+      }
+    },
+    {
+      "case_id": "TC05_ImbalancedDemand",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Spill 6.1% triggered by CBD-heavy flow; advise pre-positioning or empty legs.",
+          "Approval contingent on directional rebalancing SOP."
+        ],
+        "required_keywords": ["directional imbalance", "reposition"],
+        "metrics": {"spill_rate": 0.061, "idle_rate": 0.19, "utilization": 0.73}
+      }
+    },
+    {
+      "case_id": "TC06_OffPeakEfficiency",
+      "expected_decision": "APPROVE",
+      "expected_behavior": {
+          "notes": [
+            "Off-peak demand easily serviced; idle 18% within limit.",
+            "Recognize that same fleet works across peak/off-peak with schedule tweaks."
+          ],
+          "required_keywords": ["off-peak", "stable_utilization"],
+          "metrics": {"spill_rate": 0.0, "idle_rate": 0.18, "utilization": 0.69}
+      }
+    },
+    {
+      "case_id": "TC07_PeakShock",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Spill 9.7% only during 30-min spike; require temporary wet lease / pooling plan.",
+          "Emphasize passenger comms + dynamic repricing."
+        ],
+        "required_keywords": ["contingency", "wet_lease", "surge"],
+        "metrics": {"spill_rate": 0.097, "idle_rate": 0.14, "utilization": 0.86}
+      }
+    },
+    {
+      "case_id": "TC08_MediumTermPlan",
+      "expected_decision": "EXPLAIN_ONLY",
+      "expected_behavior": {
+        "notes": [
+          "LLM should provide a fleet range (7-9) plus risk-averse justification (CVaR, hedging).",
+          "Explain why single point estimate is risky under seasonal uncertainty."
+        ],
+        "required_keywords": ["range_recommendation", "risk_buffer", "7-9"],
+        "metrics": {"median_spill_rate": 0.038, "p95_spill_rate": 0.072}
+      }
+    }
+  ]
+}

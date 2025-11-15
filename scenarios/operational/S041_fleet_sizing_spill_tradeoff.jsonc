@@ -1,0 +1,214 @@
+{
+  "id": "S041_FleetSizingSpillTradeoff",
+  "name": "Fleet Sizing vs Demand Spill Trade-off",
+  "version": "1.0",
+  "created": "2025-11-13",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "operational_optimization",
+  "description": "Layer-3 operational scenario that stresses LLM ability to reason about fleet sizing, spill risk, idle capital, and asymmetric demand during a four-hour urban air mobility peak.",
+  "time_horizon_hours": 4,
+  "demand_model": {
+    "distribution": "time-varying Poisson",
+    "od_pairs": [
+      {
+        "from": "CBD",
+        "to": "Airport",
+        "lambda_per_hour": [5, 20, 20, 10]
+      },
+      {
+        "from": "Airport",
+        "to": "CBD",
+        "lambda_per_hour": [2, 6, 6, 3]
+      }
+    ],
+    "imbalance_ratio": 0.7,
+    "notes": [
+      "Peak window 07:00-09:00 drives 70% of total demand.",
+      "Passenger show-up modeled via 1000-profile Monte Carlo sampler seeded with historical commute data."
+    ]
+  },
+  "fleet_constraints": {
+    "aircraft_type": "eVTOL_4pax",
+    "flight_time_minutes": 15,
+    "turnaround_minutes": 5,
+    "charge_minutes_20_to_80": 30,
+    "charging_stations_per_vertiport": 6,
+    "max_range_km": 50
+  },
+  "optimization_objectives": {
+    "primary": "minimize_spill_rate",
+    "secondary": ["minimize_idle_rate", "maximize_utilization"],
+    "targets": {
+      "spill_rate_threshold": 0.05,
+      "idle_rate_ceiling": 0.20,
+      "utilization_target": 0.70
+    }
+  },
+  "analysis_methods": [
+    "MILP zero-spill solver (Gurobi 11, 5-minute discretization)",
+    "Erlang-B queueing approximation (M/M/k/k) for sanity checks",
+    "Monte Carlo (1000 samples) to estimate spill/idle distributions"
+  ],
+  "test_cases": [
+    {
+      "case_id": "TC01_ZeroSpillBaseline",
+      "title": "Zero spill reference plan",
+      "description": "High-demand profile with k=10 aircraft staged across CBD (6) and Airport (4).",
+      "fleet_size": 10,
+      "fleet_split": {"CBD": 6, "Airport": 4},
+      "demand_profile": "Standard early-peak (λ = [5,20,20,10])",
+      "metrics": {
+        "spill_rate": 0.0,
+        "idle_rate": 0.35,
+        "utilization": 0.72,
+        "average_wait_minutes": 3.1
+      },
+      "solver_reference": "MILP_zero_spill",
+      "expected_decision": "APPROVE",
+      "insights": [
+        "Used as safety baseline; idle exceeds 20% but defines the upper bound for zero spill.",
+        "LLM should mention that this plan trades cost-efficiency for guaranteed service."
+      ]
+    },
+    {
+      "case_id": "TC02_LightSpillAcceptable",
+      "title": "6-aircraft minimal viable fleet",
+      "description": "Balanced dispatch with k=6 total (4 CBD, 2 Airport).",
+      "fleet_size": 6,
+      "fleet_split": {"CBD": 4, "Airport": 2},
+      "demand_profile": "Standard early-peak",
+      "metrics": {
+        "spill_rate": 0.042,
+        "idle_rate": 0.12,
+        "utilization": 0.78,
+        "average_wait_minutes": 4.5
+      },
+      "solver_reference": "MonteCarlo_mean",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "insights": [
+        "Spill < 5% so loss is within policy if operator documents customer notification.",
+        "Model should advise adding surge leases if spill creeps upward."
+      ]
+    },
+    {
+      "case_id": "TC03_SevereSpill",
+      "title": "4-aircraft under-provisioned",
+      "description": "Aggressive cost cutting with k=4 fleet.",
+      "fleet_size": 4,
+      "fleet_split": {"CBD": 3, "Airport": 1},
+      "demand_profile": "Standard early-peak",
+      "metrics": {
+        "spill_rate": 0.182,
+        "idle_rate": 0.09,
+        "utilization": 0.91,
+        "average_wait_minutes": 11.8
+      },
+      "solver_reference": "ErlangB_highload",
+      "expected_decision": "REJECT",
+      "insights": [
+        "Spill well above 5% threshold; demand imbalance strands airport passengers.",
+        "LLM should highlight financial & reputational risk."
+      ]
+    },
+    {
+      "case_id": "TC04_FragmentedNFZBaseline",
+      "title": "12-aircraft over-investment",
+      "description": "k=12 with heavy idle time; includes standby craft at each vertiport.",
+      "fleet_size": 12,
+      "fleet_split": {"CBD": 7, "Airport": 5},
+      "demand_profile": "Standard early-peak",
+      "metrics": {
+        "spill_rate": 0.0,
+        "idle_rate": 0.48,
+        "utilization": 0.64,
+        "average_wait_minutes": 2.6
+      },
+      "solver_reference": "MILP_zero_spill",
+      "expected_decision": "REJECT",
+      "insights": [
+        "Idle exceeds 20% and utilization drops below 0.70, indicating trapped capital.",
+        "LLM should advise down-sizing or redeploying excess hulls to other corridors."
+      ]
+    },
+    {
+      "case_id": "TC05_ImbalancedDemand",
+      "title": "Asymmetric CBD→Airport rush",
+      "description": "k=8 with pronounced 7:3 directional skew; initial split 5/3.",
+      "fleet_size": 8,
+      "fleet_split": {"CBD": 5, "Airport": 3},
+      "demand_profile": "CBD-heavy peak",
+      "metrics": {
+        "spill_rate": 0.061,
+        "idle_rate": 0.19,
+        "utilization": 0.73,
+        "average_wait_minutes": 6.4
+      },
+      "solver_reference": "MonteCarlo_skewed",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "insights": [
+        "Recommend pre-positioning 1-2 aircraft at CBD before 07:00 or scheduling empty rebalances.",
+        "LLM should mention directional congestion as root cause."
+      ]
+    },
+    {
+      "case_id": "TC06_OffPeakEfficiency",
+      "title": "Low-demand window sanity check",
+      "description": "k=6 during 10:00-14:00 lull (λ≈5 overall).",
+      "fleet_size": 6,
+      "fleet_split": {"CBD": 3, "Airport": 3},
+      "demand_profile": "Off-peak",
+      "metrics": {
+        "spill_rate": 0.0,
+        "idle_rate": 0.18,
+        "utilization": 0.69,
+        "average_wait_minutes": 2.1
+      },
+      "solver_reference": "Queueing_lowlambda",
+      "expected_decision": "APPROVE",
+      "insights": [
+        "Demonstrates that same fleet works efficiently when demand falls.",
+        "LLM should acknowledge idle within tolerance."
+      ]
+    },
+    {
+      "case_id": "TC07_PeakShock",
+      "title": "Demand spike contingency",
+      "description": "Base k=8 but λ jumps to 30 req/h for 30 minutes due to weather diversion.",
+      "fleet_size": 8,
+      "fleet_split": {"CBD": 5, "Airport": 3},
+      "demand_profile": "Shock spike",
+      "metrics": {
+        "spill_rate": 0.097,
+        "idle_rate": 0.14,
+        "utilization": 0.86,
+        "average_wait_minutes": 9.2
+      },
+      "solver_reference": "MonteCarlo_spike",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "insights": [
+        "LLM should suggest short-term wet leases or sharing pools to ride out spike.",
+        "Need comms plan for passengers since spill >5% temporarily."
+      ]
+    },
+    {
+      "case_id": "TC08_MediumTermPlan",
+      "title": "3-month forecast envelope",
+      "description": "Planner must provide fleet range for seasonal uncertainty; target 95% confidence coverage.",
+      "fleet_size_range": [7, 9],
+      "demand_profile": "Seasonal forecast",
+      "metrics": {
+        "median_spill_rate": 0.038,
+        "p95_spill_rate": 0.072,
+        "idle_rate_range": [0.18, 0.27],
+        "utilization_range": [0.68, 0.75]
+      },
+      "solver_reference": "DRO_CVaR",
+      "expected_decision": "EXPLAIN_ONLY",
+      "insights": [
+        "LLM must recommend a 7-9 hull range plus risk-averse hedging (leasing options, reserve fund).",
+        "Need articulation of why single point estimate is unsafe."
+      ]
+    }
+  ]
+}

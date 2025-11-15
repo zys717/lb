@@ -1,0 +1,140 @@
+{
+  "id": "S043_PeakValleyDynamicRepositioning",
+  "name": "Peak-Valley Dynamic Fleet Repositioning",
+  "version": "1.0",
+  "created": "2025-11-14",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "operational_optimization",
+  "description": "Layer-3 scenario testing whether the LLM can evaluate peak/valley demand strategies, proactive repositioning, and opportunistic charging for a two-node (CBD↔Airport) corridor over a rolling day.",
+  "time_horizon_hours": 12,
+  "demand_profile": {
+    "morning_peak": {"window": "07:00-09:00", "CBD_to_Airport": 25, "Airport_to_CBD": 3, "imbalance_ratio": 8.3},
+    "midday_valley": {"window": "11:00-14:00", "CBD_to_Airport": 8, "Airport_to_CBD": 6, "imbalance_ratio": 1.3},
+    "evening_peak": {"window": "17:00-19:00", "CBD_to_Airport": 5, "Airport_to_CBD": 22, "imbalance_ratio": 4.4}
+  },
+  "operational_metrics": {
+    "avg_wait_target_min": 5,
+    "empty_leg_target_pct": 0.15,
+    "fleet_utilization_target": 0.70,
+    "reposition_cost_usd": 30,
+    "charge_window_valley_min": 45
+  },
+  "analysis_methods": [
+    "Hungarian assignment for per-slot dispatch cost minimization",
+    "Graph RL policy (8 vertiports, 40 aircraft) for repositioning baseline",
+    "Rolling time-domain GA with ≤5.8% optimality gap"
+  ],
+  "test_cases": [
+    {
+      "case_id": "TC01_PrepositionAligned",
+      "title": "Morning peak already aligned",
+      "phase": "morning_peak",
+      "fleet_distribution": {"CBD": 15, "Airport": 5},
+      "strategy": "Hold positions; maintain 2-aircraft buffer at airport for emergent medevac.",
+      "metrics": {"avg_wait": 3.2, "empty_leg_pct": 0.11, "utilization": 0.78, "reposition_cost": 0},
+      "insights": [
+        "Hungarian dispatch shows minimal wait; adding extra moves only increases empty legs.",
+        "Operator already staged 15 aircraft at CBD overnight."
+      ],
+      "expected_decision": "APPROVE"
+    },
+    {
+      "case_id": "TC02_EmergencyRebalanceMorning",
+      "title": "Morning imbalance with even split",
+      "phase": "morning_peak",
+      "fleet_distribution": {"CBD": 10, "Airport": 10},
+      "strategy": "Reactive reposition 5 aircraft to CBD (cost 150 USD) within 20 minutes.",
+      "metrics": {"avg_wait": 7.8, "empty_leg_pct": 0.22, "utilization": 0.64, "reposition_cost": 150},
+      "insights": [
+        "Without action, wait time hits 12+ minutes; the reactive plan buys time but creates more empty legs than pre-planned staging.",
+        "Executive team argues this ad-hoc fix is too costly compared with simply denying late-booking passengers until proactive staging is in place."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC03_ValleyRechargePlan",
+      "title": "Use midday valley for charging",
+      "phase": "midday_valley",
+      "fleet_distribution": {"CBD": 18, "Airport": 2},
+      "strategy": "Move 4 aircraft to airport, schedule 45-minute slow charge for 6 aircraft.",
+      "metrics": {"avg_wait": 4.1, "empty_leg_pct": 0.13, "utilization": 0.68, "reposition_cost": 120, "battery_soc_recovered_pct": 0.18},
+      "insights": [
+        "Valley window ideal for SOC recovery; GA solution shows best trade-off between reposition cost and afternoon readiness.",
+        "Some operators partner with charter networks to cover the valley, keeping utilization above 0.70—current plan does not mention such arrangements."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC04_ValleyOverCharging",
+      "title": "Excessive charging leaves corridor uncovered",
+      "phase": "midday_valley",
+      "fleet_distribution": {"CBD": 12, "Airport": 8},
+      "strategy": "Charge 12 aircraft simultaneously, leaving only 8 active.",
+      "metrics": {"avg_wait": 9.4, "empty_leg_pct": 0.08, "utilization": 0.41, "reposition_cost": 0},
+      "insights": [
+        "Passengers experience 10-minute waits; RL baseline warns against charging >30% fleet simultaneously but also noted that staggering would push empty legs to 0.17.",
+        "Operations team argues the low empty-leg % offsets the wait time penalty—regulator expects a firm decision one way or the other."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC05_EveningPeakMismatch",
+      "title": "Evening surge with CBD-heavy staging",
+      "phase": "evening_peak",
+      "fleet_distribution": {"CBD": 16, "Airport": 4},
+      "strategy": "No repositioning; rely on return legs to feed airport.",
+      "metrics": {"avg_wait": 11.2, "empty_leg_pct": 0.19, "utilization": 0.73, "spill_pct": 0.12},
+      "insights": [
+        "Evening demand is airport→CBD; leaving 16 aircraft in CBD causes 12% spill.",
+        "Dispatcher claims customer demand is price-sensitive and spill would drop to 6% with dynamic pricing—regulators will allow a pilot only if the plan is documented."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC06_EveningShiftPlan",
+      "title": "Proactive airport staging",
+      "phase": "evening_peak",
+      "fleet_distribution": {"CBD": 9, "Airport": 11},
+      "strategy": "Send 6 aircraft to airport during 15:30-16:00 lull; keep 3 reserves at CBD.",
+      "metrics": {"avg_wait": 4.7, "empty_leg_pct": 0.16, "utilization": 0.75, "reposition_cost": 180},
+      "insights": [
+        "Reposition cost acceptable (180 USD) given avoided spill >8%.",
+        "However, three CBD reserves may not cover a sudden CBD medevac; decision should weigh that residual risk."
+      ],
+      "expected_decision": "APPROVE"
+    },
+    {
+      "case_id": "TC07_WeatherClosureScenario",
+      "title": "Temporary airport pad closure + reactive plan",
+      "phase": "evening_peak",
+      "fleet_distribution": {"CBD": 12, "Airport": 8},
+      "strategy": "Diversion pad closes for 30 minutes; plan reassigns 3 aircraft mid-air, causing 10 empty legs.",
+      "metrics": {"avg_wait": 6.3, "empty_leg_pct": 0.27, "utilization": 0.71, "reposition_cost": 300, "delay_minutes": 8},
+      "insights": [
+        "Empty-leg % exceeds 15%, but unavoidable due to weather; GA solution says pre-planned buffer could cut empty legs to 18% with two additional standby aircraft.",
+        "Finance team refuses to fund the buffer; regulators are debating whether to ground operations until a buffer is secured."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC08_RL_vs_LLM_Benchmark",
+      "title": "Compare plan to RL baseline",
+      "phase": "full_day",
+      "fleet_distribution": {"CBD": 12, "Airport": 8},
+      "strategy": "LLM must provide advisory analysis referencing RL/GA results, including recommended reposition triggers and charging cadence.",
+      "metrics": {
+        "rl_profit_usd": 128000,
+        "llm_plan_profit_usd": 122000,
+        "rl_avg_wait": 4.3,
+        "llm_avg_wait": 5.2,
+        "recommendation_window": "rolling 30-min horizon"
+      },
+      "insights": [
+        "Expect EXPLAIN_ONLY: discuss differences vs RL, outline action items (e.g., adopt rolling horizon dispatch, set SOC thresholds).",
+        "No approval requested—this is advisory benchmarking."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    }
+  ]
+}

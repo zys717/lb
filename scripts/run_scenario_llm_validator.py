@@ -220,6 +220,46 @@ def classify_scenario(scenario_id: str) -> str:
     # Adversarial rule circumvention (S040)
     if 'S040' in scenario_id_upper:
         return 'adversarial_circumvention'
+
+    # Fleet sizing / operational optimization (S041)
+    if 'S041' in scenario_id_upper:
+        return 'fleet_sizing'
+
+    # Charging strategy optimization (S042)
+    if 'S042' in scenario_id_upper:
+        return 'charging_strategy'
+
+    # Dynamic repositioning (S043)
+    if 'S043' in scenario_id_upper:
+        return 'repositioning'
+
+    # Battery emergency decisions (S044)
+    if 'S044' in scenario_id_upper:
+        return 'battery_emergency'
+
+    # Airspace conflict MWIS (S045)
+    if 'S045' in scenario_id_upper:
+        return 'airspace_conflict'
+
+    # Vertiport capacity management (S046)
+    if 'S046' in scenario_id_upper:
+        return 'vertiport_capacity'
+
+    # Multi-operator fairness governance (S047)
+    if 'S047' in scenario_id_upper:
+        return 'multi_operator_fairness'
+
+    # Emergency evacuation & re-planning (S048)
+    if 'S048' in scenario_id_upper:
+        return 'emergency_evacuation'
+
+    # Fleet spill trade-off (S049)
+    if 'S049' in scenario_id_upper:
+        return 'fleet_spill'
+
+    # Capital allocation vs infrastructure (S050)
+    if 'S050' in scenario_id_upper:
+        return 'capital_allocation'
     # Default to NFZ for unknown scenarios
     print(f"⚠️  Unknown scenario {scenario_id}, defaulting to NFZ-based prompt")
     return 'nfz'
@@ -255,7 +295,17 @@ from llm_prompts import (
     build_implicit_priority_prompt,
     build_causal_temporal_prompt,
     build_epistemic_uncertainty_prompt,
-    build_adversarial_circumvention_prompt
+    build_adversarial_circumvention_prompt,
+    build_fleet_sizing_prompt,
+    build_charging_strategy_prompt,
+    build_repositioning_prompt,
+    build_battery_emergency_prompt,
+    build_airspace_conflict_prompt,
+    build_vertiport_capacity_prompt,
+    build_multi_operator_fairness_prompt,
+    build_emergency_evacuation_prompt,
+    build_fleet_spill_prompt,
+    build_capital_allocation_prompt
 )
 
 # ============================================================================
@@ -344,6 +394,26 @@ def check_compliance_llm(
         prompt = build_epistemic_uncertainty_prompt(start, end, test_case_description, scenario_config, test_case_obj)
     elif scenario_type == 'adversarial_circumvention':
         prompt = build_adversarial_circumvention_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'fleet_sizing':
+        prompt = build_fleet_sizing_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'charging_strategy':
+        prompt = build_charging_strategy_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'repositioning':
+        prompt = build_repositioning_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'battery_emergency':
+        prompt = build_battery_emergency_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'airspace_conflict':
+        prompt = build_airspace_conflict_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'vertiport_capacity':
+        prompt = build_vertiport_capacity_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'multi_operator_fairness':
+        prompt = build_multi_operator_fairness_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'emergency_evacuation':
+        prompt = build_emergency_evacuation_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'fleet_spill':
+        prompt = build_fleet_spill_prompt(start, end, test_case_description, scenario_config, test_case_obj)
+    elif scenario_type == 'capital_allocation':
+        prompt = build_capital_allocation_prompt(start, end, test_case_description, scenario_config, test_case_obj)
     else:
         # Fallback to NFZ
         prompt = build_nfz_prompt(start, end, nfzs, test_case_description, scenario_config, test_case_obj)
@@ -369,7 +439,17 @@ def check_compliance_llm(
             response_text = response_text[:-3]
         response_text = response_text.strip()
         
-        llm_result = json.loads(response_text)
+        try:
+            llm_result = json.loads(response_text)
+        except json.JSONDecodeError:
+            # Attempt to extract JSON fragment if the model wrapped output in markdown or prose
+            start_idx = response_text.find('{')
+            end_idx = response_text.rfind('}')
+            if start_idx != -1 and end_idx != -1 and end_idx > start_idx:
+                fragment = response_text[start_idx:end_idx + 1]
+                llm_result = json.loads(fragment)
+            else:
+                raise
         
         decision = llm_result.get('decision', 'UNKNOWN')
         

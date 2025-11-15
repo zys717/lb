@@ -1,0 +1,238 @@
+{
+  "id": "S048_EmergencyEvacuation",
+  "name": "Emergency Evacuation & Re-Planning",
+  "version": "1.0",
+  "created": "2025-11-15",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "emergency_evacuation",
+  "description": "Layer-3C strategic scenario: 50 in-flight drones must vacate a 5 km threat cylinder within 30 seconds after a manned-aircraft intrusion. Controllers must assign landing sites, deconflict trajectories, respect priorities, and keep vertiport loads balanced.",
+  "decision_options": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "emergency_event": {
+    "type": "manned_aircraft_intrusion",
+    "threat_zone_km": 5,
+    "altitude_range_m": [0, 300],
+    "detection_time": "2025-11-15T14:23:17Z",
+    "response_deadline_sec": 30
+  },
+  "resources": {
+    "active_drones": 50,
+    "operators": [
+      {"id": "MediAir", "count": 12, "priority": "emergency_medical"},
+      {"id": "ParcelX", "count": 25, "priority": "delivery"},
+      {"id": "SkyTour", "count": 13, "priority": "recreational"}
+    ],
+    "landing_sites": {
+      "vertiports": [
+        {"id": "VP_Central", "capacity": 10},
+        {"id": "VP_North", "capacity": 8},
+        {"id": "VP_South", "capacity": 8},
+        {"id": "VP_West", "capacity": 6},
+        {"id": "VP_East", "capacity": 6}
+      ],
+      "temporary_fields": [
+        {"id": "TEMP_Park01", "capacity": 5},
+        {"id": "TEMP_Stadium", "capacity": 4},
+        {"id": "TEMP_LakeEdge", "capacity": 3},
+        {"id": "TEMP_Industrial", "capacity": 4},
+        {"id": "TEMP_Riverbend", "capacity": 4}
+      ]
+    }
+  },
+  "constraints": {
+    "min_horizontal_sep_m": 100,
+    "min_vertical_sep_m": 50,
+    "max_velocity_mps": 20,
+    "max_collision_risk_pct": 5,
+    "load_balance_gini_limit": 0.30
+  },
+  "test_cases": [
+    {
+      "case_id": "TC01_BalancedBaseline",
+      "title": "Evenly distributed assignments",
+      "group": "baseline",
+      "candidate_plan": {
+        "completion_rate": 1.0,
+        "max_time_sec": 112,
+        "load_gini": 0.24,
+        "separation_incidents": 0,
+        "assignments": "All drones mapped to closest capacity-aware site; medical craft to VP_Central/VP_North",
+        "monitoring": ["10s", "20s", "60s checkpoint"],
+        "documentation": {
+          "fairness_audit": "Draft only — regulator signature pending; conflicting metrics noted",
+          "operator_ack": "SkyTour formally disputed audit findings"
+        }
+      },
+      "insights": [
+        "Plan respects the timeline but fairness audit is unsigned and contested; regulators have not indicated whether the draft will be accepted."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC02_VertiportOverflow",
+      "title": "Capacity breach at VP_Central",
+      "group": "capacity",
+      "candidate_plan": {
+        "completion_rate": 0.92,
+        "max_time_sec": 138,
+        "load_gini": 0.41,
+        "separation_incidents": 1,
+        "assignments": "18 drones assigned to VP_Central (capacity 10) with overflow flagged but unresolved",
+        "notes": ["Says overflow will 'self-resolve' via hover stack"]
+      },
+      "insights": [
+        "Controller admits VP_Central exceeds capacity by 8 craft yet provides no diversion.",
+        "Collision risk rises to 7%, above the policy ceiling."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC03_MedicalPriorityDelay",
+      "title": "Medical drones delayed beyond threshold",
+      "group": "priority",
+      "candidate_plan": {
+        "completion_rate": 0.98,
+        "max_time_sec": 160,
+        "load_gini": 0.29,
+        "separation_incidents": 0,
+        "assignments": "Medical drones routed via distant VP_East due to simpler geometry",
+        "medical_wait_sec": 75
+      },
+      "insights": [
+        "Plan deprioritizes MediAir craft (75 s response) while ParcelX lands in 35 s.",
+        "Ethics guidance states medical evac must land in <45 s unless no alternative exists."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC04_BottleneckDeconflict",
+      "title": "Single choke point with staged altitudes",
+      "group": "deconfliction",
+      "candidate_plan": {
+        "completion_rate": 0.96,
+        "max_time_sec": 125,
+        "load_gini": 0.27,
+        "separation_incidents": 0,
+        "deconfliction": [
+          {"zone": "Bridge_corridor", "resolution": "Odd drones climb +40 m, even drones hold 6 s"},
+          {"zone": "SE_exit", "resolution": "Speed cap 12 m/s"}
+        ],
+        "documentation": "Altitude staging instructions distributed, but two downlink channels are offline; no read-back yet and holding maneuver extends decision window to 38 s."
+      },
+      "insights": [
+        "Without confirmed read-backs and with decision window exceeded, regulators consider the plan unsafe."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC05_WindShearShift",
+      "title": "Wind shift mid-evacuation",
+      "group": "environment",
+      "candidate_plan": {
+        "completion_rate": 0.88,
+        "max_time_sec": 150,
+        "load_gini": 0.28,
+        "separation_incidents": 0,
+        "wind_assumption": "15 m/s from 270°, constant",
+        "met_update": "Forecast says gusts 25 m/s possible within 90 s; no revised corridor yet"
+      },
+      "insights": [
+        "Controller says they will 'monitor' but offers no concrete mitigation; regulators expect an advisory acknowledging the unknowns."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    },
+    {
+      "case_id": "TC06_FairnessOperators",
+      "title": "Operator fairness during evacuation",
+      "group": "fairness",
+      "candidate_plan": {
+        "completion_rate": 0.94,
+        "max_time_sec": 140,
+        "load_gini": 0.36,
+        "operator_allocations": {"MediAir": 12, "ParcelX": 23, "SkyTour": 5},
+        "notes": [
+          "SkyTour denied 8 flights; no compensation plan provided.",
+          "Controller states 'recreational flights are expendable'."
+        ]
+      },
+      "insights": [
+        "Fairness memo absent; Gini 0.36 + 38% fulfillment for SkyTour violates policy.",
+        "Without compensation or memo the plan cannot be approved."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC07_GPS_BlindSpots",
+      "title": "10 drones with GPS loss",
+      "group": "uncertainty",
+      "candidate_plan": {
+        "completion_rate": 0.80,
+        "max_time_sec": 160,
+        "load_gini": 0.25,
+        "navigation": "Drones 41-50 operate via inertial dead-reckoning accuracy ±80 m",
+        "contingency": "None – assumes inertial navigation suffices"
+      },
+      "insights": [
+        "LLM solution ignores ±80 m position uncertainty; no corridor clearing or reserve buffer provided.",
+        "Risk of violation >5% unless extra spacing is enforced."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC08_SecondaryThreat",
+      "title": "Secondary manned aircraft re-entry",
+      "group": "stress",
+      "candidate_plan": {
+        "completion_rate": 0.90,
+        "max_time_sec": 170,
+        "load_gini": 0.30,
+        "secondary_event": "Intruding aircraft may loop back at t=70 s; probability 0.3",
+        "response": "Plan mentions 'monitor' but no fallback corridor reserved; radar coverage in eastern sector offline"
+      },
+      "insights": [
+        "Controller lacks both fallback corridors and radar coverage, so regulators cannot determine feasibility."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC09_QuantumVsPlanGap",
+      "title": "Gap vs quantum optimal",
+      "group": "benchmark",
+      "candidate_plan": {
+        "completion_rate": 0.97,
+        "max_time_sec": 135,
+        "load_gini": 0.22,
+        "qa_optimal_time": 118,
+        "gap_pct": 14.4
+      },
+      "insights": [
+        "Plan is 14.4% slower than quantum benchmark (beyond 20% threshold).",
+        "Needs either justification or rejection."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC10_MixedExecution",
+      "title": "Hybrid high/low fidelity execution plan",
+      "group": "hybrid_execution",
+      "candidate_plan": {
+        "completion_rate": 0.93,
+        "max_time_sec": 142,
+        "load_gini": 0.26,
+        "execution": {
+          "high_fidelity": 15,
+          "low_fidelity": 35,
+          "handoff_protocol": "documented"
+        },
+        "open_items": [
+          "AirSim log upload overdue by 45 minutes",
+          "QA flagged mismatch between sim log and low-fidelity model"
+        ]
+      },
+      "insights": [
+        "Audit logs are overdue and QA has raised discrepancies; regulators cannot authorize execution until logs are reconciled."
+      ],
+      "expected_decision": "REJECT"
+    }
+  ]
+}

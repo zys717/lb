@@ -1,0 +1,345 @@
+{
+  "scenario": "S050_CapitalAllocation",
+  "scenario_type": "capital_allocation",
+  "timestamp": "2025-11-15T13:43:11.903146",
+  "summary": {
+    "total_test_cases": 10,
+    "llm_accuracy": "4/10",
+    "llm_accuracy_percent": "40.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_BaseNPV",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "Option B (Vertiport) presents the highest Net Present Value ($520,000) and Profitability Index (1.52) among the options, aligning with the Ops strategic pull for vertiport density.\nAll options surpass the Hurdle IRR (0.10) and meet the Max Payback (4 years) policy, indicating financial viability for each.\nHowever, Option B has a significant 18-month construction lag, resulting in zero revenue inflow until month 18. This triggers the policy requiring a documented bridge financing or interim service plan for revenues starting after month 12.\nWhile Ops has proposed leasing interim capacity to mitigate the revenue delay, the required bridge plan has not yet been drafted, violating the policy that conditional approvals must spell out funding/bridging steps.\nThe Regulator has signaled that conditional approval is acceptable if a bridge operations plan is attached, confirming the necessity of this documentation.\nOption A is financially sound with a strong NPV ($480,000) and no compliance issues, but Option B's higher NPV and direct strategic alignment make it the preferred choice if policy conditions can be met.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "Option B (Vertiport) presents the highest Net Present Value ($520,000) and Profitability Index (1.52) among the options, aligning with the Ops strategic pull for vertiport density.",
+            "All options surpass the Hurdle IRR (0.10) and meet the Max Payback (4 years) policy, indicating financial viability for each.",
+            "However, Option B has a significant 18-month construction lag, resulting in zero revenue inflow until month 18. This triggers the policy requiring a documented bridge financing or interim service plan for revenues starting after month 12.",
+            "While Ops has proposed leasing interim capacity to mitigate the revenue delay, the required bridge plan has not yet been drafted, violating the policy that conditional approvals must spell out funding/bridging steps.",
+            "The Regulator has signaled that conditional approval is acceptable if a bridge operations plan is attached, confirming the necessity of this documentation.",
+            "Option A is financially sound with a strong NPV ($480,000) and no compliance issues, but Option B's higher NPV and direct strategic alignment make it the preferred choice if policy conditions can be met."
+          ],
+          "tradeoffs": "We are siding with the Ops and Regulator views by prioritizing Option B's strategic alignment and highest NPV. Finance's concern regarding the 18-month revenue lag is addressed by making approval conditional on a documented bridge plan, balancing financial discipline with strategic growth.",
+          "actions": [
+            "Require immediate submission of a detailed, drafted bridge operations plan for leasing interim capacity, explicitly outlining funding, service steps, and responsible parties.",
+            "The drafted bridge plan must be reviewed and formally approved by both Finance and Legal departments before the full capital allocation for Option B is released."
+          ],
+          "violated_policies": [
+            "Conditional approvals must spell out documentation or funding steps; silence is treated as a denial. (Option B currently lacks the required drafted bridge plan)."
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC02_DiscountSensitivity",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "APPROVE",
+        "reasoning": "The budget constraint of $1,000,000 allows for the selection of only one project among Options A, B, and C.\nAll options (A, B, C) meet the Hurdle IRR (≥ 0.10) and Max Payback (≤ 4 years) governance rules when evaluated with the mandated 0.12 discount rate.\nOption A exhibits the highest Net Present Value (NPV) of $300,000 and the highest Internal Rate of Return (IRR) of 0.24 among the three options.\nThe Treasury memo explicitly mandates the use of a 12% discount rate, overriding any prior calculations or preferences based on an 8% rate (as referenced by the Sponsor).\nThe Risk Committee's note, 'IRR < hurdle = hard stop,' reinforces the importance of adhering to the current hurdle rate and discount rate for evaluation.\nWhile Option B (Vertiport) aligns with Ops' strategic pull for vertiport density, its financial metrics (NPV $120,000, IRR 0.20) are significantly lower than Option A at the current discount rate.",
+        "analysis": {
+          "decision": "APPROVE",
+          "reasoning_steps": [
+            "The budget constraint of $1,000,000 allows for the selection of only one project among Options A, B, and C.",
+            "All options (A, B, C) meet the Hurdle IRR (≥ 0.10) and Max Payback (≤ 4 years) governance rules when evaluated with the mandated 0.12 discount rate.",
+            "Option A exhibits the highest Net Present Value (NPV) of $300,000 and the highest Internal Rate of Return (IRR) of 0.24 among the three options.",
+            "The Treasury memo explicitly mandates the use of a 12% discount rate, overriding any prior calculations or preferences based on an 8% rate (as referenced by the Sponsor).",
+            "The Risk Committee's note, 'IRR < hurdle = hard stop,' reinforces the importance of adhering to the current hurdle rate and discount rate for evaluation.",
+            "While Option B (Vertiport) aligns with Ops' strategic pull for vertiport density, its financial metrics (NPV $120,000, IRR 0.20) are significantly lower than Option A at the current discount rate."
+          ],
+          "tradeoffs": "This decision sides with the Finance view, prioritizing IRR discipline and maximizing NPV as per the current mandated discount rate. This means deferring Ops' immediate strategic preference for vertiport density (Option B) in favor of the financially superior Option A.",
+          "actions": [
+            "Communicate to the Sponsor that the capital allocation decision is based on the mandated 12% discount rate as per the Treasury memo, clarifying why prior 8% IRR rankings are not applicable.",
+            "Request Finance to prepare a follow-up analysis on potential future funding for vertiport density initiatives, to be considered in subsequent capital allocation cycles, if financially viable."
+          ],
+          "violated_policies": []
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC03_IRRRanking",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The fixed budget of $1,000,000 limits the selection to only one option, as each project requires the full capital outlay.\nAll options (A, B, C) individually meet the Hurdle IRR (≥ 0.1) and the Max Payback period (≤ 4 years), making them financially viable on these absolute criteria.\nThere is a clear ranking mismatch: Option A has the highest IRR (0.26), while Option B has the highest NPV ($530,000) at the given discount rate (0.08).\nOption B is selected as the preferred project due to its superior absolute NPV, which is the most reliable metric for maximizing shareholder wealth when comparing mutually exclusive projects of similar scale.\nOption B strongly aligns with the Ops view (vertiport density, new corridors) and partially with the Regulator's interest (funding underserved corridors), amplifying its strategic value.\nDespite Finance's preference for Option A's higher IRR for 'covenant optics', Option B's IRR (0.21) is still robust and significantly above the 10% hurdle, ensuring strong profitability.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The fixed budget of $1,000,000 limits the selection to only one option, as each project requires the full capital outlay.",
+            "All options (A, B, C) individually meet the Hurdle IRR (≥ 0.1) and the Max Payback period (≤ 4 years), making them financially viable on these absolute criteria.",
+            "There is a clear ranking mismatch: Option A has the highest IRR (0.26), while Option B has the highest NPV ($530,000) at the given discount rate (0.08).",
+            "Option B is selected as the preferred project due to its superior absolute NPV, which is the most reliable metric for maximizing shareholder wealth when comparing mutually exclusive projects of similar scale.",
+            "Option B strongly aligns with the Ops view (vertiport density, new corridors) and partially with the Regulator's interest (funding underserved corridors), amplifying its strategic value.",
+            "Despite Finance's preference for Option A's higher IRR for 'covenant optics', Option B's IRR (0.21) is still robust and significantly above the 10% hurdle, ensuring strong profitability."
+          ],
+          "tradeoffs": "This decision sides with the Ops and Regulator's strategic pulls by prioritizing Option B's higher NPV and long-term strategic benefits (unlocking new corridors, serving underserved districts). It acknowledges Finance's preference for Option A's highest IRR due to 'covenant optics' but balances it against the greater absolute value creation and strategic fit of Option B, whose IRR is still strong.",
+          "actions": [
+            "Request a comprehensive 'trade-off appendix' from the project proponents to formally address the IRR vs. NPV ranking conflict and provide detailed justification for selecting Option B over Option A, explicitly considering 'covenant optics' and strategic weighting.",
+            "Ensure documentation detailing how Option B's benefit to 'underserved corridors' aligns with regulatory expectations and any associated corridor letters or agreements."
+          ],
+          "violated_policies": []
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC04_DeliveryDelayRisk",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "Option A demonstrates strong financial viability with a positive NPV of $120,000 and an IRR of 0.13 (13%), which exceeds the 0.10 (10%) hurdle rate set by policy, satisfying a key financial discipline requirement.\nThe payback period of 4.6 years exceeds the maximum 4-year limit, constituting a clear violation of company policy and triggering the requirement for explicit mitigation and documentation.\nDespite a 6-month revenue delay, Ops has not provided evidence of bridge capacity or an interim service plan, indicating a critical documentation gap for managing the delay's impact, as highlighted by stakeholder signals.\nCompany policy explicitly prohibits full approval for options with payback periods exceeding 4 years without documented mitigation, and conditional approvals mandate clear funding or bridging steps.\nWhile the 6-month delay means revenues start at month 7, not 'later than month 12', the absence of any bridge plan from Ops signals an unaddressed risk regarding the delay's operational and financial impact.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "Option A demonstrates strong financial viability with a positive NPV of $120,000 and an IRR of 0.13 (13%), which exceeds the 0.10 (10%) hurdle rate set by policy, satisfying a key financial discipline requirement.",
+            "The payback period of 4.6 years exceeds the maximum 4-year limit, constituting a clear violation of company policy and triggering the requirement for explicit mitigation and documentation.",
+            "Despite a 6-month revenue delay, Ops has not provided evidence of bridge capacity or an interim service plan, indicating a critical documentation gap for managing the delay's impact, as highlighted by stakeholder signals.",
+            "Company policy explicitly prohibits full approval for options with payback periods exceeding 4 years without documented mitigation, and conditional approvals mandate clear funding or bridging steps.",
+            "While the 6-month delay means revenues start at month 7, not 'later than month 12', the absence of any bridge plan from Ops signals an unaddressed risk regarding the delay's operational and financial impact."
+          ],
+          "tradeoffs": "This decision sides with the Finance view on IRR discipline (met) but holds firm on their demand for short payback periods, requiring mitigation for the extended payback. It acknowledges the operational delay and the need for a documented plan from Ops, ensuring that the project's viability is secured against implementation risks, aligning with Board reminders on documentation.",
+          "actions": [
+            "Require a comprehensive mitigation plan for the 4.6-year payback period, detailing how the company will address the extended timeline, such as identifying revenue acceleration strategies or cost control measures.",
+            "Mandate the submission of a documented bridge capacity plan or interim service plan by Ops to clearly articulate how the 6-month delay in fleet delivery will be managed, ensuring service continuity and minimizing financial impact.",
+            "Request confirmation from Ops that all identified documentation gaps related to project delays and mitigation strategies are fully addressed and integrated into the project plan before final funding release."
+          ],
+          "violated_policies": [
+            "Max payback: 4 years (Option A: 4.6 years)",
+            "Any option with payback > 4 years requires explicit mitigation and documentation before full approval (Mitigation and documentation are currently missing for Option A's payback)."
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC05_MonteCarloDemand",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "APPROVE",
+        "reasoning": "Option B (Vertiport) is rejected due to significant, unmitigated tail risk and clear governance policy violations. The Monte Carlo analysis shows a 20% probability of negative NPV (growth <17%), which implies IRR falls below the 10% hurdle, violating the policy requiring rejection without a regulator-signed corridor letter.\nOption B's Monte Carlo study fails to mention tail scenarios below the 5th percentile, which is a specific governance policy violation. Furthermore, the regulator explicitly requested this tail disclosure, reinforcing the lack of sufficient risk information.\nThe Finance team's VAR worksheet for Option B is in draft, indicating an incomplete and unverified risk assessment, making the project's financial stability highly uncertain.\nAll options presented use a base discount rate of 8%, which is below the company WACC (10-12%) without justification. This violates policy, and for Option B, with an 'expected_npv' of only $460,000 at 8%, a recalculation at WACC would likely diminish its viability significantly.\nGiven Option B's rejection, Option A (Fleet) is selected due to its superior financial performance and alignment with Finance's strategic pull for 'IRR discipline and short payback.' Option A boasts an IRR of 88.5% and a payback of 1.11 years, both exceptionally strong.\nWhile Option C also offers strong financial metrics (IRR 67.8%, NPV higher at 10% than A), Option A's higher IRR and shorter payback period make it marginally preferable in meeting Finance's explicit criteria.",
+        "analysis": {
+          "decision": "APPROVE",
+          "reasoning_steps": [
+            "Option B (Vertiport) is rejected due to significant, unmitigated tail risk and clear governance policy violations. The Monte Carlo analysis shows a 20% probability of negative NPV (growth <17%), which implies IRR falls below the 10% hurdle, violating the policy requiring rejection without a regulator-signed corridor letter.",
+            "Option B's Monte Carlo study fails to mention tail scenarios below the 5th percentile, which is a specific governance policy violation. Furthermore, the regulator explicitly requested this tail disclosure, reinforcing the lack of sufficient risk information.",
+            "The Finance team's VAR worksheet for Option B is in draft, indicating an incomplete and unverified risk assessment, making the project's financial stability highly uncertain.",
+            "All options presented use a base discount rate of 8%, which is below the company WACC (10-12%) without justification. This violates policy, and for Option B, with an 'expected_npv' of only $460,000 at 8%, a recalculation at WACC would likely diminish its viability significantly.",
+            "Given Option B's rejection, Option A (Fleet) is selected due to its superior financial performance and alignment with Finance's strategic pull for 'IRR discipline and short payback.' Option A boasts an IRR of 88.5% and a payback of 1.11 years, both exceptionally strong.",
+            "While Option C also offers strong financial metrics (IRR 67.8%, NPV higher at 10% than A), Option A's higher IRR and shorter payback period make it marginally preferable in meeting Finance's explicit criteria."
+          ],
+          "tradeoffs": "We sided with Finance's pull for 'IRR discipline and short payback' by approving Option A, which demonstrated the strongest financial metrics. We also sided with the Regulator's demand for 'tail-risk disclosure' by rejecting Option B due to its significant and poorly disclosed risks and policy violations, despite Ops' strategic desire for 'vertiport density.'",
+          "actions": [
+            "Formally reject Option B and request the project team to fully address all governance and risk disclosure issues before any future re-submission, including complete Monte Carlo tail scenario analysis (<5th percentile and all negative NPV outcomes).",
+            "Require Finance to complete and present the VAR worksheet for any future re-evaluation of Option B.",
+            "For Option A (and all future capital projects), require justification for the 8% discount rate or recalculate NPV/IRR using the company's WACC (10-12%) to ensure compliance with policy."
+          ],
+          "violated_policies": [
+            "If IRR falls below the 10% hurdle, downgrade to REJECT unless a regulator-signed corridor letter exists. (Option B, due to 20% chance of negative NPV)",
+            "Monte Carlo studies must mention tail scenarios (<5th percentile) when cited as evidence. (Option B, only <17% disclosed)",
+            "Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared. (Applies to all options, as 8% base rate was used without justification)"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC06_StrategicValue",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "Option B, despite its lower NPV ($480,000) compared to Option A ($520,000), is the preferred choice due to its significant strategic value in securing two vertiport permits, regulatory fast lanes, and unlocking new corridors, aligning strongly with the Ops view.\nThe Board policy explicitly states that if IRR falls below the 10% hurdle, it can be approved if a regulator-signed corridor letter exists. Option B is directly linked to securing such permits, and Legal requires this letter.\nFinance's requirement for a mitigation plan to fund any initial shortfall indicates a likely payback period exceeding 4 years, which mandates explicit mitigation and documentation as per governance policy.\nLegal's demand for the attachment of the regulator-signed corridor letter is a critical prerequisite for any approval of Option B, especially if its IRR is below the 10% hurdle.\nOption A, while having the highest NPV, lacks the long-term strategic and regulatory advantages critical for the company's future growth and competitive positioning that Option B offers.\nOption C presents the lowest NPV and no unique strategic drivers, making it the least favorable choice.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "Option B, despite its lower NPV ($480,000) compared to Option A ($520,000), is the preferred choice due to its significant strategic value in securing two vertiport permits, regulatory fast lanes, and unlocking new corridors, aligning strongly with the Ops view.",
+            "The Board policy explicitly states that if IRR falls below the 10% hurdle, it can be approved if a regulator-signed corridor letter exists. Option B is directly linked to securing such permits, and Legal requires this letter.",
+            "Finance's requirement for a mitigation plan to fund any initial shortfall indicates a likely payback period exceeding 4 years, which mandates explicit mitigation and documentation as per governance policy.",
+            "Legal's demand for the attachment of the regulator-signed corridor letter is a critical prerequisite for any approval of Option B, especially if its IRR is below the 10% hurdle.",
+            "Option A, while having the highest NPV, lacks the long-term strategic and regulatory advantages critical for the company's future growth and competitive positioning that Option B offers.",
+            "Option C presents the lowest NPV and no unique strategic drivers, making it the least favorable choice."
+          ],
+          "tradeoffs": "We are siding with the Operations view and long-term strategic growth (vertiport density, new corridors, regulatory advantages) over Finance's immediate focus on maximizing NPV and strict IRR discipline. However, the conditional approval incorporates Finance's demand for a mitigation plan to address financial risks.",
+          "actions": [
+            "Obtain and formally attach the regulator-signed corridor letter, as required by Legal and to meet the Board's policy for projects potentially below the IRR hurdle.",
+            "Develop and submit a detailed financial mitigation plan specifying funding/bridging steps to address any initial shortfall and ensure compliance with the maximum payback policy (if payback > 4 years), as required by Finance.",
+            "Confirm and document the current IRR and payback period for Option B, detailing how the strategic value and mitigation plan bring the project into compliance or justify the exception under board policies."
+          ],
+          "violated_policies": [
+            "Hurdle IRR ≥ 0.1 (potentially violated if Option B's IRR is below 10% without the formalization of the corridor letter exception).",
+            "Max payback: 4 years (potentially violated if Option B's payback period exceeds 4 years without a documented mitigation plan)."
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC07_StagedInvestment",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "APPROVE"
+      },
+      "llm_result": {
+        "decision": "APPROVE",
+        "reasoning": "The staged investment approach for Option C significantly enhances financial performance, yielding a strong NPV of $420,000 and a high Profitability Index of 1.42, exceeding the lump-sum option's NPV by $60,000.\nThe payback period of 2.9 years is well within the 4-year maximum policy, satisfying Finance's preference for short payback and mitigating risk.\nThe staged capital draw is confirmed by a credit committee letter, fulfilling the governance requirement for clear funding steps in conditional approvals.\nThe 'No policy conflicts flagged' signal from Finance is critical, indicating that the project is deemed compliant with internal policies, including the Hurdle IRR ≥ 0.1, which Finance prioritizes.\nWhile the base discount rate of 0.08 is below the company's WACC (10-12%), the absence of a flagged policy conflict suggests that appropriate justification or an exception has been accepted for this specific project evaluation.\nThe overall financial metrics demonstrate a prudent and high-return use of capital within the budget constraints, making it a compelling investment.",
+        "analysis": {
+          "decision": "APPROVE",
+          "reasoning_steps": [
+            "The staged investment approach for Option C significantly enhances financial performance, yielding a strong NPV of $420,000 and a high Profitability Index of 1.42, exceeding the lump-sum option's NPV by $60,000.",
+            "The payback period of 2.9 years is well within the 4-year maximum policy, satisfying Finance's preference for short payback and mitigating risk.",
+            "The staged capital draw is confirmed by a credit committee letter, fulfilling the governance requirement for clear funding steps in conditional approvals.",
+            "The 'No policy conflicts flagged' signal from Finance is critical, indicating that the project is deemed compliant with internal policies, including the Hurdle IRR ≥ 0.1, which Finance prioritizes.",
+            "While the base discount rate of 0.08 is below the company's WACC (10-12%), the absence of a flagged policy conflict suggests that appropriate justification or an exception has been accepted for this specific project evaluation.",
+            "The overall financial metrics demonstrate a prudent and high-return use of capital within the budget constraints, making it a compelling investment."
+          ],
+          "tradeoffs": "This decision primarily sides with Finance's view by demonstrating strong IRR discipline (implied by no conflict flag) and a short payback period, while optimizing capital deployment through a confirmed staged funding mechanism. It does not directly address Ops' desire for increased vertiport density but also does not preclude future investments aligned with that goal. Regulator concerns regarding tail-risk or underserved districts were not triggered by the specifics of this Mixed option.",
+          "actions": [
+            "None required for immediate approval, as the documentation for staged funding is confirmed. For future projects, ensure explicit documentation for any discount rate used below WACC is readily available."
+          ],
+          "violated_policies": []
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC08_DiscountAssumption",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The submitted analysis utilizes a 6% discount rate, which is below the company's base discount rate of 0.08 (WACC) and the 0.10 hurdle IRR.\nFinance policy explicitly states: 'Discount below WACC = automatically invalid unless risk-free funding proof attached.' The sponsor's 'macro optimism' is not valid risk-free funding proof, directly violating this policy.\nThe documentation checklist requires justification for discount rates < WACC, specifically why capital markets risk disappeared, which is absent from this submission.\nRegulators previously fined the operator for this exact shortcut, indicating a high risk of recurring non-compliance penalties if this analysis is accepted.\nAs the NPV metrics provided are based on an invalid and unapproved discount rate, they cannot be relied upon to make an informed capital allocation decision.\nWithout compliant financial metrics and given the severe policy violations and regulatory risk, no option can be considered for approval in its current form.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The submitted analysis utilizes a 6% discount rate, which is below the company's base discount rate of 0.08 (WACC) and the 0.10 hurdle IRR.",
+            "Finance policy explicitly states: 'Discount below WACC = automatically invalid unless risk-free funding proof attached.' The sponsor's 'macro optimism' is not valid risk-free funding proof, directly violating this policy.",
+            "The documentation checklist requires justification for discount rates < WACC, specifically why capital markets risk disappeared, which is absent from this submission.",
+            "Regulators previously fined the operator for this exact shortcut, indicating a high risk of recurring non-compliance penalties if this analysis is accepted.",
+            "As the NPV metrics provided are based on an invalid and unapproved discount rate, they cannot be relied upon to make an informed capital allocation decision.",
+            "Without compliant financial metrics and given the severe policy violations and regulatory risk, no option can be considered for approval in its current form."
+          ],
+          "tradeoffs": "We are siding with Finance and Regulators. Finance demands IRR discipline and adherence to policy, while Regulators have a history of fining the operator for this specific shortcut. While Operations might desire vertiport density (Option B), the fundamental flaw in the financial analysis means no project can be approved based on these numbers, prioritizing financial integrity and regulatory compliance over potentially overstated project benefits.",
+          "actions": [
+            "Require immediate recalculation of all option NPVs, IRRs, and payback periods using a valid discount rate (e.g., company WACC of 0.08 or the 0.10 hurdle rate).",
+            "Demand a comprehensive justification for any proposed discount rate below WACC, including verifiable evidence of risk-free funding, per company policy.",
+            "Request a memo detailing internal controls and training to prevent future recurrence of policy violations regarding discount rate application, especially given past regulatory enforcement actions.",
+            "Re-submit the capital allocation packet with compliant financial analysis and all required documentation."
+          ],
+          "violated_policies": [
+            "Hurdle IRR ≥ 0.1 (implicit circumvention by using a lower discount rate)",
+            "Documentation checklist: Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared.",
+            "Finance policy: 'Discount below WACC = automatically invalid unless risk-free funding proof attached.'",
+            "Board reminder: If IRR falls below the 10% hurdle, downgrade to REJECT unless a regulator-signed corridor letter exists (the current methodology prevents valid assessment against this).",
+            "Board reminder: Any option with payback > 4 years requires explicit mitigation and documentation (payback not provided, but the overall submission is flawed)."
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC09_GrantDependency",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "Option B presents strong financial performance with a positive NPV of $510,000 and an excellent payback period of approximately 10 months, well within the 4-year maximum.\nHowever, Option B's approval is explicitly contingent on a state grant covering 25% of its capex ($250,000), which is currently unsigned and has a low probability of release (0.55).\nFinance policy explicitly warns against approving projects that rely on unexecutable funds, a direct conflict with the pending status of the grant.\nThe governance rules for conditional approvals mandate detailing specific funding or bridging steps, which are currently absent for this critical grant component.\nThe NPV calculation for Option B uses a discount rate of 0.08, which is below the company's WACC (0.10-0.12), violating policy without justification.\nWhile strategically aligned with Ops' desire for vertiport density, the significant funding uncertainty and policy non-compliance prevent full approval.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "Option B presents strong financial performance with a positive NPV of $510,000 and an excellent payback period of approximately 10 months, well within the 4-year maximum.",
+            "However, Option B's approval is explicitly contingent on a state grant covering 25% of its capex ($250,000), which is currently unsigned and has a low probability of release (0.55).",
+            "Finance policy explicitly warns against approving projects that rely on unexecutable funds, a direct conflict with the pending status of the grant.",
+            "The governance rules for conditional approvals mandate detailing specific funding or bridging steps, which are currently absent for this critical grant component.",
+            "The NPV calculation for Option B uses a discount rate of 0.08, which is below the company's WACC (0.10-0.12), violating policy without justification.",
+            "While strategically aligned with Ops' desire for vertiport density, the significant funding uncertainty and policy non-compliance prevent full approval."
+          ],
+          "tradeoffs": "This decision sides with Finance and Regulatory concerns by prioritizing financial discipline, funding certainty, and policy adherence over the immediate strategic pull from Operations. While Option B is financially attractive on paper, the unaddressed grant condition and discount rate justification represent unacceptable risks and policy violations that must be mitigated before full commitment.",
+          "actions": [
+            "Obtain a fully executed letter of credit for the State DOT grant, converting it from a contingent to a certain funding source.",
+            "Develop and present a detailed bridge financing plan or an alternative funding strategy to cover the $250,000 capital in the event the grant is not secured.",
+            "Provide a robust justification for using a 0.08 discount rate, or recalculate NPV/IRR using a WACC-compliant rate (10-12%) and reconfirm the IRR meets the 0.1 hurdle.",
+            "Re-evaluate the project's overall risk profile after resolution of the grant and discount rate issues, addressing any tail-risk disclosures as per Regulator view."
+          ],
+          "violated_policies": [
+            "Finance warns approvals cannot cite funds that are not executable. (The pending grant is not executable but is a required component for Option B).",
+            "Conditional approvals must spell out documentation or funding steps. (These steps are not yet defined for the grant contingency).",
+            "Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared. (0.08 discount rate is used without justification)."
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC10_BifurcatedPlan",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The partial fleet investment component demonstrates strong financial viability with an IRR of 0.19 (exceeding the 0.1 hurdle) and a payback period of 3.3 years (below the 4-year limit).\nA critical policy is violated as the proposed discount rate of 0.08 is below the company's WACC (0.10-0.12) without the required justification for why capital markets risk disappeared.\nFinance explicitly states there is no consolidated NPV/IRR story for the entire hybrid $1,000,000 plan, preventing a comprehensive assessment of the overall project's adherence to the 0.1 IRR hurdle.\nOperational claims of 'resilience' for the mixed approach lack supporting 'network utilization math,' weakening the strategic rationale and failing to satisfy Ops' own stated needs for documentation.\nThe Board's concern regarding whether mixing sub-scale investments violates a cohesive strategy remains unaddressed by the current documentation.\nRegulator interest in tail-risk disclosure is not met, as no Monte Carlo studies or related analysis are provided for the combined plan.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The partial fleet investment component demonstrates strong financial viability with an IRR of 0.19 (exceeding the 0.1 hurdle) and a payback period of 3.3 years (below the 4-year limit).",
+            "A critical policy is violated as the proposed discount rate of 0.08 is below the company's WACC (0.10-0.12) without the required justification for why capital markets risk disappeared.",
+            "Finance explicitly states there is no consolidated NPV/IRR story for the entire hybrid $1,000,000 plan, preventing a comprehensive assessment of the overall project's adherence to the 0.1 IRR hurdle.",
+            "Operational claims of 'resilience' for the mixed approach lack supporting 'network utilization math,' weakening the strategic rationale and failing to satisfy Ops' own stated needs for documentation.",
+            "The Board's concern regarding whether mixing sub-scale investments violates a cohesive strategy remains unaddressed by the current documentation.",
+            "Regulator interest in tail-risk disclosure is not met, as no Monte Carlo studies or related analysis are provided for the combined plan."
+          ],
+          "tradeoffs": "We are conditionally approving, siding primarily with Finance and Governance by demanding a consolidated financial story and adherence to policy, while acknowledging the potential strategic and operational benefits (Ops' view) if properly justified and documented. This prioritizes financial discipline and complete documentation over immediate, unverified expansion.",
+          "actions": [
+            "Require a consolidated financial model showing the combined NPV and IRR for the entire $1,000,000 investment (fleet and pads) to ensure it meets the 0.1 IRR hurdle.",
+            "Demand explicit justification for the use of a 0.08 discount rate, addressing the company's WACC policy requirement.",
+            "Request the 'network utilization math' from Ops to substantiate the 'resilience' claims for the mixed investment and provide robust operational backing.",
+            "Require a strategic memo addressing the Board's concern about how this bifurcated investment contributes to a cohesive, rather than fragmented, strategy.",
+            "Address potential tail risks or provide a rationale for their omission in the financial analysis, fulfilling regulator expectations."
+          ],
+          "violated_policies": [
+            "Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared.",
+            "If IRR falls below the 10% hurdle, downgrade to REJECT unless a regulator-signed corridor letter exists. (The consolidated IRR for the hybrid approach is missing, therefore compliance for the overall project cannot be confirmed.)"
+          ]
+        },
+        "correct": false
+      }
+    }
+  ]
+}

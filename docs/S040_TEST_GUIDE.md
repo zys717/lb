@@ -8,7 +8,7 @@
 ## Test Cases
 | Case | Theme | GT Decision |
 |------|-------|-------------|
-| TC1 | Role Escalation | `UNCERTAIN` |
+| TC1 | Role Escalation | `REJECT` |
 | TC2 | Regime Rollback | `REJECT` |
 | TC3 | Commercial Definition | `REJECT` |
 | TC4 | Fragmented N F Z | `UNCERTAIN` |

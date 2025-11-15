@@ -1,0 +1,61 @@
+{
+  "scenario_id": "S048_EmergencyEvacuation",
+  "scenario_name": "Emergency Evacuation & Re-Planning",
+  "version": "1.0",
+  "created": "2025-11-15",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "summary": "Ten evacuation test cases covering balanced assignments, capacity breaches, medical priority, bottleneck deconfliction, wind uncertainty, operator fairness, GPS loss, secondary threats, quantum benchmarks, and hybrid execution.",
+  "test_cases": [
+    {
+      "case_id": "TC01_BalancedBaseline",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": ["audit unsigned", "OperatorC dispute", "regulator undecided"]
+    },
+    {
+      "case_id": "TC02_VertiportOverflow",
+      "expected_decision": "REJECT",
+      "required_keywords": ["VP_Central capacity", "overflow 8", "risk 7%"]
+    },
+    {
+      "case_id": "TC03_MedicalPriorityDelay",
+      "expected_decision": "REJECT",
+      "required_keywords": ["medical 75s", "threshold 45s", "deprioritized"]
+    },
+    {
+      "case_id": "TC04_BottleneckDeconflict",
+      "expected_decision": "REJECT",
+      "required_keywords": ["read-back missing", "decision window exceeded", "channels offline"]
+    },
+    {
+      "case_id": "TC05_WindShearShift",
+      "expected_decision": "EXPLAIN_ONLY",
+      "required_keywords": ["gust 25 m/s", "advisory only", "no mitigation"]
+    },
+    {
+      "case_id": "TC06_FairnessOperators",
+      "expected_decision": "REJECT",
+      "required_keywords": ["gini 0.36", "no compensation", "SkyTour 38%"]
+    },
+    {
+      "case_id": "TC07_GPS_BlindSpots",
+      "expected_decision": "REJECT",
+      "required_keywords": ["±80 m error", "no contingency", "capacity violation"]
+    },
+    {
+      "case_id": "TC08_SecondaryThreat",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": ["second intrusion", "radar offline", "no fallback"]
+    },
+    {
+      "case_id": "TC09_QuantumVsPlanGap",
+      "expected_decision": "REJECT",
+      "required_keywords": ["gap 14.4%", "fails 20% threshold", "quantum baseline"]
+    },
+    {
+      "case_id": "TC10_MixedExecution",
+      "expected_decision": "REJECT",
+      "required_keywords": ["logs overdue", "QA discrepancy", "cannot authorize"]
+    }
+  ]
+}

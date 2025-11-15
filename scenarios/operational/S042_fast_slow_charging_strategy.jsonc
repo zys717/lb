@@ -1,0 +1,254 @@
+{
+  "id": "S042_FastSlowChargingStrategy",
+  "name": "Fast vs Slow Charging Strategy Optimization",
+  "version": "1.0",
+  "created": "2025-11-14",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "operational_optimization",
+  "description": "Layer-3 scenario evaluating trade-offs between fast-charging utilization gains and battery degradation cost for eVTOL fleets over a 3-year horizon.",
+  "time_horizon_years": 3,
+  "battery_model": {
+    "capacity_kwh": 235,
+    "energy_density_wh_kg": 290,
+    "nominal_range_km": 80,
+    "degradation_curves": {
+      "6C_fast": {"cycles_to_80pct": 2000, "resistance_growth": 1.5},
+      "4C_medium": {"cycles_to_80pct": 2600, "resistance_growth": 1.35},
+      "2C_blended": {"cycles_to_80pct": 3000, "resistance_growth": 1.25},
+      "1C_slow": {"cycles_to_80pct": 3300, "resistance_growth": 1.2}
+    }
+  },
+  "operational_constraints": {
+    "peak_windows_local": "06:00-10:00, 16:00-20:00",
+    "trip_duration_min": 15,
+    "passenger_swap_min": 5,
+    "min_safety_reserve_min": 10,
+    "max_vertiport_temp_c": 35
+  },
+  "economic_parameters": {
+    "revenue_per_trip_usd": 150,
+    "battery_replacement_cost_usd": 50000,
+    "charger_cost_usd": 15000,
+    "electricity_cost_per_kwh_usd": 0.12,
+    "discount_rate": 0.08
+  },
+  "optimization_objectives": {
+    "primary": "maximize_3year_npv",
+    "constraints": [
+      {"metric": "capacity_retention", "min": 0.80},
+      {"metric": "peak_utilization", "min": 0.70},
+      {"metric": "charger_to_fleet_ratio", "max": 1.20},
+      {"metric": "grid_penalty", "max": 0.15}
+    ]
+  },
+  "analysis_methods": [
+    "Battery degradation simulator calibrated to 6C/1C lab data",
+    "3-year NPV/ROI calculator with battery replacement schedule",
+    "Charging infrastructure model (capex + grid stress)"
+  ],
+  "test_cases": [
+    {
+      "case_id": "TC01_FastOnlyMaxRevenue",
+      "title": "6C fast-charge only, maximize block hours",
+      "strategy": {
+        "peak_hours": "6C_fast",
+        "off_peak": "6C_fast",
+        "notes": "All flights use 5-minute 6C sessions to keep 25-minute block time."
+      },
+      "metrics": {
+        "capacity_retention": 0.72,
+        "cycles_to_eol": 1850,
+        "battery_replacements_3yr": 5.1,
+        "annual_revenue_usd": 820000,
+        "three_year_npv_usd": 1480000,
+        "roi_ratio": 1.58,
+        "peak_utilization": 0.88,
+        "charger_to_fleet_ratio": 1.05,
+        "grid_penalty": 0.14
+      },
+      "insights": [
+        "Highest revenue but violates 80% capacity requirement by year 2.",
+        "Frequent replacements inflate battery capex by 255k USD over 3 years."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC02_SlowOnlyLongevity",
+      "title": "1C slow-charge everywhere",
+      "strategy": {
+        "peak_hours": "1C_slow",
+        "off_peak": "1C_slow",
+        "notes": "30-minute charge adds high idle buffer."
+      },
+      "metrics": {
+        "capacity_retention": 0.91,
+        "cycles_to_eol": 3300,
+        "battery_replacements_3yr": 2.1,
+        "annual_revenue_usd": 410000,
+        "three_year_npv_usd": 680000,
+        "roi_ratio": 0.62,
+        "peak_utilization": 0.58,
+        "charger_to_fleet_ratio": 0.60,
+        "grid_penalty": 0.03,
+        "noise_score": "excellent"
+      },
+      "insights": [
+        "Excellent longevity but fails peak utilization constraint (<0.70) leading to unmet demand.",
+        "City regulators want to preserve low-noise operations; they will allow this plan only if operator commits to demand-shaping (dynamic pricing + limited fast-charge capability) before launch.",
+        "Reviewer should issue conditional approval with explicit mitigation requirements."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC03_HybridPeakFast",
+      "title": "6C during peaks, 1C off-peak recovery",
+      "strategy": {
+        "peak_hours": "6C_fast",
+        "off_peak": "1C_slow",
+        "notes": "Switches to slow charge after 20:00 for battery recovery."
+      },
+      "metrics": {
+        "capacity_retention": 0.83,
+        "cycles_to_eol": 2600,
+        "battery_replacements_3yr": 3.2,
+        "annual_revenue_usd": 610000,
+        "three_year_npv_usd": 1320000,
+        "roi_ratio": 1.24,
+        "peak_utilization": 0.76,
+        "charger_to_fleet_ratio": 1.10,
+        "grid_penalty": 0.11
+      },
+      "insights": [
+        "Balanced approach meets all constraints and hits best risk-adjusted NPV.",
+        "Battery stays above 80% capacity through year 3 thanks to nightly recovery."
+      ],
+      "expected_decision": "APPROVE"
+    },
+    {
+      "case_id": "TC04_MediumRateLimitedChargers",
+      "title": "4C medium charge but insufficient infrastructure",
+      "strategy": {
+        "peak_hours": "4C_medium",
+        "off_peak": "2C_blended",
+        "notes": "Fleet relies on only 7 chargers for 8 aircraft."
+      },
+      "metrics": {
+        "capacity_retention": 0.84,
+        "cycles_to_eol": 2700,
+        "battery_replacements_3yr": 2.6,
+        "annual_revenue_usd": 560000,
+        "three_year_npv_usd": 1180000,
+        "roi_ratio": 1.05,
+        "peak_utilization": 0.73,
+        "charger_to_fleet_ratio": 1.35,
+        "grid_penalty": 0.09
+      },
+      "insights": [
+        "All metrics except charger ratio meet targets.",
+        "Approving requires funding two more 4C pedestals (~30k USD) to drop ratio ≤1.2."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC05_GridResponsivePlan",
+      "title": "Solar-aligned fast charging + mid-day tapering",
+      "strategy": {
+        "peak_hours": "6C_fast (with on-site storage)",
+        "mid_day": "2C_blended",
+        "evening": "1C_slow",
+        "notes": "Ties fast sessions to solar/carbon windows to avoid grid penalties."
+      },
+      "metrics": {
+        "capacity_retention": 0.81,
+        "cycles_to_eol": 2500,
+        "battery_replacements_3yr": 3.0,
+        "annual_revenue_usd": 585000,
+        "three_year_npv_usd": 1250000,
+        "roi_ratio": 1.18,
+        "peak_utilization": 0.74,
+        "charger_to_fleet_ratio": 1.12,
+        "grid_penalty": 0.05
+      },
+      "insights": [
+        "Grid penalty stays well below 0.15 thanks to solar smoothing.",
+        "Meets all constraints with modest storage investment."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC06_HighTempFastCharge",
+      "title": "6C in 38°C ambient vertiport",
+      "strategy": {
+        "peak_hours": "6C_fast",
+        "off_peak": "4C_medium",
+        "notes": "No active cooling; ambient > constraint."
+      },
+      "metrics": {
+        "capacity_retention": 0.78,
+        "cycles_to_eol": 1900,
+        "battery_replacements_3yr": 4.8,
+        "annual_revenue_usd": 600000,
+        "three_year_npv_usd": 1090000,
+        "roi_ratio": 0.98,
+        "peak_utilization": 0.82,
+        "charger_to_fleet_ratio": 1.05,
+        "grid_penalty": 0.17,
+        "ambient_temp_c": 38
+      },
+      "insights": [
+        "Violates thermal constraint (max 35°C) and capacity retention <0.80.",
+        "Also exceeds grid penalty due to reactive power spikes."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC07_BatteryLeaseModel",
+      "title": "Leased battery modules + mixed 4C/1C profile",
+      "strategy": {
+        "peak_hours": "4C_medium",
+        "off_peak": "1C_slow",
+        "notes": "Operator leases packs; vendor handles recycling."
+      },
+      "metrics": {
+        "capacity_retention": 0.86,
+        "cycles_to_eol": 2800,
+        "battery_replacements_3yr": 2.0,
+        "annual_revenue_usd": 530000,
+        "three_year_npv_usd": 1010000,
+        "roi_ratio": 0.92,
+        "peak_utilization": 0.71,
+        "charger_to_fleet_ratio": 1.08,
+        "grid_penalty": 0.08,
+        "lease_premium_per_year_usd": 120000
+      },
+      "insights": [
+        "Meets technical constraints but ROI < 1 due to lease premium.",
+        "Conditional approval contingent on renegotiating vendor SLA or passing cost to fares."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC08_PhasedUpgradePlan",
+      "title": "Roadmap: start slow-only, add 4C pedestals by Year 2",
+      "strategy": {
+        "phase_1": "Year0-1: 1C_slow",
+        "phase_2": "Year1-2: install 4C (ratio 1.0)",
+        "phase_3": "Year2-3: hybrid 4C+1C with thermal management",
+        "notes": "Planner seeks advisory on capex timing and risk buffer."
+      },
+      "metrics": {
+        "capacity_retention_after_phase2": 0.88,
+        "projected_peak_utilization_phase3": 0.75,
+        "charger_capex_plan_usd": 120000,
+        "risk_buffer_months": 6,
+        "roi_ratio_phase3": 1.10
+      },
+      "insights": [
+        "Requires explain-only guidance: recommend fleet/charger ramp (e.g., start 1C, reach 4C by Year2) and risk buffer justification.",
+        "No approval requested—needs roadmap verification."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "scenario_id": "S042_FastSlowChargingStrategy",
+  "scenario_name": "Fast vs Slow Charging Strategy Optimization",
+  "version": "1.0",
+  "created": "2025-11-14",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "UNCERTAIN", "EXPLAIN_ONLY"],
+  "summary": "Eight charging strategies comparing 6C fast charge, 1C slow charge, medium-rate blends, leased batteries, and phased upgrades. Constraints cover capacity retention (≥80%), peak utilization (≥0.70), charger ratio (≤1.2), and grid penalties (≤0.15).",
+  "test_cases": [
+    {
+      "case_id": "TC01_FastOnlyMaxRevenue",
+      "expected_decision": "REJECT",
+      "expected_behavior": {
+        "notes": [
+          "Reject because capacity retention falls to 72% (<80%) and battery replacements exceed budget.",
+          "Mention accelerated degradation and capex spike despite high revenue."
+        ],
+        "required_keywords": ["capacity_retention", "battery_replacements", "80% threshold"]
+      }
+    },
+    {
+      "case_id": "TC02_SlowOnlyLongevity",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Regulators want low-noise operations; approve only if operator implements demand-shaping (dynamic pricing plus limited fast-charge pods) to lift effective utilization ≥0.70 before launch.",
+          "Decision must spell out the mitigation package rather than flat rejection."
+        ],
+        "required_keywords": ["demand shaping", "dynamic pricing", "noise constraint"]
+      }
+    },
+    {
+      "case_id": "TC03_HybridPeakFast",
+      "expected_decision": "APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Balanced hybrid meets every constraint (capacity 83%, util 0.76, charger ratio 1.10).",
+          "Identify nightly slow-charge recovery as key to longevity."
+        ],
+        "required_keywords": ["hybrid strategy", "night recovery", "meets_all_constraints"]
+      }
+    },
+    {
+      "case_id": "TC04_MediumRateLimitedChargers",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Condition: add two additional 4C pedestals (≈30k USD) or stagger departures to bring charger ratio ≤1.2.",
+          "All other metrics compliant; focus on infrastructure upgrade."
+        ],
+        "required_keywords": ["charger_to_fleet_ratio", "infrastructure upgrade"]
+      }
+    },
+    {
+      "case_id": "TC05_GridResponsivePlan",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "expected_behavior": {
+        "notes": [
+          "Technical metrics pass, but storage O&M adds 40k USD/year; require a funding plan (tariff adjustment or service fee) to cover the maintenance burden.",
+          "Mention solar alignment plus how O&M will be financed."
+        ],
+        "required_keywords": ["storage O&M", "funding plan", "conditional grid compliance"]
+      }
+    },
+    {
+      "case_id": "TC06_HighTempFastCharge",
+      "expected_decision": "REJECT",
+      "expected_behavior": {
+        "notes": [
+          "Reject because ambient temp (38°C) exceeds 35°C limit, capacity drops to 78%, and grid penalty 0.17 > 0.15.",
+          "Recommend thermal management / derating."
+        ],
+        "required_keywords": ["thermal constraint", "grid_penalty", "capacity 78%"]
+      }
+    },
+    {
+      "case_id": "TC07_BatteryLeaseModel",
+      "expected_decision": "REJECT",
+      "expected_behavior": {
+        "notes": [
+          "ROI 0.92 < 1 with no signed subsidy; policy board rejects until lease premium drops or revenue support is secured.",
+          "Response should cite ROI shortfall and lack of mitigation."
+        ],
+        "required_keywords": ["ROI threshold", "lease premium", "reject_without_subsidy"]
+      }
+    },
+    {
+      "case_id": "TC08_PhasedUpgradePlan",
+      "expected_decision": "EXPLAIN_ONLY",
+      "expected_behavior": {
+        "notes": [
+          "Provide advisory roadmap: recommend charger installation schedule, risk buffer, and when to switch to 4C.",
+          "Do not approve; deliver an explanation referencing 7-9 chargers / 6-month buffer."
+        ],
+        "required_keywords": ["roadmap", "risk buffer", "phase plan"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,293 @@
+{
+  "scenario": "S045_AirspaceConflictResolution",
+  "scenario_type": "airspace_conflict",
+  "timestamp": "2025-11-14T10:34:03.343668",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_accuracy": "5/8",
+    "llm_accuracy_percent": "62.5%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_TrivialPairViolation",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The candidate plan exhibits a critical safety violation between UAV_01 and UAV_02, with an insufficient separation of 150 ft at their intersection.\nThis 150 ft separation falls significantly below the required horizontal separation of 500 ft, posing an immediate risk.\nThe planner erroneously approved both UAV_01 and UAV_02 despite this direct conflict, as stated in the solver insights.\nThe candidate plan achieved a total approved weight of 195, resulting in an optimality gap of 36.4% compared to the optimal *feasible* weight of 143.\nThis large optimality gap suggests the candidate plan prioritized maximizing throughput by disregarding fundamental safety constraints.\nTherefore, the proposed plan must be rejected due to its clear and unmitigated safety breach.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The candidate plan exhibits a critical safety violation between UAV_01 and UAV_02, with an insufficient separation of 150 ft at their intersection.",
+            "This 150 ft separation falls significantly below the required horizontal separation of 500 ft, posing an immediate risk.",
+            "The planner erroneously approved both UAV_01 and UAV_02 despite this direct conflict, as stated in the solver insights.",
+            "The candidate plan achieved a total approved weight of 195, resulting in an optimality gap of 36.4% compared to the optimal *feasible* weight of 143.",
+            "This large optimality gap suggests the candidate plan prioritized maximizing throughput by disregarding fundamental safety constraints.",
+            "Therefore, the proposed plan must be rejected due to its clear and unmitigated safety breach."
+          ],
+          "tradeoffs": "The candidate plan prioritized maximizing the total approved route weight (195) over ensuring airspace safety. This resulted in a critical separation violation between UAV_01 and UAV_02. A safe plan would necessarily yield a lower total approved weight (e.g., 143) to adhere to safety regulations.",
+          "actions": [
+            "Reject the current plan.",
+            "A revised plan must ensure a horizontal separation of at least 500 ft between UAV_01 and UAV_02. Based on solver insights, this likely involves approving only one of these two conflicting routes or implementing a suitable deconfliction strategy (e.g., staggering, rerouting)."
+          ],
+          "violated_policies": [
+            "conflict_pair",
+            "optimality_gap"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC02_TriangleConditionals",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The candidate plan achieves the optimal feasible weight of 193, resulting in a 0.0% optimality gap.\nInitial potential conflict pairs (UAV_03, UAV_04; UAV_04, UAV_05; UAV_03, UAV_05) have been successfully resolved by the proposed plan.\nSpecifically, a 210-second hold was inserted for UAV_04, restoring horizontal separation to ≥520 ft, which fully complies with the ≥500 ft constraint.\nNo active conflict violations are present in the final plan, ensuring all horizontal and vertical separation requirements are met.\nThe delay standard deviation is 68 seconds, which is well within the 120-second policy limit.\nFinal approval is conditional upon confirming that the deferred launch parameters for UAV_04 are successfully loaded into its avionics before departure, as requested by regulators.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The candidate plan achieves the optimal feasible weight of 193, resulting in a 0.0% optimality gap.",
+            "Initial potential conflict pairs (UAV_03, UAV_04; UAV_04, UAV_05; UAV_03, UAV_05) have been successfully resolved by the proposed plan.",
+            "Specifically, a 210-second hold was inserted for UAV_04, restoring horizontal separation to ≥520 ft, which fully complies with the ≥500 ft constraint.",
+            "No active conflict violations are present in the final plan, ensuring all horizontal and vertical separation requirements are met.",
+            "The delay standard deviation is 68 seconds, which is well within the 120-second policy limit.",
+            "Final approval is conditional upon confirming that the deferred launch parameters for UAV_04 are successfully loaded into its avionics before departure, as requested by regulators."
+          ],
+          "tradeoffs": "The plan optimizes for maximum total route weight (193) by approving a set of high-value UAVs (UAV_03, UAV_05, UAV_13, UAV_14) while resolving conflicts by delaying UAV_04 and rejecting UAV_15 (the lowest weighted route).",
+          "actions": [
+            "Implement the approved flight plan, including the 210-second delay for UAV_04.",
+            "Confirm that the updated flight plan parameters for UAV_04, reflecting the deferred launch, are loaded and verified in its avionics system."
+          ],
+          "violated_policies": []
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC03_StarVsLeaves",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The candidate plan successfully resolves all identified conflict pairs (UAV_06 with UAV_10, UAV_11, UAV_16, UAV_17, UAV_18) by implementing a dual-altitude strategy for UAV_06, and reports no current conflict violations.\nThe plan achieves a candidate total weight of 310, which is 23.0% higher than the stated optimal feasible weight of 252. This positive optimality gap indicates the candidate's higher performance relies on the assumptions of pending waivers.\nThe critical conflict resolution mechanism, where UAV_06 climbs to 620 ft, is contingent on an 'altitude-offset waiver' that is only activated once the 'optical drift bulletin' for UAV_06 is signed, which is currently pending.\nRegulatory approval for this layout is also conditional on the 'bias-check log' being uploaded before wheels-up, another pending action.\nAll stated safety constraints (horizontal separation ≥ 500 ft, vertical separation ≥ 100 ft) are met by the candidate plan *assuming* the waivers are granted. The delay standard deviation of 51 s is well within the 120 s limit.\nThe Gini coefficient for fairness is 'n/a', preventing a full assessment of fairness policy compliance.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The candidate plan successfully resolves all identified conflict pairs (UAV_06 with UAV_10, UAV_11, UAV_16, UAV_17, UAV_18) by implementing a dual-altitude strategy for UAV_06, and reports no current conflict violations.",
+            "The plan achieves a candidate total weight of 310, which is 23.0% higher than the stated optimal feasible weight of 252. This positive optimality gap indicates the candidate's higher performance relies on the assumptions of pending waivers.",
+            "The critical conflict resolution mechanism, where UAV_06 climbs to 620 ft, is contingent on an 'altitude-offset waiver' that is only activated once the 'optical drift bulletin' for UAV_06 is signed, which is currently pending.",
+            "Regulatory approval for this layout is also conditional on the 'bias-check log' being uploaded before wheels-up, another pending action.",
+            "All stated safety constraints (horizontal separation ≥ 500 ft, vertical separation ≥ 100 ft) are met by the candidate plan *assuming* the waivers are granted. The delay standard deviation of 51 s is well within the 120 s limit.",
+            "The Gini coefficient for fairness is 'n/a', preventing a full assessment of fairness policy compliance."
+          ],
+          "tradeoffs": {
+            "benefits": "The plan achieves a significantly higher total weight (310) compared to the baseline optimal feasible weight (252) and resolves all specified conflicts with minimal delay impact (51s std-dev).",
+            "risks": "The plan's feasibility, safety, and regulatory compliance are entirely dependent on two pending conditions: the signing of the optical drift bulletin for UAV_06 and the upload of the bias-check log. Without these, the core conflict resolution strategy is invalid, posing significant safety and compliance risks."
+          },
+          "actions": [
+            "Prioritize securing the signature for the 'optical drift bulletin' for UAV_06 to activate the altitude-offset waiver.",
+            "Ensure the 'bias-check log' is uploaded to regulators and confirmed before wheels-up.",
+            "Prohibit UAV_06 from executing the dual-altitude climb (climbing to 620 ft) until both pending conditions are explicitly met and confirmed."
+          ],
+          "violated_policies": [
+            {
+              "policy_category": "optimality_gap",
+              "description": "The 23.0% optimality gap highlights that the candidate plan's high total weight (310) relies on conditional allowances (pending waivers) that depart from the confirmed optimal feasible weight (252).",
+              "remediation_action": "Verify the true feasibility of the optimal feasible weight (252) vs. the candidate's conditional solution, and ensure future plans are based on fully confirmed conditions."
+            },
+            {
+              "policy_category": "regulatory_compliance",
+              "description": "The plan's layout is contingent on regulators allowing it only if the bias-check log is uploaded before wheels-up, which is currently pending.",
+              "remediation_action": "Upload the bias-check log immediately and confirm regulatory approval before flight."
+            },
+            {
+              "policy_category": "operational_safety",
+              "description": "The safety of the dual-altitude conflict resolution strategy for UAV_06 is dependent on an altitude-offset waiver that is not yet active due to a pending optical drift bulletin signature.",
+              "remediation_action": "Secure the optical drift bulletin signature to activate the altitude-offset waiver, ensuring the plan's safety mechanism is fully authorized."
+            }
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC04_LongChainOptimal",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "APPROVE"
+      },
+      "llm_result": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning": "The candidate plan ensures safety by approving ['UAV_A1', 'UAV_A3', 'UAV_A5', 'UAV_A7'] and delaying ['UAV_A2', 'UAV_A4', 'UAV_A6', 'UAV_A8'], thereby avoiding all explicitly listed conflict pairs (UAV_A1, UAV_A2; UAV_A2, UAV_A3; UAV_A3, UAV_A4; UAV_A4, UAV_A5; UAV_A5, UAV_A6).\nThe approved candidate plan achieves a total weight of 90, which results in a 7.2% optimality gap when compared to the stated 'optimal feasible weight' of 97.\nThe solver insight notes the planner selected every other node, mirroring an MWIS solution for chain conflicts. While this is a valid approach, the calculated candidate weight of 90 indicates it is not the highest-value independent set relative to the stated optimal (97).\nThe delay standard deviation of 28s is well within the 120s limit, demonstrating good performance in managing delays. However, the Gini coefficient for fairness is listed as 'n/a', which prevents a complete assessment of fairness against the 0.4 limit.\nBased strictly on the provided 'Conflict pairs to inspect' list, UAV_A6, UAV_A7, and UAV_A8 do not have explicitly stated conflicts among themselves or with UAV_A2, UAV_A4. An alternative approved set like ['UAV_A2', 'UAV_A4', 'UAV_A6', 'UAV_A7', 'UAV_A8'] would yield a combined weight of 114 (25+26+22+21+20), which is significantly higher than both the candidate's 90 and the stated optimal of 97.\nThis substantial discrepancy (114 vs 97 optimal) suggests an inconsistency between the explicit list of conflict pairs provided and the stated 'optimal feasible weight', implying either the conflict list is incomplete for a 'chain_length_8' structure or the optimal weight is based on a more restrictive, unstated conflict graph.",
+        "analysis": {
+          "decision": "EXPLAIN_ONLY",
+          "reasoning_steps": [
+            "The candidate plan ensures safety by approving ['UAV_A1', 'UAV_A3', 'UAV_A5', 'UAV_A7'] and delaying ['UAV_A2', 'UAV_A4', 'UAV_A6', 'UAV_A8'], thereby avoiding all explicitly listed conflict pairs (UAV_A1, UAV_A2; UAV_A2, UAV_A3; UAV_A3, UAV_A4; UAV_A4, UAV_A5; UAV_A5, UAV_A6).",
+            "The approved candidate plan achieves a total weight of 90, which results in a 7.2% optimality gap when compared to the stated 'optimal feasible weight' of 97.",
+            "The solver insight notes the planner selected every other node, mirroring an MWIS solution for chain conflicts. While this is a valid approach, the calculated candidate weight of 90 indicates it is not the highest-value independent set relative to the stated optimal (97).",
+            "The delay standard deviation of 28s is well within the 120s limit, demonstrating good performance in managing delays. However, the Gini coefficient for fairness is listed as 'n/a', which prevents a complete assessment of fairness against the 0.4 limit.",
+            "Based strictly on the provided 'Conflict pairs to inspect' list, UAV_A6, UAV_A7, and UAV_A8 do not have explicitly stated conflicts among themselves or with UAV_A2, UAV_A4. An alternative approved set like ['UAV_A2', 'UAV_A4', 'UAV_A6', 'UAV_A7', 'UAV_A8'] would yield a combined weight of 114 (25+26+22+21+20), which is significantly higher than both the candidate's 90 and the stated optimal of 97.",
+            "This substantial discrepancy (114 vs 97 optimal) suggests an inconsistency between the explicit list of conflict pairs provided and the stated 'optimal feasible weight', implying either the conflict list is incomplete for a 'chain_length_8' structure or the optimal weight is based on a more restrictive, unstated conflict graph."
+          ],
+          "tradeoffs": {
+            "Safety vs. Optimality": "The current plan ensures safety and manages delays effectively but is suboptimal in terms of total system throughput (weight) by 7.2%, and potentially more given the explicit conflict list.",
+            "Known Metrics vs. Missing Data": "Reliable delay standard deviation is provided, but the absence of a Gini coefficient prevents a comprehensive assessment of fairness.",
+            "Simplicity vs. Completeness": "The 'every other node' strategy is simple and effective for many chain conflicts, but the optimality gap and data inconsistencies highlight that a more complex or accurate conflict graph understanding is needed for optimal results."
+          },
+          "actions": [
+            {
+              "type": "Clarify Conflict Graph",
+              "description": "Verify the complete and accurate conflict graph for 'chain_length_8', especially regarding any implicit conflicts involving UAV_A6, UAV_A7, and UAV_A8 that are not explicitly listed but might be implied by the 'optimal feasible weight' of 97."
+            },
+            {
+              "type": "Re-evaluate Optimal Plan",
+              "description": "Once the definitive conflict graph is established, re-evaluate the optimal feasible set of approved UAVs to achieve the true maximum possible total weight, aiming to resolve the 7.2% optimality gap and address potential inconsistencies in the provided data."
+            },
+            {
+              "type": "Implement Revised Schedule",
+              "description": "Based on the confirmed optimal set, implement a revised approval plan. This may involve approving a different set of UAVs (e.g., if ['UAV_A2', 'UAV_A4', 'UAV_A6', 'UAV_A8'] is part of a higher-weight optimal set for a full chain, or ['UAV_A2', 'UAV_A4', 'UAV_A6', 'UAV_A7', 'UAV_A8'] if conflicts are strictly as listed), ensuring all safety and fairness constraints are met, with a particular focus on calculating and monitoring the Gini coefficient."
+            }
+          ],
+          "violated_policies": []
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC05_DenseGridPenalty",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "ERROR",
+        "reasoning": "JSON parse error",
+        "analysis": {
+          "error": "Expecting ',' delimiter: line 10 column 3 (char 1135)",
+          "raw_response": "{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The proposed plan successfully resolves all identified conflict pairs (UAV_B1/B2, UAV_B1/B5, UAV_B6/B7, UAV_B10/B14), ensuring no horizontal (≥ 500 ft) or vertical (≥ 100 ft) separation violations.\",\n    \"The plan achieves a candidate total weight of 236, resulting in a low optimality gap of 2.5% relative to the optimal feasible weight of 242, indicating efficient utilization of airspace capacity.\",\n    \"However, the plan's delay"
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC06_CliqueMisinterpretation",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The candidate plan exhibits critical safety violations, including multiple horizontal separation infractions (e.g., UAV_C1/UAV_C2 at 250 ft, UAV_C2/UAV_C3 at 260 ft, UAV_C5/UAV_C8 at 270 ft), which are significantly below the required 500 ft minimum.\nThese violations are a direct consequence of approving all ten high-value UAVs (UAV_C1 through UAV_C10) from the 'clique_10' group, despite solver insights indicating that 'only one can fly while others hold' due to sharing the same altitude corridor.\nFailing to 'collapse the clique' by simultaneously approving all members leads to guaranteed loss-of-separation events, as explicitly stated in the solver insights and confirmed by the conflict violations.\nThe optimality gap of 95.4% (candidate total weight 381 vs. optimal feasible weight 195) highlights that the high total weight achieved by the candidate plan comes from an infeasible, unsafe configuration.\nWhile the delay standard deviation (52 s) is within the limit, and the Gini coefficient is N/A, the fundamental issue is the severe safety breach, not fairness or delay management.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The candidate plan exhibits critical safety violations, including multiple horizontal separation infractions (e.g., UAV_C1/UAV_C2 at 250 ft, UAV_C2/UAV_C3 at 260 ft, UAV_C5/UAV_C8 at 270 ft), which are significantly below the required 500 ft minimum.",
+            "These violations are a direct consequence of approving all ten high-value UAVs (UAV_C1 through UAV_C10) from the 'clique_10' group, despite solver insights indicating that 'only one can fly while others hold' due to sharing the same altitude corridor.",
+            "Failing to 'collapse the clique' by simultaneously approving all members leads to guaranteed loss-of-separation events, as explicitly stated in the solver insights and confirmed by the conflict violations.",
+            "The optimality gap of 95.4% (candidate total weight 381 vs. optimal feasible weight 195) highlights that the high total weight achieved by the candidate plan comes from an infeasible, unsafe configuration.",
+            "While the delay standard deviation (52 s) is within the limit, and the Gini coefficient is N/A, the fundamental issue is the severe safety breach, not fairness or delay management."
+          ],
+          "tradeoffs": {
+            "description": "The candidate plan prioritized maximizing the total approved flight weight (381) by attempting to approve all high-value UAVs. However, this came at the direct and critical cost of safety, resulting in multiple loss-of-separation violations. A safe and feasible plan would require significantly lower total weight (optimal feasible 195) due to sequencing or rejecting most of the high-value clique members.",
+            "balance": "Safety was completely compromised in favor of maximizing immediate throughput/weight."
+          },
+          "actions": [
+            "Reject the current plan immediately due to critical and unmitigated safety violations.",
+            "Request a complete re-evaluation of the plan by the solver, with explicit enforcement of the 'clique_10' constraint.",
+            "The revised plan must ensure that only one UAV from the C_dense group (UAV_C1 through UAV_C10) is approved for flight at any given time, requiring others to be delayed (sequenced) or rejected to meet horizontal separation requirements."
+          ],
+          "violated_policies": [
+            "conflict_pair",
+            "optimality_gap"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC07_FairnessVsUrgency",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning": "The scenario presents a critical conflict between a high-priority Medevac (MED_1, weight 100) and five Cargo drones (CARGO_1-5, total weight 50).\nThe candidate plan resolves all explicit conflict pairs by approving MED_1 and rejecting all five cargo drones, resulting in a candidate total weight of 100.\nThis resolution leads to a Gini coefficient of 0.61, significantly violating the fairness policy limit of 0.4.\nThe plan also results in a substantial optimality gap of 33.3%, as the optimal feasible weight is 150, indicating suboptimal resource utilization.\nSolver insights explicitly state that pure utilitarian choice favors MED_1, but fairness KPIs (Gini <= 0.4) are violated, and a relaunch guarantee for couriers is expected.\nRegulators require an advisory response outlining fairness audit scope, relaunch SLA, and compensation plan before any approvals can resume for this scenario.",
+        "analysis": {
+          "decision": "EXPLAIN_ONLY",
+          "reasoning_steps": [
+            "The scenario presents a critical conflict between a high-priority Medevac (MED_1, weight 100) and five Cargo drones (CARGO_1-5, total weight 50).",
+            "The candidate plan resolves all explicit conflict pairs by approving MED_1 and rejecting all five cargo drones, resulting in a candidate total weight of 100.",
+            "This resolution leads to a Gini coefficient of 0.61, significantly violating the fairness policy limit of 0.4.",
+            "The plan also results in a substantial optimality gap of 33.3%, as the optimal feasible weight is 150, indicating suboptimal resource utilization.",
+            "Solver insights explicitly state that pure utilitarian choice favors MED_1, but fairness KPIs (Gini <= 0.4) are violated, and a relaunch guarantee for couriers is expected.",
+            "Regulators require an advisory response outlining fairness audit scope, relaunch SLA, and compensation plan before any approvals can resume for this scenario."
+          ],
+          "tradeoffs": [
+            "The candidate plan prioritizes the high-urgency MED_1, ensuring its immediate flight without delay or safety violations.",
+            "This immediate prioritization comes at the cost of significantly reduced fairness (high Gini coefficient) and a substantial optimality gap due to the rejection of all five cargo drones, impacting overall system throughput and equity."
+          ],
+          "actions": [
+            "Define a clear Service Level Agreement (SLA) for the immediate relaunch or re-routing of the five rejected cargo drones, detailing guaranteed departure windows and priority.",
+            "Establish the scope and methodology for a comprehensive fairness audit to evaluate this conflict resolution and propose mechanisms to ensure future plans adhere to the Gini coefficient limit of 0.4.",
+            "Review and potentially revise the proposed compensation plan (ground courier vouchers worth 8 credits each) for the rejected cargo drones to ensure it adequately addresses the incurred delays and aligns with fairness objectives.",
+            "Investigate alternative conflict resolution strategies, such as staggered departures or minor altitude adjustments, to minimize future optimality gaps and improve fairness while maintaining safety and prioritizing high-urgency flights."
+          ],
+          "violated_policies": [
+            "fairness (Gini coefficient: 0.61, limit: 0.4)",
+            "optimality_gap (33.3%, indicating significant deviation from optimal feasible weight)"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC08_HybridQuantumBenchmark",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning": "The candidate plan successfully ensures all horizontal and vertical separation constraints are met, with no conflict violations identified among the inspected pairs (MED_2, INSPECT_4; DELTA_3, DELTA_7; SURVEY_1, SURVEY_5).\nHowever, the plan's total approved weight is 370, resulting in an 11.9% optimality gap compared to the optimal feasible weight of 420, indicating room for improved airspace utilization.\nThe Gini coefficient of 0.44 exceeds the specified fairness limit of 0.4, highlighting a disparity in service distribution among different route types or users.\nThe delay standard deviation is 77 s, well within the 120 s limit, indicating effective management of delays for the approved and delayed routes.\nThe current planner prioritizes safety and delay predictability but falls short on maximizing throughput and equitable access, as evidenced by the optimality gap and Gini coefficient.\nFurther optimization, as suggested by the solver insights, could reduce this gap and improve fairness without compromising safety.",
+        "analysis": {
+          "decision": "EXPLAIN_ONLY",
+          "reasoning_steps": [
+            "The candidate plan successfully ensures all horizontal and vertical separation constraints are met, with no conflict violations identified among the inspected pairs (MED_2, INSPECT_4; DELTA_3, DELTA_7; SURVEY_1, SURVEY_5).",
+            "However, the plan's total approved weight is 370, resulting in an 11.9% optimality gap compared to the optimal feasible weight of 420, indicating room for improved airspace utilization.",
+            "The Gini coefficient of 0.44 exceeds the specified fairness limit of 0.4, highlighting a disparity in service distribution among different route types or users.",
+            "The delay standard deviation is 77 s, well within the 120 s limit, indicating effective management of delays for the approved and delayed routes.",
+            "The current planner prioritizes safety and delay predictability but falls short on maximizing throughput and equitable access, as evidenced by the optimality gap and Gini coefficient.",
+            "Further optimization, as suggested by the solver insights, could reduce this gap and improve fairness without compromising safety."
+          ],
+          "tradeoffs": "The current plan prioritizes strict safety adherence and controlled delays at the expense of overall throughput (11.9% optimality gap) and fairness (Gini coefficient of 0.44 exceeds limit).",
+          "actions": [
+            "To reduce the optimality gap and potentially improve fairness, consider swapping the approved 'SURVEY_7' (weight 10) with the currently rejected 'DELTA_6' (weight 30). This would increase the total weight by 20 units.",
+            "To enable more routes without conflict and further close the optimality gap, implement a 30-second staggered departure strategy for selected routes."
+          ],
+          "violated_policies": [
+            "optimality_gap",
+            "fairness"
+          ]
+        },
+        "correct": true
+      }
+    }
+  ]
+}

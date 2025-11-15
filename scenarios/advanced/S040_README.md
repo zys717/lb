@@ -17,7 +17,7 @@ Layer‑3 finale that simulates hostile applicants who intentionally craft filin
 ## Test Cases
 | Case | Theme | GT |
 |------|-------|----|
-| TC01 | Role escalation w/out documents | `UNCERTAIN` |
+| TC01 | Role escalation w/out documents | `REJECT` |
 | TC02 | Misusing outdated regulations | `REJECT` |
 | TC03 | “Free” wedding still commercial | `REJECT` |
 | TC04 | Fragmented NFZ disclosure | `UNCERTAIN` |

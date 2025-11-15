@@ -1,0 +1,314 @@
+{
+  "scenario": "S041_FleetSizingSpillTradeoff",
+  "scenario_type": "fleet_sizing",
+  "timestamp": "2025-11-13T18:21:55.971950",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_accuracy": "6/8",
+    "llm_accuracy_percent": "75.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_ZeroSpillBaseline",
+      "description": "High-demand profile with k=10 aircraft staged across CBD (6) and Airport (4).",
+      "command": "",
+      "ground_truth": {
+        "decision": "APPROVE"
+      },
+      "llm_result": {
+        "decision": "APPROVE",
+        "reasoning": "The test case TC01 is explicitly tagged as a 'Zero spill reference plan' and 'safety baseline'.\nThe spill rate of 0.0 meets the policy target of ≤ 0.05, ensuring full service delivery.\nThe utilization rate of 0.72 meets the policy target of ≥ 0.7, indicating acceptable operational use of active fleet.\nThe idle rate of 0.35 exceeds the policy target of ≤ 0.20, indicating over-provisioning.\nPer strict decision rules, zero-spill reference plans (e.g., TC01) must be APPROVED even if the idle rate exceeds 0.20, as they define the safety upper bound.\nTherefore, despite the high idle rate, the plan is approved as a foundational benchmark for maximum service quality.",
+        "analysis": {
+          "decision": "APPROVE",
+          "reasoning_steps": [
+            "The test case TC01 is explicitly tagged as a 'Zero spill reference plan' and 'safety baseline'.",
+            "The spill rate of 0.0 meets the policy target of ≤ 0.05, ensuring full service delivery.",
+            "The utilization rate of 0.72 meets the policy target of ≥ 0.7, indicating acceptable operational use of active fleet.",
+            "The idle rate of 0.35 exceeds the policy target of ≤ 0.20, indicating over-provisioning.",
+            "Per strict decision rules, zero-spill reference plans (e.g., TC01) must be APPROVED even if the idle rate exceeds 0.20, as they define the safety upper bound.",
+            "Therefore, despite the high idle rate, the plan is approved as a foundational benchmark for maximum service quality."
+          ],
+          "tradeoffs": [
+            "This plan prioritizes absolute zero spill and guaranteed service quality, acting as a safety upper bound for fleet sizing.",
+            "The high idle rate (0.35) directly reflects significant over-provisioning of aircraft to ensure no demand goes unmet, leading to lower capital efficiency.",
+            "The solver insight confirms this plan trades cost-efficiency for guaranteed service, accepting higher idle to achieve zero spill."
+          ],
+          "actions": [
+            "Use this plan as a benchmark for maximum service quality, understanding its associated operational cost.",
+            "For future optimizations, explore scenarios with a small, acceptable spill rate (e.g., 0.01-0.03) to identify potential fleet size reductions and improve idle/utilization metrics.",
+            "Investigate the impact of more dynamic fleet management or pre-positioning strategies to reduce idle capacity during off-peak times while maintaining peak service levels.",
+            "Consider the potential for adjusting fleet split (currently 6 CBD / 4 Airport) if detailed directional demand analysis reveals persistent imbalances beyond the current setup."
+          ],
+          "violated_policies": [
+            "idle_rate (0.35 > 0.20)"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC02_LightSpillAcceptable",
+      "description": "Balanced dispatch with k=6 total (4 CBD, 2 Airport).",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The spill rate of 0.042 is within the policy target of ≤ 0.05.\nThe idle rate of 0.12 is within the policy target of ≤ 0.2.\nThe utilization rate of 0.78 meets the policy target of ≥ 0.7.\nAll three core policy targets for spill, idle, and utilization are met by the 6-aircraft fleet.\nThe spill rate, while compliant, is close to the upper limit of 0.05, indicating potential vulnerability to demand fluctuations.\nThe early-peak demand profile is effectively managed, suggesting the fleet is minimally viable for this specific scenario.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The spill rate of 0.042 is within the policy target of ≤ 0.05.",
+            "The idle rate of 0.12 is within the policy target of ≤ 0.2.",
+            "The utilization rate of 0.78 meets the policy target of ≥ 0.7.",
+            "All three core policy targets for spill, idle, and utilization are met by the 6-aircraft fleet.",
+            "The spill rate, while compliant, is close to the upper limit of 0.05, indicating potential vulnerability to demand fluctuations.",
+            "The early-peak demand profile is effectively managed, suggesting the fleet is minimally viable for this specific scenario."
+          ],
+          "tradeoffs": [
+            "The current 6-aircraft fleet size strikes a balance between capital efficiency (meeting utilization and idle targets) and service quality (accepting a spill rate of 0.042, which is just within policy limits).",
+            "The fleet split of 4 aircraft at CBD and 2 at Airport addresses the directional demand imbalance, particularly the higher CBD→Airport demand during peak, minimizing local idle while trying to cover demand.",
+            "The acceptable spill rate implies that some service loss is tolerated to avoid over-provisioning capital for a zero-spill scenario, aligning with a minimal viable fleet approach.",
+            "This configuration is optimized for the 'Standard early-peak' demand profile, and future shifts in demand patterns could compromise service quality or efficiency without adjustments."
+          ],
+          "actions": [
+            "Implement clear customer notification procedures for any spilled passengers, as permitted by the policy given spill < 5%.",
+            "Actively monitor demand fluctuations and spill rates, especially during the peak window, to detect any upward creep towards or beyond the 0.05 limit.",
+            "Establish agreements for surge leasing or temporary fleet additions to mitigate potential increases in spill rate during unforeseen demand spikes or sustained higher demand.",
+            "Evaluate pre-positioning strategies to ensure the 4:2 fleet split remains optimal as demand profiles evolve or operational patterns change."
+          ],
+          "violated_policies": []
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC03_SevereSpill",
+      "description": "Aggressive cost cutting with k=4 fleet.",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The spill rate of 0.182 significantly exceeds the policy target of ≤ 0.05, indicating severe under-provisioning and customer loss.\nDespite the high spill, utilization (0.91) is above the target of ≥ 0.7, and idle rate (0.09) is below the target of ≤ 0.2, demonstrating efficient use of the existing, insufficient fleet.\nThe scenario's 'under-provisioned' tag is confirmed by the metrics, where the current fleet of 4 eVTOLs cannot meet peak demand.\nThe demand model's early peak and directional imbalance (CBD→Airport much higher) exacerbate the spill, particularly stranding airport passengers.\nThis level of service failure poses significant financial and reputational risks, as highlighted by the solver insights.\nThe fleet split (3 CBD, 1 Airport) does not adequately address the demand imbalance, leading to localized asset scarcity at the Airport.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The spill rate of 0.182 significantly exceeds the policy target of ≤ 0.05, indicating severe under-provisioning and customer loss.",
+            "Despite the high spill, utilization (0.91) is above the target of ≥ 0.7, and idle rate (0.09) is below the target of ≤ 0.2, demonstrating efficient use of the existing, insufficient fleet.",
+            "The scenario's 'under-provisioned' tag is confirmed by the metrics, where the current fleet of 4 eVTOLs cannot meet peak demand.",
+            "The demand model's early peak and directional imbalance (CBD→Airport much higher) exacerbate the spill, particularly stranding airport passengers.",
+            "This level of service failure poses significant financial and reputational risks, as highlighted by the solver insights.",
+            "The fleet split (3 CBD, 1 Airport) does not adequately address the demand imbalance, leading to localized asset scarcity at the Airport."
+          ],
+          "tradeoffs": "The current fleet configuration prioritizes maximizing utilization and minimizing idle time for the existing 4 aircraft. However, this comes at a severe cost to service quality, resulting in an unacceptably high spill rate and likely long customer wait times (11.8 minutes provided in snapshot), which will significantly damage customer satisfaction and potential revenue. Increasing the fleet size would reduce spill and improve service quality but would likely lead to higher capital expenditure, potentially increase idle rates, and decrease fleet utilization during off-peak periods.",
+          "actions": [
+            "Increase Fleet Size: Immediately acquire additional eVTOLs to adequately cover peak demand and reduce the spill rate below the policy target of 0.05.",
+            "Dynamic Fleet Rebalancing: Implement dynamic pre-positioning strategies to adjust the fleet split between CBD and Airport based on real-time and predicted demand, especially during the early peak window (07:00-09:00).",
+            "Charging and Turnaround Optimization: Review and optimize charging infrastructure and turnaround processes to maximize aircraft availability during high-demand periods.",
+            "Demand Management: Explore strategies such as dynamic pricing during extreme peaks or offering alternative transport options to manage customer expectations and demand, if increasing fleet size is not immediately feasible."
+          ],
+          "violated_policies": [
+            "spill_rate (0.182 > 0.05)"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC04_FragmentedNFZBaseline",
+      "description": "k=12 with heavy idle time; includes standby craft at each vertiport.",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The spill rate is 0.0, which is well within the policy target of ≤ 0.05, indicating excellent service quality.\nThe idle rate is 0.48, significantly exceeding the policy target of ≤ 0.2, pointing to substantial excess capacity.\nUtilization is 0.64, falling below the policy target of ≥ 0.7, indicating inefficient use of capital assets.\nThe combination of a high idle rate and low utilization reveals a significant amount of trapped capital.\nThe scenario's title '12-aircraft over-investment' and solver insights confirm the fleet is oversized for the demand.\nDespite perfect service quality (zero spill), the severe capital inefficiency from over-provisioning warrants rejection of the current fleet plan.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The spill rate is 0.0, which is well within the policy target of ≤ 0.05, indicating excellent service quality.",
+            "The idle rate is 0.48, significantly exceeding the policy target of ≤ 0.2, pointing to substantial excess capacity.",
+            "Utilization is 0.64, falling below the policy target of ≥ 0.7, indicating inefficient use of capital assets.",
+            "The combination of a high idle rate and low utilization reveals a significant amount of trapped capital.",
+            "The scenario's title '12-aircraft over-investment' and solver insights confirm the fleet is oversized for the demand.",
+            "Despite perfect service quality (zero spill), the severe capital inefficiency from over-provisioning warrants rejection of the current fleet plan."
+          ],
+          "tradeoffs": "Achieving zero spill rate provides optimal service quality but comes at a significant cost of capital inefficiency, leading to high idle rates and low utilization. The current over-provisioning ties up resources that could be utilized more effectively elsewhere.",
+          "actions": [
+            "Immediately reduce the fleet size to align with demand, thereby reducing idle capital and improving utilization.",
+            "Re-evaluate the fleet split (CBD vs. Airport) for the optimized fleet size to ensure efficient positioning.",
+            "Redeploy excess aircraft to other operational corridors or defer new purchases.",
+            "Conduct a financial impact analysis of the current over-investment versus a rightsized, policy-compliant fleet."
+          ],
+          "violated_policies": [
+            "idle_rate",
+            "utilization"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC05_ImbalancedDemand",
+      "description": "k=8 with pronounced 7:3 directional skew; initial split 5/3.",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The spill rate of 0.061 exceeds the policy target of 0.05, indicating insufficient service quality during peak demand.\nThe idle rate of 0.19 is within the acceptable policy target of ≤ 0.2, suggesting reasonable capital efficiency.\nThe utilization rate of 0.73 meets the policy target of ≥ 0.7, indicating effective use of available aircraft overall.\nThe primary root cause for the spill is directional congestion, specifically the asymmetric CBD→Airport rush, as highlighted by the demand model and solver insights.\nThe current fleet split of {'CBD': 5, 'Airport': 3} is inadequate to handle the CBD-heavy peak demand between 07:00-09:00 without proactive repositioning.\nWhile the fleet size of 8 demonstrates good overall efficiency metrics (idle, utilization), the service quality (spill) is compromised due to inadequate demand-response mechanisms.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The spill rate of 0.061 exceeds the policy target of 0.05, indicating insufficient service quality during peak demand.",
+            "The idle rate of 0.19 is within the acceptable policy target of ≤ 0.2, suggesting reasonable capital efficiency.",
+            "The utilization rate of 0.73 meets the policy target of ≥ 0.7, indicating effective use of available aircraft overall.",
+            "The primary root cause for the spill is directional congestion, specifically the asymmetric CBD→Airport rush, as highlighted by the demand model and solver insights.",
+            "The current fleet split of {'CBD': 5, 'Airport': 3} is inadequate to handle the CBD-heavy peak demand between 07:00-09:00 without proactive repositioning.",
+            "While the fleet size of 8 demonstrates good overall efficiency metrics (idle, utilization), the service quality (spill) is compromised due to inadequate demand-response mechanisms."
+          ],
+          "tradeoffs": [
+            "The current fleet size (8) provides an acceptable balance for idle and utilization but fails to adequately cover the asymmetric demand peak, leading to customer spill.",
+            "Increasing the total fleet size to reduce spill would likely increase idle rates and decrease utilization, incurring higher capital expenditure without necessarily solving the directional imbalance.",
+            "The challenge lies in balancing the cost of over-provisioning (which would reduce spill but increase idle/decrease utilization) against the service quality impact of directional congestion.",
+            "Mitigating the spill rate requires either dynamic rebalancing, pre-positioning, or a temporary increase in fleet capacity focused on the CBD, which adds operational complexity and potential cost."
+          ],
+          "actions": [
+            "Implement pre-positioning strategy: Ensure 1-2 additional aircraft are stationed at CBD before 07:00 to meet the anticipated CBD→Airport peak demand.",
+            "Schedule empty rebalance flights: Introduce planned empty rebalance flights from Airport to CBD during off-peak windows immediately preceding the peak, or dynamically during the peak if capacity allows.",
+            "Dynamic fleet allocation: Develop and deploy a more responsive fleet allocation algorithm that can adapt to real-time directional demand spikes.",
+            "Analyze economic feasibility: Evaluate the cost-benefit of temporary surge capacity (e.g., short-term leases) during extreme, unpredictable peak periods if pre-positioning is insufficient."
+          ],
+          "violated_policies": [
+            "spill_rate"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC06_OffPeakEfficiency",
+      "description": "k=6 during 10:00-14:00 lull (λ≈5 overall).",
+      "command": "",
+      "ground_truth": {
+        "decision": "APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The spill rate of 0.0 is well below the policy target of ≤ 0.05, indicating no unmet demand.\nThe idle rate of 0.18 is within the policy target of ≤ 0.20, suggesting acceptable downtime and resource availability.\nThe utilization of 0.69 is marginally below the policy target of ≥ 0.70.\nThe strict REJECT rule for capital inefficiency (idle > 0.20 AND utilization < 0.70) is not triggered as the idle rate (0.18) is within tolerance.\nGiven this is an off-peak scenario and the solver insights confirm efficient operation when demand falls, the fleet performs robustly with minimal service impact.\nThe slight under-utilization warrants a conditional approval to monitor and potentially optimize off-peak operations.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The spill rate of 0.0 is well below the policy target of ≤ 0.05, indicating no unmet demand.",
+            "The idle rate of 0.18 is within the policy target of ≤ 0.20, suggesting acceptable downtime and resource availability.",
+            "The utilization of 0.69 is marginally below the policy target of ≥ 0.70.",
+            "The strict REJECT rule for capital inefficiency (idle > 0.20 AND utilization < 0.70) is not triggered as the idle rate (0.18) is within tolerance.",
+            "Given this is an off-peak scenario and the solver insights confirm efficient operation when demand falls, the fleet performs robustly with minimal service impact.",
+            "The slight under-utilization warrants a conditional approval to monitor and potentially optimize off-peak operations."
+          ],
+          "tradeoffs": {
+            "cost_vs_service_quality": "Excellent service quality is achieved with zero spill and a low average wait time (2.1 minutes). The slight under-utilization (0.69 vs 0.70) during off-peak suggests a minor over-provisioning for this specific low-demand window, which is a cost tradeoff for guaranteed service.",
+            "over_provisioning": "The current fleet size of 6, while effectively managing off-peak demand with 0.0 spill and 0.18 idle, experiences utilization just below the target. This indicates a minor degree of over-provisioning for this low-demand window, likely due to the fleet being sized for higher peak demands, ensuring service reliability at the expense of marginal efficiency."
+          },
+          "actions": [
+            "Monitor utilization closely during similar off-peak periods to identify long-term trends and potential for further optimization.",
+            "Investigate if minor adjustments to fleet allocation or temporary adjustments to fleet size (e.g., smart idling/parking) could improve utilization during sustained off-peak periods without compromising spill targets.",
+            "Conduct a sensitivity analysis around the utilization threshold of 0.70 to understand the impact of slight deviations on overall operational efficiency and profitability, especially during off-peak times."
+          ],
+          "violated_policies": [
+            "utilization"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC07_PeakShock",
+      "description": "Base k=8 but λ jumps to 30 req/h for 30 minutes due to weather diversion.",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The spill rate of 0.097 significantly exceeds the policy target of ≤ 0.05, indicating a critical service failure during the demand spike.\nFleet utilization at 0.86 is well above the 0.7 target, confirming the existing 8-aircraft fleet is operating efficiently and at near maximum capacity during the event.\nThe idle rate of 0.14 is within the ≤ 0.2 policy target, suggesting the base fleet is not excessively over-provisioned for typical operations.\nDespite high utilization, the substantial spill confirms the current fleet lacks the necessary surge capacity to absorb unexpected demand shocks, particularly during peak windows (07:00-09:00).\nGiven this is a 'PeakShock' and 'Demand spike contingency' scenario, the focus shifts to robust contingency planning and dynamic capacity management rather than a fundamental fleet adjustment for average demand.\nConditional approval allows for the acknowledgment of the current service shortfall while mandating immediate actions to build resilience against future demand spikes.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The spill rate of 0.097 significantly exceeds the policy target of ≤ 0.05, indicating a critical service failure during the demand spike.",
+            "Fleet utilization at 0.86 is well above the 0.7 target, confirming the existing 8-aircraft fleet is operating efficiently and at near maximum capacity during the event.",
+            "The idle rate of 0.14 is within the ≤ 0.2 policy target, suggesting the base fleet is not excessively over-provisioned for typical operations.",
+            "Despite high utilization, the substantial spill confirms the current fleet lacks the necessary surge capacity to absorb unexpected demand shocks, particularly during peak windows (07:00-09:00).",
+            "Given this is a 'PeakShock' and 'Demand spike contingency' scenario, the focus shifts to robust contingency planning and dynamic capacity management rather than a fundamental fleet adjustment for average demand.",
+            "Conditional approval allows for the acknowledgment of the current service shortfall while mandating immediate actions to build resilience against future demand spikes."
+          ],
+          "tradeoffs": [
+            "The current fleet size prioritizes operational efficiency (high utilization, low idle) during normal periods, but this comes at the cost of service quality (high spill) during unpredictable demand spikes.",
+            "Relying solely on a fixed fleet without dynamic surge options leads to a significant inability to cover 'shock spike' demand, resulting in lost revenue and customer dissatisfaction.",
+            "While efficient for baseline operations, the lack of a sufficient buffer for peak shock events highlights a gap in emergency preparedness for extreme demand fluctuations and creates a poor passenger experience (avg wait 9.2 min)."
+          ],
+          "actions": [
+            "Establish short-term wet lease agreements or integrate into vehicle sharing pools to rapidly scale capacity during anticipated or detected demand spikes, especially during the 07:00-09:00 peak window.",
+            "Implement a clear and proactive communication protocol for passengers during periods of high spill (>5%), managing expectations, and offering alternative solutions or rebooking options.",
+            "Investigate pre-positioning and dynamic repositioning strategies for a small reserve fleet to better respond to localized demand shocks, particularly to balance CBD and Airport needs.",
+            "Refine demand forecasting models for spike events and define clear triggers for activating surge capacity and communication plans, incorporating insights from the Monte Carlo sampler."
+          ],
+          "violated_policies": [
+            "spill_rate"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC08_MediumTermPlan",
+      "description": "Planner must provide fleet range for seasonal uncertainty; target 95% confidence coverage.",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The overall spill rate of 0.038 is within the policy target of <= 0.05, indicating adequate service capacity for current demand levels.\nFor a fleet size of 7, the idle rate of 0.18 is within the <= 0.2 target, but utilization at 0.68 falls below the >= 0.7 target.\nFor a fleet size of 9, utilization at 0.75 meets the >= 0.7 target, but the idle rate of 0.27 exceeds the <= 0.2 target.\nNeither fleet configuration (7 or 9 aircraft) triggers the strict REJECT rule, as the conditions for capital inefficiency (idle > 0.20 AND utilization < 0.70) are not met simultaneously for either scenario.\nThe demand model, characterized by time-varying Poisson distribution and a significant peak window (70% demand 07:00-09:00), indicates inherent variability and potential for demand spikes, making a single fleet point estimate risky.\nA flexible fleet interval is necessary to balance service quality (utilization) and capital efficiency (idle rate) over the 3-month forecast horizon, addressing the inherent trade-offs revealed by the range analysis.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The overall spill rate of 0.038 is within the policy target of <= 0.05, indicating adequate service capacity for current demand levels.",
+            "For a fleet size of 7, the idle rate of 0.18 is within the <= 0.2 target, but utilization at 0.68 falls below the >= 0.7 target.",
+            "For a fleet size of 9, utilization at 0.75 meets the >= 0.7 target, but the idle rate of 0.27 exceeds the <= 0.2 target.",
+            "Neither fleet configuration (7 or 9 aircraft) triggers the strict REJECT rule, as the conditions for capital inefficiency (idle > 0.20 AND utilization < 0.70) are not met simultaneously for either scenario.",
+            "The demand model, characterized by time-varying Poisson distribution and a significant peak window (70% demand 07:00-09:00), indicates inherent variability and potential for demand spikes, making a single fleet point estimate risky.",
+            "A flexible fleet interval is necessary to balance service quality (utilization) and capital efficiency (idle rate) over the 3-month forecast horizon, addressing the inherent trade-offs revealed by the range analysis."
+          ],
+          "tradeoffs": [
+            "A lower fleet size (7 aircraft) optimizes for capital efficiency by minimizing idle assets (idle rate 0.18) but compromises on overall utilization (0.68), potentially reducing long-term revenue potential or service resilience during unexpected demand surges.",
+            "A higher fleet size (9 aircraft) ensures robust utilization (0.75) and better service levels, but at the expense of increased idle time (0.27), leading to higher operational costs or underutilized capital.",
+            "The time-varying nature of demand, particularly the sharp peak, creates a tension: provisioning for the peak leads to higher idle during off-peak, while provisioning for average demand risks high spill during peaks.",
+            "The recommended range acknowledges the fluctuating demand profile and the need to dynamically balance service reliability against operating costs without rigidly committing to a single, potentially inefficient, fleet size."
+          ],
+          "actions": [
+            "Approve a core fleet of 7 aircraft, supplemented by a strategy for dynamic scaling up to 9 aircraft during anticipated peak demand periods.",
+            "Implement a short-term leasing program or on-demand charter agreements to cover the additional 2 aircraft (7 to 9) during projected seasonal demand spikes or unexpected demand surges, acting as a risk buffer.",
+            "Establish a dedicated operational reserve fund to cover the costs associated with surge capacity, unforeseen maintenance, or exceptional demand events, as recommended by the DRO_CVaR solver insights.",
+            "Closely monitor real-time demand fluctuations, especially within the 07:00-09:00 peak window, to optimize dynamic deployment and pre-positioning of available aircraft.",
+            "Explore dynamic pricing strategies to manage demand during peak periods, encouraging off-peak travel and smoothing the demand curve to improve overall fleet utilization."
+          ],
+          "fleet_interval_recommendation": {
+            "interval": "7-9 aircraft",
+            "risk_justification": "A single point estimate for fleet size is unsafe due to the time-varying nature of demand, its concentration in peak windows, and the conflicting policy outcomes at the boundaries of the examined fleet range. Recommending a 7-9 aircraft interval provides the necessary operational flexibility. A core fleet of 7 mitigates capital inefficiency by keeping the idle rate low, while the ability to scale up to 9 aircraft, preferably through risk-averse hedging like short-term leasing or on-demand contracts, ensures high utilization and service resilience during demand peaks without over-committing capital. This approach directly addresses the solver's call for risk-averse hedging and avoids the 'capital inefficiency' penalty of a static, oversized fleet."
+          },
+          "violated_policies": [
+            "utilization (for 7 aircraft: 0.68 < 0.7)",
+            "idle_rate (for 9 aircraft: 0.27 > 0.2)"
+          ]
+        },
+        "correct": false
+      }
+    }
+  ]
+}

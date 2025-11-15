@@ -1,0 +1,194 @@
+{
+  "scenario": "S044_BatteryEmergencyDecision",
+  "scenario_type": "battery_emergency",
+  "timestamp": "2025-11-14T09:17:52.541990",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_accuracy": "6/8",
+    "llm_accuracy_percent": "75.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_ClearContinuation",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "APPROVE_CONTINUE"
+      },
+      "llm_result": {
+        "decision": "APPROVE_CONTINUE",
+        "reasoning": "The worst-case SOC, accounting for the ±1% uncertainty, is 45% - 1% = 44%. With an estimated consumption of 30%, the remaining energy margin is 44% - 30% = 14%. This margin comfortably exceeds the default 10% reserve requirement. The battery temperature is 25°C, well below the 40°C critical thermal limit. Mission urgency is low, and environmental conditions (4 m/s wind) are not severe. A charger is available 10 km away, and 'CBD_pad' is available as a safe landing site if needed, providing robust fallback options.",
+        "analysis": {
+          "decision": "APPROVE_CONTINUE",
+          "primary_action": "Continue mission as planned",
+          "reasoning": "The worst-case SOC, accounting for the ±1% uncertainty, is 45% - 1% = 44%. With an estimated consumption of 30%, the remaining energy margin is 44% - 30% = 14%. This margin comfortably exceeds the default 10% reserve requirement. The battery temperature is 25°C, well below the 40°C critical thermal limit. Mission urgency is low, and environmental conditions (4 m/s wind) are not severe. A charger is available 10 km away, and 'CBD_pad' is available as a safe landing site if needed, providing robust fallback options.",
+          "backup_plan": "Continuously monitor battery SOC and performance via telemetry. If the actual consumption rate exceeds estimates or SOC drops unexpectedly, the primary backup is to divert immediately to the nearest charger located 10 km away. In the event of a critical battery failure or unforeseen emergency, execute an emergency landing at the designated 'CBD_pad' safe landing site.",
+          "confidence_level": "High"
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC02_ClearEmergency",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT_EMERGENCY_LAND"
+      },
+      "llm_result": {
+        "decision": "REJECT_EMERGENCY_LAND",
+        "reasoning": "Energy Calculation: \n- Current SOC: 12%\n- Worst-case SOC (considering ±1% uncertainty): 12% - 1% = 11%.\n- Estimated consumption for the remaining 20 km mission: 25%.\n- Required minimum reserve (as per safety policy): 10%.\n- Total required SOC (worst-case consumption + reserve): 25% + 10% = 35%.\n- The available worst-case SOC (11%) is significantly less than the total required SOC (35%).\n\nUncertainty: The 1% uncertainty is critical, reducing the reliable SOC to 11%. This conservative measure is essential for flight safety.\n\nSafety Margin: The calculated safety margin (worst-case SOC - estimated consumption - required reserve) is 11% - 25% - 10% = -24%. This severe negative margin indicates a high probability of complete power loss before reaching the destination, even without accounting for the required reserve.\n\nMission Value: Despite the 'high urgency' medical delivery, regulations explicitly state that 'Medical urgency cannot override hard reserve rules'. Proceeding with such a significant battery deficit would lead to an uncontrolled descent, risking the payload, the drone, and potentially people or property on the ground, thereby failing the mission entirely.\n\nEnvironment: The nearest charger is 6 km away, which is unreachable given the critical battery deficit. A safe landing site ('Suburban_school') has been identified, providing a designated location for the emergency landing. Wind speed (3 m/s) is moderate and assumed to be factored into the estimated consumption, but does not alter the fundamental deficit. Temperature (28°C) is within normal operating limits and not a factor in this emergency.",
+        "analysis": {
+          "decision": "REJECT_EMERGENCY_LAND",
+          "primary_action": "Initiate immediate emergency landing procedures at the nearest safe landing site.",
+          "reasoning": "Energy Calculation: \n- Current SOC: 12%\n- Worst-case SOC (considering ±1% uncertainty): 12% - 1% = 11%.\n- Estimated consumption for the remaining 20 km mission: 25%.\n- Required minimum reserve (as per safety policy): 10%.\n- Total required SOC (worst-case consumption + reserve): 25% + 10% = 35%.\n- The available worst-case SOC (11%) is significantly less than the total required SOC (35%).\n\nUncertainty: The 1% uncertainty is critical, reducing the reliable SOC to 11%. This conservative measure is essential for flight safety.\n\nSafety Margin: The calculated safety margin (worst-case SOC - estimated consumption - required reserve) is 11% - 25% - 10% = -24%. This severe negative margin indicates a high probability of complete power loss before reaching the destination, even without accounting for the required reserve.\n\nMission Value: Despite the 'high urgency' medical delivery, regulations explicitly state that 'Medical urgency cannot override hard reserve rules'. Proceeding with such a significant battery deficit would lead to an uncontrolled descent, risking the payload, the drone, and potentially people or property on the ground, thereby failing the mission entirely.\n\nEnvironment: The nearest charger is 6 km away, which is unreachable given the critical battery deficit. A safe landing site ('Suburban_school') has been identified, providing a designated location for the emergency landing. Wind speed (3 m/s) is moderate and assumed to be factored into the estimated consumption, but does not alter the fundamental deficit. Temperature (28°C) is within normal operating limits and not a factor in this emergency.",
+          "backup_plan": "Secure the payload immediately after landing. Notify ground control of the landing location and drone status. Dispatch a recovery team to the 'Suburban_school' for drone and payload retrieval. Conduct a post-incident investigation into the flight plan and battery consumption estimation.",
+          "confidence_level": "High"
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC03_SensorDisagreement",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_CONTINUE"
+      },
+      "llm_result": {
+        "decision": "REJECT_DIVERT",
+        "reasoning": {
+          "energy_calculation": "Current SOC: 36%. Applying worst-case uncertainty (-4%), effective SOC becomes 32%. Estimated consumption for the mission is 24%. Therefore, the calculated margin = 32% (worst-case SOC) - 24% (estimated consumption) = 8%.",
+          "uncertainty": "The calculated margin of 8% is below the implied 10% reserve threshold. The ±4% uncertainty significantly impacts the worst-case energy estimation, reducing a base margin of 12% to a critical 8%.",
+          "safety_margin": "The solver insights clearly state that the 3% lidar corridor saving cannot be applied. This is due to an open drift bulletin for the optical package and, critically, a policy violation: the last bias check was 27 minutes ago, exceeding the 10-minute window required to release the energy credit. Thus, no credit can be taken, leaving the margin at 8%, which is below the safe reserve.",
+          "mission_value": "The mission urgency is 'medium'. This does not justify continuing with an insufficient energy reserve and known risks. Prioritizing safety over a medium-urgency delivery is appropriate.",
+          "environmental_factors": "A wind speed of 10 m/s is significant and could potentially increase actual energy consumption beyond the 24% estimate, further eroding the already insufficient 8% margin. A nearest charger is available at 8 km, and safe landing sites ('Park_West') exist, providing viable alternatives to continuing the mission under high risk."
+        },
+        "analysis": {
+          "decision": "REJECT_DIVERT",
+          "primary_action": "Divert to nearest charger location (8 km distance).",
+          "reasoning": {
+            "energy_calculation": "Current SOC: 36%. Applying worst-case uncertainty (-4%), effective SOC becomes 32%. Estimated consumption for the mission is 24%. Therefore, the calculated margin = 32% (worst-case SOC) - 24% (estimated consumption) = 8%.",
+            "uncertainty": "The calculated margin of 8% is below the implied 10% reserve threshold. The ±4% uncertainty significantly impacts the worst-case energy estimation, reducing a base margin of 12% to a critical 8%.",
+            "safety_margin": "The solver insights clearly state that the 3% lidar corridor saving cannot be applied. This is due to an open drift bulletin for the optical package and, critically, a policy violation: the last bias check was 27 minutes ago, exceeding the 10-minute window required to release the energy credit. Thus, no credit can be taken, leaving the margin at 8%, which is below the safe reserve.",
+            "mission_value": "The mission urgency is 'medium'. This does not justify continuing with an insufficient energy reserve and known risks. Prioritizing safety over a medium-urgency delivery is appropriate.",
+            "environmental_factors": "A wind speed of 10 m/s is significant and could potentially increase actual energy consumption beyond the 24% estimate, further eroding the already insufficient 8% margin. A nearest charger is available at 8 km, and safe landing sites ('Park_West') exist, providing viable alternatives to continuing the mission under high risk."
+          },
+          "backup_plan": "If diversion to the nearest charger (8 km) becomes unfeasible due to unforeseen circumstances or rapid SOC drop, initiate an immediate emergency landing at the designated safe landing site, 'Park_West'.",
+          "confidence_level": "HIGH"
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC04_TelemetryDrop",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT_EMERGENCY_LAND"
+      },
+      "llm_result": {
+        "decision": "REJECT_EMERGENCY_LAND",
+        "reasoning": "The drone's battery status, coupled with environmental factors and telemetry issues, presents an unacceptable risk for continuing the mission or diverting to a charger.\n\n**Energy Calculation & Safety Margin:**\n- Current SOC: 31%\n- Uncertainty: ± 6%\n- Worst-case SOC: 31% - 6% = 25%\n- Estimated consumption for remaining distance (20 km): 20% of SOC\n- Calculated Safety Margin: 25% (worst-case SOC) - 20% (estimated consumption) = 5%\n\n**Comparison to Reserve:** The calculated safety margin of 5% is critically below the implied 10% operational reserve floor. This leaves no buffer for unexpected consumption increases.\n\n**Uncertainty & Risk Factors:**\n- **Telemetry Gaps:** Telemetry uplink is experiencing 22-second gaps, exceeding the 15-second policy. This mandates assuming maximum consumption, which means the 20% estimated consumption is likely optimistic and further erodes the already insufficient 5% margin.\n- **Wind Speed:** A significant wind speed of 9 m/s will undoubtedly increase actual energy consumption beyond the 20% estimate, pushing the drone into a dangerous energy deficit.\n- **Charger Viability:** The nearest charger at 14 km would consume an estimated 18-19%, which means the aircraft would dip below the 10% reserve even before reaching it. Diversion to a charger is not a safe option.\n\n**Mission Urgency:** The mission type is 'standard_delivery' with 'low' urgency. This low urgency does not justify taking on the high risks associated with critically low battery margins and unreliable telemetry. \n\n**Thermal Limit:** The battery temperature is 29°C, which is well below the critical 40°C threshold, so no direct thermal-induced emergency landing is required, but overall energy status is critical.",
+        "analysis": {
+          "decision": "REJECT_EMERGENCY_LAND",
+          "primary_action": "Initiate immediate landing sequence at the nearest suitable safe landing site (Canal_bank or Golf_course).",
+          "reasoning": "The drone's battery status, coupled with environmental factors and telemetry issues, presents an unacceptable risk for continuing the mission or diverting to a charger.\n\n**Energy Calculation & Safety Margin:**\n- Current SOC: 31%\n- Uncertainty: ± 6%\n- Worst-case SOC: 31% - 6% = 25%\n- Estimated consumption for remaining distance (20 km): 20% of SOC\n- Calculated Safety Margin: 25% (worst-case SOC) - 20% (estimated consumption) = 5%\n\n**Comparison to Reserve:** The calculated safety margin of 5% is critically below the implied 10% operational reserve floor. This leaves no buffer for unexpected consumption increases.\n\n**Uncertainty & Risk Factors:**\n- **Telemetry Gaps:** Telemetry uplink is experiencing 22-second gaps, exceeding the 15-second policy. This mandates assuming maximum consumption, which means the 20% estimated consumption is likely optimistic and further erodes the already insufficient 5% margin.\n- **Wind Speed:** A significant wind speed of 9 m/s will undoubtedly increase actual energy consumption beyond the 20% estimate, pushing the drone into a dangerous energy deficit.\n- **Charger Viability:** The nearest charger at 14 km would consume an estimated 18-19%, which means the aircraft would dip below the 10% reserve even before reaching it. Diversion to a charger is not a safe option.\n\n**Mission Urgency:** The mission type is 'standard_delivery' with 'low' urgency. This low urgency does not justify taking on the high risks associated with critically low battery margins and unreliable telemetry. \n\n**Thermal Limit:** The battery temperature is 29°C, which is well below the critical 40°C threshold, so no direct thermal-induced emergency landing is required, but overall energy status is critical.",
+          "backup_plan": "Upon initiating emergency landing, closely monitor the drone's descent, battery status, and actual landing coordinates. Prepare ground recovery teams for dispatch to the chosen safe landing site (either Canal_bank or Golf_course). Ensure all flight data is logged for post-incident analysis.",
+          "confidence_level": "High"
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC05_UnclearedHandoff",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT_DIVERT"
+      },
+      "llm_result": {
+        "decision": "REJECT_DIVERT",
+        "reasoning": "The mission is a critical medical delivery, but safety and operational viability are compromised. \n\n**Energy Calculation & Safety Margin:** The worst-case SOC is 22% (26% actual SOC minus 4% uncertainty). With an estimated consumption of 16%, the remaining margin is 6%. This falls below the implied 10% minimum reserve, indicating a critically short energy reserve. The Solver Insights explicitly confirm that the 'energy reserve is already short'.\n\n**Uncertainty:** The ±4% SOC uncertainty significantly impacts the available energy, reducing the actionable margin and increasing risk.\n\n**Mission Urgency & Value:** While the payload (critical plasma unit) is of extreme importance, continuing the mission under current conditions poses an unacceptable risk of mission failure (due to power loss) or mishandling of the payload (due to forced landing).\n\n**Operational & Legal Risks:** A major concern is the 'unsigned charter hand-off' and the partner clinic's explicit refusal to confirm acceptance over radio. This creates significant liability and operational risk. Delivering a critical medical payload without clear acceptance could lead to rejection, improper storage, or legal complications, negating the mission's purpose even if the drone successfully reaches the destination.\n\n**Environment:** A charger with spare packs is safely reachable at 4 km, providing a viable alternative to resolve the battery issue without an immediate emergency landing. This diversion also buys time to address the critical legal and operational hand-off issues before the payload is irreversibly committed.",
+        "analysis": {
+          "decision": "REJECT_DIVERT",
+          "primary_action": "Divert to nearest charger (4 km) for battery swap and resolution of legal hand-off.",
+          "reasoning": "The mission is a critical medical delivery, but safety and operational viability are compromised. \n\n**Energy Calculation & Safety Margin:** The worst-case SOC is 22% (26% actual SOC minus 4% uncertainty). With an estimated consumption of 16%, the remaining margin is 6%. This falls below the implied 10% minimum reserve, indicating a critically short energy reserve. The Solver Insights explicitly confirm that the 'energy reserve is already short'.\n\n**Uncertainty:** The ±4% SOC uncertainty significantly impacts the available energy, reducing the actionable margin and increasing risk.\n\n**Mission Urgency & Value:** While the payload (critical plasma unit) is of extreme importance, continuing the mission under current conditions poses an unacceptable risk of mission failure (due to power loss) or mishandling of the payload (due to forced landing).\n\n**Operational & Legal Risks:** A major concern is the 'unsigned charter hand-off' and the partner clinic's explicit refusal to confirm acceptance over radio. This creates significant liability and operational risk. Delivering a critical medical payload without clear acceptance could lead to rejection, improper storage, or legal complications, negating the mission's purpose even if the drone successfully reaches the destination.\n\n**Environment:** A charger with spare packs is safely reachable at 4 km, providing a viable alternative to resolve the battery issue without an immediate emergency landing. This diversion also buys time to address the critical legal and operational hand-off issues before the payload is irreversibly committed.",
+          "backup_plan": "If diversion to the charger is not feasible or encounters further issues, execute an immediate emergency landing at the 'Triage_field' safe landing site to secure the critical payload and arrange for expedited ground transport, while simultaneously escalating the hand-off issue with mission control.",
+          "confidence_level": "High"
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC06_BacklogConditional",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_CONTINUE"
+      },
+      "llm_result": {
+        "decision": "REJECT_DIVERT",
+        "reasoning": {
+          "energy_calculation": "Worst-case SOC is 29% - 2% (uncertainty) = 27%. Estimated consumption for the remaining 15 km is 17%. The remaining margin is 27% - 17% = 10% of SOC.",
+          "uncertainty": "While the 2% SOC uncertainty is accounted for in the worst-case calculation, there are critical operational uncertainties. Telemetry alerts average a 12-second backlog, and reliance on manual SOC call-outs is compromised by a congested tower frequency, which missed more than two call-outs last week. This severely impacts the ability to monitor the real-time SOC and react to the razor-thin 10% margin.",
+          "safety_margin": "The calculated margin of exactly 10% is the absolute minimum reserve. Operating at this threshold with compromised real-time monitoring capabilities (telemetry lag, unreliable manual updates) means there is effectively no buffer for unexpected consumption increases or delayed alerts, leading to a critically reduced safety margin.",
+          "mission_value": "The mission is a standard delivery with medium urgency. The risks associated with continuing under these conditions (razor-thin battery margin and compromised real-time monitoring) outweigh the importance of completing the original mission path without a safer alternative."
+        },
+        "analysis": {
+          "decision": "REJECT_DIVERT",
+          "primary_action": "Divert drone to the nearest charger located 9 km away.",
+          "reasoning": {
+            "energy_calculation": "Worst-case SOC is 29% - 2% (uncertainty) = 27%. Estimated consumption for the remaining 15 km is 17%. The remaining margin is 27% - 17% = 10% of SOC.",
+            "uncertainty": "While the 2% SOC uncertainty is accounted for in the worst-case calculation, there are critical operational uncertainties. Telemetry alerts average a 12-second backlog, and reliance on manual SOC call-outs is compromised by a congested tower frequency, which missed more than two call-outs last week. This severely impacts the ability to monitor the real-time SOC and react to the razor-thin 10% margin.",
+            "safety_margin": "The calculated margin of exactly 10% is the absolute minimum reserve. Operating at this threshold with compromised real-time monitoring capabilities (telemetry lag, unreliable manual updates) means there is effectively no buffer for unexpected consumption increases or delayed alerts, leading to a critically reduced safety margin.",
+            "mission_value": "The mission is a standard delivery with medium urgency. The risks associated with continuing under these conditions (razor-thin battery margin and compromised real-time monitoring) outweigh the importance of completing the original mission path without a safer alternative."
+          },
+          "backup_plan": "If diversion to the nearest charger is not feasible or encounters issues, the drone must immediately proceed to the nearest designated safe landing site (Industrial_pad). Ground operations are to prioritize manual SOC readouts via any available alternate frequencies or channels.",
+          "confidence_level": "High"
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC07_DegradedThermalWatch",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT_EMERGENCY_LAND"
+      },
+      "llm_result": {
+        "decision": "REJECT_EMERGENCY_LAND",
+        "reasoning": "The battery system presents critical safety violations that necessitate an immediate emergency landing. \n\n**Thermal Violation:** The current battery temperature of 39.2°C already exceeds the 38.5°C maximum operating limit specified for degraded packs. Furthermore, the temperature is trending upward by ~0.4°C per minute, indicating it will breach the absolute 40°C emergency landing threshold within approximately 2 minutes (39.2 + 0.4*2 = 40.0°C). Continuing the 10 km flight under these conditions poses an unacceptable risk of thermal runaway, catastrophic battery failure, and loss of aircraft, which would irrevocably jeopardize the critical medical payload and potentially endanger ground personnel or property.\n\n**Energy Calculation & Uncertainty:** The worst-case State of Charge (SOC) is 21% (24% nominal - 3% uncertainty). Estimated consumption for the remaining 10 km is 14%. This leaves a margin of 7% (21% - 14%). This 7% margin is insufficient compared to the implied 10% energy reserve policy, indicating an additional risk of insufficient power to complete the mission even without the thermal issues.\n\n**Safety Margin & Mission Value:** Despite the critical urgency of the medical delivery, the cumulative risks from a degraded battery, exceeding thermal limits, and insufficient energy reserves are too high. Prioritizing the safe recovery of the payload and aircraft is paramount. The availability of a designated emergency clearing, City_park, at a mere 1.5 km distance, provides a viable and relatively low-impact alternative to a full mission failure, allowing for prompt retrieval and alternative transport of the critical payload.",
+        "analysis": {
+          "decision": "REJECT_EMERGENCY_LAND",
+          "primary_action": "Initiate immediate diversion to City_park for emergency landing.",
+          "reasoning": "The battery system presents critical safety violations that necessitate an immediate emergency landing. \n\n**Thermal Violation:** The current battery temperature of 39.2°C already exceeds the 38.5°C maximum operating limit specified for degraded packs. Furthermore, the temperature is trending upward by ~0.4°C per minute, indicating it will breach the absolute 40°C emergency landing threshold within approximately 2 minutes (39.2 + 0.4*2 = 40.0°C). Continuing the 10 km flight under these conditions poses an unacceptable risk of thermal runaway, catastrophic battery failure, and loss of aircraft, which would irrevocably jeopardize the critical medical payload and potentially endanger ground personnel or property.\n\n**Energy Calculation & Uncertainty:** The worst-case State of Charge (SOC) is 21% (24% nominal - 3% uncertainty). Estimated consumption for the remaining 10 km is 14%. This leaves a margin of 7% (21% - 14%). This 7% margin is insufficient compared to the implied 10% energy reserve policy, indicating an additional risk of insufficient power to complete the mission even without the thermal issues.\n\n**Safety Margin & Mission Value:** Despite the critical urgency of the medical delivery, the cumulative risks from a degraded battery, exceeding thermal limits, and insufficient energy reserves are too high. Prioritizing the safe recovery of the payload and aircraft is paramount. The availability of a designated emergency clearing, City_park, at a mere 1.5 km distance, provides a viable and relatively low-impact alternative to a full mission failure, allowing for prompt retrieval and alternative transport of the critical payload.",
+          "backup_plan": "Upon successful landing at City_park, ground crew to immediately secure the drone and retrieve the medical payload. Arrange for expedited ground transport or an alternative drone deployment from City_park to the final destination to complete the critical delivery. Battery system will undergo immediate inspection and isolation.",
+          "confidence_level": "High"
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC08_CommandAbortProtocol",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT_EMERGENCY_LAND"
+      },
+      "llm_result": {
+        "decision": "REJECT_EMERGENCY_LAND",
+        "reasoning": "The primary reason for the emergency landing decision is a critical thermal violation. The battery temperature is 41°C, which exceeds the mandatory thermal limit of 40°C. As per regulations and system insights, this condition requires an immediate emergency landing regardless of the State of Charge (SOC) or other operational parameters to prevent potential damage or hazardous incidents.\n\nRegarding energy, the current SOC is 20%. Accounting for a ±1% uncertainty, the worst-case SOC is 19%. With an estimated consumption of 10% for the remaining 8 km, the worst-case energy margin is 19% - 10% = 9%. This margin falls below a hypothetical 10% reserve. While this energy margin alone might necessitate a cautious approach, the thermal exceedance is the overriding and mandatory trigger for an emergency landing.\n\nThe mission urgency is low, further supporting the decision to prioritize safety over mission continuation. Safe landing sites (Depot_A, Depot_B) are available within range, making an emergency landing a viable and necessary course of action.",
+        "analysis": {
+          "decision": "REJECT_EMERGENCY_LAND",
+          "primary_action": "Initiate immediate emergency landing at Depot_A.",
+          "reasoning": "The primary reason for the emergency landing decision is a critical thermal violation. The battery temperature is 41°C, which exceeds the mandatory thermal limit of 40°C. As per regulations and system insights, this condition requires an immediate emergency landing regardless of the State of Charge (SOC) or other operational parameters to prevent potential damage or hazardous incidents.\n\nRegarding energy, the current SOC is 20%. Accounting for a ±1% uncertainty, the worst-case SOC is 19%. With an estimated consumption of 10% for the remaining 8 km, the worst-case energy margin is 19% - 10% = 9%. This margin falls below a hypothetical 10% reserve. While this energy margin alone might necessitate a cautious approach, the thermal exceedance is the overriding and mandatory trigger for an emergency landing.\n\nThe mission urgency is low, further supporting the decision to prioritize safety over mission continuation. Safe landing sites (Depot_A, Depot_B) are available within range, making an emergency landing a viable and necessary course of action.",
+          "backup_plan": "Continuously monitor battery temperature and SOC. If landing at Depot_A is not feasible or encounters unforeseen obstacles, immediately divert to Depot_B. Maintain a controlled descent during the emergency landing procedure to reduce system load and mitigate further thermal stress. Alert ground control for immediate human intervention and guidance throughout the process.",
+          "confidence_level": "High"
+        },
+        "correct": true
+      }
+    }
+  ]
+}

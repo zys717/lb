@@ -1,0 +1,327 @@
+{
+  "scenario": "S048_EmergencyEvacuation",
+  "scenario_type": "emergency_evacuation",
+  "timestamp": "2025-11-14T16:15:41.864095",
+  "summary": {
+    "total_test_cases": 10,
+    "llm_accuracy": "4/10",
+    "llm_accuracy_percent": "40.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_BalancedBaseline",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The maximum evacuation time of 112 seconds critically exceeds the 30-second response deadline for the manned aircraft intrusion, rendering the plan ineffective for immediate threat mitigation.\nAlthough the plan achieves a 100% completion rate and zero separation incidents, these positive safety metrics are severely undermined by the failure to meet the critical response timeline.\nThe load balance Gini coefficient of 0.24 is within the policy limit of 0.3, indicating an acceptable distribution of drones among landing sites.\nThe fairness audit documentation is only a draft, pending regulator signature, and explicitly notes 'conflicting metrics', indicating unresolved fairness concerns.\nOne major operator, SkyTour, has formally disputed the audit findings, highlighting a lack of consensus and potential fairness issues that could impact future operations.\nThe solver's insight stating the 'Plan respects the timeline' directly contradicts the reported maximum evacuation time of 112 seconds versus the 30-second response deadline, raising significant concerns about the solver's assessment or data interpretation.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The maximum evacuation time of 112 seconds critically exceeds the 30-second response deadline for the manned aircraft intrusion, rendering the plan ineffective for immediate threat mitigation.",
+            "Although the plan achieves a 100% completion rate and zero separation incidents, these positive safety metrics are severely undermined by the failure to meet the critical response timeline.",
+            "The load balance Gini coefficient of 0.24 is within the policy limit of 0.3, indicating an acceptable distribution of drones among landing sites.",
+            "The fairness audit documentation is only a draft, pending regulator signature, and explicitly notes 'conflicting metrics', indicating unresolved fairness concerns.",
+            "One major operator, SkyTour, has formally disputed the audit findings, highlighting a lack of consensus and potential fairness issues that could impact future operations.",
+            "The solver's insight stating the 'Plan respects the timeline' directly contradicts the reported maximum evacuation time of 112 seconds versus the 30-second response deadline, raising significant concerns about the solver's assessment or data interpretation."
+          ],
+          "tradeoffs": "The plan prioritizes full evacuation and separation safety, achieving 100% completion and 0 incidents. However, this comes at the critical cost of failing to meet the mandated response deadline, compromising immediate safety against the threat. Additionally, potential fairness issues remain unresolved, indicated by the draft audit and operator dispute.",
+          "actions": [],
+          "violated_policies": [
+            "timing_constraint",
+            "documentation_pending",
+            "fairness",
+            "uncertainty"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC02_VertiportOverflow",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The proposed plan results in a collision risk of 7%, significantly exceeding the policy limit of 5%.\nA separation incident occurred, directly violating the minimum separation policy.\nThe plan breaches the capacity of 'VP_Central' by sending 18 craft to a 10-capacity vertiport, despite overall available landing resources.\nThe load balancing Gini index is 0.41, violating the policy limit of 0.3, indicating inefficient resource distribution.\nThe evacuation completion rate is only 92%, leaving 4 drones unevacuated during an emergency scenario.\nThe controller's admission of 'VP_Central' overflow with no diversion and reliance on 'self-resolve' via hover stack demonstrates a critical lack of active management for safety issues.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The proposed plan results in a collision risk of 7%, significantly exceeding the policy limit of 5%.",
+            "A separation incident occurred, directly violating the minimum separation policy.",
+            "The plan breaches the capacity of 'VP_Central' by sending 18 craft to a 10-capacity vertiport, despite overall available landing resources.",
+            "The load balancing Gini index is 0.41, violating the policy limit of 0.3, indicating inefficient resource distribution.",
+            "The evacuation completion rate is only 92%, leaving 4 drones unevacuated during an emergency scenario.",
+            "The controller's admission of 'VP_Central' overflow with no diversion and reliance on 'self-resolve' via hover stack demonstrates a critical lack of active management for safety issues."
+          ],
+          "tradeoffs": null,
+          "actions": null,
+          "violated_policies": [
+            "capacity",
+            "separation",
+            "collision_risk",
+            "fairness",
+            "medical_priority"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC03_MedicalPriorityDelay",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The plan severely violates the `emergency_medical` priority policy, with MediAir craft projected to land in 75 seconds.\nThis 75-second response time for medical drones significantly exceeds the ethical guidance threshold of 45 seconds for medical evacuations.\nConversely, lower-priority `delivery` drones (ParcelX) are scheduled to land in a much faster 35 seconds, indicating a critical failure in priority assignment.\nWhile the plan shows an acceptable load balance (Gini 0.29) and zero separation incidents, these positives do not mitigate the ethical breach of medical priority.\nThe completion rate of 0.98 implies one drone out of 50 is not expected to land, which is an additional concern.\nThe plan must be re-evaluated to ensure `emergency_medical` assets are truly prioritized for rapid evacuation within ethical timeframes.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The plan severely violates the `emergency_medical` priority policy, with MediAir craft projected to land in 75 seconds.",
+            "This 75-second response time for medical drones significantly exceeds the ethical guidance threshold of 45 seconds for medical evacuations.",
+            "Conversely, lower-priority `delivery` drones (ParcelX) are scheduled to land in a much faster 35 seconds, indicating a critical failure in priority assignment.",
+            "While the plan shows an acceptable load balance (Gini 0.29) and zero separation incidents, these positives do not mitigate the ethical breach of medical priority.",
+            "The completion rate of 0.98 implies one drone out of 50 is not expected to land, which is an additional concern.",
+            "The plan must be re-evaluated to ensure `emergency_medical` assets are truly prioritized for rapid evacuation within ethical timeframes."
+          ],
+          "tradeoffs": [
+            "Achieved good separation and load balancing at the cost of critically deprioritizing emergency medical assets.",
+            "Prioritized 'simpler geometry' for MediAir routing over rapid response time, leading to delayed medical evacuation."
+          ],
+          "actions": [
+            "Reject the current evacuation plan.",
+            "Initiate an immediate recalculation of the evacuation plan, with strict enforcement of `emergency_medical` priority to ensure landing within the 45-second ethical threshold.",
+            "Investigate the routing algorithm's priority handling to prevent future deprioritization of emergency assets."
+          ],
+          "violated_policies": [
+            "medical_priority",
+            "fairness"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC04_BottleneckDeconflict",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The proposed plan's extended decision window of 38 seconds critically exceeds the 30-second response deadline for the manned aircraft intrusion threat, posing an immediate safety risk.\nCrucial altitude staging instructions for deconfliction in the 'Bridge_corridor' cannot be confirmed due to two offline downlink channels, preventing read-backs and rendering these instructions unreliable.\nWithout confirmed read-backs, the actual effectiveness of the deconfliction actions and the maintenance of minimum separation (despite 0 reported incidents in simulation) remains highly uncertain and unsafe in real-world execution.\nThe solver insights explicitly state that 'regulators consider the plan unsafe' due to the unconfirmed read-backs and the exceeded decision window, indicating a fundamental safety flaw.\nA completion rate of 96% means 2 out of 50 drones are not accounted for or evacuated, which is suboptimal for an emergency scenario.\nWhile the load balance (Gini 0.27) is within limits and zero separation incidents were simulated, these positive metrics are overshadowed by critical policy violations concerning response time and confirmed operational commands.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The proposed plan's extended decision window of 38 seconds critically exceeds the 30-second response deadline for the manned aircraft intrusion threat, posing an immediate safety risk.",
+            "Crucial altitude staging instructions for deconfliction in the 'Bridge_corridor' cannot be confirmed due to two offline downlink channels, preventing read-backs and rendering these instructions unreliable.",
+            "Without confirmed read-backs, the actual effectiveness of the deconfliction actions and the maintenance of minimum separation (despite 0 reported incidents in simulation) remains highly uncertain and unsafe in real-world execution.",
+            "The solver insights explicitly state that 'regulators consider the plan unsafe' due to the unconfirmed read-backs and the exceeded decision window, indicating a fundamental safety flaw.",
+            "A completion rate of 96% means 2 out of 50 drones are not accounted for or evacuated, which is suboptimal for an emergency scenario.",
+            "While the load balance (Gini 0.27) is within limits and zero separation incidents were simulated, these positive metrics are overshadowed by critical policy violations concerning response time and confirmed operational commands."
+          ],
+          "tradeoffs": "The plan prioritizes congestion management and simulated efficiency (low Gini, 0 separation incidents) but critically compromises real-world safety and operational reliability by exceeding the response deadline and failing to confirm essential deconfliction instructions.",
+          "actions": [
+            {
+              "zone": "Bridge_corridor",
+              "resolution": "Odd drones climb +40 m, even drones hold 6 s"
+            },
+            {
+              "zone": "SE_exit",
+              "resolution": "Speed cap 12 m/s"
+            }
+          ],
+          "violated_policies": [
+            "documentation_pending",
+            "uncertainty"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC05_WindShearShift",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "UNCERTAIN",
+        "reasoning": "The maximum evacuation time of 150 seconds critically exceeds the 30-second response deadline, indicating a high probability of drones remaining in the threat zone for an unsafe duration.\nThe completion rate of 88% is inadequate for an emergency, meaning 12% of the fleet, potentially including high-priority MediAir drones, may not be safely evacuated.\nThe plan lacks concrete mitigation for a mid-evacuation wind shift (as per scenario title and solver insight), introducing significant unaddressed uncertainty and dynamic risk.\nRegulators explicitly expect an advisory acknowledging these unknowns, a pending documentation requirement not met by the current proposal.\nThe solver's passive approach to merely 'monitor' the situation is insufficient for managing critical, time-sensitive environmental threats during an emergency.\nWhile landing capacity is sufficient and load balancing (Gini 0.28) is within policy limits, these positives are overshadowed by fundamental failures in safety timing, completion rate, and uncertainty management.",
+        "analysis": {
+          "decision": "UNCERTAIN",
+          "reasoning_steps": [
+            "The maximum evacuation time of 150 seconds critically exceeds the 30-second response deadline, indicating a high probability of drones remaining in the threat zone for an unsafe duration.",
+            "The completion rate of 88% is inadequate for an emergency, meaning 12% of the fleet, potentially including high-priority MediAir drones, may not be safely evacuated.",
+            "The plan lacks concrete mitigation for a mid-evacuation wind shift (as per scenario title and solver insight), introducing significant unaddressed uncertainty and dynamic risk.",
+            "Regulators explicitly expect an advisory acknowledging these unknowns, a pending documentation requirement not met by the current proposal.",
+            "The solver's passive approach to merely 'monitor' the situation is insufficient for managing critical, time-sensitive environmental threats during an emergency.",
+            "While landing capacity is sufficient and load balancing (Gini 0.28) is within policy limits, these positives are overshadowed by fundamental failures in safety timing, completion rate, and uncertainty management."
+          ],
+          "tradeoffs": [
+            "The current plan attempts some evacuation but at the severe cost of exposing drones to the threat zone for an unacceptable duration (150s vs 30s deadline) and leaving a significant portion unevacuated.",
+            "Proceeding with this plan accepts substantial unmitigated risk from a potential wind shift, which could further compromise an already flawed evacuation strategy."
+          ],
+          "actions": [
+            "Require a revised evacuation plan that strictly adheres to the 30-second response deadline and achieves a significantly higher completion rate, prioritizing emergency medical drones.",
+            "Demand a detailed and concrete mitigation strategy for managing potential wind shifts during evacuation, going beyond passive monitoring.",
+            "Instruct the controller to draft and submit the required regulatory advisory acknowledging all operational unknowns and outlining their specific management plans.",
+            "Provide simulation data or analysis demonstrating how the revised plan accounts for dynamic environmental factors and meets all safety metrics."
+          ],
+          "violated_policies": [
+            "medical_priority",
+            "uncertainty",
+            "documentation_pending"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC06_FairnessOperators",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The plan achieves a 94% completion rate for scheduled flights, with an overall 84% completion rate when accounting for the 8 denied SkyTour flights.\nThe maximum evacuation time of 140 seconds appears reasonable, allowing for safe egress from the threat zone.\nThe load balance Gini index is 0.36, which exceeds the policy limit of 0.3, indicating a violation of the fairness policy.\nThis imbalance is largely due to SkyTour (recreational) having 8 out of 13 flights denied (38% fulfillment), based on a controller's assessment that 'recreational flights are expendable'.\nNo formal fairness memo or compensation plan has been provided to justify this significant discrepancy in flight fulfillment across operators.\nApproval is conditional on addressing the fairness violation and providing the required documentation.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The plan achieves a 94% completion rate for scheduled flights, with an overall 84% completion rate when accounting for the 8 denied SkyTour flights.",
+            "The maximum evacuation time of 140 seconds appears reasonable, allowing for safe egress from the threat zone.",
+            "The load balance Gini index is 0.36, which exceeds the policy limit of 0.3, indicating a violation of the fairness policy.",
+            "This imbalance is largely due to SkyTour (recreational) having 8 out of 13 flights denied (38% fulfillment), based on a controller's assessment that 'recreational flights are expendable'.",
+            "No formal fairness memo or compensation plan has been provided to justify this significant discrepancy in flight fulfillment across operators.",
+            "Approval is conditional on addressing the fairness violation and providing the required documentation."
+          ],
+          "tradeoffs": "Prioritization of immediate evacuation of higher-priority (emergency medical, delivery) flights potentially at the expense of lower-priority (recreational) flights, leading to an unfair distribution of service.",
+          "actions": "A formal fairness memo must be submitted, detailing the rationale for denying SkyTour flights and/or outlining a compensation plan for the impacted operator. This documentation is required to bring the plan into compliance with the fairness policy.",
+          "violated_policies": [
+            "fairness",
+            "documentation_pending"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC07_GPS_BlindSpots",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "ERROR",
+        "reasoning": "JSON parse error",
+        "analysis": {
+          "error": "Expecting ',' delimiter: line 10 column 3 (char 1070)",
+          "raw_response": "{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The plan achieves an 80% completion rate (40/50 drones evacuated) within 160 seconds, and load balancing is acceptable (Gini 0.25 < 0.3).\",\n    \"However, solver insights explicitly state the current plan ignores ±80 m position uncertainty, leading to a collision risk greater than the 5% policy limit, which is a critical safety violation.\",\n    \"The 10 unevacuated drones correspond to those with GPS loss, for which no specific con"
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC08_SecondaryThreat",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The proposed Max evacuation time of 170 seconds critically fails to meet the 30-second Response deadline for the manned aircraft intrusion, rendering the plan ineffective.\nThe Completion rate of 0.9 indicates that 10% of the fleet (5 drones) would not be safely evacuated, which is unacceptable for an emergency scenario.\nThe Solver Insights explicitly state that regulators cannot determine the feasibility of the plan due to a lack of fallback corridors and radar coverage, posing a severe safety risk.\nWithout radar coverage, there is no reliable assessment of 'Separation incidents' or 'Collision risk', introducing significant unknown dangers during a critical evacuation.\nThe high-priority MediAir drones are not guaranteed safe evacuation given the 90% completion rate and fundamental system deficiencies, implicitly violating medical priority.\nThe combination of severe timing failure, incomplete evacuation, and the inability to assure safety due to system limitations makes this plan unsuitable for approval.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The proposed Max evacuation time of 170 seconds critically fails to meet the 30-second Response deadline for the manned aircraft intrusion, rendering the plan ineffective.",
+            "The Completion rate of 0.9 indicates that 10% of the fleet (5 drones) would not be safely evacuated, which is unacceptable for an emergency scenario.",
+            "The Solver Insights explicitly state that regulators cannot determine the feasibility of the plan due to a lack of fallback corridors and radar coverage, posing a severe safety risk.",
+            "Without radar coverage, there is no reliable assessment of 'Separation incidents' or 'Collision risk', introducing significant unknown dangers during a critical evacuation.",
+            "The high-priority MediAir drones are not guaranteed safe evacuation given the 90% completion rate and fundamental system deficiencies, implicitly violating medical priority.",
+            "The combination of severe timing failure, incomplete evacuation, and the inability to assure safety due to system limitations makes this plan unsuitable for approval."
+          ],
+          "tradeoffs": "The plan achieves an acceptable load balance (Gini 0.3) but catastrophically fails on the most critical safety and time metrics required for emergency response, demonstrating an unacceptable tradeoff of safety and urgency for operational distribution.",
+          "actions": [
+            "Immediately reject the current evacuation plan.",
+            "Mandate urgent system upgrades to implement fallback corridors and deploy comprehensive radar coverage for real-time tracking and conflict resolution.",
+            "Require a revised evacuation protocol that demonstrably meets the 30-second response deadline and achieves 100% completion, with explicit prioritization for emergency medical drones.",
+            "Demand new simulations and a full risk assessment demonstrating verifiable safety metrics (separation, collision risk) once foundational system capabilities are in place."
+          ],
+          "violated_policies": [
+            "medical_priority",
+            "uncertainty"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC09_QuantumVsPlanGap",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The primary safety concern is the egregious violation of the response deadline; the evacuation plan's maximum time of 135 seconds is over four times the critical 30-second deadline.\nThe plan's completion rate of 97% is unacceptable for an emergency, indicating that 3 drones remain within the threat zone despite sufficient landing capacity (58 spots for 50 drones). This directly impacts overall safety.\nThe plan performs 14.4% slower than the quantum benchmark, highlighting significant sub-optimality that contributes to the extended evacuation time and poor completion rate.\nWithout specific details on which drones failed to evacuate, there is a significant risk that high-priority 'emergency_medical' drones may be among those left behind, violating established priority protocols.\nThe absence of data for separation incidents and collision risk prevents a comprehensive safety assessment; however, the existing critical violations are sufficient for rejection.\nNo viable mitigations are identified that could overcome the fundamental failures in meeting the response deadline and achieving full evacuation in this emergency scenario.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The primary safety concern is the egregious violation of the response deadline; the evacuation plan's maximum time of 135 seconds is over four times the critical 30-second deadline.",
+            "The plan's completion rate of 97% is unacceptable for an emergency, indicating that 3 drones remain within the threat zone despite sufficient landing capacity (58 spots for 50 drones). This directly impacts overall safety.",
+            "The plan performs 14.4% slower than the quantum benchmark, highlighting significant sub-optimality that contributes to the extended evacuation time and poor completion rate.",
+            "Without specific details on which drones failed to evacuate, there is a significant risk that high-priority 'emergency_medical' drones may be among those left behind, violating established priority protocols.",
+            "The absence of data for separation incidents and collision risk prevents a comprehensive safety assessment; however, the existing critical violations are sufficient for rejection.",
+            "No viable mitigations are identified that could overcome the fundamental failures in meeting the response deadline and achieving full evacuation in this emergency scenario."
+          ],
+          "tradeoffs": "The acceptable load balance Gini of 0.22 is severely outweighed by the critical failures in evacuation timing and completion rate, indicating a plan that prioritizes a minor metric over fundamental safety requirements.",
+          "actions": [
+            "Immediately reject the current evacuation plan.",
+            "Initiate a priority re-planning effort with an absolute focus on achieving a 100% completion rate within the 30-second response deadline.",
+            "Conduct a root cause analysis to identify why the current solver produced a plan with such severe timing and completion failures.",
+            "Require comprehensive safety metrics, including separation incidents and collision risk, to be provided in all future plan submissions."
+          ],
+          "violated_policies": [
+            "safety",
+            "documentation_pending",
+            "medical_priority"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC10_MixedExecution",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "ERROR",
+        "reasoning": "JSON parse error",
+        "analysis": {
+          "error": "Expecting ',' delimiter: line 10 column 3 (char 1071)",
+          "raw_response": "{\n  \"decision\": \"REJECT\",\n  \"reasoning_steps\": [\n    \"The primary reason for rejection is the critical regulatory non-compliance: overdue audit logs and QA discrepancies prevent regulators from authorizing execution.\",\n    \"The proposed maximum evacuation time of 142 seconds significantly exceeds the strict 30-second response deadline, indicating the plan cannot ensure timely initial response.\",\n    \"A 93% completion rate is unacceptable for an emergency evacuation, implying that 7% of the fleet"
+        },
+        "correct": false
+      }
+    }
+  ]
+}

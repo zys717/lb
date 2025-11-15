@@ -1,0 +1,51 @@
+{
+  "scenario_id": "S045_AirspaceConflictResolution",
+  "scenario_name": "Airspace Conflict Resolution – 20 Drone MWIS",
+  "version": "1.0",
+  "created": "2025-11-15",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "summary": "Eight multi-operator conflict-resolution cases covering pairwise, triangle, star, chain, dense grid, clique, fairness imbalance, and hybrid random graphs. Evaluations hinge on MWIS feasibility, throughput gap, and fairness thresholds.",
+  "test_cases": [
+    {
+      "case_id": "TC01_TrivialPairViolation",
+      "expected_decision": "REJECT",
+      "required_keywords": ["UAV_01", "UAV_02", "150 ft", "conflict pair", "drop one route"]
+    },
+    {
+      "case_id": "TC02_TriangleConditionals",
+      "expected_decision": "APPROVE",
+      "required_keywords": ["delay loaded", "UAV_04 hold", "two-of-three", "triangle clear"]
+    },
+    {
+      "case_id": "TC03_StarVsLeaves",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["altitude offset", "drift bulletin", "bias check", "UAV_06 waiver"]
+    },
+    {
+      "case_id": "TC04_LongChainOptimal",
+      "expected_decision": "APPROVE",
+      "required_keywords": ["alternating", "chain", "no conflicts", "UAV_A1/A3/A5/A7"]
+    },
+    {
+      "case_id": "TC05_DenseGridPenalty",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["fairness bulletin", "delay std 128", "rotate slots", "grid chessboard"]
+    },
+    {
+      "case_id": "TC06_CliqueMisinterpretation",
+      "expected_decision": "REJECT",
+      "required_keywords": ["clique", "only one from ten", "loss of separation", "UAV_C1"]
+    },
+    {
+      "case_id": "TC07_FairnessVsUrgency",
+      "expected_decision": "EXPLAIN_ONLY",
+      "required_keywords": ["fairness audit", "Gini 0.61", "relaunch study", "advisory"]
+    },
+    {
+      "case_id": "TC08_HybridQuantumBenchmark",
+      "expected_decision": "EXPLAIN_ONLY",
+      "required_keywords": ["quantum annealing", "11.9% gap", "swap suggestions", "advisory"]
+    }
+  ]
+}

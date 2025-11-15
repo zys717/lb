@@ -1,0 +1,24 @@
+{
+  "scenario_id": "S044_BatteryEmergencyDecision",
+  "scenario_name": "Battery Emergency In-Flight Decision",
+  "version": "1.0",
+  "created": "2025-11-14",
+  "llm_only": true,
+  "decision_labels": [
+    "APPROVE_CONTINUE",
+    "CONDITIONAL_CONTINUE",
+    "REJECT_DIVERT",
+    "REJECT_EMERGENCY_LAND"
+  ],
+  "summary": "Eight SOC-driven decision cases with conflicting advisories: clear go / no-go, sensor-drift conditional approvals, telemetry-drop emergencies, contract gaps, and imminent thermal events.",
+  "test_cases": [
+    {"case_id": "TC01_ClearContinuation","expected_decision": "APPROVE_CONTINUE","required_keywords": ["SOC 45%", "margin 15%","continue mission"]},
+    {"case_id": "TC02_ClearEmergency","expected_decision": "REJECT_EMERGENCY_LAND","required_keywords": ["SOC 12%","consumption 25%","emergency land"]},
+    {"case_id": "TC03_SensorDisagreement","expected_decision": "CONDITIONAL_CONTINUE","required_keywords": ["lidar corridor","sensor drift","manual verification"]},
+    {"case_id": "TC04_TelemetryDrop","expected_decision": "REJECT_EMERGENCY_LAND","required_keywords": ["telemetry gap","margin 5%","emergency landing"]},
+    {"case_id": "TC05_UnclearedHandoff","expected_decision": "REJECT_DIVERT","required_keywords": ["worst-case 22%","handoff unsigned","divert to charger"]},
+    {"case_id": "TC06_BacklogConditional","expected_decision": "CONDITIONAL_CONTINUE","required_keywords": ["voice call-outs","telemetry backlog","conditional continue"]},
+    {"case_id": "TC07_DegradedThermalWatch","expected_decision": "REJECT_EMERGENCY_LAND","required_keywords": ["exceed 40°C","degraded pack","emergency landing"]},
+    {"case_id": "TC08_CommandAbortProtocol","expected_decision": "REJECT_EMERGENCY_LAND","required_keywords": ["temp 41°C","thermal limit","emergency land"]}
+  ]
+}

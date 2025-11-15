@@ -54,6 +54,16 @@ from .implicit_priority_prompt import build_implicit_priority_prompt
 from .causal_temporal_prompt import build_causal_temporal_prompt
 from .epistemic_uncertainty_prompt import build_epistemic_uncertainty_prompt
 from .adversarial_circumvention_prompt import build_adversarial_circumvention_prompt
+from .fleet_sizing_prompt import build_fleet_sizing_prompt
+from .charging_strategy_prompt import build_charging_strategy_prompt
+from .repositioning_prompt import build_repositioning_prompt
+from .battery_emergency_prompt import build_battery_emergency_prompt
+from .airspace_conflict_prompt import build_airspace_conflict_prompt
+from .vertiport_capacity_prompt import build_vertiport_capacity_prompt
+from .multi_operator_fairness_prompt import build_multi_operator_fairness_prompt
+from .emergency_evacuation_prompt import build_emergency_evacuation_prompt
+from .fleet_spill_prompt import build_fleet_spill_prompt
+from .capital_allocation_prompt import build_capital_allocation_prompt
 
 __all__ = [
     'build_nfz_prompt',
@@ -85,4 +95,14 @@ __all__ = [
     'build_causal_temporal_prompt',
     'build_epistemic_uncertainty_prompt',
     'build_adversarial_circumvention_prompt',
+    'build_fleet_sizing_prompt',
+    'build_charging_strategy_prompt',
+    'build_repositioning_prompt',
+    'build_battery_emergency_prompt',
+    'build_airspace_conflict_prompt',
+    'build_vertiport_capacity_prompt',
+    'build_multi_operator_fairness_prompt',
+    'build_emergency_evacuation_prompt',
+    'build_fleet_spill_prompt',
+    'build_capital_allocation_prompt',
 ]

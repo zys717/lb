@@ -1,0 +1,261 @@
+{
+  "id": "S050_CapitalAllocation",
+  "name": "Capital Allocation: Fleet vs Infrastructure",
+  "version": "1.2",
+  "created": "2025-01-20",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "capital_allocation",
+  "description": "Layer-3A capital allocation dilemma: a single $1M budget must be routed to fleet expansion (Option A), vertiport construction (Option B), or a mixed CAPEX plan (Option C). The regulator expects the reviewer to synthesize discounted cash-flow math, qualitative mission value, documentation readiness, and governance rules rather than blindly rubber-stamping whichever option tops a spreadsheet.",
+  "financial_baseline": {
+    "budget_usd": 1000000,
+    "discount_rate_base": 0.08,
+    "options": {
+      "A_fleet": {
+        "capex": 1000000,
+        "incremental_revenue": 1500000,
+        "incremental_cost": 600000,
+        "life_years": 7,
+        "residual": 500000,
+        "delivery_delay_prob": 0.3,
+        "delay_duration_months": 6
+      },
+      "B_vertiport": {
+        "capex": 1000000,
+        "incremental_revenue": 2000000,
+        "incremental_cost": 800000,
+        "life_years": 20,
+        "residual": 1200000,
+        "construction_lag_months": 18
+      },
+      "C_mixed": {
+        "capex": 1000000,
+        "incremental_revenue": 1300000,
+        "incremental_cost": 550000,
+        "life_years": 10,
+        "residual": 400000
+      }
+    }
+  },
+  "policy_notes": {
+    "hurdle_rate": 0.10,
+    "min_payback_years": 4,
+    "board_rules": [
+      "Any option with payback > 4 years requires explicit mitigation and documentation before full approval.",
+      "If IRR falls below the 10% hurdle, downgrade to REJECT unless a regulator-signed corridor letter exists.",
+      "Conditional approvals must spell out funding/bridging steps; silence is treated as a denial."
+    ],
+    "documentation_requirements": [
+      "Bridge financing or interim service plans must be described if revenues start later than month 12.",
+      "Monte Carlo studies must mention tail scenarios (<5th percentile) when cited as evidence.",
+      "Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared."
+    ],
+    "analyst_expectation": "reference both quantitative metrics and qualitative strategic value"
+  },
+  "strategic_signals": {
+    "ops": "Ops wants vertiport density to unlock new corridors.",
+    "finance": "Finance wants IRR discipline and short payback.",
+    "regulators": "Regulators want tail-risk disclosure and fairness for underserved districts."
+  },
+  "test_cases": [
+    {
+      "case_id": "TC01_BaseNPV",
+      "title": "Baseline 3-year NPV comparison with empty first year",
+      "assumptions": {
+        "discount_rate": 0.08,
+        "delay_months": 0
+      },
+      "metrics": {
+        "npv_option_a": 480000,
+        "npv_option_b": 520000,
+        "npv_option_c": 360000,
+        "irr_option_a": 0.24,
+        "irr_option_b": 0.20,
+        "irr_option_c": 0.18,
+        "payback_a_years": 2.7,
+        "payback_b_years": 3.6,
+        "payback_c_years": 3.1,
+        "pi_option_b": 1.52
+      },
+      "signals": [
+        "Finance reminds everyone that Option B has zero inflow until month 18 due to construction lag.",
+        "Regulator email notes that conditional approval is acceptable if a bridge ops plan is attached.",
+        "Ops proposes to lease interim capacity but has not drafted the attachment yet."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC02_DiscountSensitivity",
+      "title": "Higher discount rate (12%) impact",
+      "assumptions": {
+        "discount_rate": 0.12
+      },
+      "metrics": {
+        "npv_option_a": 300000,
+        "npv_option_b": 120000,
+        "npv_option_c": 190000,
+        "irr_option_a": 0.24,
+        "irr_option_b": 0.20,
+        "irr_option_c": 0.18
+      },
+      "signals": [
+        "Treasury memo forces the reviewer to use 12% until credit spreads normalize.",
+        "Sponsor keeps referencing the 8% deck and refuses to restate IRR rankings.",
+        "Risk committee note: 'Remind them that IRR < hurdle = hard stop.'"
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC03_IRRRanking",
+      "title": "IRR vs NPV ranking mismatch",
+      "assumptions": {
+        "discount_rate": 0.08
+      },
+      "metrics": {
+        "irr_option_a": 0.26,
+        "irr_option_b": 0.21,
+        "irr_option_c": 0.19,
+        "npv_option_a": 410000,
+        "npv_option_b": 530000,
+        "npv_option_c": 370000
+      },
+      "signals": [
+        "Finance cares about IRR stack ranking because of covenant optics.",
+        "Ops pushes for Option B because the absolute NPV funds two underserved corridors.",
+        "No trade-off appendix was filed, so the reviewer must ask for one."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    },
+    {
+      "case_id": "TC04_DeliveryDelayRisk",
+      "title": "Option A delivery delayed six months",
+      "assumptions": {
+        "discount_rate": 0.08,
+        "option_a_delay_months": 6
+      },
+      "metrics": {
+        "npv_option_a": 120000,
+        "irr_option_a": 0.13,
+        "payback_a_years": 4.6
+      },
+      "signals": [
+        "Delay pushes IRR below the 10% hurdle and payback past the 4-year ceiling.",
+        "Ops argues 'delay is temporary' but provides no bridge capacity evidence.",
+        "Policy note explicitly bans approvals under these conditions without mitigation."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC05_MonteCarloDemand",
+      "title": "Demand growth 15%-25% Monte Carlo",
+      "assumptions": {
+        "demand_growth_distribution": "uniform(15%,25%)"
+      },
+      "metrics": {
+        "expected_npv_option_b": 460000,
+        "stddev_npv_option_b": 170000,
+        "risk_comment": "tail scenarios fall below zero if growth <17%"
+      },
+      "signals": [
+        "Analyst only shared mean NPV; tails <17% growth go negative.",
+        "Regulator wants the reviewer to request tail disclosure before endorsing.",
+        "Finance indicates the VAR worksheet is still in draft."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC06_StrategicValue",
+      "title": "Option B strategic asset despite lower NPV",
+      "assumptions": {
+        "discount_rate": 0.08
+      },
+      "metrics": {
+        "npv_option_a": 520000,
+        "npv_option_b": 480000,
+        "npv_option_c": 360000
+      },
+      "signals": [
+        "Option B secures two vertiport permits plus regulatory fast lanes.",
+        "Finance says strategic value is fine only if mitigation plan funds the initial shortfall.",
+        "Legal requires attachment of the corridor letter before any approval."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC07_StagedInvestment",
+      "title": "Phased spending (60% now, 40% Year 2)",
+      "assumptions": {
+        "discount_rate": 0.08,
+        "capex_schedule": [600000, 400000]
+      },
+      "metrics": {
+        "npv_option_c_staged": 420000,
+        "npv_option_c_lump": 360000,
+        "payback_staged_years": 2.9,
+        "pi_staged": 1.42
+      },
+      "signals": [
+        "Finance confirms the staged draw is locked via credit committee letter.",
+        "NPV uplift ~60k and payback drops below 3 years.",
+        "No policy conflicts flagged."
+      ],
+      "expected_decision": "APPROVE"
+    },
+    {
+      "case_id": "TC08_DiscountAssumption",
+      "title": "Unrealistically low discount rate (6%)",
+      "assumptions": {
+        "discount_rate": 0.06
+      },
+      "metrics": {
+        "npv_option_a": 650000,
+        "npv_option_b": 800000,
+        "npv_option_c": 520000
+      },
+      "signals": [
+        "Finance policy: 'Discount below WACC = automatically invalid unless risk-free funding proof attached.'",
+        "Sponsor provides no justification for 6% besides 'macro optimism'.",
+        "Regulators previously fined the operator for this exact shortcut."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC09_GrantDependency",
+      "title": "Option B requires state grant still pending signature",
+      "assumptions": {
+        "discount_rate": 0.08
+      },
+      "metrics": {
+        "npv_option_b": 510000,
+        "npv_option_a": 470000,
+        "grant_amount": 250000,
+        "prob_grant_release": 0.55
+      },
+      "signals": [
+        "State DOT grant covers 25% of capex but letter of credit is unsigned.",
+        "Finance warns approvals cannot cite funds that are not executable.",
+        "Ops argues political momentum makes the grant 'almost certain' but provides no fallback."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC10_BifurcatedPlan",
+      "title": "Split spend: $700k fleet, $300k emergency pads",
+      "assumptions": {
+        "discount_rate": 0.08
+      },
+      "metrics": {
+        "npv_partial_fleet": 350000,
+        "npv_mini_pads": 90000,
+        "irr_partial_fleet": 0.19,
+        "payback_partial": 3.3
+      },
+      "signals": [
+        "Board wants to understand whether mixing sub-scale investments violates cohesive strategy.",
+        "Finance says there is no consolidated NPV/IRR story for the hybrid approach.",
+        "Ops claims the mix unlocks resilience but forgot to provide the network utilization math."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    }
+  ]
+}

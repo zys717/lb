@@ -1,0 +1,51 @@
+{
+  "scenario_id": "S049_FleetSpillTradeoff",
+  "scenario_name": "Fleet Spill vs Capacity Trade-off",
+  "version": "1.0",
+  "created": "2025-11-16",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "summary": "Eight fleet-sizing test cases covering zero-spill references, balanced yet small fleets, overload, directional fairness, charging constraints, surge deployments, CVaR tail risk, and robustness gaps.",
+  "test_cases": [
+    {
+      "case_id": "TC01_ZeroSpillReference",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": ["financing pending", "zero spill", "board vote"]
+    },
+    {
+      "case_id": "TC02_TwelveAircraftBalanced",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": ["incentives unfunded", "spill 1.8%", "CFO approval pending"]
+    },
+    {
+      "case_id": "TC03_TenAircraftOverloaded",
+      "expected_decision": "REJECT",
+      "required_keywords": ["spill 11%", "CVaR 24", "fairness breach"]
+    },
+    {
+      "case_id": "TC04_DirectionalImbalance",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["Gini 0.37", "CBD rebate", "directional imbalance"]
+    },
+    {
+      "case_id": "TC05_SlowChargingConstraint",
+      "expected_decision": "REJECT",
+      "required_keywords": ["queue 9.5 min", "SLA violation", "no compensation"]
+    },
+    {
+      "case_id": "TC06_SurgeScenario",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": ["idle 26%", "surge evidence pending", "audit next quarter"]
+    },
+    {
+      "case_id": "TC07_CVaRStressFail",
+      "expected_decision": "REJECT",
+      "required_keywords": ["CVaR 15.8", "tail risk", "no wet lease"]
+    },
+    {
+      "case_id": "TC08_RobustPlanningGap",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": ["spill 7%", "gap 9.5%", "FairUAM supplement"]
+    }
+  ]
+}

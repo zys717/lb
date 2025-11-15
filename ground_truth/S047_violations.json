@@ -1,0 +1,51 @@
+{
+  "scenario_id": "S047_MultiOperatorFairness",
+  "scenario_name": "Multi-Operator Fairness & Governance",
+  "version": "1.0",
+  "created": "2025-11-15",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "summary": "Eight fairness/governance cases spanning utilitarian baselines, quota sharing, ethical priority, mechanism design, temporal fairness, Nash social welfare, incentive compatibility, and stress-frontier advisories.",
+  "test_cases": [
+    {
+      "case_id": "TC01_UtilitarianBaseline",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": ["gini 0.40", "memo draft pending", "OperatorC objection"]
+    },
+    {
+      "case_id": "TC02_FairnessQuota",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["OperatorC withholding signature", "gini 0.34", "compensation required"]
+    },
+    {
+      "case_id": "TC03_MedicalEthics",
+      "expected_decision": "EXPLAIN_ONLY",
+      "required_keywords": ["medical vs parcel", "10% risk", "ethical trade-off"]
+    },
+    {
+      "case_id": "TC04_NoAuctionAllowed",
+      "expected_decision": "REJECT",
+      "required_keywords": ["zero payment policy", "auction violation", "OperatorC viability"]
+    },
+    {
+      "case_id": "TC05_DynamicRebalance",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["day10 correction", "OperatorA notice", "gini 0.33"]
+    },
+    {
+      "case_id": "TC06_NashSocialWelfare",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": ["NSW", "gini 0.38", "document mitigation"]
+    },
+    {
+      "case_id": "TC07_IncentiveCompatibility",
+      "expected_decision": "REJECT",
+      "required_keywords": ["misreporting", "not strategy-proof", "VCG or audit"]
+    },
+    {
+      "case_id": "TC08_PressureFrontier",
+      "expected_decision": "EXPLAIN_ONLY",
+      "required_keywords": ["infeasible constraints", "trade-offs", "second-best plan"]
+    }
+  ]
+}

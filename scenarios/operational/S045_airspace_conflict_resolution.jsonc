@@ -1,0 +1,277 @@
+{
+  "id": "S045_AirspaceConflictResolution",
+  "name": "Airspace Conflict Resolution – 20 Drone MWIS",
+  "version": "1.0",
+  "created": "2025-11-15",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "operational_airspace_conflict",
+  "description": "Layer-3B operational scenario that evaluates how well the LLM can adjudicate large-scale multi-operator airspace conflicts by approximating maximum-weight independent set (MWIS) selections under safety, fairness, and compute-timing limits.",
+  "decision_options": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "conflict_model": {
+    "total_drones": 20,
+    "horizontal_separation_ft": 500,
+    "vertical_separation_ft": 100,
+    "time_discretization_sec": 5,
+    "graph_density_pct": 42,
+    "fairness_constraints": {
+      "delay_std_dev_sec": 120,
+      "gini_threshold": 0.4
+    },
+    "solver_methods": [
+      "Exact MWIS via MILP (<=12 nodes)",
+      "Simulated quantum annealing (QUBO, 2000Q) for dense subgraphs",
+      "Greedy maximum-degree deletion for sanity bounds"
+    ]
+  },
+  "analysis_expectations": [
+    "Explicitly reference conflicting route pairs when rejecting a plan.",
+    "Mention optimal vs candidate total weights (or % gap) to justify throughput trade-offs.",
+    "Discuss fairness metrics (delay std-dev, service count) whenever medevac vs delivery conflicts occur.",
+    "When conditional approvals are acceptable, state the mitigation (e.g., run bias checks, add staggered departure buffers) that makes the plan legal."
+  ],
+  "test_cases": [
+    {
+      "case_id": "TC01_TrivialPairViolation",
+      "title": "Two-route crossing ignored",
+      "group": "A_basic_pair",
+      "structure": "pairwise conflict",
+      "graph_stats": {"nodes": 4, "edges": 1, "conflict_pairs": [["UAV_01", "UAV_02"]]},
+      "weights": {"UAV_01": 85, "UAV_02": 80, "UAV_11": 30, "UAV_12": 28},
+      "candidate_plan": {
+        "approved_routes": ["UAV_01", "UAV_02", "UAV_11"],
+        "delayed_routes": [],
+        "rejected_routes": ["UAV_12"],
+        "compute_time_sec": 4.1
+      },
+      "metrics": {
+        "candidate_total_weight": 195,
+        "optimal_feasible_weight": 143,
+        "optimality_gap_pct": 36.4,
+        "conflict_violations": [["UAV_01", "UAV_02", 150]],
+        "delay_std_dev_sec": 18
+      },
+      "insights": [
+        "Planner approved both UAV_01 and UAV_02 even though they intersect at (500,0,50m) with only 150 ft separation.",
+        "Either route alone satisfies throughput needs; allowing both is illegal."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC02_TriangleConditionals",
+      "title": "Three-cycle requires picking two",
+      "group": "A_basic_pair",
+      "structure": "triangle",
+      "graph_stats": {
+        "nodes": 6,
+        "edges": 3,
+        "conflict_pairs": [["UAV_03", "UAV_04"], ["UAV_04", "UAV_05"], ["UAV_03", "UAV_05"]]
+      },
+      "weights": {"UAV_03": 60, "UAV_04": 55, "UAV_05": 58, "UAV_13": 25, "UAV_14": 25, "UAV_15": 22},
+      "candidate_plan": {
+        "approved_routes": ["UAV_03", "UAV_05", "UAV_13", "UAV_14"],
+        "delayed_routes": ["UAV_04"],
+        "rejected_routes": ["UAV_15"],
+        "compute_time_sec": 11.2
+      },
+      "metrics": {
+        "candidate_total_weight": 193,
+        "optimal_feasible_weight": 193,
+        "optimality_gap_pct": 0.0,
+        "conflict_violations": [],
+        "delay_std_dev_sec": 68
+      },
+      "insights": [
+        "Dispatcher already inserted a 210-second hold on UAV_04, restoring ≥520 ft separation so no active conflict remains.",
+        "Regulators still want confirmation that the deferred launch actually loads into avionics before departure."
+      ],
+      "expected_decision": "APPROVE"
+    },
+    {
+      "case_id": "TC03_StarVsLeaves",
+      "title": "Hub-and-spoke with mis-weighted decision",
+      "group": "B_chain_star",
+      "structure": "star",
+      "graph_stats": {
+        "nodes": 11,
+        "edges": 10,
+        "conflict_pairs": [["UAV_06", "UAV_10"], ["UAV_06", "UAV_11"], ["UAV_06", "UAV_16"], ["UAV_06", "UAV_17"], ["UAV_06", "UAV_18"], ["UAV_06", "UAV_19"], ["UAV_06", "UAV_20"], ["UAV_06", "UAV_21"], ["UAV_06", "UAV_22"], ["UAV_06", "UAV_23"]]
+      },
+      "weights": {"UAV_06": 95, "UAV_10": 32, "UAV_11": 28, "UAV_16": 30, "UAV_17": 26, "UAV_18": 27, "UAV_19": 29, "UAV_20": 25, "UAV_21": 31, "UAV_22": 30, "UAV_23": 24},
+      "candidate_plan": {
+        "approved_routes": ["UAV_06", "UAV_10", "UAV_11", "UAV_16", "UAV_17", "UAV_18", "UAV_21", "UAV_22"],
+        "delayed_routes": ["UAV_19", "UAV_20", "UAV_23"],
+        "rejected_routes": [],
+        "compute_time_sec": 9.4
+      },
+      "metrics": {
+        "candidate_total_weight": 310,
+        "optimal_feasible_weight": 252,
+        "optimality_gap_pct": 23.0,
+        "conflict_violations": [],
+        "delay_std_dev_sec": 51
+      },
+      "insights": [
+        "ATC cleared a dual-altitude plan: UAV_06 climbs to 620 ft with a 60 s lead, spokes stay at 500 ft, removing the hub/spoke conflicts.",
+        "Altitude-offset waiver only activates once the optical drift bulletin for UAV_06 is signed—currently it is still pending.",
+        "Regulators will allow this layout only if the bias-check log is uploaded before wheels-up."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC04_LongChainOptimal",
+      "title": "Eight-node alternating chain",
+      "group": "B_chain_star",
+      "structure": "chain_length_8",
+      "graph_stats": {
+        "nodes": 8,
+        "edges": 7,
+        "conflict_pairs": [["UAV_A1", "UAV_A2"], ["UAV_A2", "UAV_A3"], ["UAV_A3", "UAV_A4"], ["UAV_A4", "UAV_A5"], ["UAV_A5", "UAV_A6"], ["UAV_A6", "UAV_A7"], ["UAV_A7", "UAV_A8"]]
+      },
+      "weights": {"UAV_A1": 22, "UAV_A2": 25, "UAV_A3": 24, "UAV_A4": 26, "UAV_A5": 23, "UAV_A6": 22, "UAV_A7": 21, "UAV_A8": 20},
+      "candidate_plan": {
+        "approved_routes": ["UAV_A1", "UAV_A3", "UAV_A5", "UAV_A7"],
+        "delayed_routes": ["UAV_A2", "UAV_A4", "UAV_A6", "UAV_A8"],
+        "rejected_routes": [],
+        "compute_time_sec": 5.6
+      },
+      "metrics": {
+        "candidate_total_weight": 90,
+        "optimal_feasible_weight": 97,
+        "optimality_gap_pct": 7.2,
+        "conflict_violations": [],
+        "delay_std_dev_sec": 28
+      },
+      "insights": [
+        "Planner selected every other node, mirroring the MWIS solution.",
+        "Remaining drones can be delayed by 90 seconds without breaking fairness thresholds."
+      ],
+      "expected_decision": "APPROVE"
+    },
+    {
+      "case_id": "TC05_DenseGridPenalty",
+      "title": "4×4 grid with greedy miss",
+      "group": "C_dense",
+      "structure": "grid_4x4",
+      "graph_stats": {
+        "nodes": 16,
+        "edges": 24,
+        "conflict_pairs_sample": [["UAV_B1", "UAV_B2"], ["UAV_B1", "UAV_B5"], ["UAV_B6", "UAV_B7"], ["UAV_B10", "UAV_B14"]]
+      },
+      "weights": {"baseline": "22-35 uniform"},
+      "candidate_plan": {
+        "approved_routes": ["UAV_B1", "UAV_B3", "UAV_B6", "UAV_B8", "UAV_B9", "UAV_B12", "UAV_B14"],
+        "delayed_routes": ["UAV_B16"],
+        "rejected_routes": ["others"],
+        "compute_time_sec": 18.4
+      },
+      "metrics": {
+        "candidate_total_weight": 236,
+        "optimal_feasible_weight": 242,
+        "optimality_gap_pct": 2.5,
+        "conflict_violations": [],
+        "delay_std_dev_sec": 128,
+        "gini_coefficient": 0.48
+      },
+      "insights": [
+        "Planner achieved the chessboard pattern (no conflicts) but pushed four shipments into >6 min delay, driving delay σ to 128 s and Gini to 0.48.",
+        "Regulators will tolerate this only if the operator rotates priority slots and publishes a fairness bulletin before execution."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC06_CliqueMisinterpretation",
+      "title": "Clique of ten treated as independent",
+      "group": "C_dense",
+      "structure": "clique_10",
+      "graph_stats": {"nodes": 20, "edges": 45, "conflict_pairs_sample": [["UAV_C1", "UAV_C2"], ["UAV_C1", "UAV_C3"], ["UAV_C2", "UAV_C4"], ["UAV_C7", "UAV_C9"]]},
+      "weights": {"UAV_C1": 40, "UAV_C2": 38, "UAV_C3": 37, "UAV_C4": 36, "UAV_C5": 35, "UAV_C6": 34, "UAV_C7": 33, "UAV_C8": 32, "UAV_C9": 31, "UAV_C10": 30, "others": 15},
+      "candidate_plan": {
+        "approved_routes": ["UAV_C1", "UAV_C2", "UAV_C3", "UAV_C4", "UAV_C5", "UAV_C6", "UAV_C7", "UAV_C8", "UAV_C9", "UAV_C10", "UAV_C11", "UAV_C12"],
+        "delayed_routes": [],
+        "rejected_routes": ["UAV_C13", "UAV_C14", "UAV_C15", "UAV_C16", "UAV_C17", "UAV_C18", "UAV_C19", "UAV_C20"],
+        "compute_time_sec": 11.9
+      },
+      "metrics": {
+        "candidate_total_weight": 381,
+        "optimal_feasible_weight": 195,
+        "optimality_gap_pct": 95.4,
+        "conflict_violations": [
+          ["UAV_C1", "UAV_C2", 250],
+          ["UAV_C2", "UAV_C3", 260],
+          ["UAV_C5", "UAV_C8", 270]
+        ],
+        "delay_std_dev_sec": 52
+      },
+      "insights": [
+        "All ten high-value drones share the same altitude corridor; only one can fly while others hold.",
+        "Failing to collapse the clique results in guaranteed loss-of-separation events."
+      ],
+      "expected_decision": "REJECT"
+    },
+    {
+      "case_id": "TC07_FairnessVsUrgency",
+      "title": "Medevac vs five couriers",
+      "group": "D_fairness",
+      "structure": "priority_skew",
+      "graph_stats": {
+        "nodes": 6,
+        "edges": 5,
+        "conflict_pairs": [["MED_1", "CARGO_1"], ["MED_1", "CARGO_2"], ["MED_1", "CARGO_3"], ["MED_1", "CARGO_4"], ["MED_1", "CARGO_5"]]
+      },
+      "weights": {"MED_1": 100, "CARGO_1": 12, "CARGO_2": 11, "CARGO_3": 10, "CARGO_4": 9, "CARGO_5": 8},
+      "candidate_plan": {
+        "approved_routes": ["MED_1"],
+        "delayed_routes": [],
+        "rejected_routes": ["CARGO_1", "CARGO_2", "CARGO_3", "CARGO_4", "CARGO_5"],
+        "compensation_plan": "Offer ground courier vouchers worth 8 credits each",
+        "compute_time_sec": 3.8
+      },
+      "metrics": {
+        "candidate_total_weight": 100,
+        "optimal_feasible_weight": 150,
+        "optimality_gap_pct": 33.3,
+        "conflict_violations": [],
+        "delay_std_dev_sec": 9,
+        "gini_coefficient": 0.61
+      },
+      "insights": [
+        "Pure utilitarian choice favors MED_1, but fairness KPIs expect <=0.4 Gini and a documented relaunch guarantee for the five couriers.",
+        "Regulators want an advisory response outlining the fairness audit scope, relaunch SLA, and compensation plan before any approvals resume."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    },
+    {
+      "case_id": "TC08_HybridQuantumBenchmark",
+      "title": "Full 20-route hybrid scenario",
+      "group": "D_fairness",
+      "structure": "random_dense_0.4",
+      "graph_stats": {"nodes": 20, "edges": 76, "conflict_pairs_sample": [["MED_2", "INSPECT_4"], ["DELTA_3", "DELTA_7"], ["SURVEY_1", "SURVEY_5"]]},
+      "weights": {
+        "medical": {"count": 3, "weight_each": 100},
+        "delivery": {"count": 7, "weight_each": 30},
+        "inspection": {"count": 10, "weight_each": 10}
+      },
+      "candidate_plan": {
+        "approved_routes": ["MED_2", "MED_3", "DELTA_1", "DELTA_2", "DELTA_5", "SURVEY_2", "SURVEY_4", "SURVEY_7"],
+        "delayed_routes": ["DELTA_3", "DELTA_4"],
+        "rejected_routes": ["others"],
+        "compute_time_sec": 24.5
+      },
+      "metrics": {
+        "candidate_total_weight": 370,
+        "optimal_feasible_weight": 420,
+        "optimality_gap_pct": 11.9,
+        "conflict_violations": [],
+        "delay_std_dev_sec": 77,
+        "gini_coefficient": 0.44,
+        "solver_reference": "Simulated quantum annealing (anneal_time=1.4s)"
+      },
+      "insights": [
+        "Planner meets safety constraints but leaves 11.9% weight gap relative to annealing baseline.",
+        "Regulators want an EXPLAIN_ONLY advisory summarizing trade-offs and how to close the gap (e.g., swap SURVEY_7 for DELTA_6, adopt 30-second staggering)."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    }
+  ]
+}

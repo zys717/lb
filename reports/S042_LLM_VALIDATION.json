@@ -1,0 +1,276 @@
+{
+  "scenario": "S042_FastSlowChargingStrategy",
+  "scenario_type": "charging_strategy",
+  "timestamp": "2025-11-13T19:00:10.064281",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_accuracy": "6/8",
+    "llm_accuracy_percent": "75.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_FastOnlyMaxRevenue",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The strategy's capacity_retention is 0.72, which is below the mandated policy constraint of ≥ 0.80.\nSolver insights confirm this strategy violates the 80% capacity requirement by year 2, leading to unsustainable battery degradation.\nFrequent battery replacements (5.1 over 3 years) inflate battery CAPEX by $255,000, significantly impacting overall economic viability despite high revenue.\nWhile the strategy achieves high annual revenue ($820,000) and peak utilization (0.88), and a strong ROI (1.58), these benefits are overshadowed by the critical policy violation.\nThe core policy constraint for capacity retention is not met, directly triggering a REJECT per the decision rules.\nThis strategy prioritizes maximum block hours at the expense of battery longevity and long-term fleet health.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The strategy's capacity_retention is 0.72, which is below the mandated policy constraint of ≥ 0.80.",
+            "Solver insights confirm this strategy violates the 80% capacity requirement by year 2, leading to unsustainable battery degradation.",
+            "Frequent battery replacements (5.1 over 3 years) inflate battery CAPEX by $255,000, significantly impacting overall economic viability despite high revenue.",
+            "While the strategy achieves high annual revenue ($820,000) and peak utilization (0.88), and a strong ROI (1.58), these benefits are overshadowed by the critical policy violation.",
+            "The core policy constraint for capacity retention is not met, directly triggering a REJECT per the decision rules.",
+            "This strategy prioritizes maximum block hours at the expense of battery longevity and long-term fleet health."
+          ],
+          "tradeoffs": "This strategy maximizes revenue and aircraft utilization by leveraging aggressive 6C fast-charging, enabling more trips and higher service output. However, this comes at a significant cost to battery health, leading to rapid degradation (low cycles_to_eol of 1850) and frequent, costly replacements. While short-term revenue is high, the substantial increase in battery CAPEX and the failure to meet capacity retention policies make it economically unsustainable and operationally risky in the long run. The trade-off is high immediate productivity for severe battery wear and non-compliance.",
+          "actions": [],
+          "violated_policies": [
+            {
+              "policy": "capacity_retention",
+              "actual_value": 0.72,
+              "threshold": "≥ 0.80"
+            }
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC02_SlowOnlyLongevity",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The charging strategy prioritizes battery longevity with 1C slow-charge, achieving excellent capacity retention (0.91) and a high number of cycles to EOL (3300).\nHowever, this approach leads to a significantly low peak utilization (0.58), failing the policy constraint of ≥ 0.70 and indicating substantial unmet demand.\nThe low utilization negatively impacts financial performance, resulting in an ROI ratio of 0.62, which is below the threshold of 1.0 without documented offsets.\nKey operational metrics like charger-to-fleet ratio (0.6) and grid penalty (0.03) are well within acceptable policy limits.\nSolver insights specifically acknowledge the longevity benefits, the peak utilization failure, and explicitly recommend conditional approval contingent on commitments to demand-shaping and limited fast-charge capability.\nGiven the explicit solver guidance and the city's preference for low-noise operations, conditional approval with clear mitigation requirements is appropriate, despite the initial low ROI.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The charging strategy prioritizes battery longevity with 1C slow-charge, achieving excellent capacity retention (0.91) and a high number of cycles to EOL (3300).",
+            "However, this approach leads to a significantly low peak utilization (0.58), failing the policy constraint of ≥ 0.70 and indicating substantial unmet demand.",
+            "The low utilization negatively impacts financial performance, resulting in an ROI ratio of 0.62, which is below the threshold of 1.0 without documented offsets.",
+            "Key operational metrics like charger-to-fleet ratio (0.6) and grid penalty (0.03) are well within acceptable policy limits.",
+            "Solver insights specifically acknowledge the longevity benefits, the peak utilization failure, and explicitly recommend conditional approval contingent on commitments to demand-shaping and limited fast-charge capability.",
+            "Given the explicit solver guidance and the city's preference for low-noise operations, conditional approval with clear mitigation requirements is appropriate, despite the initial low ROI."
+          ],
+          "tradeoffs": "This strategy presents a clear tradeoff: exceptional battery longevity and low-noise operations are achieved at the expense of operational efficiency and revenue. While battery health is maximized (0.91 capacity retention), the fleet is significantly underutilized during peak hours (0.58 peak utilization), leading to unmet demand and a suboptimal financial return (ROI 0.62). The strategy prioritizes long-term asset preservation over immediate service delivery and profit maximization.",
+          "actions": [
+            "Implement demand shaping mechanisms, including dynamic pricing, to better manage demand and incentivize off-peak usage, thereby increasing peak utilization.",
+            "Integrate limited fast-charge capabilities at strategic locations to address critical demand during peak hours and improve overall fleet availability.",
+            "Develop a detailed plan for the deployment and operational management of these mitigations to demonstrate commitment to city regulators and ensure improved financial viability."
+          ],
+          "violated_policies": [
+            "peak_utilization: 0.58 (expected ≥ 0.70)"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC03_HybridPeakFast",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "APPROVE"
+      },
+      "llm_result": {
+        "decision": "APPROVE",
+        "reasoning": "All policy constraints (capacity_retention, peak_utilization, charger_to_fleet_ratio, grid_penalty) are met.\nCapacity retention of 0.83 exceeds the 0.80 minimum, indicating good battery health and longevity.\nPeak utilization of 0.76 is above the 0.70 threshold, demonstrating efficient fleet operations during critical hours.\nThe charger-to-fleet ratio of 1.1 is within the ≤ 1.2 limit, balancing infrastructure investment with operational needs.\nThe grid penalty of 0.11 is below the 0.15 maximum, ensuring manageable grid impact.\nThe ROI ratio of 1.24 is greater than 1, indicating a financially viable strategy.",
+        "analysis": {
+          "decision": "APPROVE",
+          "reasoning_steps": [
+            "All policy constraints (capacity_retention, peak_utilization, charger_to_fleet_ratio, grid_penalty) are met.",
+            "Capacity retention of 0.83 exceeds the 0.80 minimum, indicating good battery health and longevity.",
+            "Peak utilization of 0.76 is above the 0.70 threshold, demonstrating efficient fleet operations during critical hours.",
+            "The charger-to-fleet ratio of 1.1 is within the ≤ 1.2 limit, balancing infrastructure investment with operational needs.",
+            "The grid penalty of 0.11 is below the 0.15 maximum, ensuring manageable grid impact.",
+            "The ROI ratio of 1.24 is greater than 1, indicating a financially viable strategy."
+          ],
+          "tradeoffs": "This strategy effectively balances the need for rapid charging during peak demand (6C fast) to maintain high service levels and revenue potential, with off-peak slower charging (1C slow) to extend battery life and retain capacity. While fast charging contributes to battery degradation (3.2 replacements over 3 years), the nightly recovery strategy successfully keeps capacity retention above the 80% threshold. Economically, it delivers a strong NPV and ROI, albeit with the cost of battery replacements factored in, representing a well-managed compromise between operational efficiency, battery health, and financial returns.",
+          "actions": [
+            "Continue to monitor battery capacity retention and resistance growth to validate the long-term effectiveness of the nightly recovery strategy.",
+            "Periodically review charger utilization and grid penalty metrics to identify opportunities for further optimization or potential issues with demand fluctuations."
+          ],
+          "violated_policies": []
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC04_MediumRateLimitedChargers",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The charging strategy demonstrates strong financial performance with an ROI ratio of 1.05 and annual revenue of $560,000, meeting economic targets.\nBattery health metrics, including capacity retention (0.84) and cycles to end-of-life (2700), exceed policy requirements of ≥ 0.8.\nOperational efficiency is met with peak utilization at 0.73 (policy ≥ 0.7) and a grid penalty of 0.09 (policy ≤ 0.15).\nThe strategy's primary policy violation is the charger-to-fleet ratio, which stands at 1.35, exceeding the maximum allowable 1.2.\nSolver insights confirm that adding two 4C charging pedestals (estimated $30,000 USD) will resolve the charger ratio violation and align with the policy constraint.\nGiven the positive performance across all other metrics and a clear, actionable mitigation, a conditional approval is warranted.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The charging strategy demonstrates strong financial performance with an ROI ratio of 1.05 and annual revenue of $560,000, meeting economic targets.",
+            "Battery health metrics, including capacity retention (0.84) and cycles to end-of-life (2700), exceed policy requirements of ≥ 0.8.",
+            "Operational efficiency is met with peak utilization at 0.73 (policy ≥ 0.7) and a grid penalty of 0.09 (policy ≤ 0.15).",
+            "The strategy's primary policy violation is the charger-to-fleet ratio, which stands at 1.35, exceeding the maximum allowable 1.2.",
+            "Solver insights confirm that adding two 4C charging pedestals (estimated $30,000 USD) will resolve the charger ratio violation and align with the policy constraint.",
+            "Given the positive performance across all other metrics and a clear, actionable mitigation, a conditional approval is warranted."
+          ],
+          "tradeoffs": [
+            "**Service vs. Battery Wear:** The `4C_medium` and `2C_blended` strategy balances faster turnaround times (due to 4C availability during peak) with reasonable battery longevity, achieving an acceptable 2700 cycles to EOL and 0.84 capacity retention. This minimizes replacement costs while enabling consistent revenue.",
+            "**Economics vs. Infrastructure:** The initial setup attempts to maximize fleet utilization with minimal infrastructure, leading to a high charger-to-fleet ratio. While this saves initial capital, it violates policy and may introduce operational bottlenecks. The proposed investment in additional chargers ($30k) enhances long-term compliance and operational robustness for a relatively small cost compared to overall NPV.",
+            "**Operational Flexibility vs. Constraint Violation:** The current charger limitation likely constrains fleet scheduling and could introduce risks during unexpected demand spikes. Addressing the charger ratio directly improves operational flexibility and reduces dependency on a lean infrastructure."
+          ],
+          "actions": [
+            "Approve a capital expenditure of approximately $30,000 USD for the procurement and installation of two additional 4C medium-rate charging pedestals.",
+            "Update the infrastructure deployment plan to reflect an increase to 9 chargers for 8 aircraft, ensuring the charger-to-fleet ratio is reduced to 1.125, thereby meeting policy requirements.",
+            "Monitor fleet scheduling and charger queue times post-installation to confirm improved operational flow and no new bottlenecks are introduced."
+          ],
+          "violated_policies": [
+            "charger_to_fleet_ratio: 1.35 (Policy: ≤ 1.2)"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC05_GridResponsivePlan",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "APPROVE",
+        "reasoning": "All key operational policy constraints are met: capacity_retention (0.81 ≥ 0.80), peak_utilization (0.74 ≥ 0.70), and charger_to_fleet_ratio (1.12 ≤ 1.2).\nThe critical grid_penalty policy (0.05 ≤ 0.15) is well within limits, directly attributed to the solar-aligned fast charging and on-site storage strategy.\nThe strategy demonstrates strong economic viability with an ROI ratio of 1.18, significantly exceeding the rejection threshold of 1.0.\nRobust financial performance is projected with annual_revenue_usd of $585,000 and a three_year_npv_usd of $1,250,000.\nSolver insights confirm the strategy's effectiveness in meeting all constraints with modest storage investment, indicating a well-optimized plan.",
+        "analysis": {
+          "decision": "APPROVE",
+          "reasoning_steps": [
+            "All key operational policy constraints are met: capacity_retention (0.81 ≥ 0.80), peak_utilization (0.74 ≥ 0.70), and charger_to_fleet_ratio (1.12 ≤ 1.2).",
+            "The critical grid_penalty policy (0.05 ≤ 0.15) is well within limits, directly attributed to the solar-aligned fast charging and on-site storage strategy.",
+            "The strategy demonstrates strong economic viability with an ROI ratio of 1.18, significantly exceeding the rejection threshold of 1.0.",
+            "Robust financial performance is projected with annual_revenue_usd of $585,000 and a three_year_npv_usd of $1,250,000.",
+            "Solver insights confirm the strategy's effectiveness in meeting all constraints with modest storage investment, indicating a well-optimized plan."
+          ],
+          "tradeoffs": "The strategy effectively balances the need for rapid service (6C fast charging during peak/solar hours) with managing battery health through the use of slower 2C and 1C charging during other periods. While three battery replacements in three years indicate significant wear, it is managed to achieve the minimum required capacity retention of 0.81, optimizing vehicle availability against battery lifecycle. Economically, the strategy prioritizes high revenue generation and grid cost avoidance by leveraging solar energy, which supports fast charging and minimizes penalties, leading to a strong ROI despite the considerable battery replacement costs.",
+          "actions": [
+            "Implement continuous monitoring of battery degradation metrics (capacity_retention, internal resistance growth) to validate projected EOL cycles and replacement schedules.",
+            "Conduct quarterly reviews of on-site storage performance and solar energy integration to ensure optimal grid penalty avoidance and explore further efficiency gains.",
+            "Investigate potential battery technology upgrades or alternative charging profiles that could extend battery life without significantly impacting service availability or increasing grid penalties."
+          ],
+          "violated_policies": []
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC06_HighTempFastCharge",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The proposed strategy's capacity retention (0.78) falls below the minimum policy requirement of 0.8, indicating accelerated battery degradation.\nThe ambient temperature (38°C) exceeds the maximum permissible thermal constraint of 35°C, as noted in the Solver Insights.\nThe grid penalty (0.17) surpasses the policy limit of 0.15, indicating inefficient power draw or reactive power issues.\nThe Return on Investment (ROI) ratio of 0.98 is below 1.0, making the strategy financially unviable without an explicit subsidy or offset.\nThe combination of high C-rate charging in elevated temperatures (6C in 38°C) directly contributes to these violations.\nBased on multiple critical policy violations (capacity retention, thermal, grid penalty, and ROI), the strategy must be rejected.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The proposed strategy's capacity retention (0.78) falls below the minimum policy requirement of 0.8, indicating accelerated battery degradation.",
+            "The ambient temperature (38°C) exceeds the maximum permissible thermal constraint of 35°C, as noted in the Solver Insights.",
+            "The grid penalty (0.17) surpasses the policy limit of 0.15, indicating inefficient power draw or reactive power issues.",
+            "The Return on Investment (ROI) ratio of 0.98 is below 1.0, making the strategy financially unviable without an explicit subsidy or offset.",
+            "The combination of high C-rate charging in elevated temperatures (6C in 38°C) directly contributes to these violations.",
+            "Based on multiple critical policy violations (capacity retention, thermal, grid penalty, and ROI), the strategy must be rejected."
+          ],
+          "tradeoffs": "This strategy heavily prioritizes fast turnaround times and high peak utilization (0.82) by employing 6C fast charging. However, this comes at a significant cost to battery longevity and economic viability. Charging at 6C in a high ambient temperature of 38°C without active cooling leads to rapid battery degradation, resulting in low capacity retention (0.78) and a reduced cycles_to_eol (1900). This translates to higher battery replacement costs and a poor ROI (0.98). Furthermore, the aggressive charging profile incurs higher grid penalties due to reactive power spikes. The strategy sacrifices battery health and financial sustainability for operational speed.",
+          "actions": [
+            "Re-evaluate charging strategy: Prioritize lower C-rates (e.g., 2C_blended or 1C_slow) during high ambient temperatures or blend more aggressively towards slower rates.",
+            "Implement active thermal management: Invest in active cooling systems for batteries and/or charging infrastructure to mitigate high ambient temperature effects.",
+            "Optimize grid integration: Implement power factor correction or energy storage solutions to reduce reactive power spikes and grid penalties.",
+            "Recalculate economics: Model the financial impact of reduced battery life and increased grid penalties under a revised strategy. Explore subsidies or alternative revenue streams if fast charging is critical.",
+            "Review operational constraints: Consider if peak utilization targets can be met with slightly slower charge times, or if fleet size adjustments are needed."
+          ],
+          "violated_policies": [
+            "capacity_retention (0.78 < 0.8)",
+            "ambient_temp_c (38°C > 35°C)",
+            "grid_penalty (0.17 > 0.15)",
+            "roi_ratio (0.98 < 1.0, without documented subsidy)"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC07_BatteryLeaseModel",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "All policy constraints for capacity_retention (0.86 ≥ 0.8), peak_utilization (0.71 ≥ 0.7), charger_to_fleet_ratio (1.08 ≤ 1.2), and grid_penalty (0.08 ≤ 0.15) are met.\nThe chosen mixed 4C/1C charging strategy effectively manages battery degradation, resulting in 2800 cycles to EOL and a capacity_retention of 0.86.\nOperational efficiency is good, with a peak_utilization of 0.71 and a charger_to_fleet_ratio of 1.08, indicating sufficient charging infrastructure for demand.\nThe grid_penalty of 0.08 is well within the acceptable limit, suggesting efficient power management.\nDespite strong annual revenue ($530,000) and positive three-year NPV ($1,010,000), the overall ROI ratio is 0.92, falling below the critical 1.0 threshold.\nThe solver insights identify the battery lease premium ($120,000/year) as the primary driver for the ROI deficit, requiring renegotiation or cost adjustment.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "All policy constraints for capacity_retention (0.86 ≥ 0.8), peak_utilization (0.71 ≥ 0.7), charger_to_fleet_ratio (1.08 ≤ 1.2), and grid_penalty (0.08 ≤ 0.15) are met.",
+            "The chosen mixed 4C/1C charging strategy effectively manages battery degradation, resulting in 2800 cycles to EOL and a capacity_retention of 0.86.",
+            "Operational efficiency is good, with a peak_utilization of 0.71 and a charger_to_fleet_ratio of 1.08, indicating sufficient charging infrastructure for demand.",
+            "The grid_penalty of 0.08 is well within the acceptable limit, suggesting efficient power management.",
+            "Despite strong annual revenue ($530,000) and positive three-year NPV ($1,010,000), the overall ROI ratio is 0.92, falling below the critical 1.0 threshold.",
+            "The solver insights identify the battery lease premium ($120,000/year) as the primary driver for the ROI deficit, requiring renegotiation or cost adjustment."
+          ],
+          "tradeoffs": "This strategy effectively balances service demands (high peak utilization) with battery longevity (good capacity retention and cycles to EOL) through its mixed 4C/1C charging profile, leveraging the benefits of both fast and slow charging. Technically, it's sound. However, the economic viability is compromised by the high battery lease premium, which pushes the ROI below 1. The operational benefits gained from leased packs (vendor handles recycling) are currently outweighed by their cost, creating a financial hurdle despite strong revenue generation and meeting all technical policies.",
+          "actions": [
+            "Initiate renegotiation of the battery lease premium with the vendor to achieve a more favorable SLA.",
+            "Conduct a financial impact analysis on potentially passing a portion of the battery lease costs to customer fares.",
+            "Explore alternative battery leasing options or ownership models to optimize long-term cost efficiency."
+          ],
+          "violated_policies": []
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC08_PhasedUpgradePlan",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "EXPLAIN_ONLY"
+      },
+      "llm_result": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning": "The roadmap is well-aligned with policy constraints, exhibiting a capacity retention of 0.88 (exceeding 0.80) and a peak utilization of 0.75 (exceeding 0.70) by Phase 3.\nThe projected ROI ratio of 1.1 in Phase 3 confirms the economic viability of the strategy, meeting the requirement for profitability.\nThe initial adoption of 1C slow charging (Year 0-1) prioritizes battery longevity and minimizes immediate capital expenditure, establishing a stable foundation.\nThe phased introduction of 4C chargers by Year 2, with a total CAPEX of $120,000, strategically enhances operational efficiency and fleet readiness to meet evolving demand.\nA 6-month risk buffer is prudently incorporated, providing a necessary contingency for unforeseen operational challenges, supply chain delays, or integration complexities.\nThe planned hybrid 4C+1C charging with thermal management in Phase 3 demonstrates a balanced approach to optimize service speed while actively mitigating accelerated battery degradation.",
+        "analysis": {
+          "decision": "EXPLAIN_ONLY",
+          "reasoning_steps": [
+            "The roadmap is well-aligned with policy constraints, exhibiting a capacity retention of 0.88 (exceeding 0.80) and a peak utilization of 0.75 (exceeding 0.70) by Phase 3.",
+            "The projected ROI ratio of 1.1 in Phase 3 confirms the economic viability of the strategy, meeting the requirement for profitability.",
+            "The initial adoption of 1C slow charging (Year 0-1) prioritizes battery longevity and minimizes immediate capital expenditure, establishing a stable foundation.",
+            "The phased introduction of 4C chargers by Year 2, with a total CAPEX of $120,000, strategically enhances operational efficiency and fleet readiness to meet evolving demand.",
+            "A 6-month risk buffer is prudently incorporated, providing a necessary contingency for unforeseen operational challenges, supply chain delays, or integration complexities.",
+            "The planned hybrid 4C+1C charging with thermal management in Phase 3 demonstrates a balanced approach to optimize service speed while actively mitigating accelerated battery degradation."
+          ],
+          "tradeoffs": "The strategy expertly balances initial battery longevity and lower CAPEX through 1C slow charging in Phase 1 against the need for increased operational efficiency and vehicle turnaround times provided by 4C charging in later phases. This phased approach manages upfront investment while progressively scaling service capabilities. The economic tradeoff involves slower initial revenue realization with 1C due to lower vehicle availability, offset by extended battery life, which transitions to higher revenue potential with 4C charging that requires greater CAPEX and active thermal management to counteract increased battery wear.",
+          "actions": [
+            "**Fleet/Charger Ramp Recommendation:** For Phase 1 (Year 0-1), ensure the 1C slow charging infrastructure is sized to meet initial fleet operational needs, focusing on optimal utilization given slower charging times. For Phase 2 (Year 1-2), plan the procurement and installation of eight 4C chargers (based on $120,000 CAPEX / $15,000 per charger) to achieve the 1.0 charger-to-fleet ratio. This installation should be carefully synchronized with the planned expansion of the fleet that will utilize 4C capabilities, ensuring immediate productive use of new assets.",
+            "**Risk Buffer Justification:** The 6-month risk buffer is justified as a critical safeguard against potential delays in equipment delivery, installation, or the integration of thermal management systems. It also provides financial and operational flexibility for unexpected market shifts or initial performance variability of the new charging infrastructure.",
+            "**Performance Monitoring:** Implement a robust monitoring system for battery health metrics (e.g., actual capacity retention, resistance growth) upon the introduction of 4C charging to validate model predictions and enable proactive adjustments to charging strategies or maintenance schedules.",
+            "**Demand Shaping (Phase 1):** During the initial 1C-only phase, actively apply demand shaping and smart scheduling strategies to maximize fleet uptime and revenue generation, mitigating the impact of longer charging durations."
+          ],
+          "violated_policies": []
+        },
+        "correct": true
+      }
+    }
+  ]
+}

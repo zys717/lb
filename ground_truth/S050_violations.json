@@ -1,0 +1,100 @@
+{
+  "scenario_id": "S050_CapitalAllocation",
+  "scenario_name": "Capital Allocation: Fleet vs Infrastructure",
+  "version": "1.2",
+  "created": "2025-01-20",
+  "llm_only": true,
+  "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
+  "test_cases": [
+    {
+      "case_id": "TC01_BaseNPV",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": [
+        "year-one cash flow zero",
+        "18-month lag",
+        "bridge or interim plan"
+      ]
+    },
+    {
+      "case_id": "TC02_DiscountSensitivity",
+      "expected_decision": "REJECT",
+      "required_keywords": [
+        "12% discount",
+        "IRR below hurdle",
+        "option A only passes"
+      ]
+    },
+    {
+      "case_id": "TC03_IRRRanking",
+      "expected_decision": "EXPLAIN_ONLY",
+      "required_keywords": [
+        "IRR vs NPV trade-off",
+        "covenant optics",
+        "request appendix"
+      ]
+    },
+    {
+      "case_id": "TC04_DeliveryDelayRisk",
+      "expected_decision": "REJECT",
+      "required_keywords": [
+        "six-month delay",
+        "payback beyond 4 years",
+        "IRR < 10%"
+      ]
+    },
+    {
+      "case_id": "TC05_MonteCarloDemand",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": [
+        "15-25% demand",
+        "tails below 17%",
+        "need tail disclosure"
+      ]
+    },
+    {
+      "case_id": "TC06_StrategicValue",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": [
+        "strategic corridor value",
+        "corridor letter or permit",
+        "mitigate shortfall"
+      ]
+    },
+    {
+      "case_id": "TC07_StagedInvestment",
+      "expected_decision": "APPROVE",
+      "required_keywords": [
+        "staged draw",
+        "NPV up by 60k",
+        "PI 1.42 or payback 2.9"
+      ]
+    },
+    {
+      "case_id": "TC08_DiscountAssumption",
+      "expected_decision": "REJECT",
+      "required_keywords": [
+        "6% discount invalid",
+        "WACC 10-12%",
+        "risk justification missing"
+      ]
+    },
+    {
+      "case_id": "TC09_GrantDependency",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": [
+        "grant pending signature",
+        "25% capex gap",
+        "no executable funds"
+      ]
+    },
+    {
+      "case_id": "TC10_BifurcatedPlan",
+      "expected_decision": "EXPLAIN_ONLY",
+      "required_keywords": [
+        "700k/300k split",
+        "no consolidated NPV",
+        "need coherent strategy"
+      ]
+    }
+  ]
+}

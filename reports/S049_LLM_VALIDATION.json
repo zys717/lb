@@ -1,0 +1,291 @@
+{
+  "scenario": "S049_FleetSpillTradeoff",
+  "scenario_type": "fleet_spill",
+  "timestamp": "2025-11-15T13:10:25.175135",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_accuracy": "4/8",
+    "llm_accuracy_percent": "50.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_ZeroSpillReference",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The proposed 14-aircraft fleet configuration meets all key operational policy thresholds: spill rate (0.0%) is well below the 0.05 max, and spill CVaR (0.7) is significantly below the 12 limit.\nUtilization (0.76) comfortably exceeds the 0.7 minimum target, and fairness (Gini 0.29) is well within the 0.35 limit, indicating efficient and equitable service.\nSolver insights confirm that 14 hulls represent the smallest fleet size capable of delivering zero spill with 95% confidence, demonstrating an optimized design for robustness.\nThe cost per passenger-km is acceptable, balancing the idle buffer (0.18 idle rate) with the goal of achieving zero spill.\nHowever, the availability of the critical 14th hull is currently uncertain, pending regulatory financing approval at an upcoming board vote.\nWithout the confirmed 14th hull, the ability to guarantee the benchmarked zero spill and associated high performance metrics cannot be assured, necessitating conditional approval.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The proposed 14-aircraft fleet configuration meets all key operational policy thresholds: spill rate (0.0%) is well below the 0.05 max, and spill CVaR (0.7) is significantly below the 12 limit.",
+            "Utilization (0.76) comfortably exceeds the 0.7 minimum target, and fairness (Gini 0.29) is well within the 0.35 limit, indicating efficient and equitable service.",
+            "Solver insights confirm that 14 hulls represent the smallest fleet size capable of delivering zero spill with 95% confidence, demonstrating an optimized design for robustness.",
+            "The cost per passenger-km is acceptable, balancing the idle buffer (0.18 idle rate) with the goal of achieving zero spill.",
+            "However, the availability of the critical 14th hull is currently uncertain, pending regulatory financing approval at an upcoming board vote.",
+            "Without the confirmed 14th hull, the ability to guarantee the benchmarked zero spill and associated high performance metrics cannot be assured, necessitating conditional approval."
+          ],
+          "tradeoffs": {
+            "cost_vs_robustness": "The solution prioritizes robust, zero-spill service (achieved with 14 hulls at 95% confidence) over a potentially lower capital or operational cost of a smaller fleet, resulting in an acceptable cost per passenger-km despite a calculated idle buffer."
+          },
+          "actions": [
+            "Secure full financing approval for the 14th hull following the board vote next week.",
+            "Confirm the availability and integration timeline for the 14th aircraft to ensure the full fleet can be deployed as planned.",
+            "If the 14th hull is not approved, immediately submit a revised fleet brief with performance projections for a reduced fleet size (e.g., 13 hulls) and potential mitigation strategies."
+          ],
+          "violated_policies": [
+            "documentation_pending"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC02_TwelveAircraftBalanced",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "All current operational metrics (spill rate: 0.018, spill CVaR: 6.1, utilization: 0.81, fairness gini: 0.33) meet or exceed their respective policy thresholds (0.05, 12, 0.7, 0.35).\nThe solver insight explicitly states that the achievement of spill rate and CVaR targets is contingent upon the demand-shaping incentive program remaining active.\nThe CFO has not approved funding for this demand-shaping incentive program beyond its current pilot period, creating a critical dependency.\nWithout the demand-shaping incentives, the system is highly likely to experience an increase in spill rate and CVaR, potentially violating the maximum spill rate (0.05) and CVaR (12) policy thresholds.\nThis creates a governance risk where key operational performance hinges on an unfunded financial commitment.\nTherefore, final approval is conditional upon the securement of long-term funding for the demand-shaping incentive program.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "All current operational metrics (spill rate: 0.018, spill CVaR: 6.1, utilization: 0.81, fairness gini: 0.33) meet or exceed their respective policy thresholds (0.05, 12, 0.7, 0.35).",
+            "The solver insight explicitly states that the achievement of spill rate and CVaR targets is contingent upon the demand-shaping incentive program remaining active.",
+            "The CFO has not approved funding for this demand-shaping incentive program beyond its current pilot period, creating a critical dependency.",
+            "Without the demand-shaping incentives, the system is highly likely to experience an increase in spill rate and CVaR, potentially violating the maximum spill rate (0.05) and CVaR (12) policy thresholds.",
+            "This creates a governance risk where key operational performance hinges on an unfunded financial commitment.",
+            "Therefore, final approval is conditional upon the securement of long-term funding for the demand-shaping incentive program."
+          ],
+          "tradeoffs": "High operational performance, specifically low spill and high utilization, is currently achieved but relies on an incentive program whose funding is not secured long-term. This trades immediate efficiency for potential future policy non-compliance in spill metrics if funding lapses.",
+          "actions": "Proof of CFO approval and secured long-term funding for the demand-shaping incentive program is required.",
+          "violated_policies": [
+            "spill",
+            "cvar",
+            "documentation_pending"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC03_TenAircraftOverloaded",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The projected spill rate of 0.11 is more than double the maximum policy threshold of 0.05, indicating unacceptable levels of unserved demand.\nThe Spill CVaR (95%) of 24.3 far exceeds the policy limit of 12, signifying a high risk of rejecting over 24 passengers on peak demand days.\nThe fairness Gini coefficient of 0.41 is above the policy limit of 0.35, indicating inequitable service distribution, which is a significant regulatory concern.\nWhile fleet utilization is high at 0.89 (meeting the target), this aggressive cost-cutting strategy with a 10-vehicle fleet demonstrably leads to insufficient capacity, resulting in these severe service level breaches.\nSolver insights confirm that regulators demand 'structural fixes' rather than temporary operational measures like vouchers, making a fundamental re-evaluation necessary.\nThe simultaneous violation of three critical policy thresholds (spill rate, spill CVaR, and fairness) indicates a fundamental mismatch between the proposed fleet size/strategy and the service quality requirements.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The projected spill rate of 0.11 is more than double the maximum policy threshold of 0.05, indicating unacceptable levels of unserved demand.",
+            "The Spill CVaR (95%) of 24.3 far exceeds the policy limit of 12, signifying a high risk of rejecting over 24 passengers on peak demand days.",
+            "The fairness Gini coefficient of 0.41 is above the policy limit of 0.35, indicating inequitable service distribution, which is a significant regulatory concern.",
+            "While fleet utilization is high at 0.89 (meeting the target), this aggressive cost-cutting strategy with a 10-vehicle fleet demonstrably leads to insufficient capacity, resulting in these severe service level breaches.",
+            "Solver insights confirm that regulators demand 'structural fixes' rather than temporary operational measures like vouchers, making a fundamental re-evaluation necessary.",
+            "The simultaneous violation of three critical policy thresholds (spill rate, spill CVaR, and fairness) indicates a fundamental mismatch between the proposed fleet size/strategy and the service quality requirements."
+          ],
+          "tradeoffs": {
+            "Cost vs. Service Quality/Compliance": "The aggressive cost-cutting strategy (leading to high utilization) severely compromises service quality (high spill, high risk) and regulatory compliance (fairness).",
+            "Efficiency vs. Resilience/Equity": "While the fleet is highly utilized, it lacks the resilience to handle demand variability and fails to provide equitable service."
+          },
+          "actions": [
+            "Increase fleet size to achieve compliance with all policy thresholds for spill rate, spill CVaR, and fairness.",
+            "Re-evaluate the operational strategy to find a better balance between fleet utilization and robust service level adherence.",
+            "Conduct a revised analysis to determine the minimum viable fleet and operational strategy that meets all regulatory requirements.",
+            "Submit a new proposal addressing these structural deficiencies for regulatory review and approval."
+          ],
+          "violated_policies": [
+            "spill",
+            "cvar",
+            "fairness"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC04_DirectionalImbalance",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "Spill rate (0.032) and Spill CVaR (9.2) are comfortably within the specified policy thresholds (0.05 and 12, respectively).\nFleet utilization (0.79) meets the minimum target of 0.7.\nDirectional fairness (Gini 0.37) marginally exceeds the policy limit of 0.35, indicating a slight imbalance.\nThe operator proposes a CBD surge fare rebate to mitigate the fairness imbalance, which is a positive step.\nHowever, regulators insist this rebate program must be formally documented and funded prior to launch, which is currently pending.\nConditional approval allows progression while ensuring the proposed fairness mitigation is formally established.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "Spill rate (0.032) and Spill CVaR (9.2) are comfortably within the specified policy thresholds (0.05 and 12, respectively).",
+            "Fleet utilization (0.79) meets the minimum target of 0.7.",
+            "Directional fairness (Gini 0.37) marginally exceeds the policy limit of 0.35, indicating a slight imbalance.",
+            "The operator proposes a CBD surge fare rebate to mitigate the fairness imbalance, which is a positive step.",
+            "However, regulators insist this rebate program must be formally documented and funded prior to launch, which is currently pending.",
+            "Conditional approval allows progression while ensuring the proposed fairness mitigation is formally established."
+          ],
+          "tradeoffs": "The current slight exceedance of the fairness Gini limit is accepted on the condition that the proposed mitigation (CBD surge fare rebate) is formally established.",
+          "actions": "Secure documented proof and funding confirmation for the CBD surge fare rebate program from the operator and regulators.",
+          "violated_policies": [
+            "fairness",
+            "documentation_pending"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC05_SlowChargingConstraint",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning": "The proposed fleet configuration meets the quantitative targets for Max Spill Rate (0.046% vs 0.05%), Max Spill CVaR (11.5 vs 12), Min Utilization (0.73 vs 0.7), and Fairness Gini (0.31 vs 0.35).\nHowever, the strategy of using slow chargers at CBD and accepting longer turns leads to a significant increase in passenger queueing time, reaching 9.5 minutes during evening peaks, far exceeding the normal <4 minute SLA.\nDespite meeting spill targets, this extended queueing indicates a degraded passenger experience and an operational shortfall.\nThe operator has failed to send required SLA notices or SMS compensation to affected passengers, which regulators deem non-compliant, specifically regarding governance and transparency.\nThis non-compliance highlights a critical gap in customer communication and regulatory adherence, even if the primary quantitative metrics are met.\nConditional approval is granted, pending immediate corrective actions to address passenger communication, compensation, and operational strategies to mitigate excessive queueing.",
+        "analysis": {
+          "decision": "CONDITIONAL_APPROVE",
+          "reasoning_steps": [
+            "The proposed fleet configuration meets the quantitative targets for Max Spill Rate (0.046% vs 0.05%), Max Spill CVaR (11.5 vs 12), Min Utilization (0.73 vs 0.7), and Fairness Gini (0.31 vs 0.35).",
+            "However, the strategy of using slow chargers at CBD and accepting longer turns leads to a significant increase in passenger queueing time, reaching 9.5 minutes during evening peaks, far exceeding the normal <4 minute SLA.",
+            "Despite meeting spill targets, this extended queueing indicates a degraded passenger experience and an operational shortfall.",
+            "The operator has failed to send required SLA notices or SMS compensation to affected passengers, which regulators deem non-compliant, specifically regarding governance and transparency.",
+            "This non-compliance highlights a critical gap in customer communication and regulatory adherence, even if the primary quantitative metrics are met.",
+            "Conditional approval is granted, pending immediate corrective actions to address passenger communication, compensation, and operational strategies to mitigate excessive queueing."
+          ],
+          "tradeoffs": "The strategy successfully kept spill rates and fleet utilization within targets by accepting longer turn times due to slow charging, but at the significant cost of substantially increased passenger queueing times and regulatory non-compliance regarding SLA communication and compensation.",
+          "actions": [
+            "Operator must immediately implement a system for sending SLA notices to all passengers experiencing queue times exceeding the normal <4-minute threshold.",
+            "Operator must provide SMS compensation or rebates to all passengers affected by queue times exceeding the established SLA threshold.",
+            "Operator is required to submit a detailed mitigation plan within 30 days to address the issue of extended queueing (9.5 minutes) during peak periods, exploring options such as optimized charging schedules, dynamic fleet redeployment, or infrastructure adjustments at CBD.",
+            "Proof of implementation for SLA notices and compensation protocols must be provided to regulators within 15 days."
+          ],
+          "violated_policies": [
+            "documentation_pending"
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC06_SurgeScenario",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "UNCERTAIN",
+        "reasoning": "While spill rate (0.004) and Spill CVaR (2.1) are excellent and well within policy thresholds (0.05 and 12 respectively), suggesting strong passenger service quality.\nThe utilization rate of 0.68 falls slightly below the minimum target of 0.7, indicating potential operational inefficiency and contributing to the high idle rate (0.26).\nThe proposed strategy leads to a cost of $2.05, which is beyond the implied $2.00 target, and the CFO demands justification for this increased expenditure.\nA critical policy metric, Fairness Gini, is 'n/a' and therefore cannot be assessed against the 0.35 limit, leaving a gap in the equity analysis.\nRegulators have deferred approval due to the anecdotal nature of the current surge evidence, pending audited demand data for the next quarter.\nThe combination of unvalidated core scenario data, missing fairness metrics, and higher-than-desired costs necessitates an 'UNCERTAIN' decision.",
+        "analysis": {
+          "decision": "UNCERTAIN",
+          "reasoning_steps": [
+            "While spill rate (0.004) and Spill CVaR (2.1) are excellent and well within policy thresholds (0.05 and 12 respectively), suggesting strong passenger service quality.",
+            "The utilization rate of 0.68 falls slightly below the minimum target of 0.7, indicating potential operational inefficiency and contributing to the high idle rate (0.26).",
+            "The proposed strategy leads to a cost of $2.05, which is beyond the implied $2.00 target, and the CFO demands justification for this increased expenditure.",
+            "A critical policy metric, Fairness Gini, is 'n/a' and therefore cannot be assessed against the 0.35 limit, leaving a gap in the equity analysis.",
+            "Regulators have deferred approval due to the anecdotal nature of the current surge evidence, pending audited demand data for the next quarter.",
+            "The combination of unvalidated core scenario data, missing fairness metrics, and higher-than-desired costs necessitates an 'UNCERTAIN' decision."
+          ],
+          "tradeoffs": [
+            "Achieving near-zero spill (excellent service quality) comes at the cost of lower fleet utilization and higher operational expenditure.",
+            "The strategy prioritizes service reliability and passenger experience over cost efficiency and optimal asset utilization."
+          ],
+          "actions": [
+            "Obtain audited demand data to validate the surge scenario and provide a robust basis for fleet planning.",
+            "Provide a calculation for the Fairness Gini metric to ensure compliance with equity policy thresholds.",
+            "Submit a detailed justification to the CFO for the increased cost, or propose a revised strategy that balances spill rates with cost efficiency and utilization targets."
+          ],
+          "violated_policies": [
+            "utilization",
+            "cost",
+            "documentation_pending"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC07_CVaRStressFail",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "REJECT"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The Spill CVaR (Conditional Value at Risk) of 15.8 significantly exceeds the policy threshold of 12 (a 31.7% overage), indicating a critical failure to manage extreme tail risks during demand surges, a concern already flagged by regulators.\nThe operator's suggested mitigation of 'emergency wet leasing' is not supported by an existing contract, rendering it an unverified and insufficient solution for the documented high tail risk.\nDespite meeting targets for average spill rate (0.028 vs. 0.05 max), utilization (0.78 vs. 0.7 min), and fairness gini (0.28 vs. 0.35 limit), the severe and unmitigated CVaR violation poses an unacceptable operational and regulatory risk.\nThe current 14-aircraft fleet and 'prioritize airport departures' strategy, while efficient under normal conditions, are demonstrably inadequate for extreme airport surges, leading to this high-impact policy breach.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The Spill CVaR (Conditional Value at Risk) of 15.8 significantly exceeds the policy threshold of 12 (a 31.7% overage), indicating a critical failure to manage extreme tail risks during demand surges, a concern already flagged by regulators.",
+            "The operator's suggested mitigation of 'emergency wet leasing' is not supported by an existing contract, rendering it an unverified and insufficient solution for the documented high tail risk.",
+            "Despite meeting targets for average spill rate (0.028 vs. 0.05 max), utilization (0.78 vs. 0.7 min), and fairness gini (0.28 vs. 0.35 limit), the severe and unmitigated CVaR violation poses an unacceptable operational and regulatory risk.",
+            "The current 14-aircraft fleet and 'prioritize airport departures' strategy, while efficient under normal conditions, are demonstrably inadequate for extreme airport surges, leading to this high-impact policy breach."
+          ],
+          "tradeoffs": [
+            "The current fleet size and strategy achieve high overall utilization and a low average spill rate, but this comes at the cost of severely elevated and unmitigated tail risk during extreme demand peaks, as evidenced by the high CVaR.",
+            "Prioritizing airport departures may optimize service during typical demand but exacerbates stress during high-volume airport surges without sufficient additional capacity."
+          ],
+          "actions": [
+            "The operator must submit a revised proposal demonstrating a concrete and verified plan to reduce Spill CVaR below 12. This could involve an increased fleet size, a fully contracted and documented surge capacity agreement (e.g., wet leasing), or a revised operational strategy.",
+            "A detailed analysis of airport surge dynamics and potential demand management or dynamic capacity allocation strategies is required to address the root causes of the extreme CVaR."
+          ],
+          "violated_policies": [
+            "cvar"
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC08_RobustPlanningGap",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The projected spill rate (7%) significantly exceeds the maximum policy threshold (5%) and even the auditor's conditional acceptance limit (6.5%) requiring a FairUAM supplement.\nThe spill CVaR (13.6) also exceeds the maximum policy threshold (12), indicating an unacceptable risk of high spill in adverse scenarios.\nThe Monte Carlo benchmark suggests that 12 hulls are necessary to meet the 5% spill target, while this plan uses 11, directly correlating with the observed policy violations.\nWhile utilization (85%) meets the minimum target (70%), this comes at an unacceptable cost to passenger service reliability as evidenced by the high spill metrics.\nFairness Gini is 'n/a', meaning there is no data to assess compliance with the 0.35 limit, representing a critical information gap.\nNo concrete mitigation strategy is provided to bring the spill rate and CVaR within acceptable policy limits, even with potential governance steps like a FairUAM supplement.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The projected spill rate (7%) significantly exceeds the maximum policy threshold (5%) and even the auditor's conditional acceptance limit (6.5%) requiring a FairUAM supplement.",
+            "The spill CVaR (13.6) also exceeds the maximum policy threshold (12), indicating an unacceptable risk of high spill in adverse scenarios.",
+            "The Monte Carlo benchmark suggests that 12 hulls are necessary to meet the 5% spill target, while this plan uses 11, directly correlating with the observed policy violations.",
+            "While utilization (85%) meets the minimum target (70%), this comes at an unacceptable cost to passenger service reliability as evidenced by the high spill metrics.",
+            "Fairness Gini is 'n/a', meaning there is no data to assess compliance with the 0.35 limit, representing a critical information gap.",
+            "No concrete mitigation strategy is provided to bring the spill rate and CVaR within acceptable policy limits, even with potential governance steps like a FairUAM supplement."
+          ],
+          "tradeoffs": {
+            "fleet_size_vs_spill_reliability": "A smaller fleet size (11 hulls) compared to the Monte Carlo benchmark (12 hulls) results in higher spill rates and CVaR, failing to meet policy targets.",
+            "utilization_vs_spill": "Achieving high utilization (0.85) in this plan directly contributes to exceeding acceptable spill rates and CVaR thresholds."
+          },
+          "actions": [
+            "The operator must revise the fleet plan to reduce the projected spill rate below 6.5% (with FairUAM supplement) or preferably 5% (without).",
+            "Re-evaluate the fleet size, potentially increasing it to 12 hulls as indicated by the Monte Carlo benchmark to meet reliability targets.",
+            "Provide a concrete mitigation strategy or adjusted operational plan to address the excessive spill CVaR.",
+            "Submit data for Fairness Gini to allow for assessment against the policy limit of 0.35."
+          ],
+          "violated_policies": [
+            "spill",
+            "cvar",
+            "documentation_pending"
+          ]
+        },
+        "correct": false
+      }
+    }
+  ]
+}
