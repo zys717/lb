@@ -12,7 +12,7 @@ A comprehensive benchmark for evaluating Large Language Models (LLMs) on UAV reg
 - 49 LLM validation reports (Gemini 2.5 Flash)
 - Four-layer architecture: Basic (S001-S020), Intermediate (S021-S030), Advanced (S031-S040), Operational (S041-S049)
 - Dual validation framework: Rule Engine + LLM Engine
-- Target accuracy gradient: Layer 1 (90-100%), Layer 2A (60-80%), Layer 2B (20-50%), Layer 3 (40-75%)
+- Target accuracy gradient: Layer 1 (100%), Layer 2A (60-80%), Layer 2B (20-50%), Layer 3 (40-75%)
 
 ## Language Note / 语言说明
 
@@ -189,16 +189,16 @@ Tests pragmatic ambiguity, loophole exploitation, epistemic uncertainty, and adv
 
 Tests real-world operational decision-making: fleet sizing, resource allocation, multi-stakeholder coordination, and emergency response planning under uncertainty.
 
-| Scenario | Focus                                  | Status    | LLM Accuracy |
-| -------- | -------------------------------------- | --------- | ------------ |
-| S041     | Fleet Sizing vs Demand Spill           | Completed | 6/8 (75%)    |
-| S042     | Fast vs Slow Charging Strategy         | Completed | 6/8 (75%)    |
-| S043     | Peak-Valley Dynamic Repositioning      | Completed | 5/8 (62.5%)  |
-| S044     | Battery Emergency In-Flight Decision   | Completed | 6/8 (75%)    |
-| S045     | Airspace Conflict Resolution (20 Drones)| Completed | 5/8 (62.5%)  |
-| S046     | Vertiport Capacity Management          | Completed | 5/8 (62.5%)  |
-| S047     | Multi-Operator Fairness & Governance   | Completed | 5/8 (62.5%)  |
-| S048     | Emergency Evacuation & Re-Planning     | Completed | 4/10 (40%)   |
+| Scenario | Focus                                       | Status    | LLM Accuracy |
+| -------- | ------------------------------------------- | --------- | ------------ |
+| S041     | Fleet Sizing vs Demand Spill                | Completed | 6/8 (75%)    |
+| S042     | Fast vs Slow Charging Strategy              | Completed | 6/8 (75%)    |
+| S043     | Peak-Valley Dynamic Repositioning           | Completed | 5/8 (62.5%)  |
+| S044     | Battery Emergency In-Flight Decision        | Completed | 6/8 (75%)    |
+| S045     | Airspace Conflict Resolution (20 Drones)    | Completed | 5/8 (62.5%)  |
+| S046     | Vertiport Capacity Management               | Completed | 5/8 (62.5%)  |
+| S047     | Multi-Operator Fairness & Governance        | Completed | 5/8 (62.5%)  |
+| S048     | Emergency Evacuation & Re-Planning          | Completed | 4/10 (40%)   |
 | S049     | Capital Allocation: Fleet vs Infrastructure | Completed | 4/10 (40%)   |
 
 **Layer 3 Summary:** 9 scenarios testing operational planning, resource optimization, and multi-constraint decision-making in realistic UAM deployment contexts
