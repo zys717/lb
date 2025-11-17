@@ -101,25 +101,25 @@ Tests fundamental capabilities: geometric calculations, single-rule compliance, 
 
 #### Spatial Constraints (S001-S008)
 
-| Scenario | Rule                  | Status    | Validation |
-| -------- | --------------------- | --------- | ---------- |
-| S001     | Geofence Basic        | Completed | Available  |
-| S002     | Multi-Geofence        | Completed | Available  |
-| S003     | Path Crossing         | Completed | Available  |
-| S004     | Airport Zones         | Completed | Available  |
-| S005     | Dynamic TFR           | Completed | Available  |
-| S006     | Altitude Limit (120m) | Completed | Available  |
-| S007     | Zone Altitude Limits  | Completed | Available  |
-| S008     | Structure Waiver      | Completed | Available  |
+| Scenario | Rule                  | Status    | LLM Accuracy |
+| -------- | --------------------- | --------- | ------------ |
+| S001     | Geofence Basic        | Completed | 8/8 (100%)   |
+| S002     | Multi-Geofence        | Completed | 4/4 (100%)   |
+| S003     | Path Crossing         | Completed | 4/4 (100%)   |
+| S004     | Airport Zones         | Completed | 4/4 (100%)   |
+| S005     | Dynamic TFR           | Completed | 5/5 (100%)   |
+| S006     | Altitude Limit (120m) | Completed | 6/6 (100%)   |
+| S007     | Zone Altitude Limits  | Completed | 8/8 (100%)   |
+| S008     | Structure Waiver      | Completed | 4/4 (100%)   |
 
 #### Motion & Time Parameters (S009-S012)
 
-| Scenario | Rule                          | Status    | Validation |
-| -------- | ----------------------------- | --------- | ---------- |
-| S009     | Global Speed Limit (100 km/h) | Completed | Available  |
-| S010     | Zone Speed Limits             | Completed | Available  |
-| S011     | Night Flight                  | Completed | Available  |
-| S012     | Time Window Limits            | Completed | Available  |
+| Scenario | Rule                          | Status    | LLM Accuracy |
+| -------- | ----------------------------- | --------- | ------------ |
+| S009     | Global Speed Limit (100 km/h) | Completed | 6/6 (100%)   |
+| S010     | Zone Speed Limits             | Completed | 4/4 (100%)   |
+| S011     | Night Flight                  | Completed | 8/8 (100%)   |
+| S012     | Time Window Limits            | Completed | 5/5 (100%)   |
 
 #### Line-of-Sight & Avoidance (S013-S016)
 
@@ -148,17 +148,17 @@ Tests fundamental capabilities: geometric calculations, single-rule compliance, 
 Tests multi-rule conflicts, dynamic updates, ethical dilemmas, and regulation lifecycle management. Latest Gemini 2.5 Flash accuracy for each case is shown below.
 
 | Scenario | Focus                     | Status    | LLM Accuracy |
-| -------- | ------------------------- | --------- | ------------- |
-| S021     | Emergency Battery Dilemma | Completed | 87.5 %        |
-| S022     | Rule Conflict Priority    | Completed | 75.0 %        |
-| S023     | Regulation Update         | Completed | 75.0 %        |
-| S024     | Conflicting Sources       | Completed | 16.7 %        |
-| S025     | Regulation Lifecycle      | Completed | 37.5 %        |
-| S026     | Ethical Trilemma          | Completed | 62.5 %        |
-| S027     | Business vs Safety        | Completed | 62.5 %        |
-| S028     | Dynamic Priority          | Completed | 62.5 %        |
-| S029     | Phased Conditional        | Completed | 62.5 %        |
-| S030     | Dynamic UTM               | Completed | 50.0 %        |
+| -------- | ------------------------- | --------- | ------------ |
+| S021     | Emergency Battery Dilemma | Completed | 7/8 (87.5%)  |
+| S022     | Rule Conflict Priority    | Completed | 6/8 (75.0%)  |
+| S023     | Regulation Update         | Completed | 6/8 (75.0%)  |
+| S024     | Conflicting Sources       | Completed | 1/6 (16.7%)  |
+| S025     | Regulation Lifecycle      | Completed | 3/8 (37.5%)  |
+| S026     | Ethical Trilemma          | Completed | 5/8 (62.5%)  |
+| S027     | Business vs Safety        | Completed | 5/8 (62.5%)  |
+| S028     | Dynamic Priority          | Completed | 5/8 (62.5%)  |
+| S029     | Phased Conditional        | Completed | 5/8 (62.5%)  |
+| S030     | Dynamic UTM               | Completed | 4/8 (50.0%)  |
 
 **Layer 2A Summary:** 10 scenarios testing rule interactions, source conflicts, and ethical reasoning. (S024 is intentionally adversarial to probe epistemic humility, hence its lower accuracy.)
 
@@ -169,17 +169,17 @@ Tests multi-rule conflicts, dynamic updates, ethical dilemmas, and regulation li
 Tests pragmatic ambiguity, loophole exploitation, epistemic uncertainty, and adversarial manipulation.
 
 | Scenario | Focus                                 | Status    | LLM Accuracy |
-| -------- | ------------------------------------- | --------- | ------------- |
-| S031     | Semantic & Ethical Dependency Cascade | Completed | 30.0 %        |
-| S032     | Pragmatic Ambiguity                   | Completed | 40.0 %        |
-| S033     | Dynamic Priority Cascade              | Completed | 10.0 %        |
-| S034     | Pragmatic Intent                      | Completed | 40.0 %        |
-| S035     | Authority Manipulation                | Completed | 40.0 %        |
-| S036     | Boundary Probing                      | Completed | 50.0 %        |
-| S037     | Implicit Priority                     | Completed | 40.0 %        |
-| S038     | Causal Temporal Reasoning             | Completed | 30.0 %        |
-| S039     | Epistemic Conflict                    | Completed | 40.0 %        |
-| S040     | Adversarial Loopholes                 | Completed | 50.0 %        |
+| -------- | ------------------------------------- | --------- | ------------ |
+| S031     | Semantic & Ethical Dependency Cascade | Completed | 3/10 (30.0%) |
+| S032     | Pragmatic Ambiguity                   | Completed | 4/10 (40.0%) |
+| S033     | Dynamic Priority Cascade              | Completed | 1/10 (10.0%) |
+| S034     | Pragmatic Intent                      | Completed | 4/10 (40.0%) |
+| S035     | Authority Manipulation                | Completed | 4/10 (40.0%) |
+| S036     | Boundary Probing                      | Completed | 5/10 (50.0%) |
+| S037     | Implicit Priority                     | Completed | 4/10 (40.0%) |
+| S038     | Causal Temporal Reasoning             | Completed | 3/10 (30.0%) |
+| S039     | Epistemic Conflict                    | Completed | 4/10 (40.0%) |
+| S040     | Adversarial Loopholes                 | Completed | 5/10 (50.0%) |
 
 **Layer 2B Summary:** 10 scenarios testing LLM robustness under ambiguous, adversarial, and edge-case conditions.
 
@@ -210,6 +210,12 @@ Tests real-world operational decision-making: fleet sizing, resource allocation,
 - **Rule Engine (S001‑S020):** Deterministic validation using geometric calculations and logical rules via the AirSim/rule-engine scripts.
 - **LLM Engine (All Layers):** Heuristic validation using Gemini 2.5 Flash with structured prompts and synthetic GT for semantic reasoning.
 - **Comparative Analysis:** Identify decision discrepancies and failure modes; for Layers 2‑3, comparison is between LLM output and the pre-modeled policy truth.
+
+### Ground Truth Integrity
+
+- **Human-designed scenarios:** Every scenario/test case is authored by low-altitude ops experts with explicit regulatory citations and target behaviors (details in `维护.md`).
+- **Machine-verified labels:** For S001‑S020, the rule engine (`scripts/detect_violations.py`) replays the trajectory and confirms the label before it is accepted. For higher layers, offline analytical models produce the structured metrics that the GT encodes.
+- **Traceable artifacts:** Each `ground_truth/SXXX_violations.json` lists the expected decision plus the key evidence phrases that the LLM must cite, ensuring transparency between scenario intent and evaluation.
 
 ### Comprehensive Failure Mode Coverage
 
