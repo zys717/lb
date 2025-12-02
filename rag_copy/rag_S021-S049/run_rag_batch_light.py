@@ -15,7 +15,7 @@ import re
 import sys
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 import importlib.metadata as importlib_metadata
 
 # Path setup
@@ -67,52 +67,6 @@ from scripts.llm_prompts.vertiport_capacity_prompt import build_vertiport_capaci
 from scripts.llm_prompts.multi_operator_fairness_prompt import build_multi_operator_fairness_prompt  # type: ignore
 from scripts.llm_prompts.emergency_evacuation_prompt import build_emergency_evacuation_prompt  # type: ignore
 from scripts.llm_prompts.capital_allocation_prompt import build_capital_allocation_prompt  # type: ignore
-
-# ------------ Guideline retrieval (keyword-based) ----------------------------
-
-GUIDELINES_PATH = ROOT / "guidelines" / "guidelines.jsonl"
-
-
-def _load_guidelines() -> List[Dict]:
-    items: List[Dict] = []
-    if not GUIDELINES_PATH.exists():
-        return items
-    with GUIDELINES_PATH.open() as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                items.append(json.loads(line))
-            except Exception:
-                continue
-    return items
-
-
-def _keyword_score(g: Dict, words: set) -> int:
-    kws = set([w.lower() for w in g.get("keywords", [])])
-    return len(kws & words)
-
-
-class GuidelineRetriever:
-    def __init__(self) -> None:
-        self.guidelines = _load_guidelines()
-        self.id_to_guideline = {g["id"]: g for g in self.guidelines}
-
-    def search(self, query: str, top_k: int = 3) -> List[Dict]:
-        if not self.guidelines:
-            return []
-        words = set([w.lower() for w in re.split(r"[^a-zA-Z0-9]+", query) if w])
-        scored: List[Tuple[int, Dict]] = []
-        for g in self.guidelines:
-            s = _keyword_score(g, words)
-            if s > 0:
-                scored.append((s, g))
-        scored.sort(key=lambda x: x[0], reverse=True)
-        return [g for s, g in scored[:top_k]]
-
-
-GUIDELINE_RETRIEVER = GuidelineRetriever()
 
 
 # ------------ IO helpers ------------------------------------------------------
@@ -287,25 +241,6 @@ def build_prompt(mission: Dict, constraints: List[Dict], tc: Dict, scenario_data
         base_prompt = build_capital_allocation_prompt(start, end, tc_desc, scenario_config, tc_obj)
     else:
         base_prompt = build_battery_prompt(start, end, tc_desc, scenario_config, tc_obj)
-
-    # Build guideline-driven rule block (retrieved)
-    retrieval_query_parts = [
-        scenario_data.get("description") or "",
-        scenario_data.get("name") or "",
-        tc_desc or "",
-        scenario_id,
-    ]
-    query = " ".join([p for p in retrieval_query_parts if p])
-    retrieved = GUIDELINE_RETRIEVER.search(query, top_k=3)
-    guideline_block = ""
-    if retrieved:
-        lines = ["Relevant decision rules:"]
-        for g in retrieved:
-            lines.append(f"- {g.get('title','')}: {g.get('text','')}")
-        guideline_block = "\n".join(lines) + "\n"
-    # For S021 battery baseline, keep deterministic rule to avoid over-eager alternatives
-    if scenario_id.startswith("S021"):
-        guideline_block = ""
 
     ctx_lines = []
     for c in constraints:
@@ -593,9 +528,9 @@ def build_prompt(mission: Dict, constraints: List[Dict], tc: Dict, scenario_data
         f"{options_block}\n"
         f"{facts_block}"
         f"{ctx}\n"
-        + (guideline_block if guideline_block else extra_rule)
-        + 'Respond JSON only: {"decision": "REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN", "reasons": [...], "citations": [...], "evidence_used": [...]}. '
-        + "Cite option/waiver/priority fields when relevant."
+        f"{extra_rule}"
+        'Respond JSON only: {"decision": "REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN", "reasons": [...], "citations": [...], "evidence_used": [...]}. '
+        "Cite option/waiver/priority fields when relevant."
     )
 
     return base_prompt + rag_block
@@ -721,14 +656,6 @@ def main() -> None:
                     decision = "EXPLAIN_ONLY"
                     if llm_parsed is not None:
                         llm_parsed["decision"] = decision
-            # S021: if REJECT but LLM proposed a concrete alternative, upgrade to REJECT_WITH_ALTERNATIVE
-            if sid.startswith("S021") and decision and decision.upper() == "REJECT":
-                alt = None
-                if isinstance(llm_parsed, dict):
-                    alt = llm_parsed.get("alternative_suggested")
-                if alt and isinstance(alt, str) and alt.strip() and "none" not in alt.lower():
-                    decision = "REJECT_WITH_ALTERNATIVE"
-                    llm_parsed["decision"] = decision
             # S042 targeted fixes using metrics and case tags
             if sid.startswith("S042"):
                 tc_upper = str(tc_id or "").upper()
@@ -952,7 +879,7 @@ def main() -> None:
             },
             "results": results,
         }
-        out_path = args.output_dir / f"{sid}_RAG_REPORT_PLUS.json"
+        out_path = args.output_dir / f"{sid}_RAG_REPORT.json"
         out_path.write_text(json.dumps(report, ensure_ascii=False, indent=2))
         print(f"[light] Saved {sid} report -> {out_path}")
 

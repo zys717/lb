@@ -1,0 +1,821 @@
+[
+  {
+    "chunk_id": "CN_Interim_0",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "**无人驾驶航空器飞行管理暂行条例**\n\n**第一章　总　　则**\n\n**第一条**　为了规范无人驾驶航空器飞行以及有关活动，促进无人驾驶航空器产业健康有序发展，维护航空安全、公共安全、国家安全，制定本条例。\n\n**第二条**　在中华人民共和国境内从事无人驾驶航空器飞行以及有关活动，应当遵守本条例。\n\n本条例所称无人驾驶航空器，是指没有机载驾驶员、自备动力系统的航空器。\n\n无人驾驶航空器按照性能指标分为微型、轻型、小型、中型和大型。\n\n**第三条**　无人驾驶航空器飞行管理工作应当坚持和加强党的领导，坚持总体国家安全观，坚持安全第一、服务发展、分类管理、协同监管的原则。\n\n**第四条**　国家空中交通管理领导机构统一领导全国无人驾驶航空器飞行管理工作，组织协调解决无人驾驶航空器管理工作中的重大问题。\n\n国务院民用航空、公安、工业和信息化、市场监督管理等部门按照职责分工负责全国无人驾驶航空器有关管理工作。\n\n县级以上地方人民政府及其有关部门按照职责分工负责本行政区域内无人驾驶航空器有关管理工作。\n\n各级空中交通管理机构按照职责分工负责本责任区内无人驾驶航空器飞行管理工作。\n\n**第五条**　国家鼓励无人驾驶航空器科研创新及其成果的推广应用，促进无人驾驶航空器与大数据、人工智能等新技术融合创新。县级以上人民政府及其有关部门应当为无人驾驶航空器科研创新及其成果的推广应用提供支持。\n\n国家在确保安全的前提下积极创新空域供给和使用机制，完善无人驾驶航空器飞行配套基础设施和服务体系。\n\n**第六条**　无人驾驶航空器有关行业协会应当通过制定、实施团体标准等方式加强行业自律，宣传无人驾驶航空器管理法律法规及有关知识，增强有关单位和人员依法开展无人驾驶航空器飞行以及有关活动的意识。\n\n**第二章　民用无人驾驶航空器及操控员管理**\n\n**第七条**　国务院标准化行政主管部门和国务院其他有关"
+  },
+  {
+    "chunk_id": "CN_Interim_1",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "标准等方式加强行业自律，宣传无人驾驶航空器管理法律法规及有关知识，增强有关单位和人员依法开展无人驾驶航空器飞行以及有关活动的意识。\n\n**第二章　民用无人驾驶航空器及操控员管理**\n\n**第七条**　国务院标准化行政主管部门和国务院其他有关部门按照职责分工组织制定民用无人驾驶航空器系统的设计、生产和使用的国家标准、行业标准。\n\n**第八条**　从事中型、大型民用无人驾驶航空器系统的设计、生产、进口、飞行和维修活动，应当依法向国务院民用航空主管部门申请取得适航许可。\n\n从事微型、轻型、小型民用无人驾驶航空器系统的设计、生产、进口、飞行、维修以及组装、拼装活动，无需取得适航许可，但相关产品应当符合产品质量法律法规的有关规定以及有关强制性国家标准。\n\n从事民用无人驾驶航空器系统的设计、生产、使用活动，应当符合国家有关实名登记激活、飞行区域限制、应急处置、网络信息安全等规定，并采取有效措施减少大气污染物和噪声排放。\n\n**第九条**　民用无人驾驶航空器系统生产者应当按照国务院工业和信息化主管部门的规定为其生产的无人驾驶航空器设置唯一产品识别码。\n\n微型、轻型、小型民用无人驾驶航空器系统的生产者应当在无人驾驶航空器机体标注产品类型以及唯一产品识别码等信息，在产品外包装显著位置标明守法运行要求和风险警示。\n\n**第十条**　民用无人驾驶航空器所有者应当依法进行实名登记，具体办法由国务院民用航空主管部门会同有关部门制定。\n\n涉及境外飞行的民用无人驾驶航空器，应当依法进行国籍登记。\n\n**第十一条**　使用除微型以外的民用无人驾驶航空器从事飞行活动的单位应当具备下列条件，并向国务院民用航空主管部门或者地区民用航空管理机构（以下统称民用航空管理部门）申请取得民用无人驾驶航空器运营合格证（以下简称运营合格证）：\n\n（一）有实施安全运营所需的管理机构、管理人员和符合本条例规定的操控人员；\n\n（二"
+  },
+  {
+    "chunk_id": "CN_Interim_2",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "应当具备下列条件，并向国务院民用航空主管部门或者地区民用航空管理机构（以下统称民用航空管理部门）申请取得民用无人驾驶航空器运营合格证（以下简称运营合格证）：\n\n（一）有实施安全运营所需的管理机构、管理人员和符合本条例规定的操控人员；\n\n（二）有符合安全运营要求的无人驾驶航空器及有关设施、设备；\n\n（三）有实施安全运营所需的管理制度和操作规程，保证持续具备按照制度和规程实施安全运营的能力；\n\n（四）从事经营性活动的单位，还应当为营利法人。\n\n民用航空管理部门收到申请后，应当进行运营安全评估，根据评估结果依法作出许可或者不予许可的决定。予以许可的，颁发运营合格证；不予许可的，书面通知申请人并说明理由。\n\n使用最大起飞重量不超过150千克的农用无人驾驶航空器在农林牧渔区域上方的适飞空域内从事农林牧渔作业飞行活动（以下称常规农用无人驾驶航空器作业飞行活动），无需取得运营合格证。\n\n取得运营合格证后从事经营性通用航空飞行活动，以及从事常规农用无人驾驶航空器作业飞行活动，无需取得通用航空经营许可证和运行合格证。\n\n**第十二条**　使用民用无人驾驶航空器从事经营性飞行活动，以及使用小型、中型、大型民用无人驾驶航空器从事非经营性飞行活动，应当依法投保责任保险。\n\n**第十三条**　微型、轻型、小型民用无人驾驶航空器系统投放市场后，发现存在缺陷的，其生产者、进口商应当停止生产、销售，召回缺陷产品，并通知有关经营者、使用者停止销售、使用。生产者、进口商未依法实施召回的，由国务院市场监督管理部门依法责令召回。\n\n中型、大型民用无人驾驶航空器系统不能持续处于适航状态的，由国务院民用航空主管部门依照有关适航管理的规定处理。\n\n**第十四条**　对已经取得适航许可的民用无人驾驶航空器系统进行重大设计更改并拟将其用于飞行活动的，应当重新申请取得适航许可。\n\n对微型、轻型、小型民用无人驾驶航空器系统进行"
+  },
+  {
+    "chunk_id": "CN_Interim_3",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "航状态的，由国务院民用航空主管部门依照有关适航管理的规定处理。\n\n**第十四条**　对已经取得适航许可的民用无人驾驶航空器系统进行重大设计更改并拟将其用于飞行活动的，应当重新申请取得适航许可。\n\n对微型、轻型、小型民用无人驾驶航空器系统进行改装的，应当符合有关强制性国家标准。民用无人驾驶航空器系统的空域保持能力、可靠被监视能力、速度或者高度等出厂性能以及参数发生改变的，其所有者应当及时在无人驾驶航空器一体化综合监管服务平台更新性能、参数信息。\n\n改装民用无人驾驶航空器的，应当遵守改装后所属类别的管理规定。\n\n**第十五条**　生产、维修、使用民用无人驾驶航空器系统，应当遵守无线电管理法律法规以及国家有关规定。但是，民用无人驾驶航空器系统使用国家无线电管理机构确定的特定无线电频率，且有关无线电发射设备取得无线电发射设备型号核准的，无需取得无线电频率使用许可和无线电台执照。\n\n**第十六条**　操控小型、中型、大型民用无人驾驶航空器飞行的人员应当具备下列条件，并向国务院民用航空主管部门申请取得相应民用无人驾驶航空器操控员（以下简称操控员）执照：\n\n（一）具备完全民事行为能力；\n\n（二）接受安全操控培训，并经民用航空管理部门考核合格；\n\n（三）无可能影响民用无人驾驶航空器操控行为的疾病病史，无吸毒行为记录；\n\n（四）近5年内无因危害国家安全、公共安全或者侵犯公民人身权利、扰乱公共秩序的故意犯罪受到刑事处罚的记录。\n\n从事常规农用无人驾驶航空器作业飞行活动的人员无需取得操控员执照，但应当由农用无人驾驶航空器系统生产者按照国务院民用航空、农业农村主管部门规定的内容进行培训和考核，合格后取得操作证书。\n\n**第十七条**　操控微型、轻型民用无人驾驶航空器飞行的人员，无需取得操控员执照，但应当熟练掌握有关机型操作方法，了解风险警示信息和有关管理制度。\n\n无民事行为能力人只能操控微型民用无"
+  },
+  {
+    "chunk_id": "CN_Interim_4",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "管部门规定的内容进行培训和考核，合格后取得操作证书。\n\n**第十七条**　操控微型、轻型民用无人驾驶航空器飞行的人员，无需取得操控员执照，但应当熟练掌握有关机型操作方法，了解风险警示信息和有关管理制度。\n\n无民事行为能力人只能操控微型民用无人驾驶航空器飞行，限制民事行为能力人只能操控微型、轻型民用无人驾驶航空器飞行。无民事行为能力人操控微型民用无人驾驶航空器飞行或者限制民事行为能力人操控轻型民用无人驾驶航空器飞行，应当由符合前款规定条件的完全民事行为能力人现场指导。\n\n操控轻型民用无人驾驶航空器在无人驾驶航空器管制空域内飞行的人员，应当具有完全民事行为能力，并按照国务院民用航空主管部门的规定经培训合格。\n\n**第三章　空域和飞行活动管理**\n\n**第十八条**　划设无人驾驶航空器飞行空域应当遵循统筹配置、安全高效原则，以隔离飞行为主，兼顾融合飞行需求，充分考虑飞行安全和公众利益。\n\n划设无人驾驶航空器飞行空域应当明确水平、垂直范围和使用时间。\n\n空中交通管理机构应当为无人驾驶航空器执行军事、警察、海关、应急管理飞行任务优先划设空域。\n\n**第十九条**　国家根据需要划设无人驾驶航空器管制空域（以下简称管制空域）。\n\n真高120米以上空域，空中禁区、空中限制区以及周边空域，军用航空超低空飞行空域，以及下列区域上方的空域应当划设为管制空域：\n\n（一）机场以及周边一定范围的区域；\n\n（二）国界线、实际控制线、边境线向我方一侧一定范围的区域；\n\n（三）军事禁区、军事管理区、监管场所等涉密单位以及周边一定范围的区域；\n\n（四）重要军工设施保护区域、核设施控制区域、易燃易爆等危险品的生产和仓储区域，以及可燃重要物资的大型仓储区域；\n\n（五）发电厂、变电站、加油（气）站、供水厂、公共交通枢纽、航电枢纽、重大水利设施、港口、高速公路、铁路电气化线路等公共基础设施以及周边一定范围的区域和饮用"
+  },
+  {
+    "chunk_id": "CN_Interim_5",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "核设施控制区域、易燃易爆等危险品的生产和仓储区域，以及可燃重要物资的大型仓储区域；\n\n（五）发电厂、变电站、加油（气）站、供水厂、公共交通枢纽、航电枢纽、重大水利设施、港口、高速公路、铁路电气化线路等公共基础设施以及周边一定范围的区域和饮用水水源保护区；\n\n（六）射电天文台、卫星测控（导航）站、航空无线电导航台、雷达站等需要电磁环境特殊保护的设施以及周边一定范围的区域；\n\n（七）重要革命纪念地、重要不可移动文物以及周边一定范围的区域；\n\n（八）国家空中交通管理领导机构规定的其他区域。\n\n管制空域的具体范围由各级空中交通管理机构按照国家空中交通管理领导机构的规定确定，由设区的市级以上人民政府公布，民用航空管理部门和承担相应职责的单位发布航行情报。\n\n未经空中交通管理机构批准，不得在管制空域内实施无人驾驶航空器飞行活动。\n\n管制空域范围以外的空域为微型、轻型、小型无人驾驶航空器的适飞空域（以下简称适飞空域）。\n\n**第二十条**　遇有特殊情况，可以临时增加管制空域，由空中交通管理机构按照国家有关规定确定有关空域的水平、垂直范围和使用时间。\n\n保障国家重大活动以及其他大型活动的，在临时增加的管制空域生效24小时前，由设区的市级以上地方人民政府发布公告，民用航空管理部门和承担相应职责的单位发布航行情报。\n\n保障执行军事任务或者反恐维稳、抢险救灾、医疗救护等其他紧急任务的，在临时增加的管制空域生效30分钟前，由设区的市级以上地方人民政府发布紧急公告，民用航空管理部门和承担相应职责的单位发布航行情报。\n\n**第二十一条**　按照国家空中交通管理领导机构的规定需要设置管制空域的地面警示标志的，设区的市级人民政府应当组织设置并加强日常巡查。\n\n**第二十二条**　无人驾驶航空器通常应当与有人驾驶航空器隔离飞行。\n\n属于下列情形之一的，经空中交通管理机构批准，可以进行融合飞行：\n\n（一）根据"
+  },
+  {
+    "chunk_id": "CN_Interim_6",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "构的规定需要设置管制空域的地面警示标志的，设区的市级人民政府应当组织设置并加强日常巡查。\n\n**第二十二条**　无人驾驶航空器通常应当与有人驾驶航空器隔离飞行。\n\n属于下列情形之一的，经空中交通管理机构批准，可以进行融合飞行：\n\n（一）根据任务或者飞行课目需要，警察、海关、应急管理部门辖有的无人驾驶航空器与本部门、本单位使用的有人驾驶航空器在同一空域或者同一机场区域的飞行；\n\n（二）取得适航许可的大型无人驾驶航空器的飞行；\n\n（三）取得适航许可的中型无人驾驶航空器不超过真高300米的飞行；\n\n（四）小型无人驾驶航空器不超过真高300米的飞行；\n\n（五）轻型无人驾驶航空器在适飞空域上方不超过真高300米的飞行。\n\n属于下列情形之一的，进行融合飞行无需经空中交通管理机构批准：\n\n（一）微型、轻型无人驾驶航空器在适飞空域内的飞行；\n\n（二）常规农用无人驾驶航空器作业飞行活动。\n\n**第二十三条**　国家空中交通管理领导机构统筹建设无人驾驶航空器一体化综合监管服务平台，对全国无人驾驶航空器实施动态监管与服务。\n\n空中交通管理机构和民用航空、公安、工业和信息化等部门、单位按照职责分工采集无人驾驶航空器生产、登记、使用的有关信息，依托无人驾驶航空器一体化综合监管服务平台共享，并采取相应措施保障信息安全。\n\n**第二十四条**　除微型以外的无人驾驶航空器实施飞行活动，操控人员应当确保无人驾驶航空器能够按照国家有关规定向无人驾驶航空器一体化综合监管服务平台报送识别信息。\n\n微型、轻型、小型无人驾驶航空器在飞行过程中应当广播式自动发送识别信息。\n\n**第二十五条**　组织无人驾驶航空器飞行活动的单位或者个人应当遵守有关法律法规和规章制度，主动采取事故预防措施，对飞行安全承担主体责任。\n\n**第二十六条**　除本条例第三十一条另有规定外，组织无人驾驶航空器飞行活动的单位或者个人应当在拟飞行前1"
+  },
+  {
+    "chunk_id": "CN_Interim_7",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "十五条**　组织无人驾驶航空器飞行活动的单位或者个人应当遵守有关法律法规和规章制度，主动采取事故预防措施，对飞行安全承担主体责任。\n\n**第二十六条**　除本条例第三十一条另有规定外，组织无人驾驶航空器飞行活动的单位或者个人应当在拟飞行前1日12时前向空中交通管理机构提出飞行活动申请。空中交通管理机构应当在飞行前1日21时前作出批准或者不予批准的决定。\n\n按照国家空中交通管理领导机构的规定在固定空域内实施常态飞行活动的，可以提出长期飞行活动申请，经批准后实施，并应当在拟飞行前1日12时前将飞行计划报空中交通管理机构备案。\n\n**第二十七条**　无人驾驶航空器飞行活动申请应当包括下列内容：\n\n（一）组织飞行活动的单位或者个人、操控人员信息以及有关资质证书；\n\n（二）无人驾驶航空器的类型、数量、主要性能指标和登记管理信息；\n\n（三）飞行任务性质和飞行方式，执行国家规定的特殊通用航空飞行任务的还应当提供有效的任务批准文件；\n\n（四）起飞、降落和备降机场（场地）；\n\n（五）通信联络方法；\n\n（六）预计飞行开始、结束时刻；\n\n（七）飞行航线、高度、速度和空域范围，进出空域方法；\n\n（八）指挥控制链路无线电频率以及占用带宽；\n\n（九）通信、导航和被监视能力；\n\n（十）安装二次雷达应答机或者有关自动监视设备的，应当注明代码申请；\n\n（十一）应急处置程序；\n\n（十二）特殊飞行保障需求；\n\n（十三）国家空中交通管理领导机构规定的与空域使用和飞行安全有关的其他必要信息。\n\n**第二十八条**　无人驾驶航空器飞行活动申请按照下列权限批准：\n\n（一）在飞行管制分区内飞行的，由负责该飞行管制分区的空中交通管理机构批准；\n\n（二）超出飞行管制分区在飞行管制区内飞行的，由负责该飞行管制区的空中交通管理机构批准；\n\n（三）超出飞行管制区飞行的，由国家空中交通管理领导机构授权的空中交通管理机构批准。\n\n**"
+  },
+  {
+    "chunk_id": "CN_Interim_8",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "区内飞行的，由负责该飞行管制分区的空中交通管理机构批准；\n\n（二）超出飞行管制分区在飞行管制区内飞行的，由负责该飞行管制区的空中交通管理机构批准；\n\n（三）超出飞行管制区飞行的，由国家空中交通管理领导机构授权的空中交通管理机构批准。\n\n**第二十九条**　使用无人驾驶航空器执行反恐维稳、抢险救灾、医疗救护等紧急任务的，应当在计划起飞30分钟前向空中交通管理机构提出飞行活动申请。空中交通管理机构应当在起飞10分钟前作出批准或者不予批准的决定。执行特别紧急任务的，使用单位可以随时提出飞行活动申请。\n\n**第三十条**　飞行活动已获得批准的单位或者个人组织无人驾驶航空器飞行活动的，应当在计划起飞1小时前向空中交通管理机构报告预计起飞时刻和准备情况，经空中交通管理机构确认后方可起飞。\n\n**第三十一条**　组织无人驾驶航空器实施下列飞行活动，无需向空中交通管理机构提出飞行活动申请：\n\n（一）微型、轻型、小型无人驾驶航空器在适飞空域内的飞行活动；\n\n（二）常规农用无人驾驶航空器作业飞行活动；\n\n（三）警察、海关、应急管理部门辖有的无人驾驶航空器，在其驻地、地面（水面）训练场、靶场等上方不超过真高120米的空域内的飞行活动；但是，需在计划起飞1小时前经空中交通管理机构确认后方可起飞；\n\n（四）民用无人驾驶航空器在民用运输机场管制地带内执行巡检、勘察、校验等飞行任务；但是，需定期报空中交通管理机构备案，并在计划起飞1小时前经空中交通管理机构确认后方可起飞。\n\n前款规定的飞行活动存在下列情形之一的，应当依照本条例第二十六条的规定提出飞行活动申请：\n\n（一）通过通信基站或者互联网进行无人驾驶航空器中继飞行；\n\n（二）运载危险品或者投放物品（常规农用无人驾驶航空器作业飞行活动除外）；\n\n（三）飞越集会人群上空；\n\n（四）在移动的交通工具上操控无人驾驶航空器；\n\n（五）实施分布式操作或者集群飞行"
+  },
+  {
+    "chunk_id": "CN_Interim_9",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "）通过通信基站或者互联网进行无人驾驶航空器中继飞行；\n\n（二）运载危险品或者投放物品（常规农用无人驾驶航空器作业飞行活动除外）；\n\n（三）飞越集会人群上空；\n\n（四）在移动的交通工具上操控无人驾驶航空器；\n\n（五）实施分布式操作或者集群飞行。\n\n微型、轻型无人驾驶航空器在适飞空域内飞行的，无需取得特殊通用航空飞行任务批准文件。\n\n**第三十二条**　操控无人驾驶航空器实施飞行活动，应当遵守下列行为规范：\n\n（一）依法取得有关许可证书、证件，并在实施飞行活动时随身携带备查；\n\n（二）实施飞行活动前做好安全飞行准备，检查无人驾驶航空器状态，并及时更新电子围栏等信息；\n\n（三）实时掌握无人驾驶航空器飞行动态，实施需经批准的飞行活动应当与空中交通管理机构保持通信联络畅通，服从空中交通管理，飞行结束后及时报告；\n\n（四）按照国家空中交通管理领导机构的规定保持必要的安全间隔；\n\n（五）操控微型无人驾驶航空器的，应当保持视距内飞行；\n\n（六）操控小型无人驾驶航空器在适飞空域内飞行的，应当遵守国家空中交通管理领导机构关于限速、通信、导航等方面的规定；\n\n（七）在夜间或者低能见度气象条件下飞行的，应当开启灯光系统并确保其处于良好工作状态；\n\n（八）实施超视距飞行的，应当掌握飞行空域内其他航空器的飞行动态，采取避免相撞的措施；\n\n（九）受到酒精类饮料、麻醉剂或者其他药物影响时，不得操控无人驾驶航空器；\n\n（十）国家空中交通管理领导机构规定的其他飞行活动行为规范。\n\n**第三十三条**　操控无人驾驶航空器实施飞行活动，应当遵守下列避让规则：\n\n（一）避让有人驾驶航空器、无动力装置的航空器以及地面、水上交通工具；\n\n（二）单架飞行避让集群飞行；\n\n（三）微型无人驾驶航空器避让其他无人驾驶航空器；\n\n（四）国家空中交通管理领导机构规定的其他避让规则。\n\n**第三十四条**　禁止利用无人驾驶航空器实施"
+  },
+  {
+    "chunk_id": "CN_Interim_10",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "驶航空器、无动力装置的航空器以及地面、水上交通工具；\n\n（二）单架飞行避让集群飞行；\n\n（三）微型无人驾驶航空器避让其他无人驾驶航空器；\n\n（四）国家空中交通管理领导机构规定的其他避让规则。\n\n**第三十四条**　禁止利用无人驾驶航空器实施下列行为：\n\n（一）违法拍摄军事设施、军工设施或者其他涉密场所；\n\n（二）扰乱机关、团体、企业、事业单位工作秩序或者公共场所秩序；\n\n（三）妨碍国家机关工作人员依法执行职务；\n\n（四）投放含有违反法律法规规定内容的宣传品或者其他物品；\n\n（五）危及公共设施、单位或者个人财产安全；\n\n（六）危及他人生命健康，非法采集信息，或者侵犯他人其他人身权益；\n\n（七）非法获取、泄露国家秘密，或者违法向境外提供数据信息；\n\n（八）法律法规禁止的其他行为。\n\n**第三十五条**　使用民用无人驾驶航空器从事测绘活动的单位依法取得测绘资质证书后，方可从事测绘活动。\n\n外国无人驾驶航空器或者由外国人员操控的无人驾驶航空器不得在我国境内实施测绘、电波参数测试等飞行活动。\n\n**第三十六条**　模型航空器应当在空中交通管理机构为航空飞行营地划定的空域内飞行，但国家空中交通管理领导机构另有规定的除外。\n\n**第四章　监督管理和应急处置**\n\n**第三十七条**　国家空中交通管理领导机构应当组织有关部门、单位在无人驾驶航空器一体化综合监管服务平台上向社会公布审批事项、申请办理流程、受理单位、联系方式、举报受理方式等信息并及时更新。\n\n**第三十八条**　任何单位或者个人发现违反本条例规定行为的，可以向空中交通管理机构、民用航空管理部门或者当地公安机关举报。收到举报的部门、单位应当及时依法作出处理；不属于本部门、本单位职责的，应当及时移送有权处理的部门、单位。\n\n**第三十九条**　空中交通管理机构、民用航空管理部门以及县级以上公安机关应当制定有关无人驾驶航空器飞行安全"
+  },
+  {
+    "chunk_id": "CN_Interim_11",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "门或者当地公安机关举报。收到举报的部门、单位应当及时依法作出处理；不属于本部门、本单位职责的，应当及时移送有权处理的部门、单位。\n\n**第三十九条**　空中交通管理机构、民用航空管理部门以及县级以上公安机关应当制定有关无人驾驶航空器飞行安全管理的应急预案，定期演练，提高应急处置能力。\n\n县级以上地方人民政府应当将无人驾驶航空器安全应急管理纳入突发事件应急管理体系，健全信息互通、协同配合的应急处置工作机制。\n\n无人驾驶航空器系统的设计者、生产者，应当确保无人驾驶航空器具备紧急避让、降落等应急处置功能，避免或者减轻无人驾驶航空器发生事故时对生命财产的损害。\n\n使用无人驾驶航空器的单位或者个人应当按照有关规定，制定飞行紧急情况处置预案，落实风险防范措施，及时消除安全隐患。\n\n**第四十条**　无人驾驶航空器飞行发生异常情况时，组织飞行活动的单位或者个人应当及时处置，服从空中交通管理机构的指令；导致发生飞行安全问题的，组织飞行活动的单位或者个人还应当在无人驾驶航空器降落后24小时内向空中交通管理机构报告有关情况。\n\n**第四十一条**　对空中不明情况和无人驾驶航空器违规飞行，公安机关在条件有利时可以对低空目标实施先期处置，并负责违规飞行无人驾驶航空器落地后的现场处置。有关军事机关、公安机关、国家安全机关等单位按职责分工组织查证处置，民用航空管理等其他有关部门应当予以配合。\n\n**第四十二条**　无人驾驶航空器违反飞行管理规定、扰乱公共秩序或者危及公共安全的，空中交通管理机构、民用航空管理部门和公安机关可以依法采取必要技术防控、扣押有关物品、责令停止飞行、查封违法活动场所等紧急处置措施。\n\n**第四十三条**　军队、警察以及按照国家反恐怖主义工作领导机构有关规定由公安机关授权的高风险反恐怖重点目标管理单位，可以依法配备无人驾驶航空器反制设备，在公安机关或者有关军事机关的指导监督下从严"
+  },
+  {
+    "chunk_id": "CN_Interim_12",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "止飞行、查封违法活动场所等紧急处置措施。\n\n**第四十三条**　军队、警察以及按照国家反恐怖主义工作领导机构有关规定由公安机关授权的高风险反恐怖重点目标管理单位，可以依法配备无人驾驶航空器反制设备，在公安机关或者有关军事机关的指导监督下从严控制设置和使用。\n\n无人驾驶航空器反制设备配备、设置、使用以及授权管理办法，由国务院工业和信息化、公安、国家安全、市场监督管理部门会同国务院有关部门、有关军事机关制定。\n\n任何单位或者个人不得非法拥有、使用无人驾驶航空器反制设备。\n\n**第五章　法律责任**\n\n**第四十四条**　违反本条例规定，从事中型、大型民用无人驾驶航空器系统的设计、生产、进口、飞行和维修活动，未依法取得适航许可的，由民用航空管理部门责令停止有关活动，没收违法所得，并处无人驾驶航空器系统货值金额1倍以上5倍以下的罚款；情节严重的，责令停业整顿。\n\n**第四十五条**　违反本条例规定，民用无人驾驶航空器系统生产者未按照国务院工业和信息化主管部门的规定为其生产的无人驾驶航空器设置唯一产品识别码的，由县级以上人民政府工业和信息化主管部门责令改正，没收违法所得，并处3万元以上30万元以下的罚款；拒不改正的，责令停业整顿。\n\n**第四十六条**　违反本条例规定，对已经取得适航许可的民用无人驾驶航空器系统进行重大设计更改，未重新申请取得适航许可并将其用于飞行活动的，由民用航空管理部门责令改正，处无人驾驶航空器系统货值金额1倍以上5倍以下的罚款。\n\n违反本条例规定，改变微型、轻型、小型民用无人驾驶航空器系统的空域保持能力、可靠被监视能力、速度或者高度等出厂性能以及参数，未及时在无人驾驶航空器一体化综合监管服务平台更新性能、参数信息的，由民用航空管理部门责令改正；拒不改正的，处2000元以上2万元以下的罚款。\n\n**第四十七条**　违反本条例规定，民用无人驾驶航空器未经实名登记实施"
+  },
+  {
+    "chunk_id": "CN_Interim_13",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "者高度等出厂性能以及参数，未及时在无人驾驶航空器一体化综合监管服务平台更新性能、参数信息的，由民用航空管理部门责令改正；拒不改正的，处2000元以上2万元以下的罚款。\n\n**第四十七条**　违反本条例规定，民用无人驾驶航空器未经实名登记实施飞行活动的，由公安机关责令改正，可以处200元以下的罚款；情节严重的，处2000元以上2万元以下的罚款。\n\n违反本条例规定，涉及境外飞行的民用无人驾驶航空器未依法进行国籍登记的，由民用航空管理部门责令改正，处1万元以上10万元以下的罚款。\n\n**第四十八条**　违反本条例规定，民用无人驾驶航空器未依法投保责任保险的，由民用航空管理部门责令改正，处2000元以上2万元以下的罚款；情节严重的，责令从事飞行活动的单位停业整顿直至吊销其运营合格证。\n\n**第四十九条**　违反本条例规定，未取得运营合格证或者违反运营合格证的要求实施飞行活动的，由民用航空管理部门责令改正，处5万元以上50万元以下的罚款；情节严重的，责令停业整顿直至吊销其运营合格证。\n\n**第五十条**　无民事行为能力人、限制民事行为能力人违反本条例规定操控民用无人驾驶航空器飞行的，由公安机关对其监护人处500元以上5000元以下的罚款；情节严重的，没收实施违规飞行的无人驾驶航空器。\n\n违反本条例规定，未取得操控员执照操控民用无人驾驶航空器飞行的，由民用航空管理部门处5000元以上5万元以下的罚款；情节严重的，处1万元以上10万元以下的罚款。\n\n违反本条例规定，超出操控员执照载明范围操控民用无人驾驶航空器飞行的，由民用航空管理部门处2000元以上2万元以下的罚款，并处暂扣操控员执照6个月至12个月；情节严重的，吊销其操控员执照，2年内不受理其操控员执照申请。\n\n违反本条例规定，未取得操作证书从事常规农用无人驾驶航空器作业飞行活动的，由县级以上地方人民政府农业农村主管部门责令停止作业，"
+  },
+  {
+    "chunk_id": "CN_Interim_14",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "万元以下的罚款，并处暂扣操控员执照6个月至12个月；情节严重的，吊销其操控员执照，2年内不受理其操控员执照申请。\n\n违反本条例规定，未取得操作证书从事常规农用无人驾驶航空器作业飞行活动的，由县级以上地方人民政府农业农村主管部门责令停止作业，并处1000元以上1万元以下的罚款。\n\n**第五十一条**　组织飞行活动的单位或者个人违反本条例第三十二条、第三十三条规定的，由民用航空管理部门责令改正，可以处1万元以下的罚款；拒不改正的，处1万元以上5万元以下的罚款，并处暂扣运营合格证、操控员执照1个月至3个月；情节严重的，由空中交通管理机构责令停止飞行6个月至12个月，由民用航空管理部门处5万元以上10万元以下的罚款，并可以吊销相应许可证件，2年内不受理其相应许可申请。\n\n违反本条例规定，未经批准操控微型、轻型、小型民用无人驾驶航空器在管制空域内飞行，或者操控模型航空器在空中交通管理机构划定的空域外飞行的，由公安机关责令停止飞行，可以处500元以下的罚款；情节严重的，没收实施违规飞行的无人驾驶航空器，并处1000元以上1万元以下的罚款。\n\n**第五十二条**　违反本条例规定，非法拥有、使用无人驾驶航空器反制设备的，由无线电管理机构、公安机关按照职责分工予以没收，可以处5万元以下的罚款；情节严重的，处5万元以上20万元以下的罚款。\n\n**第五十三条**　违反本条例规定，外国无人驾驶航空器或者由外国人员操控的无人驾驶航空器在我国境内实施测绘飞行活动的，由县级以上人民政府测绘地理信息主管部门责令停止违法行为，没收违法所得、测绘成果和实施违规飞行的无人驾驶航空器，并处10万元以上50万元以下的罚款；情节严重的，并处50万元以上100万元以下的罚款，由公安机关、国家安全机关按照职责分工决定限期出境或者驱逐出境。\n\n**第五十四条**　生产、改装、组装、拼装、销售和召回微型、轻型、小型民用无人驾"
+  },
+  {
+    "chunk_id": "CN_Interim_15",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "航空器，并处10万元以上50万元以下的罚款；情节严重的，并处50万元以上100万元以下的罚款，由公安机关、国家安全机关按照职责分工决定限期出境或者驱逐出境。\n\n**第五十四条**　生产、改装、组装、拼装、销售和召回微型、轻型、小型民用无人驾驶航空器系统，违反产品质量或者标准化管理等有关法律法规的，由县级以上人民政府市场监督管理部门依法处罚。\n\n除根据本条例第十五条的规定无需取得无线电频率使用许可和无线电台执照的情形以外，生产、维修、使用民用无人驾驶航空器系统，违反无线电管理法律法规以及国家有关规定的，由无线电管理机构依法处罚。\n\n无人驾驶航空器飞行活动违反军事设施保护法律法规的，依照有关法律法规的规定执行。\n\n**第五十五条**　违反本条例规定，有关部门、单位及其工作人员在无人驾驶航空器飞行以及有关活动的管理工作中滥用职权、玩忽职守、徇私舞弊或者有其他违法行为的，依法给予处分。\n\n**第五十六条**　违反本条例规定，构成违反治安管理行为的，由公安机关依法给予治安管理处罚；构成犯罪的，依法追究刑事责任；造成人身、财产或者其他损害的，依法承担民事责任。\n\n**第六章　附　　则**\n\n**第五十七条**　在我国管辖的其他空域内实施无人驾驶航空器飞行活动，应当遵守本条例的有关规定。\n\n无人驾驶航空器在室内飞行不适用本条例。\n\n自备动力系统的飞行玩具适用本条例的有关规定，具体办法由国务院工业和信息化主管部门、有关空中交通管理机构会同国务院公安、民用航空主管部门制定。\n\n**第五十八条**　无人驾驶航空器飞行以及有关活动，本条例没有规定的，适用《中华人民共和国民用航空法》、《中华人民共和国飞行基本规则》、《通用航空飞行管制条例》以及有关法律、行政法规。\n\n**第五十九条**　军用无人驾驶航空器的管理，国务院、中央军事委员会另有规定的，适用其规定。\n\n警察、海关、应急管理部门辖有的无人驾"
+  },
+  {
+    "chunk_id": "CN_Interim_16",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "人民共和国民用航空法》、《中华人民共和国飞行基本规则》、《通用航空飞行管制条例》以及有关法律、行政法规。\n\n**第五十九条**　军用无人驾驶航空器的管理，国务院、中央军事委员会另有规定的，适用其规定。\n\n警察、海关、应急管理部门辖有的无人驾驶航空器的适航、登记、操控员等事项的管理办法，由国务院有关部门另行制定。\n\n**第六十条**　模型航空器的分类、生产、登记、操控人员、航空飞行营地等事项的管理办法，由国务院体育主管部门会同有关空中交通管理机构，国务院工业和信息化、公安、民用航空主管部门另行制定。\n\n**第六十一条**　本条例施行前生产的民用无人驾驶航空器不能按照国家有关规定自动向无人驾驶航空器一体化综合监管服务平台报送识别信息的，实施飞行活动应当依照本条例的规定向空中交通管理机构提出飞行活动申请，经批准后方可飞行。\n\n**第六十二条**　本条例下列用语的含义：\n\n（一）空中交通管理机构，是指军队和民用航空管理部门内负责有关责任区空中交通管理的机构。\n\n（二）微型无人驾驶航空器，是指空机重量小于0.25千克，最大飞行真高不超过50米，最大平飞速度不超过40千米/小时，无线电发射设备符合微功率短距离技术要求，全程可以随时人工介入操控的无人驾驶航空器。\n\n（三）轻型无人驾驶航空器，是指空机重量不超过4千克且最大起飞重量不超过7千克，最大平飞速度不超过100千米/小时，具备符合空域管理要求的空域保持能力和可靠被监视能力，全程可以随时人工介入操控的无人驾驶航空器，但不包括微型无人驾驶航空器。\n\n（四）小型无人驾驶航空器，是指空机重量不超过15千克且最大起飞重量不超过25千克，具备符合空域管理要求的空域保持能力和可靠被监视能力，全程可以随时人工介入操控的无人驾驶航空器，但不包括微型、轻型无人驾驶航空器。\n\n（五）中型无人驾驶航空器，是指最大起飞重量不超过150千克的无人驾驶航空器，但"
+  },
+  {
+    "chunk_id": "CN_Interim_17",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "且最大起飞重量不超过25千克，具备符合空域管理要求的空域保持能力和可靠被监视能力，全程可以随时人工介入操控的无人驾驶航空器，但不包括微型、轻型无人驾驶航空器。\n\n（五）中型无人驾驶航空器，是指最大起飞重量不超过150千克的无人驾驶航空器，但不包括微型、轻型、小型无人驾驶航空器。\n\n（六）大型无人驾驶航空器，是指最大起飞重量超过150千克的无人驾驶航空器。\n\n（七）无人驾驶航空器系统，是指无人驾驶航空器以及与其有关的遥控台（站）、任务载荷和控制链路等组成的系统。其中，遥控台（站）是指遥控无人驾驶航空器的各种操控设备（手段）以及有关系统组成的整体。\n\n（八）农用无人驾驶航空器，是指最大飞行真高不超过30米，最大平飞速度不超过50千米/小时，最大飞行半径不超过2000米，具备空域保持能力和可靠被监视能力，专门用于植保、播种、投饵等农林牧渔作业，全程可以随时人工介入操控的无人驾驶航空器。\n\n（九）隔离飞行，是指无人驾驶航空器与有人驾驶航空器不同时在同一空域内的飞行。\n\n（十）融合飞行，是指无人驾驶航空器与有人驾驶航空器同时在同一空域内的飞行。\n\n（十一）分布式操作，是指把无人驾驶航空器系统操作分解为多个子业务，部署在多个站点或者终端进行协同操作的模式。\n\n（十二）集群，是指采用具备多台无人驾驶航空器操控能力的同一系统或者平台，为了处理同一任务，以各无人驾驶航空器操控数据互联协同处理为特征，在同一时间内并行操控多台无人驾驶航空器以相对物理集中的方式进行飞行的无人驾驶航空器运行模式。\n\n（十三）模型航空器，也称航空模型，是指有尺寸和重量限制，不能载人，不具有高度保持和位置保持飞行功能的无人驾驶航空器，包括自由飞、线控、直接目视视距内人工不间断遥控、借助第一视角人工不间断遥控的模型航空器等。\n\n（十四）无人驾驶航空器反制设备，是指专门用于防控无人驾驶航空器违规飞行，具有干扰、截控、捕获、"
+  },
+  {
+    "chunk_id": "CN_Interim_18",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/无人驾驶航空器飞行管理暂行条例.md",
+    "source_type": "REGULATION",
+    "source_ref": "CN_Interim_UAS",
+    "text": "，不具有高度保持和位置保持飞行功能的无人驾驶航空器，包括自由飞、线控、直接目视视距内人工不间断遥控、借助第一视角人工不间断遥控的模型航空器等。\n\n（十四）无人驾驶航空器反制设备，是指专门用于防控无人驾驶航空器违规飞行，具有干扰、截控、捕获、摧毁等功能的设备。\n\n（十五）空域保持能力，是指通过电子围栏等技术措施控制无人驾驶航空器的高度与水平范围的能力。\n\n**第六十三条**　本条例自2024年1月1日起施行。"
+  },
+  {
+    "chunk_id": "FAA_Part107_0",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR Part 107 (Sept. 29, 2025)\n\nThis content is from the eCFR and is authoritative but unofficial.\n\nTitle 14 —Aeronautics and Space\nChapter I —Federal Aviation Administration, Department of Transportation\nSubchapter F —Air Traffic and General Operating Rules\n\n14 CFR Part 107 (Sept. 29, 2025) (enhanced display)\n\npage 1 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR Part 107 (Sept. 29, 2025)\n\nPart 107 Small Unmanned Aircraft Systems\nSubpart A General\n§ 107.1 Applicability.\n§ 107.2 Applicability of certification procedures for products and articles.\n§ 107.3 Definitions.\n§ 107.5 Falsification, reproduction, or alteration.\n§ 107.7 Inspection, testing, and demonstration o"
+  },
+  {
+    "chunk_id": "FAA_Part107_1",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "107.3 Definitions.\n§ 107.5 Falsification, reproduction, or alteration.\n§ 107.7 Inspection, testing, and demonstration of compliance.\n§ 107.9 Safety event reporting.\nSubpart B Operating Rules\n§ 107.11 Applicability.\n§ 107.12 Requirement for a remote pilot certificate with a small UAS rating.\n§ 107.13 Registration.\n§ 107.15 Condition for safe operation.\n§ 107.17 Medical condition.\n§ 107.19 Remote pilot in command.\n§ 107.21 In-flight emergency.\n§ 107.23 Hazardous operation.\n§ 107.25 Operation from a moving vehicle or aircraft.\n§ 107.27 Alcohol or drugs.\n§ 107.29 Operation at night.\n§ 107.31 Visual line of sight aircraft operation.\n§ 107.33 Visual observer.\n§ 107.35 Operation of multiple small unmanned aircraft.\n§ 107.36 Carriage of hazardous material.\n§ 107.37 Operation near aircraft; right-"
+  },
+  {
+    "chunk_id": "FAA_Part107_2",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "n of multiple small unmanned aircraft.\n§ 107.36 Carriage of hazardous material.\n§ 107.37 Operation near aircraft; right-of-way rules.\n§ 107.39 Operation over human beings.\n§ 107.41 Operation in certain airspace.\n§ 107.43 Operation in the vicinity of airports.\n§ 107.45 Operation in prohibited or restricted areas.\n§ 107.47 Flight restrictions in the proximity of certain areas designated by notice to airmen.\n§ 107.49 Preflight familiarization, inspection, and actions for aircraft operation.\n§ 107.51 Operating limitations for small unmanned aircraft.\nSubpart C Remote Pilot Certification\n§ 107.52 ATC transponder equipment prohibition.\n§ 107.53 Automatic Dependent Surveillance-Broadcast (ADS-B) Out prohibition.\n§ 107.56 Applicability.\n§ 107.57 Offenses involving alcohol or drugs.\n§ 107.59 Refusa"
+  },
+  {
+    "chunk_id": "FAA_Part107_3",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "Broadcast (ADS-B) Out prohibition.\n§ 107.56 Applicability.\n§ 107.57 Offenses involving alcohol or drugs.\n§ 107.59 Refusal to submit to an alcohol test or to furnish test results.\n§ 107.61 Eligibility.\n14 CFR Part 107 (Sept. 29, 2025) (enhanced display)\n\npage 2 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR Part 107 (Sept. 29, 2025)\n\n§ 107.63 Issuance of a remote pilot certificate with a small UAS rating.\n§ 107.64 Temporary certificate.\n§ 107.65 Aeronautical knowledge recency.\n§ 107.67 Knowledge tests: General procedures and passing grades.\n§ 107.69 Knowledge tests: Cheating or other unauthorized conduct.\n§ 107.71 Retesting after failure.\n§ 107.73 Knowledge and training.\n§ 107.74 Small unmanned aircraft system training.\n§ 107.77 Change of name o"
+  },
+  {
+    "chunk_id": "FAA_Part107_4",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "er failure.\n§ 107.73 Knowledge and training.\n§ 107.74 Small unmanned aircraft system training.\n§ 107.77 Change of name or address.\n§ 107.79 Voluntary surrender of certificate.\nSubpart D Operations Over Human Beings\n§ 107.100 Applicability.\n§ 107.105 Limitations on operations over human beings.\n§ 107.110 Category 1 operations.\n§ 107.115 Category 2 operations: Operating requirements.\n§ 107.120 Category 2 operations: Eligibility of small unmanned aircraft and other applicant\nrequirements.\n§ 107.125 Category 3 operations: Operating requirements.\n§ 107.130 Category 3 operations: Eligibility of small unmanned aircraft and other applicant\nrequirements.\n§ 107.135 Labeling by remote pilot in command for Category 2 and 3 operations.\n§ 107.140 Category 4 operations.\n§ 107.145 Operations over moving v"
+  },
+  {
+    "chunk_id": "FAA_Part107_5",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "te pilot in command for Category 2 and 3 operations.\n§ 107.140 Category 4 operations.\n§ 107.145 Operations over moving vehicles.\n§ 107.150 Variable mode and variable configuration of small unmanned aircraft systems.\n§ 107.155 Means of compliance.\n§ 107.160 Declaration of compliance.\n§ 107.165 Record retention.\nSubpart E Waivers\n§ 107.200 Waiver policy and requirements.\n§ 107.205 List of regulations subject to waiver.\n\nPART 107—SMALL UNMANNED AIRCRAFT SYSTEMS\nAuthority: 49 U.S.C. 106(f), 40101 note, 40103(b), 44701(a)(5), 46105(c), 46110, 44807.\nSource: Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, unless otherwise noted.\n\nSubpart A—General\n14 CFR 107 (enhanced display)\n\npage 3 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107."
+  },
+  {
+    "chunk_id": "FAA_Part107_6",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "anced display)\n\npage 3 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.1\n\n§ 107.1 Applicability.\n(a) Except as provided in paragraph (b) of this section, this part applies to the registration, airman\ncertification, and operation of civil small unmanned aircraft systems within the United States. This part\nalso applies to the eligibility of civil small unmanned aircraft systems to operate over human beings in the\nUnited States.\n(b) This part does not apply to the following:\n(1) Air carrier operations;\n(2) Any aircraft subject to the provisions of 49 U.S.C. 44809;\n(3) Any operation that the holder of an exemption under section 333 of Public Law 112-95 or 49 U.S.C.\n44807 elects to conduct pursuant to the exemption, unless otherwise specified in"
+  },
+  {
+    "chunk_id": "FAA_Part107_7",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "333 of Public Law 112-95 or 49 U.S.C.\n44807 elects to conduct pursuant to the exemption, unless otherwise specified in the exemption; or\n(4) Any operation that a person elects to conduct under part 91 of this chapter with a small unmanned\naircraft system that has been issued an airworthiness certificate.\n[Amdt. 107-8, 86 FR 4381, Jan. 15, 2021]\n\n§ 107.2 Applicability of certification procedures for products and articles.\nThe provisions of part 21 of this chapter do not apply to small unmanned aircraft systems operated under this part\nunless the small unmanned aircraft system will operate over human beings in accordance with § 107.140.\n[Amdt. 107-8, 86 FR 4381, Jan. 15, 2021]\n\n§ 107.3 Definitions.\nThe following definitions apply to this part. If there is a conflict between the definitions"
+  },
+  {
+    "chunk_id": "FAA_Part107_8",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "021]\n\n§ 107.3 Definitions.\nThe following definitions apply to this part. If there is a conflict between the definitions of this part and definitions\nspecified in § 1.1 of this chapter, the definitions in this part control for purposes of this part:\nControl station means an interface used by the remote pilot to control the flight path of the small unmanned\naircraft.\nCorrective lenses means spectacles or contact lenses.\nDeclaration of compliance means a record submitted to the FAA that certifies the small unmanned aircraft\nconforms to the Category 2 or Category 3 requirements under subpart D of this part.\nSmall unmanned aircraft means an unmanned aircraft weighing less than 55 pounds on takeoff, including\neverything that is on board or otherwise attached to the aircraft.\nSmall unmanned aircr"
+  },
+  {
+    "chunk_id": "FAA_Part107_9",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "55 pounds on takeoff, including\neverything that is on board or otherwise attached to the aircraft.\nSmall unmanned aircraft system (small UAS) means a small unmanned aircraft and its associated elements\n(including communication links and the components that control the small unmanned aircraft) that are\nrequired for the safe and efficient operation of the small unmanned aircraft in the national airspace\nsystem.\nUnmanned aircraft means an aircraft operated without the possibility of direct human intervention from within or\non the aircraft.\n\n14 CFR 107.3 “Unmanned aircraft” (enhanced display)\n\npage 4 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.3 “Visual observer”\n\nVisual observer means a person who is designated by the remote pilot in comma"
+  },
+  {
+    "chunk_id": "FAA_Part107_10",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "t Systems\n\n14 CFR 107.3 “Visual observer”\n\nVisual observer means a person who is designated by the remote pilot in command to assist the remote pilot in\ncommand and the person manipulating the flight controls of the small UAS to see and avoid other air\ntraffic or objects aloft or on the ground.\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Amdt. 107-8, 86 FR 4381, Jan. 15, 2021]\n\n§ 107.5 Falsification, reproduction, or alteration.\nLink to an amendment published at 90 FR 42525, Sept. 3, 2025.\n(a) No person may make or cause to be made—\n(1) Any fraudulent or intentionally false record or report that is required to be made, kept, or used to\nshow compliance with any requirement under this part.\n(2) Any reproduction or alteration, for fraudulent purpose, of any c"
+  },
+  {
+    "chunk_id": "FAA_Part107_11",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ow compliance with any requirement under this part.\n(2) Any reproduction or alteration, for fraudulent purpose, of any certificate, rating, authorization, record\nor report under this part.\n(b) The commission by any person of an act prohibited under paragraph (a) of this section is a basis for any\nof the following:\n(1) Denial of an application for a remote pilot certificate or a certificate of waiver;\n(2) Denial of a declaration of compliance;\n(3) Suspension or revocation of any certificate, waiver, or declaration of compliance issued or accepted\nby the Administrator under this part and held by that person; or\n(4) A civil penalty.\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Amdt. 107-8, 86 FR 4381, Jan. 15, 2021]\n\n§ 107.7 Inspection, testing, and demonstrat"
+  },
+  {
+    "chunk_id": "FAA_Part107_12",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "42209, June 28, 2016, as amended by Amdt. 107-8, 86 FR 4381, Jan. 15, 2021]\n\n§ 107.7 Inspection, testing, and demonstration of compliance.\n(a) A remote pilot in command, owner, or person manipulating the flight controls of a small unmanned\naircraft system must—\n(1) Have in that person's physical possession and readily accessible the remote pilot certificate with a\nsmall UAS rating and identification when exercising the privileges of that remote pilot certificate.\n(2) Present his or her remote pilot certificate with a small UAS rating and identification that contains the\ninformation listed at § 107.67(b)(1) through (3) for inspection upon a request from—\n(i)\n\nThe Administrator;\n\n(ii) An authorized representative of the National Transportation Safety Board;\n(iii) Any Federal, State, or local"
+  },
+  {
+    "chunk_id": "FAA_Part107_13",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ator;\n\n(ii) An authorized representative of the National Transportation Safety Board;\n(iii) Any Federal, State, or local law enforcement officer; or\n(iv) An authorized representative of the Transportation Security Administration.\n(3) Make available, upon request, to the Administrator any document, record, or report required to be\nkept under the regulations of this chapter.\n\n14 CFR 107.7(a)(3) (enhanced display)\n\npage 5 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.7(b)\n\n(b) The remote pilot in command, visual observer, owner, operator, or person manipulating the flight controls\nof a small unmanned aircraft system must, upon request, allow the Administrator to make any test or\ninspection of the small unmanned aircraft system, the remote pil"
+  },
+  {
+    "chunk_id": "FAA_Part107_14",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "on request, allow the Administrator to make any test or\ninspection of the small unmanned aircraft system, the remote pilot in command, the person manipulating\nthe flight controls of a small unmanned aircraft system, and, if applicable, the visual observer to\ndetermine compliance with this part.\n(c) Any person holding an FAA-accepted declaration of compliance under subpart D of this part must, upon\nrequest, make available to the Administrator:\n(1) The declaration of compliance required under subpart D of this part; and\n(2) Any other document, record, or report required to be kept under the regulations of this chapter.\n(d) Any person holding an FAA-accepted declaration of compliance under subpart D of this part must, upon\nrequest, allow the Administrator to inspect its facilities, technical"
+  },
+  {
+    "chunk_id": "FAA_Part107_15",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ompliance under subpart D of this part must, upon\nrequest, allow the Administrator to inspect its facilities, technical data, and any manufactured small UAS\nand witness any tests necessary to determine compliance with that subpart.\n[Amdt. 107-8, 86 FR 4381, Jan. 15, 2021]\n\n§ 107.9 Safety event reporting.\nNo later than 10 calendar days after an operation that meets the criteria of either paragraph (a) or (b) of this\nsection, a remote pilot in command must report to the FAA, in a manner acceptable to the Administrator, any\noperation of the small unmanned aircraft involving at least:\n(a) Serious injury to any person or any loss of consciousness; or\n(b) Damage to any property, other than the small unmanned aircraft, unless one of the following conditions is\nsatisfied:\n(1) The cost of repair (i"
+  },
+  {
+    "chunk_id": "FAA_Part107_16",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": ", other than the small unmanned aircraft, unless one of the following conditions is\nsatisfied:\n(1) The cost of repair (including materials and labor) does not exceed $500; or\n(2) The fair market value of the property does not exceed $500 in the event of total loss.\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Docket FAA-2022-1355, Amdt. 107-10, 87 FR\n75846, Dec. 9 2022]\n\nSubpart B—Operating Rules\n§ 107.11 Applicability.\nThis subpart applies to the operation of all civil small unmanned aircraft systems subject to this part.\n\n§ 107.12 Requirement for a remote pilot certificate with a small UAS rating.\n(a) Except as provided in paragraph (c) of this section, no person may manipulate the flight controls of a\nsmall unmanned aircraft system unless:\n(1) That perso"
+  },
+  {
+    "chunk_id": "FAA_Part107_17",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "of this section, no person may manipulate the flight controls of a\nsmall unmanned aircraft system unless:\n(1) That person has a remote pilot certificate with a small UAS rating issued pursuant to subpart C of\nthis part and satisfies the requirements of § 107.65; or\n\n14 CFR 107.12(a)(1) (enhanced display)\n\npage 6 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.12(a)(2)\n\n(2) That person is under the direct supervision of a remote pilot in command and the remote pilot in\ncommand has the ability to immediately take direct control of the flight of the small unmanned\naircraft.\n(b) Except as provided in paragraph (c) of this section, no person may act as a remote pilot in command\nunless that person has a remote pilot certificate with a small UAS ra"
+  },
+  {
+    "chunk_id": "FAA_Part107_18",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "on, no person may act as a remote pilot in command\nunless that person has a remote pilot certificate with a small UAS rating issued pursuant to Subpart C of\nthis part and satisfies the requirements of § 107.65.\n(c) The Administrator may, consistent with international standards, authorize an airman to operate a civil\nforeign-registered small unmanned aircraft without an FAA-issued remote pilot certificate with a small\nUAS rating.\n\n§ 107.13 Registration.\nA person operating a civil small unmanned aircraft system for purposes of flight must comply with the provisions of\n§ 91.203(a)(2) of this chapter.\n\n§ 107.15 Condition for safe operation.\n(a) No person may operate a civil small unmanned aircraft system unless it is in a condition for safe\noperation. Prior to each flight, the remote pilot in"
+  },
+  {
+    "chunk_id": "FAA_Part107_19",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "mall unmanned aircraft system unless it is in a condition for safe\noperation. Prior to each flight, the remote pilot in command must check the small unmanned aircraft\nsystem to determine whether it is in a condition for safe operation.\n(b) No person may continue flight of the small unmanned aircraft when he or she knows or has reason to\nknow that the small unmanned aircraft system is no longer in a condition for safe operation.\n\n§ 107.17 Medical condition.\nNo person may manipulate the flight controls of a small unmanned aircraft system or act as a remote pilot in\ncommand, visual observer, or direct participant in the operation of the small unmanned aircraft if he or she knows or\nhas reason to know that he or she has a physical or mental condition that would interfere with the safe operatio"
+  },
+  {
+    "chunk_id": "FAA_Part107_20",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "nows or\nhas reason to know that he or she has a physical or mental condition that would interfere with the safe operation of\nthe small unmanned aircraft system.\n\n§ 107.19 Remote pilot in command.\n(a) A remote pilot in command must be designated before or during the flight of the small unmanned aircraft.\n(b) The remote pilot in command is directly responsible for and is the final authority as to the operation of the\nsmall unmanned aircraft system.\n(c) The remote pilot in command must ensure that the small unmanned aircraft will pose no undue hazard to\nother people, other aircraft, or other property in the event of a loss of control of the small unmanned\naircraft for any reason.\n(d) The remote pilot in command must ensure that the small UAS operation complies with all applicable\nregulations"
+  },
+  {
+    "chunk_id": "FAA_Part107_21",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ason.\n(d) The remote pilot in command must ensure that the small UAS operation complies with all applicable\nregulations of this chapter.\n(e) The remote pilot in command must have the ability to direct the small unmanned aircraft to ensure\ncompliance with the applicable provisions of this chapter.\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Amdt. 107-8, 86 FR 4382, Jan. 15, 2021]\n\n14 CFR 107.19(e) (enhanced display)\n\npage 7 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.21\n\n§ 107.21 In-flight emergency.\n(a) In an in-flight emergency requiring immediate action, the remote pilot in command may deviate from any\nrule of this part to the extent necessary to meet that emergency.\n(b) Each remote pilot in command wh"
+  },
+  {
+    "chunk_id": "FAA_Part107_22",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "y deviate from any\nrule of this part to the extent necessary to meet that emergency.\n(b) Each remote pilot in command who deviates from a rule under paragraph (a) of this section must, upon\nrequest of the Administrator, send a written report of that deviation to the Administrator.\n\n§ 107.23 Hazardous operation.\nNo person may:\n(a) Operate a small unmanned aircraft system in a careless or reckless manner so as to endanger the life or\nproperty of another; or\n(b) Allow an object to be dropped from a small unmanned aircraft in a manner that creates an undue hazard\nto persons or property.\n\n§ 107.25 Operation from a moving vehicle or aircraft.\nNo person may operate a small unmanned aircraft system—\n(a) From a moving aircraft; or\n(b) From a moving land or water-borne vehicle unless the small unman"
+  },
+  {
+    "chunk_id": "FAA_Part107_23",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ned aircraft system—\n(a) From a moving aircraft; or\n(b) From a moving land or water-borne vehicle unless the small unmanned aircraft is flown over a sparsely\npopulated area and is not transporting another person's property for compensation or hire.\n\n§ 107.27 Alcohol or drugs.\nA person manipulating the flight controls of a small unmanned aircraft system or acting as a remote pilot in\ncommand or visual observer must comply with the provisions of §§ 91.17 and 91.19 of this chapter.\n\n§ 107.29 Operation at night.\n(a) Except as provided in paragraph (d) of this section, no person may operate a small unmanned aircraft\nsystem at night unless—\n(1) The remote pilot in command of the small unmanned aircraft has completed an initial knowledge\ntest or training, as applicable, under § 107.65 after April"
+  },
+  {
+    "chunk_id": "FAA_Part107_24",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "e small unmanned aircraft has completed an initial knowledge\ntest or training, as applicable, under § 107.65 after April 6, 2021; and\n(2) The small unmanned aircraft has lighted anti-collision lighting visible for at least 3 statute miles that\nhas a flash rate sufficient to avoid a collision. The remote pilot in command may reduce the intensity\nof, but may not extinguish, the anti-collision lighting if he or she determines that, because of\noperating conditions, it would be in the interest of safety to do so.\n(b) No person may operate a small unmanned aircraft system during periods of civil twilight unless the small\nunmanned aircraft has lighted anti-collision lighting visible for at least 3 statute miles that has a flash rate\nsufficient to avoid a collision. The remote pilot in command may"
+  },
+  {
+    "chunk_id": "FAA_Part107_25",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ible for at least 3 statute miles that has a flash rate\nsufficient to avoid a collision. The remote pilot in command may reduce the intensity of, but may not\nextinguish, the anti-collision lighting if he or she determines that, because of operating conditions, it\nwould be in the interest of safety to do so.\n(c) For purposes of paragraph (b) of this section, civil twilight refers to the following:\n\n14 CFR 107.29(c) (enhanced display)\n\npage 8 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.29(c)(1)\n\n(1) Except for Alaska, a period of time that begins 30 minutes before official sunrise and ends at official\nsunrise;\n(2) Except for Alaska, a period of time that begins at official sunset and ends 30 minutes after official\nsunset; and\n(3) In Alaska"
+  },
+  {
+    "chunk_id": "FAA_Part107_26",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "for Alaska, a period of time that begins at official sunset and ends 30 minutes after official\nsunset; and\n(3) In Alaska, the period of civil twilight as defined in the Air Almanac.\n(d) After May 17, 2021, no person may operate a small unmanned aircraft system at night in accordance with\na certificate of waiver issued prior to April 21, 2021 under § 107.200. The certificates of waiver issued\nprior to March 16, 2021 under § 107.200 that authorize deviation from § 107.29 terminate on May 17,\n2021.\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Amdt. 107-8, 86 FR 4382, Jan. 15, 2021; 86 FR\n13631, Mar. 10, 2020]\n\n§ 107.31 Visual line of sight aircraft operation.\n(a) With vision that is unaided by any device other than corrective lenses, the remote pilot in comman"
+  },
+  {
+    "chunk_id": "FAA_Part107_27",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "rcraft operation.\n(a) With vision that is unaided by any device other than corrective lenses, the remote pilot in command, the\nvisual observer (if one is used), and the person manipulating the flight control of the small unmanned\naircraft system must be able to see the unmanned aircraft throughout the entire flight in order to:\n(1) Know the unmanned aircraft's location;\n(2) Determine the unmanned aircraft's attitude, altitude, and direction of flight;\n(3) Observe the airspace for other air traffic or hazards; and\n(4) Determine that the unmanned aircraft does not endanger the life or property of another.\n(b) Throughout the entire flight of the small unmanned aircraft, the ability described in paragraph (a) of this\nsection must be exercised by either:\n(1) The remote pilot in command and the"
+  },
+  {
+    "chunk_id": "FAA_Part107_28",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ability described in paragraph (a) of this\nsection must be exercised by either:\n(1) The remote pilot in command and the person manipulating the flight controls of the small unmanned\naircraft system; or\n(2) A visual observer.\n\n§ 107.33 Visual observer.\nIf a visual observer is used during the aircraft operation, all of the following requirements must be met:\n(a) The remote pilot in command, the person manipulating the flight controls of the small unmanned aircraft\nsystem, and the visual observer must maintain effective communication with each other at all times.\n(b) The remote pilot in command must ensure that the visual observer is able to see the unmanned aircraft in\nthe manner specified in § 107.31.\n(c) The remote pilot in command, the person manipulating the flight controls of the small"
+  },
+  {
+    "chunk_id": "FAA_Part107_29",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "manner specified in § 107.31.\n(c) The remote pilot in command, the person manipulating the flight controls of the small unmanned aircraft\nsystem, and the visual observer must coordinate to do the following:\n(1) Scan the airspace where the small unmanned aircraft is operating for any potential collision hazard;\nand\n(2) Maintain awareness of the position of the small unmanned aircraft through direct visual observation.\n14 CFR 107.33(c)(2) (enhanced display)\n\npage 9 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.35\n\n§ 107.35 Operation of multiple small unmanned aircraft.\nA person may not manipulate flight controls or act as a remote pilot in command or visual observer in the operation\nof more than one unmanned aircraft at the same time.\n[Amdt."
+  },
+  {
+    "chunk_id": "FAA_Part107_30",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "remote pilot in command or visual observer in the operation\nof more than one unmanned aircraft at the same time.\n[Amdt. 107-8, 86 FR 4382, Jan. 15, 2021]\n\n§ 107.36 Carriage of hazardous material.\nA small unmanned aircraft may not carry hazardous material. For purposes of this section, the term hazardous\nmaterial is defined in 49 CFR 171.8.\n\n§ 107.37 Operation near aircraft; right-of-way rules.\n(a) Each small unmanned aircraft must yield the right of way to all aircraft, airborne vehicles, and launch and\nreentry vehicles. Yielding the right of way means that the small unmanned aircraft must give way to the\naircraft or vehicle and may not pass over, under, or ahead of it unless well clear.\n(b) No person may operate a small unmanned aircraft so close to another aircraft as to create a collis"
+  },
+  {
+    "chunk_id": "FAA_Part107_31",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "nless well clear.\n(b) No person may operate a small unmanned aircraft so close to another aircraft as to create a collision\nhazard.\n\n§ 107.39 Operation over human beings.\nNo person may operate a small unmanned aircraft over a human being unless—\n(a) That human being is directly participating in the operation of the small unmanned aircraft;\n(b) That human being is located under a covered structure or inside a stationary vehicle that can provide\nreasonable protection from a falling small unmanned aircraft; or\n(c) The operation meets the requirements of at least one of the operational categories specified in subpart D\nof this part.\n[Amdt. 107-8, 86 FR 4382, Jan. 15, 2021]\n\n§ 107.41 Operation in certain airspace.\nNo person may operate a small unmanned aircraft in Class B, Class C, or Class D a"
+  },
+  {
+    "chunk_id": "FAA_Part107_32",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "107.41 Operation in certain airspace.\nNo person may operate a small unmanned aircraft in Class B, Class C, or Class D airspace or within the lateral\nboundaries of the surface area of Class E airspace designated for an airport unless that person has prior\nauthorization from Air Traffic Control (ATC).\n\n§ 107.43 Operation in the vicinity of airports.\nNo person may operate a small unmanned aircraft in a manner that interferes with operations and traffic patterns at\nany airport, heliport, or seaplane base.\n\n§ 107.45 Operation in prohibited or restricted areas.\nNo person may operate a small unmanned aircraft in prohibited or restricted areas unless that person has\npermission from the using or controlling agency, as appropriate.\n\n14 CFR 107.45 (enhanced display)\n\npage 10 of 26\n\n\f14 CFR Part 107"
+  },
+  {
+    "chunk_id": "FAA_Part107_33",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "rom the using or controlling agency, as appropriate.\n\n14 CFR 107.45 (enhanced display)\n\npage 10 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.47\n\n§ 107.47 Flight restrictions in the proximity of certain areas designated by notice to airmen.\nA person acting as a remote pilot in command must comply with the provisions of §§ 91.137 through 91.145 and\n99.7 of this chapter.\n\n§ 107.49 Preflight familiarization, inspection, and actions for aircraft operation.\nPrior to flight, the remote pilot in command must:\n(a) Assess the operating environment, considering risks to persons and property in the immediate vicinity\nboth on the surface and in the air. This assessment must include:\n(1) Local weather conditions;\n(2) Local airspace and any flight restr"
+  },
+  {
+    "chunk_id": "FAA_Part107_34",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "face and in the air. This assessment must include:\n(1) Local weather conditions;\n(2) Local airspace and any flight restrictions;\n(3) The location of persons and property on the surface; and\n(4) Other ground hazards.\n(b) Ensure that all persons directly participating in the small unmanned aircraft operation are informed about\nthe operating conditions, emergency procedures, contingency procedures, roles and responsibilities, and\npotential hazards;\n(c) Ensure that all control links between ground control station and the small unmanned aircraft are working\nproperly;\n(d) If the small unmanned aircraft is powered, ensure that there is enough available power for the small\nunmanned aircraft system to operate for the intended operational time;\n(e) Ensure that any object attached or carried by the s"
+  },
+  {
+    "chunk_id": "FAA_Part107_35",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ed aircraft system to operate for the intended operational time;\n(e) Ensure that any object attached or carried by the small unmanned aircraft is secure and does not\nadversely affect the flight characteristics or controllability of the aircraft; and\n(f) If the operation will be conducted over human beings under subpart D of this part, ensure that the aircraft\nmeets the requirements of § 107.110, § 107.120(a), § 107.130(a), or § 107.140, as applicable.\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Amdt. 107-8, 86 FR 4382, Jan. 15, 2021]\n\n§ 107.51 Operating limitations for small unmanned aircraft.\nA remote pilot in command and the person manipulating the flight controls of the small unmanned aircraft system\nmust comply with all of the following operating limit"
+  },
+  {
+    "chunk_id": "FAA_Part107_36",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "pulating the flight controls of the small unmanned aircraft system\nmust comply with all of the following operating limitations when operating a small unmanned aircraft system:\n(a) The groundspeed of the small unmanned aircraft may not exceed 87 knots (100 miles per hour).\n(b) The altitude of the small unmanned aircraft cannot be higher than 400 feet above ground level, unless the\nsmall unmanned aircraft:\n(1) Is flown within a 400-foot radius of a structure; and\n(2) Does not fly higher than 400 feet above the structure's immediate uppermost limit.\n\n14 CFR 107.51(b)(2) (enhanced display)\n\npage 11 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.51(c)\n\n(c) The minimum flight visibility, as observed from the location of the control station must b"
+  },
+  {
+    "chunk_id": "FAA_Part107_37",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ystems\n\n14 CFR 107.51(c)\n\n(c) The minimum flight visibility, as observed from the location of the control station must be no less than 3\nstatute miles. For purposes of this section, flight visibility means the average slant distance from the\ncontrol station at which prominent unlighted objects may be seen and identified by day and prominent\nlighted objects may be seen and identified by night.\n(d) The minimum distance of the small unmanned aircraft from clouds must be no less than:\n(1) 500 feet below the cloud; and\n(2) 2,000 feet horizontally from the cloud.\n\nSubpart C—Remote Pilot Certification\n§ 107.52 ATC transponder equipment prohibition.\nUnless otherwise authorized by the Administrator, no person may operate a small unmanned aircraft system under\nthis part with a transponder on.\n[Amdt."
+  },
+  {
+    "chunk_id": "FAA_Part107_38",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "the Administrator, no person may operate a small unmanned aircraft system under\nthis part with a transponder on.\n[Amdt. 107-7, 86 FR 4513, Jan. 15, 2021]\n\n§ 107.53 Automatic Dependent Surveillance-Broadcast (ADS-B) Out prohibition.\nUnless otherwise authorized by the Administrator, no person may operate a small unmanned aircraft system under\nthis part with ADS-B Out equipment in transmit mode.\n[Amdt. 107-7, 86 FR 4513, Jan. 15, 2021]\n\n§ 107.56 Applicability.\nThis subpart prescribes the requirements for issuing a remote pilot certificate with a small UAS rating.\n[ Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016. Redesignated by Amdt. 107-7, 86 FR 4513, Jan. 15, 2021]\n\n§ 107.57 Offenses involving alcohol or drugs.\n(a) A conviction for the violation of any Federal or State statu"
+  },
+  {
+    "chunk_id": "FAA_Part107_39",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "5, 2021]\n\n§ 107.57 Offenses involving alcohol or drugs.\n(a) A conviction for the violation of any Federal or State statute relating to the growing, processing,\nmanufacture, sale, disposition, possession, transportation, or importation of narcotic drugs, marijuana, or\ndepressant or stimulant drugs or substances is grounds for:\n(1) Denial of an application for a remote pilot certificate with a small UAS rating for a period of up to 1\nyear after the date of final conviction; or\n(2) Suspension or revocation of a remote pilot certificate with a small UAS rating.\n(b) Committing an act prohibited by § 91.17(a) or § 91.19(a) of this chapter is grounds for:\n(1) Denial of an application for a remote pilot certificate with a small UAS rating for a period of up to 1\nyear after the date of that act; or"
+  },
+  {
+    "chunk_id": "FAA_Part107_40",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ation for a remote pilot certificate with a small UAS rating for a period of up to 1\nyear after the date of that act; or\n(2) Suspension or revocation of a remote pilot certificate with a small UAS rating.\n\n14 CFR 107.57(b)(2) (enhanced display)\n\npage 12 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.59\n\n§ 107.59 Refusal to submit to an alcohol test or to furnish test results.\nA refusal to submit to a test to indicate the percentage by weight of alcohol in the blood, when requested by a law\nenforcement officer in accordance with § 91.17(c) of this chapter, or a refusal to furnish or authorize the release of\nthe test results requested by the Administrator in accordance with § 91.17(c) or (d) of this chapter, is grounds for:\n(a) Denial of an a"
+  },
+  {
+    "chunk_id": "FAA_Part107_41",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "requested by the Administrator in accordance with § 91.17(c) or (d) of this chapter, is grounds for:\n(a) Denial of an application for a remote pilot certificate with a small UAS rating for a period of up to 1 year\nafter the date of that refusal; or\n(b) Suspension or revocation of a remote pilot certificate with a small UAS rating.\n\n§ 107.61 Eligibility.\nSubject to the provisions of §§ 107.57 and 107.59, in order to be eligible for a remote pilot certificate with a small\nUAS rating under this subpart, a person must:\n(a) Be at least 16 years of age;\n(b) Be able to read, speak, write, and understand the English language. If the applicant is unable to meet one\nof these requirements due to medical reasons, the FAA may place such operating limitations on that\napplicant's certificate as are nece"
+  },
+  {
+    "chunk_id": "FAA_Part107_42",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "rements due to medical reasons, the FAA may place such operating limitations on that\napplicant's certificate as are necessary for the safe operation of the small unmanned aircraft;\n(c) Not know or have reason to know that he or she has a physical or mental condition that would interfere\nwith the safe operation of a small unmanned aircraft system; and\n(d) Demonstrate aeronautical knowledge by satisfying one of the following conditions, in a manner\nacceptable to the Administrator:\n(1) Pass an initial aeronautical knowledge test covering the areas of knowledge specified in § 107.73; or\n(2) If a person holds a pilot certificate (other than a student pilot certificate) issued under part 61 of this\nchapter and meets the flight review requirements specified in § 61.56, complete training covering"
+  },
+  {
+    "chunk_id": "FAA_Part107_43",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "under part 61 of this\nchapter and meets the flight review requirements specified in § 61.56, complete training covering the\nareas of knowledge specified in § 107.74.\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Amdt. 107-8, 86 FR 4382, Jan. 15, 2021]\n\n§ 107.63 Issuance of a remote pilot certificate with a small UAS rating.\nAn applicant for a remote pilot certificate with a small UAS rating under this subpart must make the application in a\nform and manner acceptable to the Administrator.\n(a) The application must include either:\n(1) Evidence showing that the applicant passed an initial aeronautical knowledge test. If applying using\na paper application, this evidence must be an airman knowledge test report showing passage of the\nknowledge test; or\n(2) If a per"
+  },
+  {
+    "chunk_id": "FAA_Part107_44",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "pplication, this evidence must be an airman knowledge test report showing passage of the\nknowledge test; or\n(2) If a person holds a pilot certificate (other than a student pilot certificate) issued under part 61 of this\nchapter and meets the flight review requirements specified in § 61.56, a certificate of completion of\nan initial training course under this part that covers the areas of knowledge specified in § 107.74.\n(b) If the application is being made pursuant to paragraph (a)(2) of this section:\n\n14 CFR 107.63(b) (enhanced display)\n\npage 13 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.63(b)(1)\n\n(1) The application must be submitted to the responsible Flight Standards office, a designated pilot\nexaminer, an airman certification repres"
+  },
+  {
+    "chunk_id": "FAA_Part107_45",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ust be submitted to the responsible Flight Standards office, a designated pilot\nexaminer, an airman certification representative for a pilot school, a certificated flight instructor, or\nother person authorized by the Administrator;\n(2) The person accepting the application submission must verify the identity of the applicant in a\nmanner acceptable to the Administrator; and\n(3) The person making the application must, by logbook endorsement or other manner acceptable to the\nAdministrator, show the applicant meets the flight review requirements specified in § 61.56 of this\nchapter.\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Docket FAA-2018-0119, Amdt. 107-2, 83 FR\n9172, Mar. 5, 2018; Amdt. 107-8, 86 FR 4382, Jan. 15, 2021] ]\n\n§ 107.64 Temporary certificate.\n("
+  },
+  {
+    "chunk_id": "FAA_Part107_46",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "119, Amdt. 107-2, 83 FR\n9172, Mar. 5, 2018; Amdt. 107-8, 86 FR 4382, Jan. 15, 2021] ]\n\n§ 107.64 Temporary certificate.\n(a) A temporary remote pilot certificate with a small UAS rating is issued for up to 120 calendar days, at\nwhich time a permanent certificate will be issued to a person whom the Administrator finds qualified\nunder this part.\n(b) A temporary remote pilot certificate with a small UAS rating expires:\n(1) On the expiration date shown on the certificate;\n(2) Upon receipt of the permanent certificate; or\n(3) Upon receipt of a notice that the certificate sought is denied or revoked.\n\n§ 107.65 Aeronautical knowledge recency.\nA person may not exercise the privileges of a remote pilot in command with small UAS rating unless that person\nhas accomplished one of the following in a mann"
+  },
+  {
+    "chunk_id": "FAA_Part107_47",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "es of a remote pilot in command with small UAS rating unless that person\nhas accomplished one of the following in a manner acceptable to the Administrator within the previous 24 calendar\nmonths:\n(a) Passed an initial aeronautical knowledge test covering the areas of knowledge specified in § 107.73;\n(b) Completed recurrent training covering the areas of knowledge specified in § 107.73; or\n(c) If a person holds a pilot certificate (other than a student pilot certificate) issued under part 61 of this\nchapter and meets the flight review requirements specified in § 61.56, completed training covering the\nareas of knowledge specified in § 107.74.\n(d) A person who has passed a recurrent aeronautical knowledge test in a manner acceptable to the\nAdministrator or who has satisfied the training requir"
+  },
+  {
+    "chunk_id": "FAA_Part107_48",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "current aeronautical knowledge test in a manner acceptable to the\nAdministrator or who has satisfied the training requirement of paragraph (c) of this section prior to April 6,\n2021 within the previous 24 calendar months is considered to be in compliance with the requirement of\nparagraph (b) or (c) of this section, as applicable.\n[Amdt. 107-8, 86 FR 4382, Jan. 15, 2021; 86 FR 13631, Mar. 10, 2021]\n\n§ 107.67 Knowledge tests: General procedures and passing grades.\n(a) Knowledge tests prescribed by or under this part are given by persons and in the manner designated by\nthe Administrator.\n14 CFR 107.67(a) (enhanced display)\n\npage 14 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.67(b)\n\n(b) An applicant for a knowledge test must have proper iden"
+  },
+  {
+    "chunk_id": "FAA_Part107_49",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.67(b)\n\n(b) An applicant for a knowledge test must have proper identification at the time of application that contains\nthe applicant's:\n(1) Photograph;\n(2) Signature;\n(3) Date of birth, which shows the applicant meets or will meet the age requirements of this part for the\ncertificate and rating sought before the expiration date of the airman knowledge test report; and\n(4) Permanent mailing address. If the applicant's permanent mailing address is a post office box\nnumber, then the applicant must also provide a current residential address.\n(c) The minimum passing grade for the knowledge test will be specified by the Administrator.\n\n§ 107.69 Knowledge tests: Cheating or other unauthorized conduct.\n(a) An applicant for a knowledge test may n"
+  },
+  {
+    "chunk_id": "FAA_Part107_50",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "istrator.\n\n§ 107.69 Knowledge tests: Cheating or other unauthorized conduct.\n(a) An applicant for a knowledge test may not:\n(1) Copy or intentionally remove any knowledge test;\n(2) Give to another applicant or receive from another applicant any part or copy of a knowledge test;\n(3) Give or receive assistance on a knowledge test during the period that test is being given;\n(4) Take any part of a knowledge test on behalf of another person;\n(5) Be represented by, or represent, another person for a knowledge test;\n(6) Use any material or aid during the period that the test is being given, unless specifically authorized to\ndo so by the Administrator; and\n(7) Intentionally cause, assist, or participate in any act prohibited by this paragraph.\n(b) An applicant who the Administrator finds has commi"
+  },
+  {
+    "chunk_id": "FAA_Part107_51",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": ", assist, or participate in any act prohibited by this paragraph.\n(b) An applicant who the Administrator finds has committed an act prohibited by paragraph (a) of this section\nis prohibited, for 1 year after the date of committing that act, from:\n(1) Applying for any certificate, rating, or authorization issued under this chapter; and\n(2) Applying for and taking any test under this chapter.\n(c) Any certificate or rating held by an applicant may be suspended or revoked if the Administrator finds that\nperson has committed an act prohibited by paragraph (a) of this section.\n\n§ 107.71 Retesting after failure.\nAn applicant for a knowledge test who fails that test may not reapply for the test for 14 calendar days after failing\nthe test.\n\n§ 107.73 Knowledge and training.\nAn initial aeronautical k"
+  },
+  {
+    "chunk_id": "FAA_Part107_52",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ly for the test for 14 calendar days after failing\nthe test.\n\n§ 107.73 Knowledge and training.\nAn initial aeronautical knowledge test and recurrent training covers the following areas of knowledge:\n(a) Applicable regulations relating to small unmanned aircraft system rating privileges, limitations, and flight\noperation;\n(b) Airspace classification, operating requirements, and flight restrictions affecting small unmanned aircraft\noperation;\n14 CFR 107.73(b) (enhanced display)\n\npage 15 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.73(c)\n\n(c) Aviation weather sources and effects of weather on small unmanned aircraft performance;\n(d) Small unmanned aircraft loading;\n(e) Emergency procedures;\n(f) Crew resource management;\n(g) Radio communicatio"
+  },
+  {
+    "chunk_id": "FAA_Part107_53",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "nce;\n(d) Small unmanned aircraft loading;\n(e) Emergency procedures;\n(f) Crew resource management;\n(g) Radio communication procedures;\n(h) Determining the performance of the small unmanned aircraft;\n(i)\n\nPhysiological effects of drugs and alcohol;\n\n(j)\n\nAeronautical decision-making and judgment;\n\n(k) Airport operations;\n(l)\n\nMaintenance and preflight inspection procedures; and\n\n(m) Operation at night.\n[Amdt. 107-8, 86 FR 4383, Jan. 15, 2021]\n\n§ 107.74 Small unmanned aircraft system training.\nTraining for pilots who hold a pilot certificate (other than a student pilot certificate) issued under part 61 of this\nchapter and meet the flight review requirements specified in § 61.56 covers the following areas of knowledge:\n(a) Applicable regulations relating to small unmanned aircraft system ratin"
+  },
+  {
+    "chunk_id": "FAA_Part107_54",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": ".56 covers the following areas of knowledge:\n(a) Applicable regulations relating to small unmanned aircraft system rating privileges, limitations, and flight\noperation;\n(b) Effects of weather on small unmanned aircraft performance;\n(c) Small unmanned aircraft loading;\n(d) Emergency procedures;\n(e) Crew resource management;\n(f) Determining the performance of the small unmanned aircraft;\n(g) Maintenance and preflight inspection procedures; and\n(h) Operation at night.\n[Amdt. 107-8, 86 FR 4383, Jan. 15, 2021]\n\n§ 107.77 Change of name or address.\n(a) Change of name. An application to change the name on a certificate issued under this subpart must be\naccompanied by the applicant's:\n(1) Remote pilot certificate with small UAS rating; and\n(2) A copy of the marriage license, court order, or other d"
+  },
+  {
+    "chunk_id": "FAA_Part107_55",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "t's:\n(1) Remote pilot certificate with small UAS rating; and\n(2) A copy of the marriage license, court order, or other document verifying the name change.\n(b) The documents in paragraph (a) of this section will be returned to the applicant after inspection.\n14 CFR 107.77(b) (enhanced display)\n\npage 16 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.77(c)\n\n(c) Change of address. The holder of a remote pilot certificate with small UAS rating issued under this subpart\nwho has made a change in permanent mailing address may not, after 30 days from that date, exercise the\nprivileges of the certificate unless the holder has notified the FAA of the change in address using one of\nthe following methods:\n(1) By letter to the FAA Airman Certification Br"
+  },
+  {
+    "chunk_id": "FAA_Part107_56",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ed the FAA of the change in address using one of\nthe following methods:\n(1) By letter to the FAA Airman Certification Branch, P.O. Box 25082, Oklahoma City, OK 73125 providing\nthe new permanent mailing address, or if the permanent mailing address includes a post office box\nnumber, then the holder's current residential address; or\n(2) By using the FAA Web site portal at www.faa.gov providing the new permanent mailing address, or if\nthe permanent mailing address includes a post office box number, then the holder's current\nresidential address.\n\n§ 107.79 Voluntary surrender of certificate.\n(a) The holder of a certificate issued under this subpart may voluntarily surrender it for cancellation.\n(b) Any request made under paragraph (a) of this section must include the following signed statement o"
+  },
+  {
+    "chunk_id": "FAA_Part107_57",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "for cancellation.\n(b) Any request made under paragraph (a) of this section must include the following signed statement or its\nequivalent: “I voluntarily surrender my remote pilot certificate with a small UAS rating for cancellation.\nThis request is made for my own reasons, with full knowledge that my certificate will not be reissued to\nme unless I again complete the requirements specified in §§ 107.61 and 107.63.”\n\nSubpart D—Operations Over Human Beings\nSource: Amdt. 107-8, 86 FR 4382, Jan. 15, 2021\n\n§ 107.100 Applicability.\nThis subpart prescribes the eligibility and operating requirements for civil small unmanned aircraft to operate over\nhuman beings or over moving vehicles in the United States, in addition to those operations permitted by § 107.39(a)\nand (b).\n\n§ 107.105 Limitations on o"
+  },
+  {
+    "chunk_id": "FAA_Part107_58",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "cles in the United States, in addition to those operations permitted by § 107.39(a)\nand (b).\n\n§ 107.105 Limitations on operations over human beings.\nExcept as provided in §§ 107.39(a) and (b) and 107.145, a remote pilot in command may conduct operations over\nhuman beings only in accordance with the following, as applicable: § 107.110 for Category 1 operations; §§\n107.115 and 107.120 for Category 2 operations; §§ 107.125 and 107.130 for Category 3 operations; or § 107.140\nfor Category 4 operations.\n\n§ 107.110 Category 1 operations.\nTo conduct Category 1 operations—\n(a) A remote pilot in command must use a small unmanned aircraft that—\n(1) Weighs 0.55 pounds or less on takeoff and throughout the duration of each operation under\nCategory 1, including everything that is on board or otherwise a"
+  },
+  {
+    "chunk_id": "FAA_Part107_59",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "off and throughout the duration of each operation under\nCategory 1, including everything that is on board or otherwise attached to the aircraft; and\n(2) Does not contain any exposed rotating parts that would lacerate human skin upon impact with a\nhuman being.\n14 CFR 107.110(a)(2) (enhanced display)\n\npage 17 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.110(b)\n\n(b) No remote pilot in command may operate a small unmanned aircraft in sustained flight over open-air\nassemblies of human beings unless the operation meets the requirements of either § 89.110 or §\n89.115(a) of this chapter.\n[Amdt. 107-8, 86 FR 4382, Jan. 15, 2021, as amended by 86 FR 62473, Nov. 10, 2021]\n\n§ 107.115 Category 2 operations: Operating requirements.\nTo conduct Category"
+  },
+  {
+    "chunk_id": "FAA_Part107_60",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "as amended by 86 FR 62473, Nov. 10, 2021]\n\n§ 107.115 Category 2 operations: Operating requirements.\nTo conduct Category 2 operations—\n(a) A remote pilot in command must use a small unmanned aircraft that—\n(1) Is eligible for Category 2 operations pursuant to § 107.120(a);\n(2) Is listed on an FAA-accepted declaration of compliance as eligible for Category 2 operations in\naccordance with § 107.160; and\n(3) Is labeled as eligible to conduct Category 2 operations in accordance with § 107.120(b)(1).\n(b) No remote pilot in command may operate a small unmanned aircraft in sustained flight over open-air\nassemblies of human beings unless the operation meets the requirements of either § 89.110 or §\n89.115(a) of this chapter.\n\n§ 107.120 Category 2 operations: Eligibility of small unmanned aircraft an"
+  },
+  {
+    "chunk_id": "FAA_Part107_61",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "her § 89.110 or §\n89.115(a) of this chapter.\n\n§ 107.120 Category 2 operations: Eligibility of small unmanned aircraft and other applicant\nrequirements.\n(a) To be eligible for use in Category 2 operations, the small unmanned aircraft must be designed, produced,\nor modified such that it—\n(1) Will not cause injury to a human being that is equivalent to or greater than the severity of injury\ncaused by a transfer of 11 foot-pounds of kinetic energy upon impact from a rigid object;\n(2) Does not contain any exposed rotating parts that would lacerate human skin upon impact with a\nhuman being; and\n(3) Does not contain any safety defects.\n(b) The applicant for a declaration of compliance for a small unmanned aircraft that is eligible for use in\nCategory 2 operations in accordance with paragraph (a)"
+  },
+  {
+    "chunk_id": "FAA_Part107_62",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "liance for a small unmanned aircraft that is eligible for use in\nCategory 2 operations in accordance with paragraph (a) of this section, must meet all of the following\nrequirements for the applicant's unmanned aircraft to be used in Category 2 operations:\n(1) Display a label on the small unmanned aircraft indicating eligibility to conduct Category 2 operations.\nThe label must be in English and be legible, prominent, and permanently affixed to the small\nunmanned aircraft.\n(2) Have remote pilot operating instructions that apply to the operation of the small unmanned aircraft\nsystem. The applicant for a declaration of compliance must make available these instructions upon\nsale or transfer of the aircraft or use of the aircraft by someone other than the applicant who\nsubmitted a declaration of"
+  },
+  {
+    "chunk_id": "FAA_Part107_63",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "le or transfer of the aircraft or use of the aircraft by someone other than the applicant who\nsubmitted a declaration of compliance pursuant to § 107.160. Such instructions must address, at a\nminimum—\n(i)\n\nA system description that includes the required small unmanned aircraft system components,\nany system limitations, and the declared category or categories of operation;\n\n14 CFR 107.120(b)(2)(i) (enhanced display)\n\npage 18 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.120(b)(2)(ii)\n\n(ii) Modifications that will not change the ability of the small unmanned aircraft system to meet the\nrequirements for the category or categories of operation the small unmanned aircraft system is\neligible to conduct; and\n(iii) Instructions for how to verify a"
+  },
+  {
+    "chunk_id": "FAA_Part107_64",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ories of operation the small unmanned aircraft system is\neligible to conduct; and\n(iii) Instructions for how to verify and change the mode or configuration of the small unmanned\naircraft system, if they are variable.\n(3) Maintain a product support and notification process. The applicant for a declaration of compliance\nmust maintain product support and notification procedures to notify the public and the FAA of—\n(i)\n\nAny defect or condition that causes the small unmanned aircraft to no longer meet the\nrequirements of this subpart; and\n\n(ii) Any identified safety defect that causes the small unmanned aircraft to exceed a low probability\nof casualty.\n\n§ 107.125 Category 3 operations: Operating requirements.\nTo conduct Category 3 operations, a remote pilot in command—\n(a) Must use a small unma"
+  },
+  {
+    "chunk_id": "FAA_Part107_65",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "erations: Operating requirements.\nTo conduct Category 3 operations, a remote pilot in command—\n(a) Must use a small unmanned aircraft that—\n(1) Is eligible for Category 3 operations pursuant to § 107.130(a);\n(2) Is listed on an FAA-accepted declaration of compliance as eligible for Category 3 operations in\naccordance with § 107.160; and\n(3) Is labeled as eligible for Category 3 operations in accordance with § 107.130(b)(1);\n(b) Must not operate the small unmanned aircraft over open-air assemblies of human beings; and\n(c) May only operate the small unmanned aircraft above any human being if operation meets one of the\nfollowing conditions:\n(1) The operation is within or over a closed- or restricted-access site and all human beings located\nwithin the closed- or restricted-access site must be"
+  },
+  {
+    "chunk_id": "FAA_Part107_66",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "r a closed- or restricted-access site and all human beings located\nwithin the closed- or restricted-access site must be on notice that a small unmanned aircraft may fly\nover them; or\n(2) The small unmanned aircraft does not maintain sustained flight over any human being unless that\nhuman being is—\n(i)\n\nDirectly participating in the operation of the small unmanned aircraft; or\n\n(ii) Located under a covered structure or inside a stationary vehicle that can provide reasonable\nprotection from a falling small unmanned aircraft.\n[Amdt. 107-8, 86 FR 4382, Jan. 15, 2021, as amended by 86 FR 62473, Nov. 10, 2021]\n\n§ 107.130 Category 3 operations: Eligibility of small unmanned aircraft and other applicant\nrequirements.\n(a) To be eligible for use in Category 3 operations, the small unmanned aircraft"
+  },
+  {
+    "chunk_id": "FAA_Part107_67",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "raft and other applicant\nrequirements.\n(a) To be eligible for use in Category 3 operations, the small unmanned aircraft must be designed, produced,\nor modified such that it—\n\n14 CFR 107.130(a) (enhanced display)\n\npage 19 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.130(a)(1)\n\n(1) Will not cause injury to a human being that is equivalent to or greater than the severity of the injury\ncaused by a transfer of 25 foot-pounds of kinetic energy upon impact from a rigid object;\n(2) Does not contain any exposed rotating parts that would lacerate human skin upon impact with a\nhuman being; and\n(3) Does not contain any safety defects.\n(b) The applicant for a declaration of compliance for a small unmanned aircraft that is eligible for use in\nCategory"
+  },
+  {
+    "chunk_id": "FAA_Part107_68",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "s.\n(b) The applicant for a declaration of compliance for a small unmanned aircraft that is eligible for use in\nCategory 3 operations in accordance with paragraph (a) of this section, must meet all of the following\nrequirements for the applicant's small unmanned aircraft to be used in Category 3 operations:\n(1) Display a label on the small unmanned aircraft indicating eligibility to conduct Category 3 operations.\nThe label must be in English and be legible, prominent, and permanently affixed to the small\nunmanned aircraft.\n(2) Have remote pilot operating instructions that apply to the operation of the small unmanned aircraft\nsystem. The applicant for a declaration of compliance must make available these instructions upon\nsale or transfer of the aircraft or use of the aircraft by someone oth"
+  },
+  {
+    "chunk_id": "FAA_Part107_69",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "iance must make available these instructions upon\nsale or transfer of the aircraft or use of the aircraft by someone other than the applicant who\nsubmitted a declaration of compliance pursuant to § 107.160. Such instructions must address, at a\nminimum—\n(i)\n\nA system description that includes the required small unmanned aircraft system components,\nany system limitations, and the declared category or categories of operation;\n\n(ii) Modifications that will not change the ability of the small unmanned aircraft system to meet the\nrequirements for the category or categories of operation the small unmanned aircraft system is\neligible to conduct; and\n(iii) Instructions for how to verify and change the mode or configuration of the small unmanned\naircraft system, if they are variable.\n(3) Maintain a"
+  },
+  {
+    "chunk_id": "FAA_Part107_70",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "verify and change the mode or configuration of the small unmanned\naircraft system, if they are variable.\n(3) Maintain a product support and notification process. The applicant for a declaration of compliance\nmust maintain product support and notification procedures to notify the public and the FAA of—\n(i)\n\nAny defect or condition that causes the small unmanned aircraft to no longer meet the\nrequirements of this subpart; and\n\n(ii) Any identified safety defect that causes the small unmanned aircraft to exceed a low probability\nof fatality.\n\n§ 107.135 Labeling by remote pilot in command for Category 2 and 3 operations.\nIf a Category 2 or Category 3 label affixed to a small unmanned aircraft is damaged, destroyed, or missing, a remote\npilot in command must label the aircraft in English such th"
+  },
+  {
+    "chunk_id": "FAA_Part107_71",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "nmanned aircraft is damaged, destroyed, or missing, a remote\npilot in command must label the aircraft in English such that the label is legible, prominent, and will remain on the\nsmall unmanned aircraft for the duration of the operation before conducting operations over human beings. The\nlabel must correctly identify the category or categories of operation over human beings that the small unmanned\naircraft is qualified to conduct in accordance with this subpart.\n\n§ 107.140 Category 4 operations.\n(a) Remote pilot in command requirements. To conduct Category 4 operations—\n(1) A remote pilot in command—\n14 CFR 107.140(a)(1) (enhanced display)\n\npage 20 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n(i)\n\n14 CFR 107.140(a)(1)(i)\n\nMust use a small unmanned a"
+  },
+  {
+    "chunk_id": "FAA_Part107_72",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "(up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n(i)\n\n14 CFR 107.140(a)(1)(i)\n\nMust use a small unmanned aircraft that is eligible for Category 4 operations pursuant to\nparagraph (b) of this section; and\n\n(ii) Must operate the small unmanned aircraft in accordance with all operating limitations that\napply to the small unmanned aircraft, as specified by the Administrator.\n(2) No remote pilot in command may operate a small unmanned aircraft in sustained flight over open-air\nassemblies of human beings unless the operation meets the requirements of either § 89.110 or §\n89.115(a) of this chapter.\n(b) Small unmanned aircraft requirements for Category 4. To be eligible to operate over human beings under\nthis section, the small unmanned aircraft must—\n(1) Have an airworthiness certif"
+  },
+  {
+    "chunk_id": "FAA_Part107_73",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ible to operate over human beings under\nthis section, the small unmanned aircraft must—\n(1) Have an airworthiness certificate issued under part 21 of this chapter.\n(2) Be operated in accordance with the operating limitations specified in the approved Flight Manual or\nas otherwise specified by the Administrator. The operating limitations must not prohibit operations\nover human beings.\n(3) Have maintenance, preventive maintenance, alterations, or inspections performed in accordance\nwith paragraph (c)(1) of this section.\n(c) Maintenance requirements for Category 4. The owner must (unless the owner enters into an agreement\nwith an operator to meet the requirements of this paragraph (c), then the operator must) meet the\nrequirements of this paragraph (c):\n(1) Ensure the person performing any ma"
+  },
+  {
+    "chunk_id": "FAA_Part107_74",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "agraph (c), then the operator must) meet the\nrequirements of this paragraph (c):\n(1) Ensure the person performing any maintenance, preventive maintenance, alterations, or inspections:\n(i)\n\nUses the methods, techniques, and practices prescribed in the manufacturer's current\nmaintenance manual or Instructions for Continued Airworthiness that are acceptable to the\nAdministrator, or other methods, techniques, and practices acceptable to the Administrator;\n\n(ii) Has the knowledge, skill, and appropriate equipment to perform the work;\n(iii) Performs the maintenance, preventive maintenance, or alterations on the small unmanned\naircraft in a manner using the methods, techniques, and practices prescribed in the\nmanufacturer's current maintenance manual or Instructions for Continued Airworthiness\npr"
+  },
+  {
+    "chunk_id": "FAA_Part107_75",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "and practices prescribed in the\nmanufacturer's current maintenance manual or Instructions for Continued Airworthiness\nprepared by its manufacturer, or other methods, techniques, and practices acceptable to the\nAdministrator;\n(iv) Inspects the small unmanned aircraft in accordance with the manufacturer's instructions or\nother instructions acceptable to the Administrator; and\n(v) Performs the maintenance, preventive maintenance, or alterations using parts of such a quality\nthat the condition of the aircraft will be at least equal to its original or properly altered\ncondition.\n(2) Maintain all records of maintenance, preventive maintenance, and alterations performed on the\naircraft and ensure the records are documented in a manner acceptable to the Administrator. The\nrecords must contain the"
+  },
+  {
+    "chunk_id": "FAA_Part107_76",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ircraft and ensure the records are documented in a manner acceptable to the Administrator. The\nrecords must contain the description of the work performed, the date the work was completed, and\nthe name of the person who performed the work.\n(3) Maintain all records containing—\n(i)\n\nThe status of life-limited parts that are installed on, or part of, the small unmanned aircraft;\n\n14 CFR 107.140(c)(3)(i) (enhanced display)\n\npage 21 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.140(c)(3)(ii)\n\n(ii) The inspection status of the aircraft; and\n(iii) The status of applicable airworthiness directives including the method of compliance, the\nairworthiness directive number, and revision date. If the airworthiness directive involves\nrecurring action, the"
+  },
+  {
+    "chunk_id": "FAA_Part107_77",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "e, the\nairworthiness directive number, and revision date. If the airworthiness directive involves\nrecurring action, the record must contain the time and date of the next required action.\n(4) Retain the records required under paragraphs (c)(2) and (3) of this section, as follows:\n(i)\n\nThe records documenting maintenance, preventive maintenance, or alterations performed must\nbe retained for 1 year from when the work is completed or until the maintenance is repeated or\nsuperseded by other work.\n\n(ii) The records documenting the status of life-limited parts, compliance with airworthiness\ndirectives, and inspection status of the small unmanned aircraft must be retained and\ntransferred with the aircraft upon change in ownership.\n(5) Ensure all records under paragraphs (c)(2) and (3) of this sect"
+  },
+  {
+    "chunk_id": "FAA_Part107_78",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "nsferred with the aircraft upon change in ownership.\n(5) Ensure all records under paragraphs (c)(2) and (3) of this section are available for inspection upon\nrequest from the Administrator or any authorized representative of the National Transportation\nSafety Board (NTSB).\n(d) Compliance with parts 43 and 91 of this chapter. Compliance with part 43 and part 91, subpart E, of this\nchapter fulfills the requirements in paragraphs (b)(3) and (c) of this section.\n[Amdt. 107-8, 86 FR 4383, Jan. 15, 2021; 86 FR 13633, Mar. 10, 2021]\n\n§ 107.145 Operations over moving vehicles.\nNo person may operate a small unmanned aircraft over a human being located inside a moving vehicle unless the\nfollowing conditions are met:\n(a) The operation occurs in accordance with § 107.110 for Category 1 operations; § 1"
+  },
+  {
+    "chunk_id": "FAA_Part107_79",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "s the\nfollowing conditions are met:\n(a) The operation occurs in accordance with § 107.110 for Category 1 operations; § 107.115 for Category 2\noperations; § 107.125 for Category 3 operations; or § 107.140 for Category 4 operations.\n(b) For an operation under Category 1, Category 2, or Category 3, the small unmanned aircraft, throughout the\noperation—\n(1) Must remain within or over a closed- or restricted-access site, and all human beings located inside a\nmoving vehicle within the closed- or restricted-access site must be on notice that a small unmanned\naircraft may fly over them; or\n(2) Must not maintain sustained flight over moving vehicles.\n(c) For a Category 4 operation, the small unmanned aircraft must—\n(1) Have an airworthiness certificate issued under part 21 of this chapter.\n(2) Be o"
+  },
+  {
+    "chunk_id": "FAA_Part107_80",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": ", the small unmanned aircraft must—\n(1) Have an airworthiness certificate issued under part 21 of this chapter.\n(2) Be operated in accordance with the operating limitations specified in the approved Flight Manual or\nas otherwise specified by the Administrator. The operating limitations must not prohibit operations\nover human beings located inside moving vehicles.\n\n§ 107.150 Variable mode and variable configuration of small unmanned aircraft systems.\nA small unmanned aircraft system may be eligible for one or more categories of operation over human beings under\nthis subpart, as long as a remote pilot in command cannot inadvertently switch between modes or configurations.\n14 CFR 107.150 (enhanced display)\n\npage 22 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft S"
+  },
+  {
+    "chunk_id": "FAA_Part107_81",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "4 CFR 107.150 (enhanced display)\n\npage 22 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.155\n\n§ 107.155 Means of compliance.\n(a) Establishment of compliance. To meet the requirements of § 107.120(a) for operations in Category 2, or\nthe requirements of § 107.130(a) for operations in Category 3, the means of compliance must consist of\ntest, analysis, or inspection.\n(b) Required information. An applicant requesting FAA acceptance of a means of compliance must submit the\nfollowing information to the FAA in a manner specified by the Administrator:\n(1) Procedures. Detailed description of the means of compliance, including applicable test, analysis, or\ninspection procedures to demonstrate how the small unmanned aircraft meets the requirements of\n§"
+  },
+  {
+    "chunk_id": "FAA_Part107_82",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "able test, analysis, or\ninspection procedures to demonstrate how the small unmanned aircraft meets the requirements of\n§ 107.120(a) for operations in Category 2 or the requirements of § 107.130(a) for operations in\nCategory 3. The description should include conditions, environments, and methods, as applicable.\n(2) Compliance explanation. Explanation of how application of the means of compliance fulfills the\nrequirements of § 107.120(a) for operations in Category 2 or the requirements of § 107.130(a) for\noperations in Category 3.\n(c) FAA acceptance. If the FAA determines the applicant has demonstrated compliance with paragraphs (a)\nand (b) of this section, it will notify the applicant that it has accepted the means of compliance.\n(d) Rescission.\n(1) A means of compliance is subject to ongoi"
+  },
+  {
+    "chunk_id": "FAA_Part107_83",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "he applicant that it has accepted the means of compliance.\n(d) Rescission.\n(1) A means of compliance is subject to ongoing review by the Administrator. The Administrator may\nrescind its acceptance of a means of compliance if the Administrator determines that a means of\ncompliance does not meet any or all of the requirements of this subpart.\n(2) The Administrator will publish a notice of rescission in the FEDERAL REGISTER.\n(e) Inapplicability of part 13, subpart D, of this chapter. Part 13, subpart D, of this chapter does not apply to the\nprocedures of paragraph (a) of this section.\n\n§ 107.160 Declaration of compliance.\n(a) Required information. In order for an applicant to declare a small unmanned aircraft is compliant with the\nrequirements of this subpart for Category 2 or Category 3 oper"
+  },
+  {
+    "chunk_id": "FAA_Part107_84",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "o declare a small unmanned aircraft is compliant with the\nrequirements of this subpart for Category 2 or Category 3 operations, an applicant must submit a\ndeclaration of compliance for acceptance by the FAA, in a manner specified by the Administrator, that\nincludes the following information:\n(1) Applicant's name;\n(2) Applicant's physical address;\n(3) Applicant's email address;\n(4) The small unmanned aircraft make and model name, and series, if applicable;\n(5) The small unmanned aircraft serial number or range of serial numbers that are the subject of the\ndeclaration of compliance;\n(6) Whether the declaration of compliance is an initial declaration or an amended declaration;\n(7) If the declaration of compliance is an amended declaration, the reason for the re-submittal;\n(8) The accepted mea"
+  },
+  {
+    "chunk_id": "FAA_Part107_85",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "n;\n(7) If the declaration of compliance is an amended declaration, the reason for the re-submittal;\n(8) The accepted means of compliance the applicant used to fulfill requirements of § 107.120(a) or §\n107.130(a) or both;\n14 CFR 107.160(a)(8) (enhanced display)\n\npage 23 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.160(a)(9)\n\n(9) A declaration that the applicant—\n(i)\n\nHas demonstrated that the small unmanned aircraft, or specific configurations of that aircraft,\nsatisfies § 107.120(a) or § 107.130(a) or both, through the accepted means of compliance\nidentified in paragraph (a)(8) of this section;\n\n(ii) Has verified that the unmanned aircraft does not contain any safety defects;\n(iii) Has satisfied § 107.120(b)(3) or § 107.130(b)(3), or both"
+  },
+  {
+    "chunk_id": "FAA_Part107_86",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "e unmanned aircraft does not contain any safety defects;\n(iii) Has satisfied § 107.120(b)(3) or § 107.130(b)(3), or both; and\n(iv) Will, upon request, allow the Administrator to inspect its facilities, technical data, and any\nmanufactured small unmanned aircraft and witness any tests necessary to determine\ncompliance with this subpart; and\n(10) Other information as required by the Administrator.\n(b) FAA acceptance. If the FAA determines the applicant has demonstrated compliance with the requirements\nof this subpart, it will notify the applicant that it has accepted the declaration of compliance.\n(c) Notification of a safety issue. Prior to initiating rescission proceedings pursuant to paragraphs (d)(1)\nthrough (3) of this section, the FAA will notify the applicant if a safety issue has bee"
+  },
+  {
+    "chunk_id": "FAA_Part107_87",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "s pursuant to paragraphs (d)(1)\nthrough (3) of this section, the FAA will notify the applicant if a safety issue has been identified for the\ndeclaration of compliance.\n(d) Rescission.\n(1) No person may operate a small unmanned aircraft identified on a declaration of compliance that the\nFAA has rescinded pursuant to this subpart while that declaration of compliance is rescinded.\n(2) The FAA may rescind a declaration of compliance if any of the following conditions occur:\n(i)\n\nA small unmanned aircraft for which a declaration of compliance was accepted no longer\ncomplies with § 107.120(a) or § 107.130(a);\n\n(ii) The FAA finds a declaration of compliance is in violation of § 107.5(a); or\n(iii) The Administrator determines an emergency exists related to safety in accordance with the\nauthority i"
+  },
+  {
+    "chunk_id": "FAA_Part107_88",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "107.5(a); or\n(iii) The Administrator determines an emergency exists related to safety in accordance with the\nauthority in 49 U.S.C. 46105.\n(3) If a safety issue identified under paragraph (c) of this section has not been resolved, the FAA may\nrescind the declaration of compliance as follows:\n(i)\n\nThe FAA will issue a notice proposing to rescind the declaration of compliance. The notice will\nset forth the Agency's basis for the proposed rescission and provide the holder of the\ndeclaration of compliance with 30 calendar days from the date of issuance of the proposed\nnotice to submit evidentiary information to refute the proposed notice.\n\n(ii) The holder of the declaration of compliance must submit information demonstrating how the\nsmall unmanned aircraft meets the requirements of this subpar"
+  },
+  {
+    "chunk_id": "FAA_Part107_89",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "f compliance must submit information demonstrating how the\nsmall unmanned aircraft meets the requirements of this subpart within 30 calendar days from\nthe date of issuance of the proposed notice.\n(iii) If the FAA does not receive the information required by paragraph (d)(3)(ii) of this section within\n30 calendar days from the date of the issuance of the proposed notice, the FAA will issue a\nnotice rescinding the declaration of compliance.\n\n14 CFR 107.160(d)(3)(iii) (enhanced display)\n\npage 24 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.160(d)(4)\n\n(4) If the Administrator determines that an emergency exists in accordance with paragraph (d)(2)(iii) of\nthis section, the FAA will exercise its authority under 49 U.S.C. 46105(c) to issue an or"
+  },
+  {
+    "chunk_id": "FAA_Part107_90",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "with paragraph (d)(2)(iii) of\nthis section, the FAA will exercise its authority under 49 U.S.C. 46105(c) to issue an order rescinding\na declaration of compliance without initiating the process in paragraph (d)(3) of this section.\n(e) Petition to reconsider the rescission of a declaration of compliance. A person subject to an order of\nrescission under paragraph (d)(3) of this section may petition the FAA to reconsider the rescission of a\ndeclaration of compliance by submitting a request to the FAA in a manner specified by the Administrator\nwithin 60 days of the date of issuance of the rescission.\n(1) A petition to reconsider the rescission of a declaration of compliance must demonstrate at least one\nof the following:\n(i)\n\nA material fact that was not present in the original response to the"
+  },
+  {
+    "chunk_id": "FAA_Part107_91",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ust demonstrate at least one\nof the following:\n(i)\n\nA material fact that was not present in the original response to the notification of the safety\nissue and an explanation for why it was not present in the original response;\n\n(ii) The FAA made a material factual error in the decision to rescind the declaration of compliance;\nor\n(iii) The FAA did not correctly interpret a law, regulation, or precedent.\n(2) Upon consideration of the information submitted under paragraph (e)(1) of this section, the FAA will\nissue a notice either affirming the rescission or withdrawing the rescission.\n(f) Inapplicability of part 13, subpart D, of this chapter. Part 13, subpart D, of this chapter does not apply to the\nprocedures of paragraphs (d) and (e) of this section.\n\n§ 107.165 Record retention.\n(a) A pers"
+  },
+  {
+    "chunk_id": "FAA_Part107_92",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "pter does not apply to the\nprocedures of paragraphs (d) and (e) of this section.\n\n§ 107.165 Record retention.\n(a) A person who submits a declaration of compliance under this subpart must retain and make available to\nthe Administrator, upon request, the information described in paragraph (a)(1) of this section for the\nperiod of time described in paragraph (a)(2) of this section.\n(1) All supporting information used to demonstrate the small unmanned aircraft meets the requirements\nof §§ 107.120(a), for operations in Category 2, and 107.130(a), for operations in Category 3.\n(2) The following time periods apply:\n(i)\n\nIf the person who submits a declaration of compliance produces a small unmanned aircraft,\nthat person must retain the information described in paragraph (a)(1) of this section for"
+  },
+  {
+    "chunk_id": "FAA_Part107_93",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "es a small unmanned aircraft,\nthat person must retain the information described in paragraph (a)(1) of this section for two\nyears after the cessation of production of the small unmanned aircraft system for which the\nperson declared compliance.\n\n(ii) If the person who submits a declaration of compliance designs or modifies a small unmanned\naircraft, that person must retain the information described in paragraph (a)(1) of this section for\ntwo years after the person submitted the declaration of compliance.\n(b) A person who submits a means of compliance under this subpart must retain and make available to the\nAdministrator, upon request, and for as long as the means of compliance remains accepted, the detailed\ndescription of the means of compliance and justification showing how the means of co"
+  },
+  {
+    "chunk_id": "FAA_Part107_94",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ance remains accepted, the detailed\ndescription of the means of compliance and justification showing how the means of compliance meets\nthe requirements of §§ 107.120(a), for operations in Category 2, and 107.130(a), for operations in\nCategory 3.\n\nSubpart E—Waivers\n14 CFR 107.165(b) (enhanced display)\n\npage 25 of 26\n\n\f14 CFR Part 107 (up to date as of 9/29/2025)\nSmall Unmanned Aircraft Systems\n\n14 CFR 107.200\n\n§ 107.200 Waiver policy and requirements.\n(a) The Administrator may issue a certificate of waiver authorizing a deviation from any regulation specified\nin § 107.205 if the Administrator finds that a proposed small UAS operation can safely be conducted\nunder the terms of that certificate of waiver.\n(b) A request for a certificate of waiver must contain a complete description of the pro"
+  },
+  {
+    "chunk_id": "FAA_Part107_95",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "of that certificate of waiver.\n(b) A request for a certificate of waiver must contain a complete description of the proposed operation and\njustification that establishes that the operation can safely be conducted under the terms of a certificate of\nwaiver.\n(c) The Administrator may prescribe additional limitations that the Administrator considers necessary.\n(d) A person who receives a certificate of waiver issued under this section:\n(1) May deviate from the regulations of this part to the extent specified in the certificate of waiver; and\n(2) Must comply with any conditions or limitations that are specified in the certificate of waiver.\n\n§ 107.205 List of regulations subject to waiver.\nA certificate of waiver issued pursuant to § 107.200 may authorize a deviation from the following regula"
+  },
+  {
+    "chunk_id": "FAA_Part107_96",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "ject to waiver.\nA certificate of waiver issued pursuant to § 107.200 may authorize a deviation from the following regulations of this\npart:\n(a) Section 107.25—Operation from a moving vehicle or aircraft. However, no waiver of this provision will be\nissued to allow the carriage of property of another by aircraft for compensation or hire.\n(b) Section 107.29(a)(2) and (b)—Anti-collision light required for operations at night and during periods of civil\ntwilight.\n(c) Section 107.31—Visual line of sight aircraft operation. However, no waiver of this provision will be issued\nto allow the carriage of property of another by aircraft for compensation or hire.\n(d) Section 107.33—Visual observer.\n(e) Section 107.35—Operation of multiple small unmanned aircraft systems.\n(f) Section 107.37(a)—Yielding"
+  },
+  {
+    "chunk_id": "FAA_Part107_97",
+    "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/regulations/14 CFR Part 107 (up to date as of 9-29-2025).pdf",
+    "source_type": "REGULATION",
+    "source_ref": "FAA_Part_107",
+    "text": "sual observer.\n(e) Section 107.35—Operation of multiple small unmanned aircraft systems.\n(f) Section 107.37(a)—Yielding the right of way.\n(g) Section 107.39—Operation over people.\n(h) Section 107.41—Operation in certain airspace.\n(i)\n\nSection 107.51—Operating limitations for small unmanned aircraft.\n\n(j)\n\nSection 107.145—Operations over moving vehicles.\n\n[Docket FAA-2015-0150, Amdt. 107-1, 81 FR 42209, June 28, 2016, as amended by Amdt. 107-8, 86 FR 4387, Jan. 15, 2021]\n\n14 CFR 107.205(j) (enhanced display)\n\npage 26 of 26"
+  }
+]
