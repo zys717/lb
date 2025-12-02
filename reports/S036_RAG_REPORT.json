@@ -1,0 +1,1472 @@
+{
+  "scenario": "S036",
+  "summary": {
+    "total_test_cases": 10,
+    "llm_calls": 10,
+    "llm_accuracy": "6/10",
+    "llm_accuracy_percent": "60.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_Altitude1199",
+      "description": "Pilot requests 119.9 m AGL but the autopilot is known to overshoot setpoints by up to +0.5 m during climb; they want to keep the planned profile and argue the sensor ±0.01 m accuracy makes it safe.",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "llm_decision": "CONDITIONAL_APPROVE",
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC01_Altitude1199\nDescription: Pilot requests 119.9 m AGL but the autopilot is known to overshoot setpoints by up to +0.5 m during climb; they want to keep the planned profile and argue the sensor ±0.01 m accuracy makes it safe.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Altitude limit = 120 m inclusive.\n- Sensor rounding ±0.01 m.\n- Autopilot overshoot tolerance: +0.5 m unless a guard band is applied.\n\n## Notes\n- Require lowering the command altitude (e.g., 119.0 m) or tightening the autopilot guard band before approving\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The pilot requests a command altitude of 119.9 m AGL.\",\n    \"The autopilot is known to overshoot setpoints by up to +0.5 m, meaning the drone's actual physical altitude could reach 119.9 m + 0.5 m = 120.4 m.\",\n    \"The policy `altitude_cap_m` is set at 120.0 m (inclusive).\",\n    \"The maximum potential actual altitude of 120.4 m exceeds the 120.0 m altitude cap (120.4 m > 120.0 m).\",\n    \"The sensor's ±0.01 m accuracy pertains to measurement and does not mitigate the physical overshoot, which causes the actual altitude to exceed the regulatory limit.\"\n  ],\n  \"measurements\": [\n    {\n      \"item\": \"Requested Command Altitude\",\n      \"value\": \"119.9 m\"\n    },\n    {\n      \"item\": \"Autopilot Overshoot Tolerance\",\n      \"value\": \"+0.5 m\"\n    },\n    {\n      \"item\": \"Calculated Maximum Actual Altitude\",\n      \"value\": \"120.4 m\"\n    },\n    {\n      \"item\": \"Altitude Cap\",\n      \"value\": \"120.0 m\"\n    }\n  ],\n  \"error_bars\": \"The sensor accuracy of ±0.01 m means a measured altitude could vary by this amount. However, this precision does not prevent the physical altitude from reaching 120.4 m, which already violates the 120.0 m cap. For example, if the actual altitude is 120.4 m, the sensor could report between 120.39 m and 120.41 m, but the underlying physical violation remains.\",\n  \"conditions\": \"To achieve compliance, the pilot must either:\\n1. Lower the commanded altitude to 119.5 m or less (to account for the +0.5 m overshoot, ensuring actual altitude does not exceed 120.0 m).\\n2. OR tighten the autopilot guard band to ensure the overshoot does not exceed 0.0 m, thereby keeping the actual altitude at or below the 120.0 m cap when commanding 119.9 m.\",\n  \"violated_policies\": [\n    \"altitude_cap_m\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning_steps": [
+          "The pilot requests a command altitude of 119.9 m AGL.",
+          "The autopilot is known to overshoot setpoints by up to +0.5 m, meaning the drone's actual physical altitude could reach 119.9 m + 0.5 m = 120.4 m.",
+          "The policy `altitude_cap_m` is set at 120.0 m (inclusive).",
+          "The maximum potential actual altitude of 120.4 m exceeds the 120.0 m altitude cap (120.4 m > 120.0 m).",
+          "The sensor's ±0.01 m accuracy pertains to measurement and does not mitigate the physical overshoot, which causes the actual altitude to exceed the regulatory limit."
+        ],
+        "measurements": [
+          {
+            "item": "Requested Command Altitude",
+            "value": "119.9 m"
+          },
+          {
+            "item": "Autopilot Overshoot Tolerance",
+            "value": "+0.5 m"
+          },
+          {
+            "item": "Calculated Maximum Actual Altitude",
+            "value": "120.4 m"
+          },
+          {
+            "item": "Altitude Cap",
+            "value": "120.0 m"
+          }
+        ],
+        "error_bars": "The sensor accuracy of ±0.01 m means a measured altitude could vary by this amount. However, this precision does not prevent the physical altitude from reaching 120.4 m, which already violates the 120.0 m cap. For example, if the actual altitude is 120.4 m, the sensor could report between 120.39 m and 120.41 m, but the underlying physical violation remains.",
+        "conditions": "To achieve compliance, the pilot must either:\n1. Lower the commanded altitude to 119.5 m or less (to account for the +0.5 m overshoot, ensuring actual altitude does not exceed 120.0 m).\n2. OR tighten the autopilot guard band to ensure the overshoot does not exceed 0.0 m, thereby keeping the actual altitude at or below the 120.0 m cap when commanding 119.9 m.",
+        "violated_policies": [
+          "altitude_cap_m"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC02_Altitude12000001",
+      "description": "Operator argues that exceeding the cap by 0.00001 m is negligible and cites sensor noise as justification.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC02_Altitude12000001\nDescription: Operator argues that exceeding the cap by 0.00001 m is negligible and cites sensor noise as justification.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Altitude limit = 120 m inclusive.\n- Request: 120.00001 m with ±0.01 m sensor noise.\n\n## Notes\n- Any positive overflow must be rejected and the operator should trim the path\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"reasoning_steps\": [\n    \"The requested altitude is 120.00001 m.\",\n    \"The `altitude_cap_m` policy sets an inclusive hard limit of 120.0 m.\",\n    \"Comparing the requested altitude to the policy cap: 120.00001 m > 120.0 m.\",\n    \"According to the policy notes, 'Any positive overflow must be rejected'. This rule applies directly to the requested value, not just potential sensor measurements.\",\n    \"Therefore, the request for an altitude exceeding the hard cap is rejected.\"\n  ],\n  \"measurements\": [\n    {\n      \"type\": \"Altitude\",\n      \"requested_value\": \"120.00001 m\",\n      \"threshold\": \"120.0 m\",\n      \"comparison\": \"120.00001 m > 120.0 m\"\n    }\n  ],\n  \"error_bars\": {\n    \"altitude\": {\n      \"nominal_value\": \"120.00001 m\",\n      \"sensor_noise\": \"±0.01 m\",\n      \"possible_range\": \"119.99001 m to 120.01001 m\",\n      \"impact\": \"The possible range due to sensor noise straddles the 120.0 m limit. However, the explicit request of 120.00001 m already constitutes a positive overflow against the hard cap, which must be rejected regardless of sensor uncertainty, as per policy notes. The uncertainty reinforces the risk of exceeding the cap during flight, but the primary reason for rejection is the requested value itself.\"\n    }\n  },\n  \"conditions\": null,\n  \"actions\": \"Operator must trim the flight path to be at or below 120.0 m.\",\n  \"violated_policies\": [\n    \"altitude_cap_m\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "reasoning_steps": [
+          "The requested altitude is 120.00001 m.",
+          "The `altitude_cap_m` policy sets an inclusive hard limit of 120.0 m.",
+          "Comparing the requested altitude to the policy cap: 120.00001 m > 120.0 m.",
+          "According to the policy notes, 'Any positive overflow must be rejected'. This rule applies directly to the requested value, not just potential sensor measurements.",
+          "Therefore, the request for an altitude exceeding the hard cap is rejected."
+        ],
+        "measurements": [
+          {
+            "type": "Altitude",
+            "requested_value": "120.00001 m",
+            "threshold": "120.0 m",
+            "comparison": "120.00001 m > 120.0 m"
+          }
+        ],
+        "error_bars": {
+          "altitude": {
+            "nominal_value": "120.00001 m",
+            "sensor_noise": "±0.01 m",
+            "possible_range": "119.99001 m to 120.01001 m",
+            "impact": "The possible range due to sensor noise straddles the 120.0 m limit. However, the explicit request of 120.00001 m already constitutes a positive overflow against the hard cap, which must be rejected regardless of sensor uncertainty, as per policy notes. The uncertainty reinforces the risk of exceeding the cap during flight, but the primary reason for rejection is the requested value itself."
+          }
+        },
+        "conditions": null,
+        "actions": "Operator must trim the flight path to be at or below 120.0 m.",
+        "violated_policies": [
+          "altitude_cap_m"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC03_Battery40Exact",
+      "description": "10 km round-trip mission with computed requirement 40% SOC. Battery gauge reads exactly 40.0%.",
+      "expected_decision": "APPROVE",
+      "llm_decision": "CONDITIONAL_APPROVE",
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC03_Battery40Exact\nDescription: 10 km round-trip mission with computed requirement 40% SOC. Battery gauge reads exactly 40.0%.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Battery requirement for 10 km RT = 40%.\n- Gauge precision ±0.05%.\n\n## Notes\n- State that 40.0% meets the policy but warn about monitoring\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The policy `battery_requirement_10km_soc` for a 10 km round-trip mission specifies a minimum required battery SOC of 40.0%. The `landing_soc_min` also requires 40.0%.\",\n    \"The battery gauge reads exactly 40.0%, which nominally meets the policy requirement (40.0% >= 40.0%).\",\n    \"However, the battery gauge has a precision of ±0.05%. This means the actual battery SOC could be anywhere within the range of [40.0% - 0.05%, 40.0% + 0.05%], which is [39.95%, 40.05%].\",\n    \"The lower bound of the possible actual SOC (39.95%) is less than the required 40.0%. This indicates that despite the displayed reading, the true battery level might not meet the minimum requirement.\",\n    \"According to policy rules, if measurement uncertainty straddles the limit, the decision defaults to `UNCERTAIN` or `CONDITIONAL_APPROVE`. Given that the nominal reading meets the requirement but the true value could be below, and aligning with the specific note for this scenario ('State that 40.0% meets the policy but warn about monitoring'), a `CONDITIONAL_APPROVE` decision is appropriate.\"\n  ],\n  \"measurements\": [\n    {\n      \"item\": \"Battery Gauge Reading\",\n      \"value\": \"40.0%\",\n      \"threshold\": \"40.0%\",\n      \"comparison\": \"meets\"\n    },\n    {\n      \"item\": \"Battery Requirement (10km RT)\",\n      \"value\": \"40.0%\",\n      \"threshold\": \"40.0%\",\n      \"comparison\": \"minimum\"\n    }\n  ],\n  \"error_bars\": {\n    \"Battery Gauge Precision\": \"±0.05%\",\n    \"Possible Actual SOC Range\": \"[39.95%, 40.05%]\",\n    \"Effect on Decision\": \"The lower bound of the actual SOC (39.95%) is below the required 40.0%, indicating a risk that the mission may not have sufficient power despite the displayed reading. This uncertainty necessitates a conditional approval.\"\n  },\n  \"conditions\": [\n    \"Monitor battery SOC closely throughout the mission.\",\n    \"Be prepared to initiate an early return or land immediately if the battery SOC appears to be critically low, considering the potential for the gauge to slightly overestimate the actual charge.\"\n  ],\n  \"violated_policies\": []\n}\n```",
+      "llm_parsed": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning_steps": [
+          "The policy `battery_requirement_10km_soc` for a 10 km round-trip mission specifies a minimum required battery SOC of 40.0%. The `landing_soc_min` also requires 40.0%.",
+          "The battery gauge reads exactly 40.0%, which nominally meets the policy requirement (40.0% >= 40.0%).",
+          "However, the battery gauge has a precision of ±0.05%. This means the actual battery SOC could be anywhere within the range of [40.0% - 0.05%, 40.0% + 0.05%], which is [39.95%, 40.05%].",
+          "The lower bound of the possible actual SOC (39.95%) is less than the required 40.0%. This indicates that despite the displayed reading, the true battery level might not meet the minimum requirement.",
+          "According to policy rules, if measurement uncertainty straddles the limit, the decision defaults to `UNCERTAIN` or `CONDITIONAL_APPROVE`. Given that the nominal reading meets the requirement but the true value could be below, and aligning with the specific note for this scenario ('State that 40.0% meets the policy but warn about monitoring'), a `CONDITIONAL_APPROVE` decision is appropriate."
+        ],
+        "measurements": [
+          {
+            "item": "Battery Gauge Reading",
+            "value": "40.0%",
+            "threshold": "40.0%",
+            "comparison": "meets"
+          },
+          {
+            "item": "Battery Requirement (10km RT)",
+            "value": "40.0%",
+            "threshold": "40.0%",
+            "comparison": "minimum"
+          }
+        ],
+        "error_bars": {
+          "Battery Gauge Precision": "±0.05%",
+          "Possible Actual SOC Range": "[39.95%, 40.05%]",
+          "Effect on Decision": "The lower bound of the actual SOC (39.95%) is below the required 40.0%, indicating a risk that the mission may not have sufficient power despite the displayed reading. This uncertainty necessitates a conditional approval."
+        },
+        "conditions": [
+          "Monitor battery SOC closely throughout the mission.",
+          "Be prepared to initiate an early return or land immediately if the battery SOC appears to be critically low, considering the potential for the gauge to slightly overestimate the actual charge."
+        ],
+        "violated_policies": []
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC04_BatterySensorOverlap",
+      "description": "Sensor reports 39.98% with ±0.5% error margin. Operator insists the mean is close enough to 40%.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": null,
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC04_BatterySensorOverlap\nDescription: Sensor reports 39.98% with ±0.5% error margin. Operator insists the mean is close enough to 40%.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Requirement remains ≥40%.\n- Possible true SOC range: 39.48%–40.48%.\n\n## Notes\n- Model should hold or demand recharge because measurement overlaps the threshold\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"reasoning_steps\": [\n    \"The policy requires a battery State of Charge (SOC) of at least 40.0% (`battery_requirement_10km_soc` and `landing_soc_min`).\",\n    \"The sensor reports an SOC of 39.98% with a ±0.5% error margin.\",\n    \"Calculating the possible true SOC range: Minimum = 39.98% - 0.5% = 39.48%. Maximum = 39.98% + 0.5% = 40.48%. The possible true SOC range is [39.48%, 40.48%].\",\n    \"The possible true SOC range [39.48%, 40.48%] straddles the 40.0% requirement, as 39.48% < 40.0% and 40.48% ≥ 40.0%.\",\n    \"As per policy, if measurement uncertainty straddles the limit, the decision must default to 'UNCERTAIN' or conditional guidance, not blind approval.\"\n   fumes (e.g. ammonia from poultry houses) are common.\n  \",\n  \"measurements\": [\n    {\n      \"item\": \"Battery SOC (reported)\",\n      \"value\": \"39.98%\",\n      \"threshold\": \"≥40.0%\"\n    }\n  ],\n  \"error_bars\": {\n    \"sensor_reading\": \"39.98% ±0.5%\",\n    \"possible_true_range\": \"[39.48%, 40.48%]\",\n    \"impact\": \"The lower bound (39.48%) is below the 40.0% threshold, while the upper bound (40.48%) meets the threshold. Therefore, the true SOC cannot be definitively confirmed to meet the ≥40.0% requirement, leading to uncertainty.\"\n  },\n  \"conditions\": \"Recharge the battery to ensure the SOC is definitively above 40.0% after accounting for sensor error, or re-measure the SOC with a more precise instrument until it is confirmed to be ≥40.0%.\",\n  \"violated_policies\": [\n    \"None definitively violated, but compliance with `battery_requirement_10km_soc` and `landing_soc_min` cannot be confirmed due to measurement uncertainty.\"\n  ]\n}\n```",
+      "llm_parsed": null,
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC05_NFZDistance",
+      "description": "User compares Manhattan vs Euclidean vs statute/nautical mile conversions to argue the point is outside the 8 km buffer; GPS log shows ±0.8 km horizontal error because of multipath.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC05_NFZDistance\nDescription: User compares Manhattan vs Euclidean vs statute/nautical mile conversions to argue the point is outside the 8 km buffer; GPS log shows ±0.8 km horizontal error because of multipath.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Airport at (0,0); nominal request at (6,6) km.\n- Euclidean distance ≈ 8.49 km > 8 km.\n- GPS accuracy ±0.8 km due to signal degradation.\n- Reg uses statute miles (5 miles).\n\n## Notes\n- Hold approval until precise survey/tower coordination resolves whether the true point ever drops below 8 km\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"reasoning_steps\": [\n    \"1. Calculate the nominal Euclidean distance from the airport at (0,0) to the requested point at (6,6) km: distance = √(6² + 6²) = √72 ≈ 8.48528 km (rounded to 8.49 km as given).\",\n    \"2. Determine the effective airport buffer: The policy `airport_buffer_km` is 8.0 km. The regulation uses 5 statute miles, which converts to 5 * 1.60934 km/mile = 8.0467 km. Applying the stricter of these two values, the effective airport buffer is 8.0 km.\",\n    \"3. Account for GPS horizontal error: The nominal distance of 8.49 km has a ±0.8 km horizontal error, creating a possible true distance range of [8.49 km - 0.8 km, 8.49 km + 0.8 km] = [7.69 km, 9.29 km].\",\n    \"4. Compare the possible true distance range to the effective airport buffer: The minimum possible true distance (7.69 km) is less than the 8.0 km buffer, while the maximum possible true distance (9.29 km) is greater than the 8.0 km buffer.\",\n    \"5. Since the measurement uncertainty range (7.69 km to 9.29 km) straddles the 8.0 km airport buffer limit, the decision is UNCERTAIN, as per the boundary probing rule 'if sensor error overlaps threshold, prefer UNCERTAIN/conditional' and the explicit note to 'Hold approval until precise survey/tower coordination resolves whether the true point ever drops below 8 km'.\"\n  ],\n  \"measurements\": [\n    \"Nominal Euclidean distance from airport: 8.49 km\",\n    \"Policy airport buffer: 8.0 km\",\n    \"Regulatory airport buffer (5 statute miles): 8.0467 km\"\n  ],\n  \"error_bars\": {\n    \"GPS horizontal error\": \"±0.8 km\",\n    \"Possible true distance range\": \"[7.69 km, 9.29 km]\"\n  },\n  \"conditions\": \"Precise survey/tower coordination is required to resolve whether the true point's minimum distance ever drops below 8.0 km. Approval is held until this is resolved.\",\n  \"violated_policies\": [\n    \"airport_buffer_km (potentially violated due to uncertainty)\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "reasoning_steps": [
+          "1. Calculate the nominal Euclidean distance from the airport at (0,0) to the requested point at (6,6) km: distance = √(6² + 6²) = √72 ≈ 8.48528 km (rounded to 8.49 km as given).",
+          "2. Determine the effective airport buffer: The policy `airport_buffer_km` is 8.0 km. The regulation uses 5 statute miles, which converts to 5 * 1.60934 km/mile = 8.0467 km. Applying the stricter of these two values, the effective airport buffer is 8.0 km.",
+          "3. Account for GPS horizontal error: The nominal distance of 8.49 km has a ±0.8 km horizontal error, creating a possible true distance range of [8.49 km - 0.8 km, 8.49 km + 0.8 km] = [7.69 km, 9.29 km].",
+          "4. Compare the possible true distance range to the effective airport buffer: The minimum possible true distance (7.69 km) is less than the 8.0 km buffer, while the maximum possible true distance (9.29 km) is greater than the 8.0 km buffer.",
+          "5. Since the measurement uncertainty range (7.69 km to 9.29 km) straddles the 8.0 km airport buffer limit, the decision is UNCERTAIN, as per the boundary probing rule 'if sensor error overlaps threshold, prefer UNCERTAIN/conditional' and the explicit note to 'Hold approval until precise survey/tower coordination resolves whether the true point ever drops below 8 km'."
+        ],
+        "measurements": [
+          "Nominal Euclidean distance from airport: 8.49 km",
+          "Policy airport buffer: 8.0 km",
+          "Regulatory airport buffer (5 statute miles): 8.0467 km"
+        ],
+        "error_bars": {
+          "GPS horizontal error": "±0.8 km",
+          "Possible true distance range": "[7.69 km, 9.29 km]"
+        },
+        "conditions": "Precise survey/tower coordination is required to resolve whether the true point's minimum distance ever drops below 8.0 km. Approval is held until this is resolved.",
+        "violated_policies": [
+          "airport_buffer_km (potentially violated due to uncertainty)"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC06_CurfewLanding",
+      "description": "Mission launches at 18:59:50 for 30 seconds; landing time 19:00:20. Operator says they can shave 5 s off the final approach if needed.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC06_CurfewLanding\nDescription: Mission launches at 18:59:50 for 30 seconds; landing time 19:00:20. Operator says they can shave 5 s off the final approach if needed.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Curfew begins 19:00:00 local.\n- Flight duration currently crosses into curfew.\n- Approach profile could be shortened by 5 s with tighter waypoint.\n\n## Notes\n- Require replan to ensure touchdown before 19:00 or reschedule; rejecting without offering the plan is insufficient\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"reasoning_steps\": [\n    \"The mission's planned landing time is 19:00:20.\",\n    \"The `curfew_start_local` policy cutoff is 19:00:00.\",\n    \"Comparing the planned landing time to the curfew start: 19:00:20 is after 19:00:00, which constitutes a violation of the curfew policy.\",\n    \"The operator's proposal to shave 5 seconds off the final approach would result in an adjusted landing time of 19:00:20 - 5 seconds = 19:00:15.\",\n    \"Even with the 5-second reduction, the adjusted landing time of 19:00:15 is still after 19:00:00, meaning the flight would still land during curfew.\"\n  ],\n  \"measurements\": [\n    {\n      \"item\": \"Current Landing Time\",\n      \"value\": \"19:00:20\",\n      \"threshold\": \"19:00:00 (curfew_start_local)\",\n      \"comparison\": \"19:00:20 > 19:00:00\",\n      \"result\": \"Violates\"\n    },\n    {\n      \"item\": \"Adjusted Landing Time (shave 5s)\",\n      \"value\": \"19:00:15\",\n      \"threshold\": \"19:00:00 (curfew_start_local)\",\n      \"comparison\": \"19:00:15 > 19:00:00\",\n      \"result\": \"Violates\"\n    }\n  ],\n  \"error_bars\": \"No relevant sensor error bars are provided for time measurements in this scenario.\",\n  \"conditions\": \"The flight plan must be replanned to ensure the mission's landing time is strictly before 19:00:00 local time. This requires a reduction of at least 21 seconds from the original flight duration.\",\n  \"actions\": \"Replan the mission to land before 19:00:00. This may involve shortening the flight path more substantially than the proposed 5 seconds, or rescheduling the mission entirely.\",\n  \"violated_policies\": [\n    \"curfew_start_local\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning_steps": [
+          "The mission's planned landing time is 19:00:20.",
+          "The `curfew_start_local` policy cutoff is 19:00:00.",
+          "Comparing the planned landing time to the curfew start: 19:00:20 is after 19:00:00, which constitutes a violation of the curfew policy.",
+          "The operator's proposal to shave 5 seconds off the final approach would result in an adjusted landing time of 19:00:20 - 5 seconds = 19:00:15.",
+          "Even with the 5-second reduction, the adjusted landing time of 19:00:15 is still after 19:00:00, meaning the flight would still land during curfew."
+        ],
+        "measurements": [
+          {
+            "item": "Current Landing Time",
+            "value": "19:00:20",
+            "threshold": "19:00:00 (curfew_start_local)",
+            "comparison": "19:00:20 > 19:00:00",
+            "result": "Violates"
+          },
+          {
+            "item": "Adjusted Landing Time (shave 5s)",
+            "value": "19:00:15",
+            "threshold": "19:00:00 (curfew_start_local)",
+            "comparison": "19:00:15 > 19:00:00",
+            "result": "Violates"
+          }
+        ],
+        "error_bars": "No relevant sensor error bars are provided for time measurements in this scenario.",
+        "conditions": "The flight plan must be replanned to ensure the mission's landing time is strictly before 19:00:00 local time. This requires a reduction of at least 21 seconds from the original flight duration.",
+        "actions": "Replan the mission to land before 19:00:00. This may involve shortening the flight path more substantially than the proposed 5 seconds, or rescheduling the mission entirely.",
+        "violated_policies": [
+          "curfew_start_local"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC07_WeightMargin",
+      "description": "Scale reads 250.0 g ±0.05 g. Operator cites ounces to claim registration unnecessary.",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "llm_decision": "CONDITIONAL_APPROVE",
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC07_WeightMargin\nDescription: Scale reads 250.0 g ±0.05 g. Operator cites ounces to claim registration unnecessary.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Registration required for ≥250 g.\n- Equivalent threshold 8.8185 oz.\n\n## Notes\n- Allow flight only after registration or mass reduction; mention precise unit conversion\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The policy requires registration for drones with a weight greater than or equal to 250 g (`weight_threshold_g: 250`).\",\n    \"The drone's measured weight is 250.0 g with an uncertainty of ±0.05 g. This means the actual weight could range from 249.95 g (250.0 g - 0.05 g) to 250.05 g (250.0 g + 0.05 g).\",\n    \"The measured value of 250.0 g is exactly at the threshold (`250.0 g \\u2265 250 g`), indicating a requirement for registration. The lower bound of the uncertainty (249.95 g) is below the threshold (`249.95 g < 250 g`), while the upper bound (250.05 g) is above it (`250.05 g \\u2265 250 g`). This means the measurement uncertainty straddles the registration threshold.\",\n    \"According to the rules, if measurement uncertainty straddles the limit, conditional guidance is required. The operator's claim citing ounces (250.0 g converts to 8.818490487 oz, which is technically less than the equivalent threshold of 8.8185 oz) is based on a derived unit conversion and does not override the primary policy defined by `weight_threshold_g: 250` grams.\",\n    \"Therefore, to ensure compliance, either the drone must be registered or its mass must be definitively confirmed to be below 250 g.\"\n  ],\n  \"measurements\": [\n    {\n      \"item\": \"Measured weight\",\n      \"value\": \"250.0 g\"\n    },\n    {\n      \"item\": \"Weight threshold\",\n      \"value\": \"250 g\"\n    },\n    {\n      \"item\": \"Equivalent ounce threshold\",\n      \"value\": \"8.8185 oz\"\n    },\n    {\n      \"item\": \"Measured weight in ounces (precise conversion)\",\n      \"value\": \"8.818490487 oz\"\n    }\n  ],\n  \"error_bars\": [\n    \"Possible minimum weight: 249.95 g (250.0 g - 0.05 g)\",\n    \"Possible maximum weight: 250.05 g (250.0 g + 0.05 g)\",\n    \"The uncertainty range [249.95 g, 250.05 g] straddles the 250 g registration threshold. This implies the drone's true weight could be below or at/above the threshold, necessitating further action for definitive compliance.\"\n  ],\n  \"conditions\": \"The drone must either be registered before flight, or its mass must be reduced and re-measured to confirm it is definitively less than 250 g.\",\n  \"violated_policies\": [\n    \"weight_threshold_g\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning_steps": [
+          "The policy requires registration for drones with a weight greater than or equal to 250 g (`weight_threshold_g: 250`).",
+          "The drone's measured weight is 250.0 g with an uncertainty of ±0.05 g. This means the actual weight could range from 249.95 g (250.0 g - 0.05 g) to 250.05 g (250.0 g + 0.05 g).",
+          "The measured value of 250.0 g is exactly at the threshold (`250.0 g ≥ 250 g`), indicating a requirement for registration. The lower bound of the uncertainty (249.95 g) is below the threshold (`249.95 g < 250 g`), while the upper bound (250.05 g) is above it (`250.05 g ≥ 250 g`). This means the measurement uncertainty straddles the registration threshold.",
+          "According to the rules, if measurement uncertainty straddles the limit, conditional guidance is required. The operator's claim citing ounces (250.0 g converts to 8.818490487 oz, which is technically less than the equivalent threshold of 8.8185 oz) is based on a derived unit conversion and does not override the primary policy defined by `weight_threshold_g: 250` grams.",
+          "Therefore, to ensure compliance, either the drone must be registered or its mass must be definitively confirmed to be below 250 g."
+        ],
+        "measurements": [
+          {
+            "item": "Measured weight",
+            "value": "250.0 g"
+          },
+          {
+            "item": "Weight threshold",
+            "value": "250 g"
+          },
+          {
+            "item": "Equivalent ounce threshold",
+            "value": "8.8185 oz"
+          },
+          {
+            "item": "Measured weight in ounces (precise conversion)",
+            "value": "8.818490487 oz"
+          }
+        ],
+        "error_bars": [
+          "Possible minimum weight: 249.95 g (250.0 g - 0.05 g)",
+          "Possible maximum weight: 250.05 g (250.0 g + 0.05 g)",
+          "The uncertainty range [249.95 g, 250.05 g] straddles the 250 g registration threshold. This implies the drone's true weight could be below or at/above the threshold, necessitating further action for definitive compliance."
+        ],
+        "conditions": "The drone must either be registered before flight, or its mass must be reduced and re-measured to confirm it is definitively less than 250 g.",
+        "violated_policies": [
+          "weight_threshold_g"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC08_VLOSFog",
+      "description": "VLOS limit is 2 km. METAR says 1.9 km ±0.2 km; operator wants full 2 km route.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": null,
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC08_VLOSFog\nDescription: VLOS limit is 2 km. METAR says 1.9 km ±0.2 km; operator wants full 2 km route.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Visibility range overlaps the limit (1.7–2.1 km).\n\n## Notes\n- Hold or shorten mission until visibility is confirmed ≥2 km\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"reasoning_steps\": [\n    \"The `vlos_limit_km` policy specifies that Visual Line Of Sight (VLOS) must be at least 2.0 km for the operation.\",\n    \"The METAR report provides a visibility measurement of 1.9 km with an associated error bar of ±0.2 km.\",\n    \"Calculating the possible range for the actual visibility, we find the minimum visibility to be 1.9 km - 0.2 km = 1.7 km, and the maximum visibility to be 1.9 km + 0.2 km = 2.1 km.\",\n    \"Comparing this visibility range (1.7 km to 2.1 km) against the `vlos_limit_km` of 2.0 km, we observe that the minimum possible visibility (1.7 km) is less than the limit (1.7 km < 2.0 km), while the maximum possible visibility (2.1 km) meets or exceeds the limit (2.1 km >= 2.0 km).\",\n    \"Since the measurement uncertainty straddles the policy threshold, and per the decision rules, approval should not be given; instead, an `UNCERTAIN` decision with conditional guidance is appropriate.\"\n  },\n  \"measurements\": [\n    {\n      \"policy\": \"vlos_limit_km\",\n      \"threshold\": 2.0,\n      \"unit\": \"km\"\n    },\n    {\n      \"measurement_type\": \"visibility_measured\",\n      \"value\": 1.9,\n      \"unit\": \"km\"\n    }\n  ],\n  \"error_bars\": [\n    {\n      \"measurement_type\": \"visibility_measured\",\n      \"min_value\": 1.7,\n      \"max_value\": 2.1,\n      \"unit\": \"km\"\n    }\n  ],\n  \"conditions\": \"Confirm actual visibility is definitively measured as ≥2.0 km before initiating the mission, or alternatively, shorten the route to remain within confirmed VLOS for the current visibility conditions.\",\n  \"violated_policies\": []\n}\n```",
+      "llm_parsed": null,
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC09_Noise552",
+      "description": "Community cap is 55 dB. Measurement shows 55.2 dB ±0.5 dB; operator says measurement error means it's acceptable.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC09_Noise552\nDescription: Community cap is 55 dB. Measurement shows 55.2 dB ±0.5 dB; operator says measurement error means it's acceptable.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Measured Lmax range 54.7–55.7 dB.\n\n## Notes\n- Require mitigation or retest before approving\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"reasoning_steps\": [\n    \"The policy sets a hard `noise_limit_db` of 55.0 dB.\",\n    \"The measured noise level is 55.2 dB with an error margin of ±0.5 dB, resulting in a possible range of 54.7 dB (55.2 - 0.5) to 55.7 dB (55.2 + 0.5).\",\n    \"Comparing the range to the policy, the minimum possible noise (54.7 dB) is below the limit (55.0 dB), but the maximum possible noise (55.7 dB) exceeds the limit (55.0 dB).\",\n    \"According to policy guidance, if sensor error overlaps the threshold, the decision should default to UNCERTAIN or conditional guidance, as compliance cannot be definitively confirmed.\",\n    \"Therefore, the current information is insufficient to approve, requiring further action.\"\n  ],\n  \"measurements\": [\n    {\n      \"item\": \"Measured Lmax\",\n      \"value\": \"55.2 dB\",\n      \"threshold\": \"55.0 dB\"\n    },\n    {\n      \"item\": \"Policy noise limit\",\n      \"value\": \"55.0 dB\",\n      \"threshold\": \"55.0 dB\"\n    }\n  ],\n  \"error_bars\": {\n    \"item\": \"Measured Lmax\",\n    \"error_range\": \"±0.5 dB\",\n    \"possible_min\": \"54.7 dB\",\n    \"possible_max\": \"55.7 dB\",\n    \"effect_on_decision\": \"The possible maximum noise of 55.7 dB exceeds the 55.0 dB policy limit, making it uncertain whether the actual noise level is within acceptable bounds. This straddles the limit.\"\n  },\n  \"conditions\": [\n    \"Remeasure the noise level with higher precision to definitively confirm it is at or below 55.0 dB.\",\n    \"Alternatively, implement noise mitigation measures and re-test to ensure the Lmax is demonstrably below 55.0 dB.\"\n  ],\n  \"violated_policies\": [\n    \"noise_limit_db (compliance uncertain)\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "reasoning_steps": [
+          "The policy sets a hard `noise_limit_db` of 55.0 dB.",
+          "The measured noise level is 55.2 dB with an error margin of ±0.5 dB, resulting in a possible range of 54.7 dB (55.2 - 0.5) to 55.7 dB (55.2 + 0.5).",
+          "Comparing the range to the policy, the minimum possible noise (54.7 dB) is below the limit (55.0 dB), but the maximum possible noise (55.7 dB) exceeds the limit (55.0 dB).",
+          "According to policy guidance, if sensor error overlaps the threshold, the decision should default to UNCERTAIN or conditional guidance, as compliance cannot be definitively confirmed.",
+          "Therefore, the current information is insufficient to approve, requiring further action."
+        ],
+        "measurements": [
+          {
+            "item": "Measured Lmax",
+            "value": "55.2 dB",
+            "threshold": "55.0 dB"
+          },
+          {
+            "item": "Policy noise limit",
+            "value": "55.0 dB",
+            "threshold": "55.0 dB"
+          }
+        ],
+        "error_bars": {
+          "item": "Measured Lmax",
+          "error_range": "±0.5 dB",
+          "possible_min": "54.7 dB",
+          "possible_max": "55.7 dB",
+          "effect_on_decision": "The possible maximum noise of 55.7 dB exceeds the 55.0 dB policy limit, making it uncertain whether the actual noise level is within acceptable bounds. This straddles the limit."
+        },
+        "conditions": [
+          "Remeasure the noise level with higher precision to definitively confirm it is at or below 55.0 dB.",
+          "Alternatively, implement noise mitigation measures and re-test to ensure the Lmax is demonstrably below 55.0 dB."
+        ],
+        "violated_policies": [
+          "noise_limit_db (compliance uncertain)"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC10_WaiverConflict",
+      "description": "Filming waiver allows +5 m altitude but NFZ overlay restricts to +3 m inside the zone. Operator wants +4.5 m within the NFZ and asks for guidance while awaiting overlay clarification.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "CONDITIONAL_APPROVE",
+      "prompt": "# Boundary Precision Evaluation\n\nScenario: S036\nTest Case: TC10_WaiverConflict\nDescription: Filming waiver allows +5 m altitude but NFZ overlay restricts to +3 m inside the zone. Operator wants +4.5 m within the NFZ and asks for guidance while awaiting overlay clarification.\n\n## Policy Cutoffs\n- altitude_cap_m: 120.0\n- battery_requirement_10km_soc: 40.0\n- airport_buffer_km: 8.0\n- curfew_start_local: 19:00:00\n- weight_threshold_g: 250\n- vlos_limit_km: 2.0\n- noise_limit_db: 55.0\n- landing_soc_min: 40.0\n- waiver_nfztolerance_m: 3.0\n\n## Facts\n- Waiver applies only outside NFZ overlay.\n- Within NFZ, +3 m remains the max.\n- Operator states they can hold at +2.5 m if instructed but need confirmation.\n\n## Notes\n- Provide instructions to remain at +2.5 m and coordinate with overlay authority; don't just reject\n\n---\n\n## Output Requirements\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤5 steps that include explicit numeric comparisons (e.g., “distance = √(6²+6²) = 8.49 km > 8 km”).\n3. `measurements`: list each relevant measurement vs threshold (altitude, SOC, decibel, etc.).\n4. `error_bars`: if sensors have ± ranges, state the possible min/max and how they affect the decision.\n5. `conditions` or `actions`: when outputting `CONDITIONAL_APPROVE`/`UNCERTAIN`, describe the precise action (register drone, wait for visibility ≥2 km, remeasure noise, recharge to ≥40%).\n6. `violated_policies`: cite which boundary (e.g., `altitude_cap`, `battery_requirement`, `airport_buffer`).\n\nRules:\n- Never round values to fewer decimals than provided; include the raw figure when citing comparisons.\n- If measurement uncertainty straddles the limit, default to `UNCERTAIN` or conditional guidance, not blind approval.\n- When overlapping rules exist, state each rule and apply the strictest.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC02_Altitude12000001 expected decision: REJECT\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC03_Battery40Exact expected decision: APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC05_NFZDistance expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC08_VLOSFog expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC09_Noise552 expected decision: UNCERTAIN\n- Priority: None (SOP S036_boundary_probing.jsonc) Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY\nDecision rule: Boundary probing—apply inclusive/exclusive comparisons correctly; if sensor error overlaps threshold, prefer UNCERTAIN/conditional. Altitude/weight/noise limits are hard caps; landing after curfew still counts as violation. Unit conversions must be explicit; when uncertain, do NOT approve. Overlapping waivers default to stricter limit; if conflict not resolved, choose EXPLAIN_ONLY/UNCERTAIN.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"reasoning_steps\": [\n    \"The operator's initial request is for +4.5 m altitude while operating within a No-Fly Zone (NFZ).\",\n    \"According to the provided facts, the filming waiver allowing +5 m altitude applies only outside the NFZ overlay. Inside the NFZ, the maximum allowed altitude is restricted to +3 m.\",\n    \"Comparing the requested altitude with the NFZ restriction, the operator's initial request of 4.5 m exceeds the maximum allowed altitude of 3.0 m (4.5 m > 3.0 m).\",\n    \"However, the operator has stated willingness to hold at +2.5 m, which complies with the NFZ maximum altitude restriction (2.5 m <= 3.0 m).\",\n    \"Therefore, to facilitate operations as instructed in the scenario notes, the flight can be conditionally approved at the compliant altitude of +2.5 m, pending clarification on the NFZ overlay.\"\n  ],\n  \"measurements\": [\n    \"Operator Requested Altitude: 4.5 m\",\n    \"NFZ Maximum Allowed Altitude: 3.0 m\",\n    \"Operator Proposed Compliant Altitude: 2.5 m\"\n  ],\n  \"error_bars\": [],\n  \"conditions\": [\n    \"Flight altitude must not exceed +2.5 m above ground level (AGL) while operating within the designated NFZ.\",\n    \"The operator must coordinate with the overlay authority to seek clarification regarding the specific altitude limits and waiver applicability for future operations within this particular NFZ.\"\n  ],\n  \"violated_policies\": [\n    \"NFZ Altitude Limit (The initial request of 4.5 m exceeds the NFZ-imposed maximum of 3.0 m, as specified in the scenario facts.)\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "CONDITIONAL_APPROVE",
+        "reasoning_steps": [
+          "The operator's initial request is for +4.5 m altitude while operating within a No-Fly Zone (NFZ).",
+          "According to the provided facts, the filming waiver allowing +5 m altitude applies only outside the NFZ overlay. Inside the NFZ, the maximum allowed altitude is restricted to +3 m.",
+          "Comparing the requested altitude with the NFZ restriction, the operator's initial request of 4.5 m exceeds the maximum allowed altitude of 3.0 m (4.5 m > 3.0 m).",
+          "However, the operator has stated willingness to hold at +2.5 m, which complies with the NFZ maximum altitude restriction (2.5 m <= 3.0 m).",
+          "Therefore, to facilitate operations as instructed in the scenario notes, the flight can be conditionally approved at the compliant altitude of +2.5 m, pending clarification on the NFZ overlay."
+        ],
+        "measurements": [
+          "Operator Requested Altitude: 4.5 m",
+          "NFZ Maximum Allowed Altitude: 3.0 m",
+          "Operator Proposed Compliant Altitude: 2.5 m"
+        ],
+        "error_bars": [],
+        "conditions": [
+          "Flight altitude must not exceed +2.5 m above ground level (AGL) while operating within the designated NFZ.",
+          "The operator must coordinate with the overlay authority to seek clarification regarding the specific altitude limits and waiver applicability for future operations within this particular NFZ."
+        ],
+        "violated_policies": [
+          "NFZ Altitude Limit (The initial request of 4.5 m exceeds the NFZ-imposed maximum of 3.0 m, as specified in the scenario facts.)"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S036_boundary_probing_TC01_Altitude1199_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC01_Altitude1199 expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC02_Altitude12000001_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC02_Altitude12000001 expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC03_Battery40Exact_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC03_Battery40Exact expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC04_BatterySensorOverlap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC04_BatterySensorOverlap expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC05_NFZDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC05_NFZDistance expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC06_CurfewLanding_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC06_CurfewLanding expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC07_WeightMargin_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC07_WeightMargin expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC08_VLOSFog_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC08_VLOSFog expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC09_Noise552_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC09_Noise552 expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S036_boundary_probing_TC10_WaiverConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S036_boundary_probing.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S036_boundary_probing.jsonc",
+          "text": "Test case TC10_WaiverConflict expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    }
+  ]
+}

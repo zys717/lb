@@ -21,10 +21,10 @@ scripts/               # Physics/oracle tools and LLM validator
   ├─ detect_violations.py
   ├─ run_scenario_*.py (altitude/speed/vlos/path/payload/multi/airspace/timeline)
   └─ llm_prompts/
-rag/                   # Active RAG code
-  ├─ run_rag_batch.py / run_rag_llm.py / extract_constraints.py / group_constraints.py / controlled_vocab.py / kg_schema.py
-  └─ outputs/constraints_by_scenario.json
-rag/rag_S001-S020/     # Snapshot of stable RAG code for S001–S020
+rag/                   # RAG code split by scenario ranges
+  ├─ rag_S001-S020/    # Baseline snapshot + scripts/outputs for S001–S020
+  ├─ rag_S021-S049/    # Workspace for S021–S049 experiments
+  └─ rag_S041-S049/    # Workspace for S041–S049 experiments (tail cases)
 docs/                  # Quickstart, guides, architecture notes
 templates/             # Scenario + ground truth templates
 test_logs/             # Sample trajectories
@@ -86,10 +86,9 @@ See `docs/QUICKSTART.md` for details.
 - Completed:
   - 49-case library with ground truth, physics/oracle scripts, baseline LLM validation reports.
   - RAG pipeline for S001–S020 with scenario-specific pre-checks (speed/altitude/geo/path/time-window/VLOS-BVLOS/payload/drop/airspace/timeline/multi-drone). Snapshot archived at `rag/rag_S001-S020/`; reports at `reports_former20rag/`.
-- In progress:
-  - Extending RAG coverage to S021–S049 using the same pre-check pattern.
-  - Keeping the active RAG code in `rag/` for new experiments; use the archived snapshot for regression comparisons.
-- Next experiments (suggested flow):
-  1) Extend `run_rag_batch.py` pre-checks to remaining scenarios (21–49): add any new concept loaders/checks, then batch-run and iterate per scenario.
-  2) When a scenario reaches 100%, copy the updated reports to `reports_former20rag/` (or a new archive) and keep `rag/rag_S001-S020/` untouched as a baseline.
-  3) (Optional) Add a small “delta” readme in `rag/` noting prompt/rule changes per scenario to speed troubleshooting.
+- Completed (RAG):
+  - S001–S020 baseline snapshot (`rag/rag_S001-S020/`, reports in `reports_former20rag/`).
+  - S021–S049 RAG runs finished in `rag/rag_S021-S049/` with reports in `reports/`.
+- Notes:
+  - Keep `rag/rag_S001-S020/` untouched as regression baseline.
+  - New prompt/rule iterations for S021–S049 live under `rag/rag_S021-S049/`.

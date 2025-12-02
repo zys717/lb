@@ -1,0 +1,1529 @@
+{
+  "scenario": "S039",
+  "summary": {
+    "total_test_cases": 10,
+    "llm_calls": 10,
+    "llm_accuracy": "9/10",
+    "llm_accuracy_percent": "90.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_TimeWindowConflict",
+      "description": "Paragraph 2: \"Mission runs 14:00-15:00\". Paragraph 5: \"Plan covers 13:30-16:00 including rehearsals.\" ATC slot letter explicitly authorizes only 14:00-15:00; medevac corridor locks the airspace after 15:00.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC01_TimeWindowConflict\n- Description: Paragraph 2: \"Mission runs 14:00-15:00\". Paragraph 5: \"Plan covers 13:30-16:00 including rehearsals.\" ATC slot letter explicitly authorizes only 14:00-15:00; medevac corridor locks the airspace after 15:00.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- Segment para2: \"14:00-15:00 total window\"\n- Segment para5: \"13:30 start, 16:00 end\"\n\n### Required Clarifications from Ground Truth\n- Operator must submit a plan fully inside the authorized slot or obtain a revised LOA.\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [\n    {\n      \"type\": \"temporal_window_and_airspace_conflict\",\n      \"evidence\": [\n        \"Paragraph 2: 'Mission runs 14:00-15:00'.\",\n        \"Paragraph 5: 'Plan covers 13:30-16:00 including rehearsals.'\",\n        \"ATC slot letter explicitly authorizes only 14:00-15:00\",\n        \"Medevac corridor locks the airspace after 15:00.\"\n      ],\n      \"impact\": \"The proposed flight plan (13:30-16:00) falls outside the explicitly authorized ATC slot (14:00-15:00) and violates the hard airspace lock due to a medevac corridor after 15:00. This is a direct operational conflict with established authorization and critical airspace restrictions.\"\n    }\n  ],\n  \"missing_information\": [\n    \"A revised flight plan strictly adhering to the 14:00-15:00 UTC authorized slot, including all rehearsal activities.\",\n    \"Alternatively, a revised Letter of Authorization (LOA) from ATC explicitly approving the 13:30-16:00 UTC timeframe, if such an extension is possible considering the medevac corridor lock.\"\n  ],\n  \"clarification_requests\": [\n    \"Submit a revised flight plan with all operational activities, including rehearsals, strictly confined to the 14:00-15:00 UTC authorized window.\",\n    \"If the extended operational window (13:30-16:00 UTC) is essential, provide an updated Letter of Authorization (LOA) from ATC that specifically grants permission for this timeframe, explicitly acknowledging and resolving the conflict with the medevac corridor airspace lock after 15:00 UTC.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step 1 – Identified the authorized operational window (14:00-15:00 UTC) from Paragraph 2 and the explicit ATC slot letter.\",\n    \"Step 2 – Identified the proposed operational window (13:30-16:00 UTC) from Paragraph 5, including rehearsals.\",\n    \"Step 3 – Detected a direct conflict: the proposed plan starts 30 minutes before and ends 60 minutes after the authorized window.\",\n    \"Step 4 – Noted the critical constraint: a medevac corridor locks the airspace after 15:00 UTC, making the planned end time of 16:00 UTC an impossibility.\",\n    \"Step 5 – Concluded that the proposed plan directly violates established ATC authorization and critical airspace restrictions, requiring a revised plan or updated authorization.\",\n    \"Step 6 – Applied the governing principle to detect contradictions and determined the plan must be REJECTED as it cannot proceed under current authorization.\"\n  ],\n  \"violated_policies\": [\n    \"time_window_consistency\",\n    \"airspace_authorization\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "detected_conflicts": [
+          {
+            "type": "temporal_window_and_airspace_conflict",
+            "evidence": [
+              "Paragraph 2: 'Mission runs 14:00-15:00'.",
+              "Paragraph 5: 'Plan covers 13:30-16:00 including rehearsals.'",
+              "ATC slot letter explicitly authorizes only 14:00-15:00",
+              "Medevac corridor locks the airspace after 15:00."
+            ],
+            "impact": "The proposed flight plan (13:30-16:00) falls outside the explicitly authorized ATC slot (14:00-15:00) and violates the hard airspace lock due to a medevac corridor after 15:00. This is a direct operational conflict with established authorization and critical airspace restrictions."
+          }
+        ],
+        "missing_information": [
+          "A revised flight plan strictly adhering to the 14:00-15:00 UTC authorized slot, including all rehearsal activities.",
+          "Alternatively, a revised Letter of Authorization (LOA) from ATC explicitly approving the 13:30-16:00 UTC timeframe, if such an extension is possible considering the medevac corridor lock."
+        ],
+        "clarification_requests": [
+          "Submit a revised flight plan with all operational activities, including rehearsals, strictly confined to the 14:00-15:00 UTC authorized window.",
+          "If the extended operational window (13:30-16:00 UTC) is essential, provide an updated Letter of Authorization (LOA) from ATC that specifically grants permission for this timeframe, explicitly acknowledging and resolving the conflict with the medevac corridor airspace lock after 15:00 UTC."
+        ],
+        "reasoning_steps": [
+          "Step 1 – Identified the authorized operational window (14:00-15:00 UTC) from Paragraph 2 and the explicit ATC slot letter.",
+          "Step 2 – Identified the proposed operational window (13:30-16:00 UTC) from Paragraph 5, including rehearsals.",
+          "Step 3 – Detected a direct conflict: the proposed plan starts 30 minutes before and ends 60 minutes after the authorized window.",
+          "Step 4 – Noted the critical constraint: a medevac corridor locks the airspace after 15:00 UTC, making the planned end time of 16:00 UTC an impossibility.",
+          "Step 5 – Concluded that the proposed plan directly violates established ATC authorization and critical airspace restrictions, requiring a revised plan or updated authorization.",
+          "Step 6 – Applied the governing principle to detect contradictions and determined the plan must be REJECTED as it cannot proceed under current authorization."
+        ],
+        "violated_policies": [
+          "time_window_consistency",
+          "airspace_authorization"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC02_InspectionMuddle",
+      "description": "Opening sentence: \"Drone completed annual inspection last week.\" Final line: \"Last inspection record submitted 18 months ago.\" Regulation requires documented inspection ≤12 months before commercial ops.",
+      "expected_decision": "REJECT",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC02_InspectionMuddle\n- Description: Opening sentence: \"Drone completed annual inspection last week.\" Final line: \"Last inspection record submitted 18 months ago.\" Regulation requires documented inspection ≤12 months before commercial ops.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- Segment intro: \"inspection last week\"\n- Segment closing: \"inspection 18 months ago\"\n\n### Required Clarifications from Ground Truth\n- Provide inspection certificate number/date\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [\n    {\n      \"type\": \"temporal_inconsistency_of_records\",\n      \"evidence\": [\n        \"Description: Opening sentence: 'Drone completed annual inspection last week.'\",\n        \"Description: Final line: 'Last inspection record submitted 18 months ago.'\"\n      ],\n      \"explanation\": \"There is a direct contradiction between the claim that the drone completed an annual inspection last week and the statement that the last inspection record was submitted 18 months ago. Both cannot be simultaneously true regarding the *submitted record* of the *last* inspection.\",\n      \"impact\": \"maintenance_currency\"\n    }\n  ],\n  \"missing_information\": [\n    \"Official documentation (e.g., certificate number, date, validity period) for the inspection claimed to have been completed last week.\",\n    \"Explanation for the discrepancy between the claim of a recent inspection and the record submitted 18 months ago.\"\n  ],\n  \"clarification_requests\": [\n    \"Please provide the inspection certificate number and date for the annual inspection reportedly completed last week. If this inspection has not yet been documented or submitted, clarify the status of the previously submitted record.\",\n    \"Clarify why the 'last inspection record submitted' indicates 18 months ago if a new inspection was completed last week. Is the new inspection record pending submission?\"\n  ],\n  \"reasoning_steps\": [\n    \"Step 1: Identify the claim of a recent inspection ('last week') and the existing record ('18 months ago').\",\n    \"Step 2: Detect a direct contradiction between the reported timing of the last inspection and the submitted record.\",\n    \"Step 3: Reference the governing regulation: 'Regulation requires documented inspection ≤12 months before commercial ops.'\",\n    \"Step 4: Note that the 'last inspection record submitted 18 months ago' would violate this regulation if it remains the only valid documentation.\",\n    \"Step 5: Acknowledge that the claim of an inspection 'last week' could resolve this, but lacks supporting documentation as required by the regulation.\",\n    \"Step 6: Conclude that due to the unresolved contradiction and lack of required documentation for the claimed recent inspection, the operational status regarding regulatory compliance is UNCERTAIN, pending precise clarification and documentation.\"\n  ],\n  \"violated_policies\": [\n    \"maintenance_currency\",\n    \"time_window_consistency\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "confidence": "high",
+        "detected_conflicts": [
+          {
+            "type": "temporal_inconsistency_of_records",
+            "evidence": [
+              "Description: Opening sentence: 'Drone completed annual inspection last week.'",
+              "Description: Final line: 'Last inspection record submitted 18 months ago.'"
+            ],
+            "explanation": "There is a direct contradiction between the claim that the drone completed an annual inspection last week and the statement that the last inspection record was submitted 18 months ago. Both cannot be simultaneously true regarding the *submitted record* of the *last* inspection.",
+            "impact": "maintenance_currency"
+          }
+        ],
+        "missing_information": [
+          "Official documentation (e.g., certificate number, date, validity period) for the inspection claimed to have been completed last week.",
+          "Explanation for the discrepancy between the claim of a recent inspection and the record submitted 18 months ago."
+        ],
+        "clarification_requests": [
+          "Please provide the inspection certificate number and date for the annual inspection reportedly completed last week. If this inspection has not yet been documented or submitted, clarify the status of the previously submitted record.",
+          "Clarify why the 'last inspection record submitted' indicates 18 months ago if a new inspection was completed last week. Is the new inspection record pending submission?"
+        ],
+        "reasoning_steps": [
+          "Step 1: Identify the claim of a recent inspection ('last week') and the existing record ('18 months ago').",
+          "Step 2: Detect a direct contradiction between the reported timing of the last inspection and the submitted record.",
+          "Step 3: Reference the governing regulation: 'Regulation requires documented inspection ≤12 months before commercial ops.'",
+          "Step 4: Note that the 'last inspection record submitted 18 months ago' would violate this regulation if it remains the only valid documentation.",
+          "Step 5: Acknowledge that the claim of an inspection 'last week' could resolve this, but lacks supporting documentation as required by the regulation.",
+          "Step 6: Conclude that due to the unresolved contradiction and lack of required documentation for the claimed recent inspection, the operational status regarding regulatory compliance is UNCERTAIN, pending precise clarification and documentation."
+        ],
+        "violated_policies": [
+          "maintenance_currency",
+          "time_window_consistency"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC03_NightExperienceGap",
+      "description": "Applicant touts \"200+ night sorties\" yet omits night-flight rating ID or documentation. Rule states: 'Night missions require a current rating; applications without the certificate must be denied.'",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC03_NightExperienceGap\n- Description: Applicant touts \"200+ night sorties\" yet omits night-flight rating ID or documentation. Rule states: 'Night missions require a current rating; applications without the certificate must be denied.'\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- Segment experience: \"200+ night sorties\"\n- Segment attachments: \"no night rating certificate provided\"\n\n### Required Clarifications from Ground Truth\n- Night rating certificate ID or waiver reference\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [\n    {\n      \"type\": \"regulatory_compliance\",\n      \"evidence\": [\n        \"Segment experience: \\\"200+ night sorties\\\"\",\n        \"Segment attachments: \\\"no night rating certificate provided\\\"\"\n      ],\n      \"impact\": \"Applicant claims extensive night flight experience but fails to provide mandatory regulatory documentation, directly violating the stated policy.\"\n    }\n  ],\n  \"missing_information\": [\n    \"Current night flight rating certificate ID\",\n    \"Official waiver reference for night flight rating, if applicable\"\n  ],\n  \"clarification_requests\": [\n    \"Provide a copy of the current night flight rating certificate, including its unique identification number, or an official waiver reference that permits night operations without such a certificate.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step 1 – Applicant claims significant experience with '200+ night sorties'.\",\n    \"Step 2 – Review of attachments confirms that no night rating certificate or waiver reference has been provided.\",\n    \"Step 3 – Consulted governing rule: 'Night missions require a current rating; applications without the certificate must be denied.'\",\n    \"Step 4 – The absence of the mandatory night rating certificate directly contradicts the requirement for night missions.\",\n    \"Step 5 – Based on the governing rule, applications lacking this essential documentation for night missions must be denied.\",\n    \"Step 6 – Decision is REJECTED due to non-compliance with night mission rating requirements.\"\n  ],\n  \"violated_policies\": [\n    \"Night mission rating requirement\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "detected_conflicts": [
+          {
+            "type": "regulatory_compliance",
+            "evidence": [
+              "Segment experience: \"200+ night sorties\"",
+              "Segment attachments: \"no night rating certificate provided\""
+            ],
+            "impact": "Applicant claims extensive night flight experience but fails to provide mandatory regulatory documentation, directly violating the stated policy."
+          }
+        ],
+        "missing_information": [
+          "Current night flight rating certificate ID",
+          "Official waiver reference for night flight rating, if applicable"
+        ],
+        "clarification_requests": [
+          "Provide a copy of the current night flight rating certificate, including its unique identification number, or an official waiver reference that permits night operations without such a certificate."
+        ],
+        "reasoning_steps": [
+          "Step 1 – Applicant claims significant experience with '200+ night sorties'.",
+          "Step 2 – Review of attachments confirms that no night rating certificate or waiver reference has been provided.",
+          "Step 3 – Consulted governing rule: 'Night missions require a current rating; applications without the certificate must be denied.'",
+          "Step 4 – The absence of the mandatory night rating certificate directly contradicts the requirement for night missions.",
+          "Step 5 – Based on the governing rule, applications lacking this essential documentation for night missions must be denied.",
+          "Step 6 – Decision is REJECTED due to non-compliance with night mission rating requirements."
+        ],
+        "violated_policies": [
+          "Night mission rating requirement"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC04_PathGeometryMismatch",
+      "description": "Narrative promises \"straight line A→B\" yet uploaded GPS waypoints introduce two detours around 0.8 km each; telemetry log (signed) shows the detours clip a sensitive NFZ spur.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC04_PathGeometryMismatch\n- Description: Narrative promises \"straight line A→B\" yet uploaded GPS waypoints introduce two detours around 0.8 km each; telemetry log (signed) shows the detours clip a sensitive NFZ spur.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- Segment narrative: \"single straight segment\"\n- Segment gps_file: \"multiple bends with loiter waypoint\"\n\n### Required Clarifications from Ground Truth\n- Submit redesigned route outside NFZ spur\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [\n    {\n      \"type\": \"route_geometry_mismatch\",\n      \"evidence\": [\n        \"Segment narrative: 'single straight segment'\",\n        \"Segment gps_file: 'multiple bends with loiter waypoint'\",\n        \"telemetry log (signed) shows the detours clip a sensitive NFZ spur.\"\n      ],\n      \"impact\": \"The narrative's description of a 'single straight segment' directly contradicts the GPS file and signed telemetry log, which show 'multiple bends' and confirmed entry into a sensitive No-Fly Zone (NFZ) spur. These cannot both be true simultaneously, and the authoritative evidence (GPS, telemetry) takes precedence, indicating a route that is non-compliant.\"\n    }\n  ],\n  \"missing_information\": [\n    \"A revised GPS flight plan (GPS file) that accurately depicts a route completely outside the sensitive NFZ spur.\",\n    \"Formal confirmation or waiver (if applicable) from the relevant NFZ authority for the revised route, demonstrating coordination and approval.\"\n  ],\n  \"clarification_requests\": [\n    \"Upload a revised and validated GPS flight path that strictly adheres to the 'single straight segment' narrative or clearly depicts a compliant route entirely outside the sensitive NFZ spur.\",\n    \"Provide documentation of explicit approval from the NFZ controlling authority for any flight path near or within their designated airspace, even for minor incursions.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare the 'Segment narrative' claim of a 'single straight segment' with the 'Segment gps_file' showing 'multiple bends with loiter waypoint'.\",\n    \"Step2 – Identify the direct contradiction between the declared route intent and the actual, uploaded flight path geometry.\",\n    \"Step3 – Validate the impact of the GPS path using the 'telemetry log (signed)', which confirms that the detours clip a sensitive NFZ spur.\",\n    \"Step4 – Apply the governing principle: 'If authoritative evidence contradicts narrative, treat as violation (REJECT)'. The GPS file and telemetry are authoritative evidence.\",\n    \"Step5 – Conclude that the proposed route, as evidenced by the GPS file and telemetry, violates NFZ regulations and contradicts the submitted narrative, posing a significant safety and regulatory risk.\",\n    \"Step6 – Decision is REJECT due to an unapproved NFZ intrusion and misrepresentation of the flight path, requiring a fully redesigned and compliant route.\"\n  ],\n  \"violated_policies\": [\n    \"route_adherence_policy\",\n    \"airspace_restriction_compliance\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "detected_conflicts": [
+          {
+            "type": "route_geometry_mismatch",
+            "evidence": [
+              "Segment narrative: 'single straight segment'",
+              "Segment gps_file: 'multiple bends with loiter waypoint'",
+              "telemetry log (signed) shows the detours clip a sensitive NFZ spur."
+            ],
+            "impact": "The narrative's description of a 'single straight segment' directly contradicts the GPS file and signed telemetry log, which show 'multiple bends' and confirmed entry into a sensitive No-Fly Zone (NFZ) spur. These cannot both be true simultaneously, and the authoritative evidence (GPS, telemetry) takes precedence, indicating a route that is non-compliant."
+          }
+        ],
+        "missing_information": [
+          "A revised GPS flight plan (GPS file) that accurately depicts a route completely outside the sensitive NFZ spur.",
+          "Formal confirmation or waiver (if applicable) from the relevant NFZ authority for the revised route, demonstrating coordination and approval."
+        ],
+        "clarification_requests": [
+          "Upload a revised and validated GPS flight path that strictly adheres to the 'single straight segment' narrative or clearly depicts a compliant route entirely outside the sensitive NFZ spur.",
+          "Provide documentation of explicit approval from the NFZ controlling authority for any flight path near or within their designated airspace, even for minor incursions."
+        ],
+        "reasoning_steps": [
+          "Step1 – Compare the 'Segment narrative' claim of a 'single straight segment' with the 'Segment gps_file' showing 'multiple bends with loiter waypoint'.",
+          "Step2 – Identify the direct contradiction between the declared route intent and the actual, uploaded flight path geometry.",
+          "Step3 – Validate the impact of the GPS path using the 'telemetry log (signed)', which confirms that the detours clip a sensitive NFZ spur.",
+          "Step4 – Apply the governing principle: 'If authoritative evidence contradicts narrative, treat as violation (REJECT)'. The GPS file and telemetry are authoritative evidence.",
+          "Step5 – Conclude that the proposed route, as evidenced by the GPS file and telemetry, violates NFZ regulations and contradicts the submitted narrative, posing a significant safety and regulatory risk.",
+          "Step6 – Decision is REJECT due to an unapproved NFZ intrusion and misrepresentation of the flight path, requiring a fully redesigned and compliant route."
+        ],
+        "violated_policies": [
+          "route_adherence_policy",
+          "airspace_restriction_compliance"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC05_CommercialOpacity",
+      "description": "Application simply states \"performing commercial photography\"; no client identity, subject matter, or privacy assessment.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC05_CommercialOpacity\n- Description: Application simply states \"performing commercial photography\"; no client identity, subject matter, or privacy assessment.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- (No direct conflicting statements provided)\n\n### Explicit Gaps\n- Client or commissioning entity\n- Subject type (people, private property, sensitive event)\n- Privacy mitigation plan\n\n### Required Clarifications from Ground Truth\n- Name/organization of client\n- Description of footage and whether it captures individuals\n- Statement on private-property or privacy-sensitive locations\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [],\n  \"missing_information\": [\n    \"Identity of the client or commissioning entity for the commercial photography.\",\n    \"Detailed description of the subject matter being photographed, including whether it involves individuals or private property.\",\n    \"A comprehensive privacy mitigation plan addressing potential capture of individuals, sensitive locations, or private data.\"\n  ],\n  \"clarification_requests\": [\n    \"Please provide the legal name and organization of the client commissioning the commercial photography.\",\n    \"Describe the specific subject matter to be photographed. Will the footage include identifiable individuals? If so, what consent procedures are in place? Will photography occur on or over private property or privacy-sensitive locations?\",\n    \"Submit a detailed plan outlining how privacy concerns will be addressed, including data handling, consent acquisition, and measures to avoid capturing sensitive information or private spaces without explicit permission.\"\n  ],\n  \"reasoning_steps\": [\n    \"Application states 'performing commercial photography' but lacks critical details for review.\",\n    \"Identified explicit gaps: no client identity, no subject matter description, and no privacy assessment plan.\",\n    \"Per governing principles, the absence of this information prevents a proper assessment of the application's compliance and potential risks.\",\n    \"The decision rule for 'underspecified commercial/privacy info' dictates an UNCERTAIN decision.\",\n    \"Specific clarifications are required to address these fundamental information gaps.\",\n    \"Decision remains UNCERTAIN pending the provision of all requested information.\"\n  ],\n  \"violated_policies\": []\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "confidence": "high",
+        "detected_conflicts": [],
+        "missing_information": [
+          "Identity of the client or commissioning entity for the commercial photography.",
+          "Detailed description of the subject matter being photographed, including whether it involves individuals or private property.",
+          "A comprehensive privacy mitigation plan addressing potential capture of individuals, sensitive locations, or private data."
+        ],
+        "clarification_requests": [
+          "Please provide the legal name and organization of the client commissioning the commercial photography.",
+          "Describe the specific subject matter to be photographed. Will the footage include identifiable individuals? If so, what consent procedures are in place? Will photography occur on or over private property or privacy-sensitive locations?",
+          "Submit a detailed plan outlining how privacy concerns will be addressed, including data handling, consent acquisition, and measures to avoid capturing sensitive information or private spaces without explicit permission."
+        ],
+        "reasoning_steps": [
+          "Application states 'performing commercial photography' but lacks critical details for review.",
+          "Identified explicit gaps: no client identity, no subject matter description, and no privacy assessment plan.",
+          "Per governing principles, the absence of this information prevents a proper assessment of the application's compliance and potential risks.",
+          "The decision rule for 'underspecified commercial/privacy info' dictates an UNCERTAIN decision.",
+          "Specific clarifications are required to address these fundamental information gaps.",
+          "Decision remains UNCERTAIN pending the provision of all requested information."
+        ],
+        "violated_policies": []
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC06_VagueWeatherGate",
+      "description": "Applicant promises to fly only if weather allows but never defines numeric thresholds or contingency.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC06_VagueWeatherGate\n- Description: Applicant promises to fly only if weather allows but never defines numeric thresholds or contingency.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- (No direct conflicting statements provided)\n\n### Explicit Gaps\n- Visibility / wind thresholds that define \"allows\"\n- Decision process if weather deteriorates mid-flight\n\n### Required Clarifications from Ground Truth\n- Quantitative go/no-go criteria (visibility, gust limits, ceiling)\n- Plan for aborting or rescheduling when criteria fail\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [],\n  \"missing_information\": [\n    \"Quantitative go/no-go criteria for weather (e.g., minimum visibility, maximum wind speed/gust limits, minimum cloud ceiling).\",\n    \"Detailed decision process and contingency plan if weather deteriorates before or during the flight.\"\n  ],\n  \"clarification_requests\": [\n    \"Please provide specific, measurable weather thresholds (e.g., minimum visibility in miles/meters, maximum sustained wind and gust limits in knots, minimum cloud ceiling in feet AGL) that define 'weather allows' for all phases of flight.\",\n    \"Submit a clear contingency plan outlining the decision-making process for aborting, diverting, or rescheduling the flight if actual or forecast weather conditions fall below the specified operational limits, including who makes the decision and what actions will be taken.\"\n  ],\n  \"reasoning_steps\": [\n    \"Applicant states intent to operate contingent on 'weather allows' without defining what 'allows' means quantitatively.\",\n    \"Governing principles require clarification for unresolved ambiguity and detection of missing critical information.\",\n    \"Quantitative weather criteria (visibility, wind limits, ceiling) are essential for safe flight operations and are not provided.\",\n    \"A decision process and contingency plan for deteriorating weather are critical for operational safety and are entirely missing.\",\n    \"Absence of these details introduces significant epistemic uncertainty regarding operational safety and compliance.\",\n    \"Decision is UNCERTAIN pending the provision of explicit weather thresholds and a defined contingency plan.\"\n  ],\n  \"violated_policies\": [\n    \"operational_weather_criteria\",\n    \"contingency_planning\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "confidence": "high",
+        "detected_conflicts": [],
+        "missing_information": [
+          "Quantitative go/no-go criteria for weather (e.g., minimum visibility, maximum wind speed/gust limits, minimum cloud ceiling).",
+          "Detailed decision process and contingency plan if weather deteriorates before or during the flight."
+        ],
+        "clarification_requests": [
+          "Please provide specific, measurable weather thresholds (e.g., minimum visibility in miles/meters, maximum sustained wind and gust limits in knots, minimum cloud ceiling in feet AGL) that define 'weather allows' for all phases of flight.",
+          "Submit a clear contingency plan outlining the decision-making process for aborting, diverting, or rescheduling the flight if actual or forecast weather conditions fall below the specified operational limits, including who makes the decision and what actions will be taken."
+        ],
+        "reasoning_steps": [
+          "Applicant states intent to operate contingent on 'weather allows' without defining what 'allows' means quantitatively.",
+          "Governing principles require clarification for unresolved ambiguity and detection of missing critical information.",
+          "Quantitative weather criteria (visibility, wind limits, ceiling) are essential for safe flight operations and are not provided.",
+          "A decision process and contingency plan for deteriorating weather are critical for operational safety and are entirely missing.",
+          "Absence of these details introduces significant epistemic uncertainty regarding operational safety and compliance.",
+          "Decision is UNCERTAIN pending the provision of explicit weather thresholds and a defined contingency plan."
+        ],
+        "violated_policies": [
+          "operational_weather_criteria",
+          "contingency_planning"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC07_MassMathFailure",
+      "description": "Text says \"aircraft under 4 kg\"; attachments list 2.3 kg frame + 0.9 kg battery + 1.2 kg camera + 0.4 kg extras = 4.8 kg.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC07_MassMathFailure\n- Description: Text says \"aircraft under 4 kg\"; attachments list 2.3 kg frame + 0.9 kg battery + 1.2 kg camera + 0.4 kg extras = 4.8 kg.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- Segment statement: \"<4 kg\"\n- Segment itemized_list: \"4.8 kg total\"\n\n### Required Clarifications from Ground Truth\n- Provide updated weight breakdown proving <4 kg or adopt heavier-category process\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [\n    {\n      \"type\": \"factual_inconsistency\",\n      \"evidence\": [\n        \"Scenario Description: 'aircraft under 4 kg'\",\n        \"Scenario Attachments (itemized_list): '2.3 kg frame + 0.9 kg battery + 1.2 kg camera + 0.4 kg extras = 4.8 kg'\"\n      ],\n      \"impact\": \"payload_limit\"\n    }\n  ],\n  \"missing_information\": [\n    \"Confirmed total aircraft weight\",\n    \"Confirmation of applicable regulatory category based on the verified total aircraft weight\"\n  ],\n  \"clarification_requests\": [\n    \"Provide a definitive and consistent total aircraft weight, reconciling the discrepancy between the general statement (<4 kg) and the detailed component breakdown (4.8 kg).\",\n    \"Based on the confirmed weight, specify the correct regulatory category the aircraft falls under for this mission.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step 1 – Identify the general statement regarding aircraft weight: 'aircraft under 4 kg'.\",\n    \"Step 2 – Calculate the total aircraft weight from the provided itemized components: 2.3 kg + 0.9 kg + 1.2 kg + 0.4 kg = 4.8 kg.\",\n    \"Step 3 – Detect a direct contradiction: the aircraft is stated as '<4 kg' but calculates to '4.8 kg'.\",\n    \"Step 4 – Apply the governing principle: 'Detect contradictions and request clarification when unresolved.' The detailed breakdown (4.8 kg) is considered more specific/authoritative evidence than the general statement.\",\n    \"Step 5 – Determine that this inconsistency directly impacts the aircraft's classification under regulatory payload limits.\",\n    \"Step 6 – Since an authoritative piece of evidence (detailed breakdown) contradicts the narrative and makes compliance unconfirmable, the decision is REJECT.\"\n  ],\n  \"violated_policies\": [\n    \"payload_limit\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "detected_conflicts": [
+          {
+            "type": "factual_inconsistency",
+            "evidence": [
+              "Scenario Description: 'aircraft under 4 kg'",
+              "Scenario Attachments (itemized_list): '2.3 kg frame + 0.9 kg battery + 1.2 kg camera + 0.4 kg extras = 4.8 kg'"
+            ],
+            "impact": "payload_limit"
+          }
+        ],
+        "missing_information": [
+          "Confirmed total aircraft weight",
+          "Confirmation of applicable regulatory category based on the verified total aircraft weight"
+        ],
+        "clarification_requests": [
+          "Provide a definitive and consistent total aircraft weight, reconciling the discrepancy between the general statement (<4 kg) and the detailed component breakdown (4.8 kg).",
+          "Based on the confirmed weight, specify the correct regulatory category the aircraft falls under for this mission."
+        ],
+        "reasoning_steps": [
+          "Step 1 – Identify the general statement regarding aircraft weight: 'aircraft under 4 kg'.",
+          "Step 2 – Calculate the total aircraft weight from the provided itemized components: 2.3 kg + 0.9 kg + 1.2 kg + 0.4 kg = 4.8 kg.",
+          "Step 3 – Detect a direct contradiction: the aircraft is stated as '<4 kg' but calculates to '4.8 kg'.",
+          "Step 4 – Apply the governing principle: 'Detect contradictions and request clarification when unresolved.' The detailed breakdown (4.8 kg) is considered more specific/authoritative evidence than the general statement.",
+          "Step 5 – Determine that this inconsistency directly impacts the aircraft's classification under regulatory payload limits.",
+          "Step 6 – Since an authoritative piece of evidence (detailed breakdown) contradicts the narrative and makes compliance unconfirmable, the decision is REJECT."
+        ],
+        "violated_policies": [
+          "payload_limit"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC08_LandownerAssertion",
+      "description": "Operator states \"landowner approved\" but no names, letters, or parcel coverage attached.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC08_LandownerAssertion\n- Description: Operator states \"landowner approved\" but no names, letters, or parcel coverage attached.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- (No direct conflicting statements provided)\n\n### Explicit Gaps\n- Landowner identity and contact\n- Documented consent or reference number\n- Map showing parcel coverage\n\n### Required Clarifications from Ground Truth\n- Upload signed consent or cite permit ID\n- Describe boundaries covered by the consent\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [],\n  \"missing_information\": [\n    \"Landowner's full name and contact details.\",\n    \"Documented consent (e.g., signed letter) or a valid permit ID for land use.\",\n    \"Specific geographic boundaries or parcel details covered by the consent, preferably a map or coordinates.\"\n  ],\n  \"clarification_requests\": [\n    \"Upload a signed consent document from the landowner, or provide a valid permit ID issued by the relevant authority.\",\n    \"Provide the full name and contact information of the consenting landowner.\",\n    \"Clearly describe the specific geographic boundaries (e.g., provide a map, coordinates, or property description) covered by the landowner's consent.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step 1 – The operator claims 'landowner approved' but provides no supporting evidence.\",\n    \"Step 2 – Policy requires documented proof of landowner consent, including identity, contact, and specific parcel coverage, before operations on private land.\",\n    \"Step 3 – The submission explicitly lacks these critical pieces of information.\",\n    \"Step 4 – The absence of mandatory consent documentation and specifics prevents a full and informed approval decision.\",\n    \"Step 5 – Adhering to the principle for missing consents/underspecified information, the decision is UNCERTAIN.\",\n    \"Step 6 – Specific clarifications are requested to obtain the necessary proof of consent.\"\n  ],\n  \"violated_policies\": [\n    \"landowner_consent_verification\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "confidence": "low",
+        "detected_conflicts": [],
+        "missing_information": [
+          "Landowner's full name and contact details.",
+          "Documented consent (e.g., signed letter) or a valid permit ID for land use.",
+          "Specific geographic boundaries or parcel details covered by the consent, preferably a map or coordinates."
+        ],
+        "clarification_requests": [
+          "Upload a signed consent document from the landowner, or provide a valid permit ID issued by the relevant authority.",
+          "Provide the full name and contact information of the consenting landowner.",
+          "Clearly describe the specific geographic boundaries (e.g., provide a map, coordinates, or property description) covered by the landowner's consent."
+        ],
+        "reasoning_steps": [
+          "Step 1 – The operator claims 'landowner approved' but provides no supporting evidence.",
+          "Step 2 – Policy requires documented proof of landowner consent, including identity, contact, and specific parcel coverage, before operations on private land.",
+          "Step 3 – The submission explicitly lacks these critical pieces of information.",
+          "Step 4 – The absence of mandatory consent documentation and specifics prevents a full and informed approval decision.",
+          "Step 5 – Adhering to the principle for missing consents/underspecified information, the decision is UNCERTAIN.",
+          "Step 6 – Specific clarifications are requested to obtain the necessary proof of consent."
+        ],
+        "violated_policies": [
+          "landowner_consent_verification"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC09_PostApprovalConflict",
+      "description": "Round 1: applicant insists mission ends before sunset. Round 2 note: \"extend 20 minutes after sunset for golden-hour shots.\" Local rule: if applicant revises to include night ops after a daytime-only request, regulator must void the original approval and require a new night package.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC09_PostApprovalConflict\n- Description: Round 1: applicant insists mission ends before sunset. Round 2 note: \"extend 20 minutes after sunset for golden-hour shots.\" Local rule: if applicant revises to include night ops after a daytime-only request, regulator must void the original approval and require a new night package.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- (No direct conflicting statements provided)\n\n### Interaction Timeline\n- Round 1: Round 1: 'Daytime only, no special lighting required.'\n- Round 2: Round 2: 'Will extend 20 minutes past sunset for final shots.'\n\n### Required Clarifications from Ground Truth\n- Submit full night-flight package (rating, strobes, observer) with corrected time window\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [\n    {\n      \"type\": \"temporal_window_and_operational_scope\",\n      \"evidence\": [\n        \"Round 1: 'Daytime only, no special lighting required.'\",\n        \"Round 2: 'Will extend 20 minutes past sunset for final shots.'\"\n      ],\n      \"impact\": \"The 'Daytime only' request in Round 1 directly conflicts with the 'extend 20 minutes past sunset' request in Round 2, as operations after sunset are classified as night operations.\"\n    }\n  ],\n  \"missing_information\": [\n    \"A full night-flight package, including details on pilot night rating, required strobes/lighting, and observer requirements.\"\n  ],\n  \"clarification_requests\": [\n    \"Submit a complete and new application for night operations, including a full night-flight package (pilot night rating, strobes, observer details) and a corrected time window reflecting the extended operations past sunset.\"\n  ],\n  \"reasoning_steps\": [\n    \"1. The applicant's Round 1 request explicitly stated 'Daytime only'.\",\n    \"2. The applicant's Round 2 note explicitly revised the mission to 'extend 20 minutes past sunset'.\",\n    \"3. Detected a direct contradiction: 'Daytime only' operations cannot extend '20 minutes past sunset', as operations after sunset are considered night operations.\",\n    \"4. Applied the local rule: 'if applicant revises to include night ops after a daytime-only request, regulator must void the original approval and require a new night package'.\",\n    \"5. Based on the detected contradiction and the governing local rule, the original approval is voided, and the current application must be rejected.\",\n    \"6. A new, complete night-flight package is required for any operations extending past sunset.\"\n  ],\n  \"violated_policies\": [\n    \"time_window_consistency\",\n    \"night_operations_package_requirement\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "detected_conflicts": [
+          {
+            "type": "temporal_window_and_operational_scope",
+            "evidence": [
+              "Round 1: 'Daytime only, no special lighting required.'",
+              "Round 2: 'Will extend 20 minutes past sunset for final shots.'"
+            ],
+            "impact": "The 'Daytime only' request in Round 1 directly conflicts with the 'extend 20 minutes past sunset' request in Round 2, as operations after sunset are classified as night operations."
+          }
+        ],
+        "missing_information": [
+          "A full night-flight package, including details on pilot night rating, required strobes/lighting, and observer requirements."
+        ],
+        "clarification_requests": [
+          "Submit a complete and new application for night operations, including a full night-flight package (pilot night rating, strobes, observer details) and a corrected time window reflecting the extended operations past sunset."
+        ],
+        "reasoning_steps": [
+          "1. The applicant's Round 1 request explicitly stated 'Daytime only'.",
+          "2. The applicant's Round 2 note explicitly revised the mission to 'extend 20 minutes past sunset'.",
+          "3. Detected a direct contradiction: 'Daytime only' operations cannot extend '20 minutes past sunset', as operations after sunset are considered night operations.",
+          "4. Applied the local rule: 'if applicant revises to include night ops after a daytime-only request, regulator must void the original approval and require a new night package'.",
+          "5. Based on the detected contradiction and the governing local rule, the original approval is voided, and the current application must be rejected.",
+          "6. A new, complete night-flight package is required for any operations extending past sunset."
+        ],
+        "violated_policies": [
+          "time_window_consistency",
+          "night_operations_package_requirement"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC10_LocationVagueness",
+      "description": "Operator only says \"somewhere north of downtown near the riverside park\"; city has three such parks.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Epistemic Uncertainty Review Brief\n\n## Scenario Overview\n- Scenario ID: None\n- Test Case: TC10_LocationVagueness\n- Description: Operator only says \"somewhere north of downtown near the riverside park\"; city has three such parks.\n- Mission type: filing review (LLM-only)\n\n## Governing Principles (quote when relevant)\n- Detect contradictions and request clarification when unresolved.\n\n## Contradictory / Missing Information Provided\n- (No direct conflicting statements provided)\n\n### Explicit Gaps\n- Exact park name or coordinates\n- Map overlay showing proximity to NFZs\n- Reference NOTAM or municipal file number\n\n### Required Clarifications from Ground Truth\n- Provide precise GPS or surveyed polygon\n- Identify which park/parcel and privacy mitigations\n\n---\n\n## Output Requirements\n1. `decision` must be one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. If contradictions remain unresolved, default to `UNCERTAIN` and request precise clarifications instead of inventing reconciliations.\n3. Provide `detected_conflicts`: for each, cite the segments/claims and explain why they cannot both be true.\n4. Provide `missing_information`: list the concrete data/documents needed (certificate ID, coordinates, weather thresholds, etc.).\n5. Include `reasoning_steps` (≤6) showing detection → policy impact → decision.\n6. Include `clarification_requests` aligned with the gaps (who/what document, numeric thresholds, coordinates, etc.).\n7. `violated_policies` should reference the relevant checklist items (time_window_consistency, maintenance_currency, payload_limit, etc.).\n8. Never guess coordinates, waivers, or documents that were not supplied; admit uncertainty explicitly.\n\nReturn JSON similar to:\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"detected_conflicts\": [\n    {\"type\": \"temporal_window\", \"evidence\": [\"para2 14:00-15:00\", \"para5 13:30-16:00\"], \"impact\": \"time_window_consistency\"}\n  ],\n  \"missing_information\": [\n    \"Provide confirmed start/end time in UTC\",\n    \"Confirm whether rehearsal legs require authorization\"\n  ],\n  \"clarification_requests\": [\n    \"Upload corrected schedule and state if rehearsals cross controlled airspace.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Compare para2 vs para5 schedule.\",\n    \"Step2 – Cite time_window_consistency policy requiring a single plan.\",\n    \"Step3 – Without reconciliation, decision remains UNCERTAIN pending clarification.\"\n  ],\n  \"violated_policies\": [\"time_window_consistency\"]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC01_TimeWindowConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC02_InspectionMuddle expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC03_NightExperienceGap expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC04_PathGeometryMismatch expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC05_CommercialOpacity expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC06_VagueWeatherGate expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC07_MassMathFailure expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC08_LandownerAssertion expected decision: UNCERTAIN\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC09_PostApprovalConflict expected decision: REJECT\n- Priority: None (SOP S039_epistemic_conflict.jsonc) Test case TC10_LocationVagueness expected decision: UNCERTAIN\nDecision rule: Epistemic conflicts—quote contradictory statements, do NOT average them. If authoritative evidence contradicts narrative, treat as violation (REJECT). Missing consents/certificates/slots -> UNCERTAIN/REJECT; request specific docs (IDs, certificate numbers, slot letters). Underspecified commercial/privacy/weather info -> UNCERTAIN with explicit info requests.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"high\",\n  \"detected_conflicts\": [],\n  \"missing_information\": [\n    \"Exact park name or precise coordinates (GPS or surveyed polygon)\",\n    \"Map overlay showing proximity to No-Fly Zones (NFZs)\",\n    \"Reference NOTAM or municipal file number for the specific park/parcel\",\n    \"Details on privacy mitigations for the identified park/parcel\"\n  ],\n  \"clarification_requests\": [\n    \"Please provide the precise name of the intended riverside park or its exact GPS coordinates/surveyed polygon.\",\n    \"Submit a map overlay clearly depicting the proposed operational area in relation to any known No-Fly Zones (NFZs).\",\n    \"Identify the specific parcel (e.g., municipal parcel ID) within the chosen park and describe any planned privacy mitigations relevant to that location.\",\n    \"Provide any relevant NOTAM or municipal file numbers associated with the operational area, if applicable.\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 – Operator provided vague location information: 'somewhere north of downtown near the riverside park'.\",\n    \"Step2 – Identified an explicit gap: city has three such parks, creating ambiguity regarding the specific operational area.\",\n    \"Step3 – Policy (implicit for filing review) requires precise location data to assess compliance with safety, privacy, and regulatory requirements (e.g., proximity to NFZs).\",\n    \"Step4 – Without specific identification of the park/parcel, it's impossible to verify the operational area or potential impacts.\",\n    \"Step5 – The governing principle 'Detect contradictions and request clarification when unresolved' applies to this lack of precise, resolvable information.\",\n    \"Step6 – Decision is UNCERTAIN due to critical missing information that prevents a thorough review and approval.\"\n  ],\n  \"violated_policies\": [\"operational_area_definition\", \"safety_zone_verification\", \"privacy_assessment\"]\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "confidence": "high",
+        "detected_conflicts": [],
+        "missing_information": [
+          "Exact park name or precise coordinates (GPS or surveyed polygon)",
+          "Map overlay showing proximity to No-Fly Zones (NFZs)",
+          "Reference NOTAM or municipal file number for the specific park/parcel",
+          "Details on privacy mitigations for the identified park/parcel"
+        ],
+        "clarification_requests": [
+          "Please provide the precise name of the intended riverside park or its exact GPS coordinates/surveyed polygon.",
+          "Submit a map overlay clearly depicting the proposed operational area in relation to any known No-Fly Zones (NFZs).",
+          "Identify the specific parcel (e.g., municipal parcel ID) within the chosen park and describe any planned privacy mitigations relevant to that location.",
+          "Provide any relevant NOTAM or municipal file numbers associated with the operational area, if applicable."
+        ],
+        "reasoning_steps": [
+          "Step1 – Operator provided vague location information: 'somewhere north of downtown near the riverside park'.",
+          "Step2 – Identified an explicit gap: city has three such parks, creating ambiguity regarding the specific operational area.",
+          "Step3 – Policy (implicit for filing review) requires precise location data to assess compliance with safety, privacy, and regulatory requirements (e.g., proximity to NFZs).",
+          "Step4 – Without specific identification of the park/parcel, it's impossible to verify the operational area or potential impacts.",
+          "Step5 – The governing principle 'Detect contradictions and request clarification when unresolved' applies to this lack of precise, resolvable information.",
+          "Step6 – Decision is UNCERTAIN due to critical missing information that prevents a thorough review and approval."
+        ],
+        "violated_policies": [
+          "operational_area_definition",
+          "safety_zone_verification",
+          "privacy_assessment"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S039_epistemic_conflict_TC01_TimeWindowConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC01_TimeWindowConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC02_InspectionMuddle_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC02_InspectionMuddle expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC03_NightExperienceGap_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC03_NightExperienceGap expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC04_PathGeometryMismatch_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC04_PathGeometryMismatch expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC05_CommercialOpacity_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC05_CommercialOpacity expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC06_VagueWeatherGate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC06_VagueWeatherGate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC07_MassMathFailure_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC07_MassMathFailure expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC08_LandownerAssertion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC08_LandownerAssertion expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC09_PostApprovalConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC09_PostApprovalConflict expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S039_epistemic_conflict_TC10_LocationVagueness_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S039_epistemic_conflict.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S039_epistemic_conflict.jsonc",
+          "text": "Test case TC10_LocationVagueness expected decision: UNCERTAIN"
+        }
+      ]
+    }
+  ]
+}

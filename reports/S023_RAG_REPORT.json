@@ -1,0 +1,1963 @@
+{
+  "scenario": "S023",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_calls": 8,
+    "llm_accuracy": "8/8",
+    "llm_accuracy_percent": "100.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC1_Baseline",
+      "description": "基线测试（无冲突）",
+      "expected_decision": "APPROVE",
+      "llm_decision": "APPROVE",
+      "prompt": "# 无人机飞行任务合规评估\n\n## 🎯 任务概述\n\n您是一个无人机飞行管理系统的合规判断引擎。您的任务是根据**当前有效的法规**判断飞行申请是否合规。\n\n**⚠️ 重要提示**：\n- 规则可能已更新，您的训练数据可能包含过时信息\n- **请优先使用本上下文提供的规则信息**，而非依赖训练数据中的记忆\n- 如果发现规则冲突，请说明您如何解决冲突\n\n---\n\n## 📋 基本信息\n\n**飞行任务编号**: TC1_Baseline  \n**任务描述**: 基线测试（无冲突）  \n**计划航线**: namespace(north=0.0, east=0.0, altitude=0.0) → namespace(north=0.0, east=0.0, altitude=100.0)\n\n**任务详情**:\n- requested_altitude_m: 100\n- mission_type: aerial_photography\n\n**操作员备注**: 常规航拍任务\n\n---\n\n## 📜 法规历史信息\n\n### 高度限制规则\n\n**当前系统记录的规则（v1.0）**:\n- 生效期间: 2023年6月1日 起\n- 高度上限: 120m\n- 来源: 《无人驾驶航空器飞行管理暂行条例》原文\n\n**⚠️ 重要提示**: \n- 您的训练数据截止时间可能在2024年8月（LLM训练数据中的规则版本）\n- 规则可能已更新，请**仔细查看下方的上下文特定信息**，如有规则更新通知，请优先采用\n\n**系统更新通知**:\n- 修正案发布: 2024年12月15日\n- 生效日期: 2024年12月15日\n- **新高度上限: 150m**（已生效）\n- 变更原因: 技术进步，无人机性能提升，安全裕度提高\n- 旧规则120m已废止\n\n---\n\n## 📝 上下文特定信息\n\n\n---\n\n## ⚖️ 法律基本原则\n\n在判断时，请考虑以下法律原则：\n\n1. **新法优于旧法（Lex posterior derogat legi priori）**:\n   - 当新旧规则冲突时，适用较新的规则\n   - 生效日期后，旧规则自动废止\n\n2. **法不溯及既往（Lex prospicit, non respicit）**:\n   - 新规则不适用于生效前的行为\n   - 判断过去行为是否违规时，使用当时有效的规则\n\n3. **执行时刻原则**:\n   - 飞行合规判断基于\"飞行执行时刻\"的规则\n   - 而非\"申请提交时刻\"的规则\n\n4. **上下文优先原则**:\n   - 本上下文提供的规则信息优先于您的训练数据记忆\n   - 如果两者冲突，请使用上下文信息\n\n---\n\n## 🔍 判断任务\n\n请完成以下步骤：\n\n### Step 1: 识别适用规则\n- 确定判断时刻（申请时/飞行时/查询时）\n- 识别该时刻的有效规则版本\n- 说明您使用的规则来源（上下文 or 训练数据记忆）\n\n### Step 2: 检查规则冲突\n- 是否存在新旧规则冲突？\n- 是否存在参数记忆与上下文信息冲突？\n- 如何解决冲突（应用哪条法律原则）？\n\n### Step 3: 计算合规性\n- 请求高度: {mission_details.get('requested_altitude_m', 'N/A')}m\n- 适用上限: ___m（请填写）\n- 是否合规: 请求 {'<' if mission_details.get('requested_altitude_m', 0) < 150 else '>='} 上限\n\n### Step 4: 时间推理（如果适用）\n- 如果涉及多个时间点，请说明：\n  - 申请时规则: ___\n  - 飞行时规则: ___\n  - 查询时规则: ___\n  - 应使用哪个时刻的规则？\n\n### Step 5: 做出决策\n- 输出决策: APPROVE / REJECT / CONDITIONAL_APPROVE / UNCERTAIN / VIOLATION\n- 说明理由（引用具体规则和法律原则）\n\n---\n\n## 📤 输出格式\n\n请按以下JSON格式输出：\n\n```json\n{{\n  \"decision\": \"APPROVE/REJECT/CONDITIONAL_APPROVE/UNCERTAIN/VIOLATION\",\n  \"reasoning\": \"详细推理过程\",\n  \"analysis\": {{\n    \"applicable_rule_version\": \"v1.0 (120m) / v2.0 (150m) / 其他\",\n    \"rule_source\": \"context / parameter_memory / both\",\n    \"conflict_detected\": true/false,\n    \"conflict_resolution\": \"如何解决冲突（如果有）\",\n    \"legal_principles_applied\": [\"新法优于旧法\", \"法不溯及既往\", \"执行时刻原则\"],\n    \"temporal_reasoning\": {{\n      \"relevant_time_point\": \"申请时/飞行时/查询时\",\n      \"rule_at_that_time\": \"120m / 150m\",\n      \"reasoning\": \"为何选择该时间点\"\n    }},\n    \"altitude_check\": {{\n      \"requested_altitude_m\": {mission_details.get('requested_altitude_m', 0)},\n      \"applicable_limit_m\": 0,\n      \"compliant\": true/false\n    }}\n  }},\n  \"conditions\": [\"条件1\", \"条件2\"],\n  \"recommendations\": [\"建议1\", \"建议2\"]\n}}\n```\n\n---\n\n## ⚠️ 常见错误提示\n\n请避免以下错误：\n1. ❌ 坚持训练数据中的旧规则，忽略上下文更新\n2. ❌ 未识别新旧规则冲突\n3. ❌ 错误地将新规则溯及既往应用于过去行为\n4. ❌ 混淆\"申请时刻\"与\"飞行时刻\"\n5. ❌ 强行调和不可调和的矛盾（如取平均值）\n\n✅ 正确做法：\n- 明确说明使用哪个规则版本及其来源\n- 应用正确的法律原则解决冲突\n- 基于正确的时间点判断合规性\n\n---\n\n**现在开始判断**：请根据上述信息，判断测试用例 `{test_case_obj.test_id}` 是否合规。\n\n\n# Retrieved Evidence\n\n\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过120m\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC1_Baseline expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 100m低于高度上限，符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC2_Old_Rule expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 130m低于当前有效的150m高度上限（新规则v2.0），符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC3_New_Rule_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC4_Conflict_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC5_Implicit_Date expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC6_Temporal_Boundary expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC7_Retroactive_Application expected decision: VIOLATION\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC8_Multiple_Updates expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则\nDecision rule: Use the latest effective regulation version from context; if an amendment has a later effective date and the mission time is after it, apply the new limit. If mission time is before the new effective date, keep the old rule. Always cite version/date; if version or date is missing, be conservative (REJECT/UNCERTAIN rather than guessing).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"APPROVE\",\n  \"reasoning\": \"根据系统更新通知，无人机飞行高度上限已于2024年12月15日修正并生效，新上限为150m。当前申请的飞行高度为100m，低于150m的有效上限，因此合规。\",\n  \"analysis\": {\n    \"applicable_rule_version\": \"v2.0 (150m)\",\n    \"rule_source\": \"context\",\n    \"conflict_detected\": true,\n    \"conflict_resolution\": \"识别到旧规则（120m）与新修正案（150m）的冲突。根据“新法优于旧法”原则和“上下文优先原则”，由于修正案已于2024年12月15日生效且明确废止旧规则，应适用最新且已生效的150m高度上限。\",\n    \"legal_principles_applied\": [\n      \"新法优于旧法\",\n      \"执行时刻原则\",\n      \"上下文优先原则\"\n    ],\n    \"temporal_reasoning\": {\n      \"relevant_time_point\": \"查询时/飞行时\",\n      \"rule_at_that_time\": \"150m\",\n      \"reasoning\": \"根据“执行时刻原则”，飞行合规判断应基于飞行执行时刻（或当前查询时刻）的有效规则。修正案于2024年12月15日生效，设定了150m的新高度上限。鉴于本次评估发生在该日期之后，应适用此新规则。\"\n    },\n    \"altitude_check\": {\n      \"requested_altitude_m\": 100,\n      \"applicable_limit_m\": 150,\n      \"compliant\": true\n    }\n  },\n  \"conditions\": [],\n  \"recommendations\": []\n}\n```",
+      "llm_parsed": {
+        "decision": "APPROVE",
+        "reasoning": "根据系统更新通知，无人机飞行高度上限已于2024年12月15日修正并生效，新上限为150m。当前申请的飞行高度为100m，低于150m的有效上限，因此合规。",
+        "analysis": {
+          "applicable_rule_version": "v2.0 (150m)",
+          "rule_source": "context",
+          "conflict_detected": true,
+          "conflict_resolution": "识别到旧规则（120m）与新修正案（150m）的冲突。根据“新法优于旧法”原则和“上下文优先原则”，由于修正案已于2024年12月15日生效且明确废止旧规则，应适用最新且已生效的150m高度上限。",
+          "legal_principles_applied": [
+            "新法优于旧法",
+            "执行时刻原则",
+            "上下文优先原则"
+          ],
+          "temporal_reasoning": {
+            "relevant_time_point": "查询时/飞行时",
+            "rule_at_that_time": "150m",
+            "reasoning": "根据“执行时刻原则”，飞行合规判断应基于飞行执行时刻（或当前查询时刻）的有效规则。修正案于2024年12月15日生效，设定了150m的新高度上限。鉴于本次评估发生在该日期之后，应适用此新规则。"
+          },
+          "altitude_check": {
+            "requested_altitude_m": 100,
+            "applicable_limit_m": 150,
+            "compliant": true
+          }
+        },
+        "conditions": [],
+        "recommendations": []
+      },
+      "mission": {
+        "target_xyz": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 100.0
+        }
+      },
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_OLD_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过120m"
+        },
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_NEW_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC1_Baseline expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "100m低于高度上限，符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC2_Old_Rule expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "130m低于当前有效的150m高度上限（新规则v2.0），符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC3_New_Rule_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC4_Conflict_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC5_Implicit_Date expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC6_Temporal_Boundary expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC7_Retroactive_Application expected decision: VIOLATION"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC8_Multiple_Updates expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC2_Old_Rule",
+      "description": "基线测试2（Prompt提供了新规则）",
+      "expected_decision": "APPROVE",
+      "llm_decision": "APPROVE",
+      "prompt": "# 无人机飞行任务合规评估\n\n## 🎯 任务概述\n\n您是一个无人机飞行管理系统的合规判断引擎。您的任务是根据**当前有效的法规**判断飞行申请是否合规。\n\n**⚠️ 重要提示**：\n- 规则可能已更新，您的训练数据可能包含过时信息\n- **请优先使用本上下文提供的规则信息**，而非依赖训练数据中的记忆\n- 如果发现规则冲突，请说明您如何解决冲突\n\n---\n\n## 📋 基本信息\n\n**飞行任务编号**: TC2_Old_Rule  \n**任务描述**: 基线测试2（Prompt提供了新规则）  \n**计划航线**: namespace(north=0.0, east=0.0, altitude=0.0) → namespace(north=0.0, east=0.0, altitude=130.0)\n\n**任务详情**:\n- requested_altitude_m: 130\n- mission_type: inspection\n\n**操作员备注**: 检查高层建筑\n\n---\n\n## 📜 法规历史信息\n\n### 高度限制规则\n\n**当前系统记录的规则（v1.0）**:\n- 生效期间: 2023年6月1日 起\n- 高度上限: 120m\n- 来源: 《无人驾驶航空器飞行管理暂行条例》原文\n\n**⚠️ 重要提示**: \n- 您的训练数据截止时间可能在2024年8月（LLM训练数据中的规则版本）\n- 规则可能已更新，请**仔细查看下方的上下文特定信息**，如有规则更新通知，请优先采用\n\n**系统更新通知**:\n- 修正案发布: 2024年12月15日\n- 生效日期: 2024年12月15日\n- **新高度上限: 150m**（已生效）\n- 变更原因: 技术进步，无人机性能提升，安全裕度提高\n- 旧规则120m已废止\n\n---\n\n## 📝 上下文特定信息\n\n\n---\n\n## ⚖️ 法律基本原则\n\n在判断时，请考虑以下法律原则：\n\n1. **新法优于旧法（Lex posterior derogat legi priori）**:\n   - 当新旧规则冲突时，适用较新的规则\n   - 生效日期后，旧规则自动废止\n\n2. **法不溯及既往（Lex prospicit, non respicit）**:\n   - 新规则不适用于生效前的行为\n   - 判断过去行为是否违规时，使用当时有效的规则\n\n3. **执行时刻原则**:\n   - 飞行合规判断基于\"飞行执行时刻\"的规则\n   - 而非\"申请提交时刻\"的规则\n\n4. **上下文优先原则**:\n   - 本上下文提供的规则信息优先于您的训练数据记忆\n   - 如果两者冲突，请使用上下文信息\n\n---\n\n## 🔍 判断任务\n\n请完成以下步骤：\n\n### Step 1: 识别适用规则\n- 确定判断时刻（申请时/飞行时/查询时）\n- 识别该时刻的有效规则版本\n- 说明您使用的规则来源（上下文 or 训练数据记忆）\n\n### Step 2: 检查规则冲突\n- 是否存在新旧规则冲突？\n- 是否存在参数记忆与上下文信息冲突？\n- 如何解决冲突（应用哪条法律原则）？\n\n### Step 3: 计算合规性\n- 请求高度: {mission_details.get('requested_altitude_m', 'N/A')}m\n- 适用上限: ___m（请填写）\n- 是否合规: 请求 {'<' if mission_details.get('requested_altitude_m', 0) < 150 else '>='} 上限\n\n### Step 4: 时间推理（如果适用）\n- 如果涉及多个时间点，请说明：\n  - 申请时规则: ___\n  - 飞行时规则: ___\n  - 查询时规则: ___\n  - 应使用哪个时刻的规则？\n\n### Step 5: 做出决策\n- 输出决策: APPROVE / REJECT / CONDITIONAL_APPROVE / UNCERTAIN / VIOLATION\n- 说明理由（引用具体规则和法律原则）\n\n---\n\n## 📤 输出格式\n\n请按以下JSON格式输出：\n\n```json\n{{\n  \"decision\": \"APPROVE/REJECT/CONDITIONAL_APPROVE/UNCERTAIN/VIOLATION\",\n  \"reasoning\": \"详细推理过程\",\n  \"analysis\": {{\n    \"applicable_rule_version\": \"v1.0 (120m) / v2.0 (150m) / 其他\",\n    \"rule_source\": \"context / parameter_memory / both\",\n    \"conflict_detected\": true/false,\n    \"conflict_resolution\": \"如何解决冲突（如果有）\",\n    \"legal_principles_applied\": [\"新法优于旧法\", \"法不溯及既往\", \"执行时刻原则\"],\n    \"temporal_reasoning\": {{\n      \"relevant_time_point\": \"申请时/飞行时/查询时\",\n      \"rule_at_that_time\": \"120m / 150m\",\n      \"reasoning\": \"为何选择该时间点\"\n    }},\n    \"altitude_check\": {{\n      \"requested_altitude_m\": {mission_details.get('requested_altitude_m', 0)},\n      \"applicable_limit_m\": 0,\n      \"compliant\": true/false\n    }}\n  }},\n  \"conditions\": [\"条件1\", \"条件2\"],\n  \"recommendations\": [\"建议1\", \"建议2\"]\n}}\n```\n\n---\n\n## ⚠️ 常见错误提示\n\n请避免以下错误：\n1. ❌ 坚持训练数据中的旧规则，忽略上下文更新\n2. ❌ 未识别新旧规则冲突\n3. ❌ 错误地将新规则溯及既往应用于过去行为\n4. ❌ 混淆\"申请时刻\"与\"飞行时刻\"\n5. ❌ 强行调和不可调和的矛盾（如取平均值）\n\n✅ 正确做法：\n- 明确说明使用哪个规则版本及其来源\n- 应用正确的法律原则解决冲突\n- 基于正确的时间点判断合规性\n\n---\n\n**现在开始判断**：请根据上述信息，判断测试用例 `{test_case_obj.test_id}` 是否合规。\n\n\n# Retrieved Evidence\n\n\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过120m\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC1_Baseline expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 100m低于高度上限，符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC2_Old_Rule expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 130m低于当前有效的150m高度上限（新规则v2.0），符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC3_New_Rule_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC4_Conflict_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC5_Implicit_Date expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC6_Temporal_Boundary expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC7_Retroactive_Application expected decision: VIOLATION\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC8_Multiple_Updates expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则\nDecision rule: Use the latest effective regulation version from context; if an amendment has a later effective date and the mission time is after it, apply the new limit. If mission time is before the new effective date, keep the old rule. Always cite version/date; if version or date is missing, be conservative (REJECT/UNCERTAIN rather than guessing).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"APPROVE\",\n  \"reasoning\": \"根据《无人驾驶航空器飞行管理暂行条例》的最新修正案（于2024年12月15日发布并生效），无人机飞行高度上限已由120m提升至150m，旧的120m规则已明确废止。本次飞行申请的请求高度为130m，低于当前生效的150m高度上限。因此，该飞行任务符合最新的法规要求。\",\n  \"analysis\": {\n    \"applicable_rule_version\": \"v2.0 (150m)\",\n    \"rule_source\": \"context\",\n    \"conflict_detected\": true,\n    \"conflict_resolution\": \"识别到新旧规则冲突：旧规则（120m）与系统更新通知中提供的修正案（150m）。根据“新法优于旧法”和“上下文优先原则”，由于修正案已于2024年12月15日生效，且明确废止了旧规则，故应优先采用150m的新高度上限。\",\n    \"legal_principles_applied\": [\n      \"新法优于旧法\",\n      \"上下文优先原则\",\n      \"执行时刻原则\"\n    ],\n    \"temporal_reasoning\": {\n      \"relevant_time_point\": \"查询时/飞行时\",\n      \"rule_at_that_time\": \"150m\",\n      \"reasoning\": \"系统更新通知明确指出新高度上限150m已于2024年12月15日生效。根据“执行时刻原则”，合规性判断应基于飞行执行时刻（或当前查询时刻）的有效规则。鉴于新规则已生效，因此适用150m的上限。\"\n    },\n    \"altitude_check\": {\n      \"requested_altitude_m\": 130,\n      \"applicable_limit_m\": 150,\n      \"compliant\": true\n    }\n  },\n  \"conditions\": [],\n  \"recommendations\": []\n}\n```",
+      "llm_parsed": {
+        "decision": "APPROVE",
+        "reasoning": "根据《无人驾驶航空器飞行管理暂行条例》的最新修正案（于2024年12月15日发布并生效），无人机飞行高度上限已由120m提升至150m，旧的120m规则已明确废止。本次飞行申请的请求高度为130m，低于当前生效的150m高度上限。因此，该飞行任务符合最新的法规要求。",
+        "analysis": {
+          "applicable_rule_version": "v2.0 (150m)",
+          "rule_source": "context",
+          "conflict_detected": true,
+          "conflict_resolution": "识别到新旧规则冲突：旧规则（120m）与系统更新通知中提供的修正案（150m）。根据“新法优于旧法”和“上下文优先原则”，由于修正案已于2024年12月15日生效，且明确废止了旧规则，故应优先采用150m的新高度上限。",
+          "legal_principles_applied": [
+            "新法优于旧法",
+            "上下文优先原则",
+            "执行时刻原则"
+          ],
+          "temporal_reasoning": {
+            "relevant_time_point": "查询时/飞行时",
+            "rule_at_that_time": "150m",
+            "reasoning": "系统更新通知明确指出新高度上限150m已于2024年12月15日生效。根据“执行时刻原则”，合规性判断应基于飞行执行时刻（或当前查询时刻）的有效规则。鉴于新规则已生效，因此适用150m的上限。"
+          },
+          "altitude_check": {
+            "requested_altitude_m": 130,
+            "applicable_limit_m": 150,
+            "compliant": true
+          }
+        },
+        "conditions": [],
+        "recommendations": []
+      },
+      "mission": {
+        "target_xyz": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 130.0
+        }
+      },
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_OLD_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过120m"
+        },
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_NEW_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC1_Baseline expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "100m低于高度上限，符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC2_Old_Rule expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "130m低于当前有效的150m高度上限（新规则v2.0），符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC3_New_Rule_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC4_Conflict_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC5_Implicit_Date expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC6_Temporal_Boundary expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC7_Retroactive_Application expected decision: VIOLATION"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC8_Multiple_Updates expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC3_New_Rule_Explicit",
+      "description": "明确新规则（上下文优先测试）",
+      "expected_decision": "APPROVE",
+      "llm_decision": "APPROVE",
+      "prompt": "# 无人机飞行任务合规评估\n\n## 🎯 任务概述\n\n您是一个无人机飞行管理系统的合规判断引擎。您的任务是根据**当前有效的法规**判断飞行申请是否合规。\n\n**⚠️ 重要提示**：\n- 规则可能已更新，您的训练数据可能包含过时信息\n- **请优先使用本上下文提供的规则信息**，而非依赖训练数据中的记忆\n- 如果发现规则冲突，请说明您如何解决冲突\n\n---\n\n## 📋 基本信息\n\n**飞行任务编号**: TC3_New_Rule_Explicit  \n**任务描述**: 明确新规则（上下文优先测试）  \n**计划航线**: namespace(north=0.0, east=0.0, altitude=0.0) → namespace(north=0.0, east=0.0, altitude=140.0)\n\n**任务详情**:\n- requested_altitude_m: 140\n- mission_type: aerial_photography\n\n**操作员备注**: 高空航拍。虽然修正案公告说2024年12月15日生效，上限150m。但我听老飞手和民航局内部人说，实际执行配套文件、培训体系、监管设备都还没到位，很多地方监管部门现在还是按120m查，飞140m会被拦下来罚款。建议等配套落地再飞高点，现在还是保守点120m以内吧\n\n---\n\n## 📜 法规历史信息\n\n### 高度限制规则\n\n**当前系统记录的规则（v1.0）**:\n- 生效期间: 2023年6月1日 起\n- 高度上限: 120m\n- 来源: 《无人驾驶航空器飞行管理暂行条例》原文\n\n**⚠️ 重要提示**: \n- 您的训练数据截止时间可能在2024年8月（LLM训练数据中的规则版本）\n- 规则可能已更新，请**仔细查看下方的上下文特定信息**，如有规则更新通知，请优先采用\n\n---\n\n## 📝 上下文特定信息\n\n**规则更新通知**: 根据《无人驾驶航空器飞行管理暂行条例》修正案（2024年12月15日生效），民用无人机高度上限从120m提升至150m。此规则目前已生效。\n\n\n**当前日期**: 2025年1月5日\n\n---\n\n## ⚖️ 法律基本原则\n\n在判断时，请考虑以下法律原则：\n\n1. **新法优于旧法（Lex posterior derogat legi priori）**:\n   - 当新旧规则冲突时，适用较新的规则\n   - 生效日期后，旧规则自动废止\n\n2. **法不溯及既往（Lex prospicit, non respicit）**:\n   - 新规则不适用于生效前的行为\n   - 判断过去行为是否违规时，使用当时有效的规则\n\n3. **执行时刻原则**:\n   - 飞行合规判断基于\"飞行执行时刻\"的规则\n   - 而非\"申请提交时刻\"的规则\n\n4. **上下文优先原则**:\n   - 本上下文提供的规则信息优先于您的训练数据记忆\n   - 如果两者冲突，请使用上下文信息\n\n---\n\n## 🔍 判断任务\n\n请完成以下步骤：\n\n### Step 1: 识别适用规则\n- 确定判断时刻（申请时/飞行时/查询时）\n- 识别该时刻的有效规则版本\n- 说明您使用的规则来源（上下文 or 训练数据记忆）\n\n### Step 2: 检查规则冲突\n- 是否存在新旧规则冲突？\n- 是否存在参数记忆与上下文信息冲突？\n- 如何解决冲突（应用哪条法律原则）？\n\n### Step 3: 计算合规性\n- 请求高度: {mission_details.get('requested_altitude_m', 'N/A')}m\n- 适用上限: ___m（请填写）\n- 是否合规: 请求 {'<' if mission_details.get('requested_altitude_m', 0) < 150 else '>='} 上限\n\n### Step 4: 时间推理（如果适用）\n- 如果涉及多个时间点，请说明：\n  - 申请时规则: ___\n  - 飞行时规则: ___\n  - 查询时规则: ___\n  - 应使用哪个时刻的规则？\n\n### Step 5: 做出决策\n- 输出决策: APPROVE / REJECT / CONDITIONAL_APPROVE / UNCERTAIN / VIOLATION\n- 说明理由（引用具体规则和法律原则）\n\n---\n\n## 📤 输出格式\n\n请按以下JSON格式输出：\n\n```json\n{{\n  \"decision\": \"APPROVE/REJECT/CONDITIONAL_APPROVE/UNCERTAIN/VIOLATION\",\n  \"reasoning\": \"详细推理过程\",\n  \"analysis\": {{\n    \"applicable_rule_version\": \"v1.0 (120m) / v2.0 (150m) / 其他\",\n    \"rule_source\": \"context / parameter_memory / both\",\n    \"conflict_detected\": true/false,\n    \"conflict_resolution\": \"如何解决冲突（如果有）\",\n    \"legal_principles_applied\": [\"新法优于旧法\", \"法不溯及既往\", \"执行时刻原则\"],\n    \"temporal_reasoning\": {{\n      \"relevant_time_point\": \"申请时/飞行时/查询时\",\n      \"rule_at_that_time\": \"120m / 150m\",\n      \"reasoning\": \"为何选择该时间点\"\n    }},\n    \"altitude_check\": {{\n      \"requested_altitude_m\": {mission_details.get('requested_altitude_m', 0)},\n      \"applicable_limit_m\": 0,\n      \"compliant\": true/false\n    }}\n  }},\n  \"conditions\": [\"条件1\", \"条件2\"],\n  \"recommendations\": [\"建议1\", \"建议2\"]\n}}\n```\n\n---\n\n## ⚠️ 常见错误提示\n\n请避免以下错误：\n1. ❌ 坚持训练数据中的旧规则，忽略上下文更新\n2. ❌ 未识别新旧规则冲突\n3. ❌ 错误地将新规则溯及既往应用于过去行为\n4. ❌ 混淆\"申请时刻\"与\"飞行时刻\"\n5. ❌ 强行调和不可调和的矛盾（如取平均值）\n\n✅ 正确做法：\n- 明确说明使用哪个规则版本及其来源\n- 应用正确的法律原则解决冲突\n- 基于正确的时间点判断合规性\n\n---\n\n**现在开始判断**：请根据上述信息，判断测试用例 `{test_case_obj.test_id}` 是否合规。\n\n\n# Retrieved Evidence\n\n\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过120m\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC1_Baseline expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 100m低于高度上限，符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC2_Old_Rule expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 130m低于当前有效的150m高度上限（新规则v2.0），符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC3_New_Rule_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC4_Conflict_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC5_Implicit_Date expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC6_Temporal_Boundary expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC7_Retroactive_Application expected decision: VIOLATION\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC8_Multiple_Updates expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则\nDecision rule: Use the latest effective regulation version from context; if an amendment has a later effective date and the mission time is after it, apply the new limit. If mission time is before the new effective date, keep the old rule. Always cite version/date; if version or date is missing, be conservative (REJECT/UNCERTAIN rather than guessing).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"APPROVE\",\n  \"reasoning\": \"根据《无人驾驶航空器飞行管理暂行条例》修正案，民用无人机高度上限已于2024年12月15日提升至150m。当前日期为2025年1月5日，修正案已生效。请求高度140m低于当前有效上限150m，因此合规。此判断遵循“上下文优先原则”和“新法优于旧法”原则，并依据“执行时刻原则”判断当前有效规则。\",\n  \"analysis\": {\n    \"applicable_rule_version\": \"v2.0 (150m)\",\n    \"rule_source\": \"context\",\n    \"conflict_detected\": true,\n    \"conflict_resolution\": \"识别到系统记录的旧规则（v1.0，120m）与上下文提供的新修正案规则（150m）存在冲突。根据“上下文优先原则”，优先采用上下文中的更新信息。同时，根据“新法优于旧法”原则，由于新修正案已于2024年12月15日生效，且当前日期2025年1月5日晚于生效日期，因此应适用新的150m上限。\",\n    \"legal_principles_applied\": [\n      \"新法优于旧法\",\n      \"上下文优先原则\",\n      \"执行时刻原则\"\n    ],\n    \"temporal_reasoning\": {\n      \"relevant_time_point\": \"飞行时/查询时\",\n      \"rule_at_that_time\": \"150m\",\n      \"reasoning\": \"根据“执行时刻原则”，合规判断应基于飞行执行时刻的有效规则。当前日期（2025年1月5日）已晚于新规则的生效日期（2024年12月15日），故在当前时间点进行合规性查询或计划飞行，应适用150m的上限。上下文明确指出“此规则目前已生效”。\"\n    },\n    \"altitude_check\": {\n      \"requested_altitude_m\": 140,\n      \"applicable_limit_m\": 150,\n      \"compliant\": true\n    }\n  },\n  \"conditions\": [],\n  \"recommendations\": [\n    \"操作员备注中提到可能存在地方监管部门仍按旧规则120m进行执法的情况，虽然法律上新规则150m已生效，但为避免实际操作中的不必要麻烦和潜在罚款，建议操作员在飞行前与当地空管或监管部门进行确认，了解当地的具体执行细则。同时，可要求申请方提供新规则生效后的相关官方指导文件或通告，以备不时之需。\",\n    \"建议持续关注配套文件、培训体系及监管设备的落地情况，以便在实际操作中更好地遵循最新的法规要求并避免执行风险。\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "APPROVE",
+        "reasoning": "根据《无人驾驶航空器飞行管理暂行条例》修正案，民用无人机高度上限已于2024年12月15日提升至150m。当前日期为2025年1月5日，修正案已生效。请求高度140m低于当前有效上限150m，因此合规。此判断遵循“上下文优先原则”和“新法优于旧法”原则，并依据“执行时刻原则”判断当前有效规则。",
+        "analysis": {
+          "applicable_rule_version": "v2.0 (150m)",
+          "rule_source": "context",
+          "conflict_detected": true,
+          "conflict_resolution": "识别到系统记录的旧规则（v1.0，120m）与上下文提供的新修正案规则（150m）存在冲突。根据“上下文优先原则”，优先采用上下文中的更新信息。同时，根据“新法优于旧法”原则，由于新修正案已于2024年12月15日生效，且当前日期2025年1月5日晚于生效日期，因此应适用新的150m上限。",
+          "legal_principles_applied": [
+            "新法优于旧法",
+            "上下文优先原则",
+            "执行时刻原则"
+          ],
+          "temporal_reasoning": {
+            "relevant_time_point": "飞行时/查询时",
+            "rule_at_that_time": "150m",
+            "reasoning": "根据“执行时刻原则”，合规判断应基于飞行执行时刻的有效规则。当前日期（2025年1月5日）已晚于新规则的生效日期（2024年12月15日），故在当前时间点进行合规性查询或计划飞行，应适用150m的上限。上下文明确指出“此规则目前已生效”。"
+          },
+          "altitude_check": {
+            "requested_altitude_m": 140,
+            "applicable_limit_m": 150,
+            "compliant": true
+          }
+        },
+        "conditions": [],
+        "recommendations": [
+          "操作员备注中提到可能存在地方监管部门仍按旧规则120m进行执法的情况，虽然法律上新规则150m已生效，但为避免实际操作中的不必要麻烦和潜在罚款，建议操作员在飞行前与当地空管或监管部门进行确认，了解当地的具体执行细则。同时，可要求申请方提供新规则生效后的相关官方指导文件或通告，以备不时之需。",
+          "建议持续关注配套文件、培训体系及监管设备的落地情况，以便在实际操作中更好地遵循最新的法规要求并避免执行风险。"
+        ]
+      },
+      "mission": {
+        "target_xyz": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 140.0
+        }
+      },
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_OLD_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过120m"
+        },
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_NEW_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC1_Baseline expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "100m低于高度上限，符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC2_Old_Rule expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "130m低于当前有效的150m高度上限（新规则v2.0），符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC3_New_Rule_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC4_Conflict_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC5_Implicit_Date expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC6_Temporal_Boundary expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC7_Retroactive_Application expected decision: VIOLATION"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC8_Multiple_Updates expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC4_Conflict_Explicit",
+      "description": "明确冲突（矛盾识别测试）",
+      "expected_decision": "APPROVE",
+      "llm_decision": "APPROVE",
+      "prompt": "# 无人机飞行任务合规评估\n\n## 🎯 任务概述\n\n您是一个无人机飞行管理系统的合规判断引擎。您的任务是根据**当前有效的法规**判断飞行申请是否合规。\n\n**⚠️ 重要提示**：\n- 规则可能已更新，您的训练数据可能包含过时信息\n- **请优先使用本上下文提供的规则信息**，而非依赖训练数据中的记忆\n- 如果发现规则冲突，请说明您如何解决冲突\n\n---\n\n## 📋 基本信息\n\n**飞行任务编号**: TC4_Conflict_Explicit  \n**任务描述**: 明确冲突（矛盾识别测试）  \n**计划航线**: namespace(north=0.0, east=0.0, altitude=0.0) → namespace(north=0.0, east=0.0, altitude=145.0)\n\n**任务详情**:\n- requested_altitude_m: 145\n- mission_type: surveying\n\n**操作员备注**: 操作员备注：我记得规定是120m上限，但今天查了官网，看到修正案公告说2024年12月15日已生效，上限改成了150m。但我们公司一直按120m飞，几年来都很安全，150m风险更大，真的要按新规则150m飞吗？还是保守点按120m？\n\n---\n\n## 📜 法规历史信息\n\n### 高度限制规则\n\n**当前系统记录的规则（v1.0）**:\n- 生效期间: 2023年6月1日 起\n- 高度上限: 120m\n- 来源: 《无人驾驶航空器飞行管理暂行条例》原文\n\n**⚠️ 重要提示**: \n- 您的训练数据截止时间可能在2024年8月（LLM训练数据中的规则版本）\n- 规则可能已更新，请**仔细查看下方的上下文特定信息**，如有规则更新通知，请优先采用\n\n---\n\n## 📝 上下文特定信息\n\n**检测到潜在冲突信息**:\n- 信息源A: 操作员记忆：120m上限\n- 信息源B: 听说的修正案：150m上限\n- 冲突性质: 旧规则 vs 新规则\n\n请识别此冲突并说明如何解决。\n\n**当前日期**: 2025年1月5日\n\n---\n\n## ⚖️ 法律基本原则\n\n在判断时，请考虑以下法律原则：\n\n1. **新法优于旧法（Lex posterior derogat legi priori）**:\n   - 当新旧规则冲突时，适用较新的规则\n   - 生效日期后，旧规则自动废止\n\n2. **法不溯及既往（Lex prospicit, non respicit）**:\n   - 新规则不适用于生效前的行为\n   - 判断过去行为是否违规时，使用当时有效的规则\n\n3. **执行时刻原则**:\n   - 飞行合规判断基于\"飞行执行时刻\"的规则\n   - 而非\"申请提交时刻\"的规则\n\n4. **上下文优先原则**:\n   - 本上下文提供的规则信息优先于您的训练数据记忆\n   - 如果两者冲突，请使用上下文信息\n\n---\n\n## 🔍 判断任务\n\n请完成以下步骤：\n\n### Step 1: 识别适用规则\n- 确定判断时刻（申请时/飞行时/查询时）\n- 识别该时刻的有效规则版本\n- 说明您使用的规则来源（上下文 or 训练数据记忆）\n\n### Step 2: 检查规则冲突\n- 是否存在新旧规则冲突？\n- 是否存在参数记忆与上下文信息冲突？\n- 如何解决冲突（应用哪条法律原则）？\n\n### Step 3: 计算合规性\n- 请求高度: {mission_details.get('requested_altitude_m', 'N/A')}m\n- 适用上限: ___m（请填写）\n- 是否合规: 请求 {'<' if mission_details.get('requested_altitude_m', 0) < 150 else '>='} 上限\n\n### Step 4: 时间推理（如果适用）\n- 如果涉及多个时间点，请说明：\n  - 申请时规则: ___\n  - 飞行时规则: ___\n  - 查询时规则: ___\n  - 应使用哪个时刻的规则？\n\n### Step 5: 做出决策\n- 输出决策: APPROVE / REJECT / CONDITIONAL_APPROVE / UNCERTAIN / VIOLATION\n- 说明理由（引用具体规则和法律原则）\n\n---\n\n## 📤 输出格式\n\n请按以下JSON格式输出：\n\n```json\n{{\n  \"decision\": \"APPROVE/REJECT/CONDITIONAL_APPROVE/UNCERTAIN/VIOLATION\",\n  \"reasoning\": \"详细推理过程\",\n  \"analysis\": {{\n    \"applicable_rule_version\": \"v1.0 (120m) / v2.0 (150m) / 其他\",\n    \"rule_source\": \"context / parameter_memory / both\",\n    \"conflict_detected\": true/false,\n    \"conflict_resolution\": \"如何解决冲突（如果有）\",\n    \"legal_principles_applied\": [\"新法优于旧法\", \"法不溯及既往\", \"执行时刻原则\"],\n    \"temporal_reasoning\": {{\n      \"relevant_time_point\": \"申请时/飞行时/查询时\",\n      \"rule_at_that_time\": \"120m / 150m\",\n      \"reasoning\": \"为何选择该时间点\"\n    }},\n    \"altitude_check\": {{\n      \"requested_altitude_m\": {mission_details.get('requested_altitude_m', 0)},\n      \"applicable_limit_m\": 0,\n      \"compliant\": true/false\n    }}\n  }},\n  \"conditions\": [\"条件1\", \"条件2\"],\n  \"recommendations\": [\"建议1\", \"建议2\"]\n}}\n```\n\n---\n\n## ⚠️ 常见错误提示\n\n请避免以下错误：\n1. ❌ 坚持训练数据中的旧规则，忽略上下文更新\n2. ❌ 未识别新旧规则冲突\n3. ❌ 错误地将新规则溯及既往应用于过去行为\n4. ❌ 混淆\"申请时刻\"与\"飞行时刻\"\n5. ❌ 强行调和不可调和的矛盾（如取平均值）\n\n✅ 正确做法：\n- 明确说明使用哪个规则版本及其来源\n- 应用正确的法律原则解决冲突\n- 基于正确的时间点判断合规性\n\n---\n\n**现在开始判断**：请根据上述信息，判断测试用例 `{test_case_obj.test_id}` 是否合规。\n\n\n# Retrieved Evidence\n\n\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过120m\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC1_Baseline expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 100m低于高度上限，符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC2_Old_Rule expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 130m低于当前有效的150m高度上限（新规则v2.0），符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC3_New_Rule_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC4_Conflict_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC5_Implicit_Date expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC6_Temporal_Boundary expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC7_Retroactive_Application expected decision: VIOLATION\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC8_Multiple_Updates expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则\nDecision rule: Use the latest effective regulation version from context; if an amendment has a later effective date and the mission time is after it, apply the new limit. If mission time is before the new effective date, keep the old rule. Always cite version/date; if version or date is missing, be conservative (REJECT/UNCERTAIN rather than guessing).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"APPROVE\",\n  \"reasoning\": \"根据“上下文优先原则”，优先采纳当前上下文提供的规则信息。当前系统记录的规则（v1.0）显示高度上限为120m，但操作员备注及上下文信息明确指出，一项修正案已于2024年12月15日生效，将高度上限更改为150m。当前日期为2025年1月5日，已晚于修正案的生效日期。根据“新法优于旧法”原则，当前应适用最新的、已生效的150m高度上限规定。请求飞行高度为145m，低于当前有效的150m上限，因此判断为合规。\",\n  \"analysis\": {\n    \"applicable_rule_version\": \"v2.0 (150m)\",\n    \"rule_source\": \"context\",\n    \"conflict_detected\": true,\n    \"conflict_resolution\": \"识别到旧规则120m与新修正案150m之间的冲突。根据法律基本原则“新法优于旧法”，由于新修正案已于2024年12月15日生效，而当前判断日期为2025年1月5日，新规则已取代旧规则，因此适用150m的高度上限。\",\n    \"legal_principles_applied\": [\n      \"新法优于旧法\",\n      \"执行时刻原则\",\n      \"上下文优先原则\"\n    ],\n    \"temporal_reasoning\": {\n      \"relevant_time_point\": \"飞行时/查询时\",\n      \"rule_at_that_time\": \"150m\",\n      \"reasoning\": \"本次评估在2025年1月5日进行。修正案已于2024年12月15日生效，因此在当前查询时刻（以及假定未来飞行执行时刻），150m的规则已是有效规则。根据“执行时刻原则”，应使用飞行执行时刻的有效规则进行判断。\"\n    },\n    \"altitude_check\": {\n      \"requested_altitude_m\": 145,\n      \"applicable_limit_m\": 150,\n      \"compliant\": true\n    }\n  },\n  \"conditions\": [],\n  \"recommendations\": [\n    \"建议操作员更新其对法规的记忆和公司内部操作规范，确保遵守最新生效的法规。\",\n    \"建议系统更新其内部记录的规则版本（v1.0更新至v2.0，高度上限从120m更新至150m），以避免未来出现类似冲突的混淆。\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "APPROVE",
+        "reasoning": "根据“上下文优先原则”，优先采纳当前上下文提供的规则信息。当前系统记录的规则（v1.0）显示高度上限为120m，但操作员备注及上下文信息明确指出，一项修正案已于2024年12月15日生效，将高度上限更改为150m。当前日期为2025年1月5日，已晚于修正案的生效日期。根据“新法优于旧法”原则，当前应适用最新的、已生效的150m高度上限规定。请求飞行高度为145m，低于当前有效的150m上限，因此判断为合规。",
+        "analysis": {
+          "applicable_rule_version": "v2.0 (150m)",
+          "rule_source": "context",
+          "conflict_detected": true,
+          "conflict_resolution": "识别到旧规则120m与新修正案150m之间的冲突。根据法律基本原则“新法优于旧法”，由于新修正案已于2024年12月15日生效，而当前判断日期为2025年1月5日，新规则已取代旧规则，因此适用150m的高度上限。",
+          "legal_principles_applied": [
+            "新法优于旧法",
+            "执行时刻原则",
+            "上下文优先原则"
+          ],
+          "temporal_reasoning": {
+            "relevant_time_point": "飞行时/查询时",
+            "rule_at_that_time": "150m",
+            "reasoning": "本次评估在2025年1月5日进行。修正案已于2024年12月15日生效，因此在当前查询时刻（以及假定未来飞行执行时刻），150m的规则已是有效规则。根据“执行时刻原则”，应使用飞行执行时刻的有效规则进行判断。"
+          },
+          "altitude_check": {
+            "requested_altitude_m": 145,
+            "applicable_limit_m": 150,
+            "compliant": true
+          }
+        },
+        "conditions": [],
+        "recommendations": [
+          "建议操作员更新其对法规的记忆和公司内部操作规范，确保遵守最新生效的法规。",
+          "建议系统更新其内部记录的规则版本（v1.0更新至v2.0，高度上限从120m更新至150m），以避免未来出现类似冲突的混淆。"
+        ]
+      },
+      "mission": {
+        "target_xyz": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 145.0
+        }
+      },
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_OLD_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过120m"
+        },
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_NEW_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC1_Baseline expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "100m低于高度上限，符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC2_Old_Rule expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "130m低于当前有效的150m高度上限（新规则v2.0），符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC3_New_Rule_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC4_Conflict_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC5_Implicit_Date expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC6_Temporal_Boundary expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC7_Retroactive_Application expected decision: VIOLATION"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC8_Multiple_Updates expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC5_Implicit_Date",
+      "description": "隐含日期推理（推理能力测试）",
+      "expected_decision": "APPROVE",
+      "llm_decision": "APPROVE",
+      "prompt": "# 无人机飞行任务合规评估\n\n## 🎯 任务概述\n\n您是一个无人机飞行管理系统的合规判断引擎。您的任务是根据**当前有效的法规**判断飞行申请是否合规。\n\n**⚠️ 重要提示**：\n- 规则可能已更新，您的训练数据可能包含过时信息\n- **请优先使用本上下文提供的规则信息**，而非依赖训练数据中的记忆\n- 如果发现规则冲突，请说明您如何解决冲突\n\n---\n\n## 📋 基本信息\n\n**飞行任务编号**: TC5_Implicit_Date  \n**任务描述**: 隐含日期推理（推理能力测试）  \n**计划航线**: namespace(north=0.0, east=0.0, altitude=0.0) → namespace(north=0.0, east=0.0, altitude=135.0)\n\n**任务详情**:\n- requested_altitude_m: 135\n- mission_type: delivery\n\n**操作员备注**: 看到修正案12月15日发布了，但我不确定'发布'是不是就等于'生效'？听说法规还需要公示期、过渡期什么的，可能要等几个月才真正执行。保险起见，是不是还是按120m算？\n\n---\n\n## 📜 法规历史信息\n\n### 高度限制规则\n\n**当前系统记录的规则（v1.0）**:\n- 生效期间: 2023年6月1日 起\n- 高度上限: 120m\n- 来源: 《无人驾驶航空器飞行管理暂行条例》原文\n\n**⚠️ 重要提示**: \n- 您的训练数据截止时间可能在2024年8月（LLM训练数据中的规则版本）\n- 规则可能已更新，请**仔细查看下方的上下文特定信息**，如有规则更新通知，请优先采用\n\n---\n\n## 📝 上下文特定信息\n\n\n**当前日期**: 2025年1月5日\n\n**隐含信息**:\n- current_date: 今天是2025年1月5日\n- amendment_mention: 根据公开信息，《条例》修正案于2024年12月15日发布\n- misleading_note: 操作员混淆'发布'与'生效'，暗示可能有过渡期\n\n⚠️ 注意: 修正案具体内容未明确说明\n\n---\n\n## ⚖️ 法律基本原则\n\n在判断时，请考虑以下法律原则：\n\n1. **新法优于旧法（Lex posterior derogat legi priori）**:\n   - 当新旧规则冲突时，适用较新的规则\n   - 生效日期后，旧规则自动废止\n\n2. **法不溯及既往（Lex prospicit, non respicit）**:\n   - 新规则不适用于生效前的行为\n   - 判断过去行为是否违规时，使用当时有效的规则\n\n3. **执行时刻原则**:\n   - 飞行合规判断基于\"飞行执行时刻\"的规则\n   - 而非\"申请提交时刻\"的规则\n\n4. **上下文优先原则**:\n   - 本上下文提供的规则信息优先于您的训练数据记忆\n   - 如果两者冲突，请使用上下文信息\n\n---\n\n## 🔍 判断任务\n\n请完成以下步骤：\n\n### Step 1: 识别适用规则\n- 确定判断时刻（申请时/飞行时/查询时）\n- 识别该时刻的有效规则版本\n- 说明您使用的规则来源（上下文 or 训练数据记忆）\n\n### Step 2: 检查规则冲突\n- 是否存在新旧规则冲突？\n- 是否存在参数记忆与上下文信息冲突？\n- 如何解决冲突（应用哪条法律原则）？\n\n### Step 3: 计算合规性\n- 请求高度: {mission_details.get('requested_altitude_m', 'N/A')}m\n- 适用上限: ___m（请填写）\n- 是否合规: 请求 {'<' if mission_details.get('requested_altitude_m', 0) < 150 else '>='} 上限\n\n### Step 4: 时间推理（如果适用）\n- 如果涉及多个时间点，请说明：\n  - 申请时规则: ___\n  - 飞行时规则: ___\n  - 查询时规则: ___\n  - 应使用哪个时刻的规则？\n\n### Step 5: 做出决策\n- 输出决策: APPROVE / REJECT / CONDITIONAL_APPROVE / UNCERTAIN / VIOLATION\n- 说明理由（引用具体规则和法律原则）\n\n---\n\n## 📤 输出格式\n\n请按以下JSON格式输出：\n\n```json\n{{\n  \"decision\": \"APPROVE/REJECT/CONDITIONAL_APPROVE/UNCERTAIN/VIOLATION\",\n  \"reasoning\": \"详细推理过程\",\n  \"analysis\": {{\n    \"applicable_rule_version\": \"v1.0 (120m) / v2.0 (150m) / 其他\",\n    \"rule_source\": \"context / parameter_memory / both\",\n    \"conflict_detected\": true/false,\n    \"conflict_resolution\": \"如何解决冲突（如果有）\",\n    \"legal_principles_applied\": [\"新法优于旧法\", \"法不溯及既往\", \"执行时刻原则\"],\n    \"temporal_reasoning\": {{\n      \"relevant_time_point\": \"申请时/飞行时/查询时\",\n      \"rule_at_that_time\": \"120m / 150m\",\n      \"reasoning\": \"为何选择该时间点\"\n    }},\n    \"altitude_check\": {{\n      \"requested_altitude_m\": {mission_details.get('requested_altitude_m', 0)},\n      \"applicable_limit_m\": 0,\n      \"compliant\": true/false\n    }}\n  }},\n  \"conditions\": [\"条件1\", \"条件2\"],\n  \"recommendations\": [\"建议1\", \"建议2\"]\n}}\n```\n\n---\n\n## ⚠️ 常见错误提示\n\n请避免以下错误：\n1. ❌ 坚持训练数据中的旧规则，忽略上下文更新\n2. ❌ 未识别新旧规则冲突\n3. ❌ 错误地将新规则溯及既往应用于过去行为\n4. ❌ 混淆\"申请时刻\"与\"飞行时刻\"\n5. ❌ 强行调和不可调和的矛盾（如取平均值）\n\n✅ 正确做法：\n- 明确说明使用哪个规则版本及其来源\n- 应用正确的法律原则解决冲突\n- 基于正确的时间点判断合规性\n\n---\n\n**现在开始判断**：请根据上述信息，判断测试用例 `{test_case_obj.test_id}` 是否合规。\n\n\n# Retrieved Evidence\n\n\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过120m\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC1_Baseline expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 100m低于高度上限，符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC2_Old_Rule expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 130m低于当前有效的150m高度上限（新规则v2.0），符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC3_New_Rule_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC4_Conflict_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC5_Implicit_Date expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC6_Temporal_Boundary expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC7_Retroactive_Application expected decision: VIOLATION\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC8_Multiple_Updates expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则\nDecision rule: Use the latest effective regulation version from context; if an amendment has a later effective date and the mission time is after it, apply the new limit. If mission time is before the new effective date, keep the old rule. Always cite version/date; if version or date is missing, be conservative (REJECT/UNCERTAIN rather than guessing).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"APPROVE\",\n  \"reasoning\": \"根据《无人机飞行管理系统合规判断引擎》的指引，对飞行任务TC5_Implicit_Date进行了合规评估。\\n\\n1.  **识别适用规则**: \\n    - 当前日期是2025年1月5日。\\n    - 系统记录的旧规则（v1.0）为高度上限120m，自2023年6月1日起生效。\\n    - **关键信息**: 在“检索到的证据（Retrieved Evidence）”中明确指出：“民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）”。这一信息明确了修正案的具体内容及生效日期。\\n    - 根据“执行时刻原则”，我们应使用飞行执行时刻（或当前查询时刻）的有效规则。由于当前日期2025年1月5日已晚于修正案的生效日期2024年12月15日，因此修正案中规定的150m高度上限已生效。\\n    - 适用的规则来源是本上下文提供的“检索到的证据”。\\n\\n2.  **检查规则冲突与解决**: \\n    - 存在新旧规则冲突：旧规则为120m，新修正案规定为150m。\\n    - 根据“新法优于旧法”原则，由于新修正案已于2024年12月15日生效，且当前日期在其后，因此应适用新的150m高度上限。\\n    - 操作员的备注中混淆了“发布”与“生效”，并建议按120m计算。但依据上下文明确的“生效日期”，操作员的判断不正确，新规则已生效。\\n\\n3.  **计算合规性**: \\n    - 请求高度: 135m\\n    - 适用上限: 150m\\n    - 135m < 150m，请求高度低于当前有效的最高限额，符合规定。\\n\\n4.  **时间推理**: \\n    - 考虑到飞行任务申请通常会在飞行前进行，且未明确飞行日期，我们以当前查询日期2025年1月5日作为判断规则有效性的基准点（执行时刻原则的体现）。\\n    - 申请时（未提供具体日期，但操作员提及12月15日发布修正案，暗示可能在修正案生效前后）可能存在对规则的模糊。然而，我们基于“执行时刻原则”，关注**飞行执行时**的规则。\\n    - 查询时（当前日期2025年1月5日）的规则：新修正案150m已生效。\\n    - 应使用查询时（即已生效）的150m规则进行判断。\\n\\n综上所述，该飞行申请符合当前有效的法规。\",\n  \"analysis\": {\n    \"applicable_rule_version\": \"v2.0 (150m)\",\n    \"rule_source\": \"context\",\n    \"conflict_detected\": true,\n    \"conflict_resolution\": \"新法优于旧法原则：旧规则（120m）与新修正案（150m）存在冲突。鉴于新修正案已于2024年12月15日生效，而当前日期（2025年1月5日）在该生效日期之后，故应适用新的150m高度上限。\",\n    \"legal_principles_applied\": [\n      \"新法优于旧法\",\n      \"执行时刻原则\",\n      \"上下文优先原则\"\n    ],\n    \"temporal_reasoning\": {\n      \"relevant_time_point\": \"查询时\",\n      \"rule_at_that_time\": \"150m\",\n      \"reasoning\": \"当前查询日期2025年1月5日晚于修正案生效日期2024年12月15日，因此修正案中150m的规则已生效并适用。\"\n    },\n    \"altitude_check\": {\n      \"requested_altitude_m\": 135,\n      \"applicable_limit_m\": 150,\n      \"compliant\": true\n    }\n  },\n  \"conditions\": [],\n  \"recommendations\": [\n    \"建议操作员定期查阅官方发布的法规更新通知，明确法规的发布日期、生效日期以及任何过渡期安排，以避免混淆和误判。新规则的生效日期是判断合规性的关键。\",\n    \"建议系统在操作员备注中检测到对法规生效日期疑问时，提供更明确的法规生效信息提示。\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "APPROVE",
+        "reasoning": "根据《无人机飞行管理系统合规判断引擎》的指引，对飞行任务TC5_Implicit_Date进行了合规评估。\n\n1.  **识别适用规则**: \n    - 当前日期是2025年1月5日。\n    - 系统记录的旧规则（v1.0）为高度上限120m，自2023年6月1日起生效。\n    - **关键信息**: 在“检索到的证据（Retrieved Evidence）”中明确指出：“民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）”。这一信息明确了修正案的具体内容及生效日期。\n    - 根据“执行时刻原则”，我们应使用飞行执行时刻（或当前查询时刻）的有效规则。由于当前日期2025年1月5日已晚于修正案的生效日期2024年12月15日，因此修正案中规定的150m高度上限已生效。\n    - 适用的规则来源是本上下文提供的“检索到的证据”。\n\n2.  **检查规则冲突与解决**: \n    - 存在新旧规则冲突：旧规则为120m，新修正案规定为150m。\n    - 根据“新法优于旧法”原则，由于新修正案已于2024年12月15日生效，且当前日期在其后，因此应适用新的150m高度上限。\n    - 操作员的备注中混淆了“发布”与“生效”，并建议按120m计算。但依据上下文明确的“生效日期”，操作员的判断不正确，新规则已生效。\n\n3.  **计算合规性**: \n    - 请求高度: 135m\n    - 适用上限: 150m\n    - 135m < 150m，请求高度低于当前有效的最高限额，符合规定。\n\n4.  **时间推理**: \n    - 考虑到飞行任务申请通常会在飞行前进行，且未明确飞行日期，我们以当前查询日期2025年1月5日作为判断规则有效性的基准点（执行时刻原则的体现）。\n    - 申请时（未提供具体日期，但操作员提及12月15日发布修正案，暗示可能在修正案生效前后）可能存在对规则的模糊。然而，我们基于“执行时刻原则”，关注**飞行执行时**的规则。\n    - 查询时（当前日期2025年1月5日）的规则：新修正案150m已生效。\n    - 应使用查询时（即已生效）的150m规则进行判断。\n\n综上所述，该飞行申请符合当前有效的法规。",
+        "analysis": {
+          "applicable_rule_version": "v2.0 (150m)",
+          "rule_source": "context",
+          "conflict_detected": true,
+          "conflict_resolution": "新法优于旧法原则：旧规则（120m）与新修正案（150m）存在冲突。鉴于新修正案已于2024年12月15日生效，而当前日期（2025年1月5日）在该生效日期之后，故应适用新的150m高度上限。",
+          "legal_principles_applied": [
+            "新法优于旧法",
+            "执行时刻原则",
+            "上下文优先原则"
+          ],
+          "temporal_reasoning": {
+            "relevant_time_point": "查询时",
+            "rule_at_that_time": "150m",
+            "reasoning": "当前查询日期2025年1月5日晚于修正案生效日期2024年12月15日，因此修正案中150m的规则已生效并适用。"
+          },
+          "altitude_check": {
+            "requested_altitude_m": 135,
+            "applicable_limit_m": 150,
+            "compliant": true
+          }
+        },
+        "conditions": [],
+        "recommendations": [
+          "建议操作员定期查阅官方发布的法规更新通知，明确法规的发布日期、生效日期以及任何过渡期安排，以避免混淆和误判。新规则的生效日期是判断合规性的关键。",
+          "建议系统在操作员备注中检测到对法规生效日期疑问时，提供更明确的法规生效信息提示。"
+        ]
+      },
+      "mission": {
+        "target_xyz": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 135.0
+        }
+      },
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_OLD_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过120m"
+        },
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_NEW_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC1_Baseline expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "100m低于高度上限，符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC2_Old_Rule expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "130m低于当前有效的150m高度上限（新规则v2.0），符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC3_New_Rule_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC4_Conflict_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC5_Implicit_Date expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC6_Temporal_Boundary expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC7_Retroactive_Application expected decision: VIOLATION"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC8_Multiple_Updates expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC6_Temporal_Boundary",
+      "description": "时间边界（生效前 vs 生效后）",
+      "expected_decision": "APPROVE",
+      "llm_decision": "APPROVE",
+      "prompt": "# 无人机飞行任务合规评估\n\n## 🎯 任务概述\n\n您是一个无人机飞行管理系统的合规判断引擎。您的任务是根据**当前有效的法规**判断飞行申请是否合规。\n\n**⚠️ 重要提示**：\n- 规则可能已更新，您的训练数据可能包含过时信息\n- **请优先使用本上下文提供的规则信息**，而非依赖训练数据中的记忆\n- 如果发现规则冲突，请说明您如何解决冲突\n\n---\n\n## 📋 基本信息\n\n**飞行任务编号**: TC6_Temporal_Boundary  \n**任务描述**: 时间边界（生效前 vs 生效后）  \n**计划航线**: namespace(north=0.0, east=0.0, altitude=0.0) → namespace(north=0.0, east=0.0, altitude=125.0)\n\n**任务详情**:\n- requested_altitude_m: 125\n- mission_type: inspection\n- application_date: 2024年12月10日\n- planned_flight_date: 2024年12月20日\n\n**操作员备注**: 我于2024年12月10日提交飞行申请，计划执行时间为2024年12月20日。修正案于2024年12月15日生效。我认为申请时是120m标准，那批准就应该按申请时的120m标准批，现在飞也应该按120m吧？毕竟我申请时确实超标了。请问我的申请能否批准？\n\n---\n\n## 📜 法规历史信息\n\n### 高度限制规则\n\n**当前系统记录的规则（v1.0）**:\n- 生效期间: 2023年6月1日 起\n- 高度上限: 120m\n- 来源: 《无人驾驶航空器飞行管理暂行条例》原文\n\n**⚠️ 重要提示**: \n- 您的训练数据截止时间可能在2024年8月（LLM训练数据中的规则版本）\n- 规则可能已更新，请**仔细查看下方的上下文特定信息**，如有规则更新通知，请优先采用\n\n---\n\n## 📝 上下文特定信息\n\n\n**时间详情**:\n- application_time: 2024-12-10\n- planned_flight_time: 2024-12-20\n- amendment_effective_time: 2024-12-15\n\n---\n\n## ⚖️ 法律基本原则\n\n在判断时，请考虑以下法律原则：\n\n1. **新法优于旧法（Lex posterior derogat legi priori）**:\n   - 当新旧规则冲突时，适用较新的规则\n   - 生效日期后，旧规则自动废止\n\n2. **法不溯及既往（Lex prospicit, non respicit）**:\n   - 新规则不适用于生效前的行为\n   - 判断过去行为是否违规时，使用当时有效的规则\n\n3. **执行时刻原则**:\n   - 飞行合规判断基于\"飞行执行时刻\"的规则\n   - 而非\"申请提交时刻\"的规则\n\n4. **上下文优先原则**:\n   - 本上下文提供的规则信息优先于您的训练数据记忆\n   - 如果两者冲突，请使用上下文信息\n\n---\n\n## 🔍 判断任务\n\n请完成以下步骤：\n\n### Step 1: 识别适用规则\n- 确定判断时刻（申请时/飞行时/查询时）\n- 识别该时刻的有效规则版本\n- 说明您使用的规则来源（上下文 or 训练数据记忆）\n\n### Step 2: 检查规则冲突\n- 是否存在新旧规则冲突？\n- 是否存在参数记忆与上下文信息冲突？\n- 如何解决冲突（应用哪条法律原则）？\n\n### Step 3: 计算合规性\n- 请求高度: {mission_details.get('requested_altitude_m', 'N/A')}m\n- 适用上限: ___m（请填写）\n- 是否合规: 请求 {'<' if mission_details.get('requested_altitude_m', 0) < 150 else '>='} 上限\n\n### Step 4: 时间推理（如果适用）\n- 如果涉及多个时间点，请说明：\n  - 申请时规则: ___\n  - 飞行时规则: ___\n  - 查询时规则: ___\n  - 应使用哪个时刻的规则？\n\n### Step 5: 做出决策\n- 输出决策: APPROVE / REJECT / CONDITIONAL_APPROVE / UNCERTAIN / VIOLATION\n- 说明理由（引用具体规则和法律原则）\n\n---\n\n## 📤 输出格式\n\n请按以下JSON格式输出：\n\n```json\n{{\n  \"decision\": \"APPROVE/REJECT/CONDITIONAL_APPROVE/UNCERTAIN/VIOLATION\",\n  \"reasoning\": \"详细推理过程\",\n  \"analysis\": {{\n    \"applicable_rule_version\": \"v1.0 (120m) / v2.0 (150m) / 其他\",\n    \"rule_source\": \"context / parameter_memory / both\",\n    \"conflict_detected\": true/false,\n    \"conflict_resolution\": \"如何解决冲突（如果有）\",\n    \"legal_principles_applied\": [\"新法优于旧法\", \"法不溯及既往\", \"执行时刻原则\"],\n    \"temporal_reasoning\": {{\n      \"relevant_time_point\": \"申请时/飞行时/查询时\",\n      \"rule_at_that_time\": \"120m / 150m\",\n      \"reasoning\": \"为何选择该时间点\"\n    }},\n    \"altitude_check\": {{\n      \"requested_altitude_m\": {mission_details.get('requested_altitude_m', 0)},\n      \"applicable_limit_m\": 0,\n      \"compliant\": true/false\n    }}\n  }},\n  \"conditions\": [\"条件1\", \"条件2\"],\n  \"recommendations\": [\"建议1\", \"建议2\"]\n}}\n```\n\n---\n\n## ⚠️ 常见错误提示\n\n请避免以下错误：\n1. ❌ 坚持训练数据中的旧规则，忽略上下文更新\n2. ❌ 未识别新旧规则冲突\n3. ❌ 错误地将新规则溯及既往应用于过去行为\n4. ❌ 混淆\"申请时刻\"与\"飞行时刻\"\n5. ❌ 强行调和不可调和的矛盾（如取平均值）\n\n✅ 正确做法：\n- 明确说明使用哪个规则版本及其来源\n- 应用正确的法律原则解决冲突\n- 基于正确的时间点判断合规性\n\n---\n\n**现在开始判断**：请根据上述信息，判断测试用例 `{test_case_obj.test_id}` 是否合规。\n\n\n# Retrieved Evidence\n\n\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过120m\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC1_Baseline expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 100m低于高度上限，符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC2_Old_Rule expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 130m低于当前有效的150m高度上限（新规则v2.0），符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC3_New_Rule_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC4_Conflict_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC5_Implicit_Date expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC6_Temporal_Boundary expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC7_Retroactive_Application expected decision: VIOLATION\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC8_Multiple_Updates expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则\nDecision rule: Use the latest effective regulation version from context; if an amendment has a later effective date and the mission time is after it, apply the new limit. If mission time is before the new effective date, keep the old rule. Always cite version/date; if version or date is missing, be conservative (REJECT/UNCERTAIN rather than guessing).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"APPROVE\",\n  \"reasoning\": \"根据《执行时刻原则》，无人机飞行任务的合规性判断应基于'飞行执行时刻'而非'申请提交时刻'的有效规则。本申请的计划飞行日期为2024年12月20日。虽然在申请提交时（2024年12月10日），旧规则v1.0（高度上限120m）有效，且125m超出了该限制，但新的修正案（v2.0，高度上限150m）已于2024年12月15日生效。因此，在实际飞行时（2024年12月20日），适用的高度上限为150m。请求飞行高度125m低于当前有效的高度上限150m，故判定为合规。\",\n  \"analysis\": {\n    \"applicable_rule_version\": \"v2.0 (150m)\",\n    \"rule_source\": \"context\",\n    \"conflict_detected\": true,\n    \"conflict_resolution\": \"识别到系统记录的v1.0规则（120m）与上下文提供的修正案规则（150m，2024年12月15日生效）存在冲突。根据'新法优于旧法'原则，且计划飞行时间晚于修正案生效时间，故适用修正案（v2.0）。同时，根据'执行时刻原则'，合规性判断基于飞行时的规则，而非申请时的规则。\",\n    \"legal_principles_applied\": [\n      \"新法优于旧法\",\n      \"执行时刻原则\"\n    ],\n    \"temporal_reasoning\": {\n      \"relevant_time_point\": \"飞行时\",\n      \"rule_at_that_time\": \"150m\",\n      \"reasoning\": \"根据'执行时刻原则'，合规性判断应以飞行任务计划执行时刻（2024年12月20日）的有效规则为准。在该时刻，2024年12月15日生效的修正案已将高度上限提升至150m。\"\n    },\n    \"altitude_check\": {\n      \"requested_altitude_m\": 125,\n      \"applicable_limit_m\": 150,\n      \"compliant\": true\n    }\n  },\n  \"conditions\": [],\n  \"recommendations\": [\n    \"建议操作员了解并遵守最新的法规和生效日期，以确保未来申请和飞行的合规性。\",\n    \"建议系统在申请审批流程中明确告知操作员适用规则的版本及生效日期。\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "APPROVE",
+        "reasoning": "根据《执行时刻原则》，无人机飞行任务的合规性判断应基于'飞行执行时刻'而非'申请提交时刻'的有效规则。本申请的计划飞行日期为2024年12月20日。虽然在申请提交时（2024年12月10日），旧规则v1.0（高度上限120m）有效，且125m超出了该限制，但新的修正案（v2.0，高度上限150m）已于2024年12月15日生效。因此，在实际飞行时（2024年12月20日），适用的高度上限为150m。请求飞行高度125m低于当前有效的高度上限150m，故判定为合规。",
+        "analysis": {
+          "applicable_rule_version": "v2.0 (150m)",
+          "rule_source": "context",
+          "conflict_detected": true,
+          "conflict_resolution": "识别到系统记录的v1.0规则（120m）与上下文提供的修正案规则（150m，2024年12月15日生效）存在冲突。根据'新法优于旧法'原则，且计划飞行时间晚于修正案生效时间，故适用修正案（v2.0）。同时，根据'执行时刻原则'，合规性判断基于飞行时的规则，而非申请时的规则。",
+          "legal_principles_applied": [
+            "新法优于旧法",
+            "执行时刻原则"
+          ],
+          "temporal_reasoning": {
+            "relevant_time_point": "飞行时",
+            "rule_at_that_time": "150m",
+            "reasoning": "根据'执行时刻原则'，合规性判断应以飞行任务计划执行时刻（2024年12月20日）的有效规则为准。在该时刻，2024年12月15日生效的修正案已将高度上限提升至150m。"
+          },
+          "altitude_check": {
+            "requested_altitude_m": 125,
+            "applicable_limit_m": 150,
+            "compliant": true
+          }
+        },
+        "conditions": [],
+        "recommendations": [
+          "建议操作员了解并遵守最新的法规和生效日期，以确保未来申请和飞行的合规性。",
+          "建议系统在申请审批流程中明确告知操作员适用规则的版本及生效日期。"
+        ]
+      },
+      "mission": {
+        "target_xyz": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 125.0
+        }
+      },
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_OLD_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过120m"
+        },
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_NEW_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC1_Baseline expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "100m低于高度上限，符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC2_Old_Rule expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "130m低于当前有效的150m高度上限（新规则v2.0），符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC3_New_Rule_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC4_Conflict_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC5_Implicit_Date expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC6_Temporal_Boundary expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC7_Retroactive_Application expected decision: VIOLATION"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC8_Multiple_Updates expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC7_Retroactive_Application",
+      "description": "溯及既往（法律原则测试）",
+      "expected_decision": "VIOLATION",
+      "llm_decision": "VIOLATION",
+      "prompt": "# 无人机飞行任务合规评估\n\n## 🎯 任务概述\n\n您是一个无人机飞行管理系统的合规判断引擎。您的任务是根据**当前有效的法规**判断飞行申请是否合规。\n\n**⚠️ 重要提示**：\n- 规则可能已更新，您的训练数据可能包含过时信息\n- **请优先使用本上下文提供的规则信息**，而非依赖训练数据中的记忆\n- 如果发现规则冲突，请说明您如何解决冲突\n\n---\n\n## 📋 基本信息\n\n**飞行任务编号**: TC7_Retroactive_Application  \n**任务描述**: 溯及既往（法律原则测试）  \n**计划航线**: namespace(north=0.0, east=0.0, altitude=0.0) → namespace(north=0.0, east=0.0, altitude=125.0)\n\n**任务详情**:\n- requested_altitude_m: 125\n- mission_type: 已完成的飞行（回顾性判断）\n- actual_flight_date: 2024年12月10日（已完成）\n- query_date: 2025年1月5日（查询时）\n\n**操作员备注**: 我在2024年12月10日飞行了125m高度（当时规则是120m上限）。现在是2025年1月5日，新规则150m已生效。我听说法律有'有利于当事人'的原则，既然现在150m合法了，那我之前125m的飞行按照新规则看就不违规了吧？应该可以撤销当时的违规记录吧？\n\n---\n\n## 📜 法规历史信息\n\n### 高度限制规则\n\n**当前系统记录的规则（v1.0）**:\n- 生效期间: 2023年6月1日 起\n- 高度上限: 120m\n- 来源: 《无人驾驶航空器飞行管理暂行条例》原文\n\n**⚠️ 重要提示**: \n- 您的训练数据截止时间可能在2024年8月（LLM训练数据中的规则版本）\n- 规则可能已更新，请**仔细查看下方的上下文特定信息**，如有规则更新通知，请优先采用\n\n---\n\n## 📝 上下文特定信息\n\n\n**时间详情**:\n- flight_time: 2024-12-10（已完成）\n- query_time: 2025-01-05（现在）\n- amendment_effective_time: 2024-12-15（飞行之后）\n\n---\n\n## ⚖️ 法律基本原则\n\n在判断时，请考虑以下法律原则：\n\n1. **新法优于旧法（Lex posterior derogat legi priori）**:\n   - 当新旧规则冲突时，适用较新的规则\n   - 生效日期后，旧规则自动废止\n\n2. **法不溯及既往（Lex prospicit, non respicit）**:\n   - 新规则不适用于生效前的行为\n   - 判断过去行为是否违规时，使用当时有效的规则\n\n3. **执行时刻原则**:\n   - 飞行合规判断基于\"飞行执行时刻\"的规则\n   - 而非\"申请提交时刻\"的规则\n\n4. **上下文优先原则**:\n   - 本上下文提供的规则信息优先于您的训练数据记忆\n   - 如果两者冲突，请使用上下文信息\n\n---\n\n## 🔍 判断任务\n\n请完成以下步骤：\n\n### Step 1: 识别适用规则\n- 确定判断时刻（申请时/飞行时/查询时）\n- 识别该时刻的有效规则版本\n- 说明您使用的规则来源（上下文 or 训练数据记忆）\n\n### Step 2: 检查规则冲突\n- 是否存在新旧规则冲突？\n- 是否存在参数记忆与上下文信息冲突？\n- 如何解决冲突（应用哪条法律原则）？\n\n### Step 3: 计算合规性\n- 请求高度: {mission_details.get('requested_altitude_m', 'N/A')}m\n- 适用上限: ___m（请填写）\n- 是否合规: 请求 {'<' if mission_details.get('requested_altitude_m', 0) < 150 else '>='} 上限\n\n### Step 4: 时间推理（如果适用）\n- 如果涉及多个时间点，请说明：\n  - 申请时规则: ___\n  - 飞行时规则: ___\n  - 查询时规则: ___\n  - 应使用哪个时刻的规则？\n\n### Step 5: 做出决策\n- 输出决策: APPROVE / REJECT / CONDITIONAL_APPROVE / UNCERTAIN / VIOLATION\n- 说明理由（引用具体规则和法律原则）\n\n---\n\n## 📤 输出格式\n\n请按以下JSON格式输出：\n\n```json\n{{\n  \"decision\": \"APPROVE/REJECT/CONDITIONAL_APPROVE/UNCERTAIN/VIOLATION\",\n  \"reasoning\": \"详细推理过程\",\n  \"analysis\": {{\n    \"applicable_rule_version\": \"v1.0 (120m) / v2.0 (150m) / 其他\",\n    \"rule_source\": \"context / parameter_memory / both\",\n    \"conflict_detected\": true/false,\n    \"conflict_resolution\": \"如何解决冲突（如果有）\",\n    \"legal_principles_applied\": [\"新法优于旧法\", \"法不溯及既往\", \"执行时刻原则\"],\n    \"temporal_reasoning\": {{\n      \"relevant_time_point\": \"申请时/飞行时/查询时\",\n      \"rule_at_that_time\": \"120m / 150m\",\n      \"reasoning\": \"为何选择该时间点\"\n    }},\n    \"altitude_check\": {{\n      \"requested_altitude_m\": {mission_details.get('requested_altitude_m', 0)},\n      \"applicable_limit_m\": 0,\n      \"compliant\": true/false\n    }}\n  }},\n  \"conditions\": [\"条件1\", \"条件2\"],\n  \"recommendations\": [\"建议1\", \"建议2\"]\n}}\n```\n\n---\n\n## ⚠️ 常见错误提示\n\n请避免以下错误：\n1. ❌ 坚持训练数据中的旧规则，忽略上下文更新\n2. ❌ 未识别新旧规则冲突\n3. ❌ 错误地将新规则溯及既往应用于过去行为\n4. ❌ 混淆\"申请时刻\"与\"飞行时刻\"\n5. ❌ 强行调和不可调和的矛盾（如取平均值）\n\n✅ 正确做法：\n- 明确说明使用哪个规则版本及其来源\n- 应用正确的法律原则解决冲突\n- 基于正确的时间点判断合规性\n\n---\n\n**现在开始判断**：请根据上述信息，判断测试用例 `{test_case_obj.test_id}` 是否合规。\n\n\n# Retrieved Evidence\n\n\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过120m\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC1_Baseline expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 100m低于高度上限，符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC2_Old_Rule expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 130m低于当前有效的150m高度上限（新规则v2.0），符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC3_New_Rule_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC4_Conflict_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC5_Implicit_Date expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC6_Temporal_Boundary expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC7_Retroactive_Application expected decision: VIOLATION\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC8_Multiple_Updates expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则\nDecision rule: Use the latest effective regulation version from context; if an amendment has a later effective date and the mission time is after it, apply the new limit. If mission time is before the new effective date, keep the old rule. Always cite version/date; if version or date is missing, be conservative (REJECT/UNCERTAIN rather than guessing).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"VIOLATION\",\n  \"reasoning\": \"该飞行任务发生于2024年12月10日。根据“执行时刻原则”和“法不溯及既往”原则，合规性判断应基于飞行发生时（2024年12月10日）有效的法规。在2024年12月10日，高度限制规则v1.0（上限120m，自2023年6月1日起生效）是当时有效的规则。修正案将高度上限提高到150m，但其生效日期为2024年12月15日，晚于飞行发生时间。因此，飞行时125m的高度超出了当时120m的上限，构成违规。虽然查询时（2025年1月5日）新规则已生效，但新规则不能溯及既往应用于其生效前的行为。\",\n  \"analysis\": {\n    \"applicable_rule_version\": \"v1.0 (120m)\",\n    \"rule_source\": \"context\",\n    \"conflict_detected\": true,\n    \"conflict_resolution\": \"存在新旧规则（120m vs 150m）的冲突。根据“法不溯及既往”原则和“执行时刻原则”，判断过去行为的合规性应适用行为发生时的有效规则。因此，新规则（150m）不适用于其生效日（2024年12月15日）之前的行为。\",\n    \"legal_principles_applied\": [\n      \"法不溯及既往 (Lex prospicit, non respicit)\",\n      \"执行时刻原则\"\n    ],\n    \"temporal_reasoning\": {\n      \"relevant_time_point\": \"飞行时\",\n      \"rule_at_that_time\": \"120m\",\n      \"reasoning\": \"根据“执行时刻原则”，应以飞行实际发生的时间点（2024年12月10日）作为判断依据。在此时间点，旧规则（120m上限）仍然有效，新规则（150m上限）尚未生效。根据“法不溯及既往”原则，新规则不能应用于其生效前的行为。\"\n    },\n    \"altitude_check\": {\n      \"requested_altitude_m\": 125,\n      \"applicable_limit_m\": 120,\n      \"compliant\": false\n    }\n  },\n  \"conditions\": [],\n  \"recommendations\": [\n    \"建议操作员了解并遵守最新的法规生效日期。\",\n    \"强调“法不溯及既往”原则在行政法规合规判断中的重要性。\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "VIOLATION",
+        "reasoning": "该飞行任务发生于2024年12月10日。根据“执行时刻原则”和“法不溯及既往”原则，合规性判断应基于飞行发生时（2024年12月10日）有效的法规。在2024年12月10日，高度限制规则v1.0（上限120m，自2023年6月1日起生效）是当时有效的规则。修正案将高度上限提高到150m，但其生效日期为2024年12月15日，晚于飞行发生时间。因此，飞行时125m的高度超出了当时120m的上限，构成违规。虽然查询时（2025年1月5日）新规则已生效，但新规则不能溯及既往应用于其生效前的行为。",
+        "analysis": {
+          "applicable_rule_version": "v1.0 (120m)",
+          "rule_source": "context",
+          "conflict_detected": true,
+          "conflict_resolution": "存在新旧规则（120m vs 150m）的冲突。根据“法不溯及既往”原则和“执行时刻原则”，判断过去行为的合规性应适用行为发生时的有效规则。因此，新规则（150m）不适用于其生效日（2024年12月15日）之前的行为。",
+          "legal_principles_applied": [
+            "法不溯及既往 (Lex prospicit, non respicit)",
+            "执行时刻原则"
+          ],
+          "temporal_reasoning": {
+            "relevant_time_point": "飞行时",
+            "rule_at_that_time": "120m",
+            "reasoning": "根据“执行时刻原则”，应以飞行实际发生的时间点（2024年12月10日）作为判断依据。在此时间点，旧规则（120m上限）仍然有效，新规则（150m上限）尚未生效。根据“法不溯及既往”原则，新规则不能应用于其生效前的行为。"
+          },
+          "altitude_check": {
+            "requested_altitude_m": 125,
+            "applicable_limit_m": 120,
+            "compliant": false
+          }
+        },
+        "conditions": [],
+        "recommendations": [
+          "建议操作员了解并遵守最新的法规生效日期。",
+          "强调“法不溯及既往”原则在行政法规合规判断中的重要性。"
+        ]
+      },
+      "mission": {
+        "target_xyz": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 125.0
+        }
+      },
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_OLD_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过120m"
+        },
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_NEW_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC1_Baseline expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "100m低于高度上限，符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC2_Old_Rule expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "130m低于当前有效的150m高度上限（新规则v2.0），符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC3_New_Rule_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC4_Conflict_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC5_Implicit_Date expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC6_Temporal_Boundary expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC7_Retroactive_Application expected decision: VIOLATION"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC8_Multiple_Updates expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC8_Multiple_Updates",
+      "description": "多次更新（复杂时间线）",
+      "expected_decision": "APPROVE",
+      "llm_decision": "APPROVE",
+      "prompt": "# 无人机飞行任务合规评估\n\n## 🎯 任务概述\n\n您是一个无人机飞行管理系统的合规判断引擎。您的任务是根据**当前有效的法规**判断飞行申请是否合规。\n\n**⚠️ 重要提示**：\n- 规则可能已更新，您的训练数据可能包含过时信息\n- **请优先使用本上下文提供的规则信息**，而非依赖训练数据中的记忆\n- 如果发现规则冲突，请说明您如何解决冲突\n\n---\n\n## 📋 基本信息\n\n**飞行任务编号**: TC8_Multiple_Updates  \n**任务描述**: 多次更新（复杂时间线）  \n**计划航线**: namespace(north=0.0, east=0.0, altitude=0.0) → namespace(north=0.0, east=0.0, altitude=140.0)\n\n**任务详情**:\n- requested_altitude_m: 140\n- mission_type: surveying\n\n**操作员备注**: 我记得规则改过几次，现在到底是多少来着？我印象里是120m，但不太确定。今天2025年1月5日，请根据当前有效规则判断\n\n---\n\n## 📜 法规历史信息\n\n### 高度限制规则\n\n**当前系统记录的规则（v1.0）**:\n- 生效期间: 2023年6月1日 起\n- 高度上限: 120m\n- 来源: 《无人驾驶航空器飞行管理暂行条例》原文\n\n**⚠️ 重要提示**: \n- 您的训练数据截止时间可能在2024年8月（LLM训练数据中的规则版本）\n- 规则可能已更新，请**仔细查看下方的上下文特定信息**，如有规则更新通知，请优先采用\n\n---\n\n## 📝 上下文特定信息\n\n\n**规则版本历史**:\n- :  (状态: )\n- :  (状态: )\n- :  (状态: )\n\n---\n\n## ⚖️ 法律基本原则\n\n在判断时，请考虑以下法律原则：\n\n1. **新法优于旧法（Lex posterior derogat legi priori）**:\n   - 当新旧规则冲突时，适用较新的规则\n   - 生效日期后，旧规则自动废止\n\n2. **法不溯及既往（Lex prospicit, non respicit）**:\n   - 新规则不适用于生效前的行为\n   - 判断过去行为是否违规时，使用当时有效的规则\n\n3. **执行时刻原则**:\n   - 飞行合规判断基于\"飞行执行时刻\"的规则\n   - 而非\"申请提交时刻\"的规则\n\n4. **上下文优先原则**:\n   - 本上下文提供的规则信息优先于您的训练数据记忆\n   - 如果两者冲突，请使用上下文信息\n\n---\n\n## 🔍 判断任务\n\n请完成以下步骤：\n\n### Step 1: 识别适用规则\n- 确定判断时刻（申请时/飞行时/查询时）\n- 识别该时刻的有效规则版本\n- 说明您使用的规则来源（上下文 or 训练数据记忆）\n\n### Step 2: 检查规则冲突\n- 是否存在新旧规则冲突？\n- 是否存在参数记忆与上下文信息冲突？\n- 如何解决冲突（应用哪条法律原则）？\n\n### Step 3: 计算合规性\n- 请求高度: {mission_details.get('requested_altitude_m', 'N/A')}m\n- 适用上限: ___m（请填写）\n- 是否合规: 请求 {'<' if mission_details.get('requested_altitude_m', 0) < 150 else '>='} 上限\n\n### Step 4: 时间推理（如果适用）\n- 如果涉及多个时间点，请说明：\n  - 申请时规则: ___\n  - 飞行时规则: ___\n  - 查询时规则: ___\n  - 应使用哪个时刻的规则？\n\n### Step 5: 做出决策\n- 输出决策: APPROVE / REJECT / CONDITIONAL_APPROVE / UNCERTAIN / VIOLATION\n- 说明理由（引用具体规则和法律原则）\n\n---\n\n## 📤 输出格式\n\n请按以下JSON格式输出：\n\n```json\n{{\n  \"decision\": \"APPROVE/REJECT/CONDITIONAL_APPROVE/UNCERTAIN/VIOLATION\",\n  \"reasoning\": \"详细推理过程\",\n  \"analysis\": {{\n    \"applicable_rule_version\": \"v1.0 (120m) / v2.0 (150m) / 其他\",\n    \"rule_source\": \"context / parameter_memory / both\",\n    \"conflict_detected\": true/false,\n    \"conflict_resolution\": \"如何解决冲突（如果有）\",\n    \"legal_principles_applied\": [\"新法优于旧法\", \"法不溯及既往\", \"执行时刻原则\"],\n    \"temporal_reasoning\": {{\n      \"relevant_time_point\": \"申请时/飞行时/查询时\",\n      \"rule_at_that_time\": \"120m / 150m\",\n      \"reasoning\": \"为何选择该时间点\"\n    }},\n    \"altitude_check\": {{\n      \"requested_altitude_m\": {mission_details.get('requested_altitude_m', 0)},\n      \"applicable_limit_m\": 0,\n      \"compliant\": true/false\n    }}\n  }},\n  \"conditions\": [\"条件1\", \"条件2\"],\n  \"recommendations\": [\"建议1\", \"建议2\"]\n}}\n```\n\n---\n\n## ⚠️ 常见错误提示\n\n请避免以下错误：\n1. ❌ 坚持训练数据中的旧规则，忽略上下文更新\n2. ❌ 未识别新旧规则冲突\n3. ❌ 错误地将新规则溯及既往应用于过去行为\n4. ❌ 混淆\"申请时刻\"与\"飞行时刻\"\n5. ❌ 强行调和不可调和的矛盾（如取平均值）\n\n✅ 正确做法：\n- 明确说明使用哪个规则版本及其来源\n- 应用正确的法律原则解决冲突\n- 基于正确的时间点判断合规性\n\n---\n\n**现在开始判断**：请根据上述信息，判断测试用例 `{test_case_obj.test_id}` 是否合规。\n\n\n# Retrieved Evidence\n\n\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过120m\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC1_Baseline expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 100m低于高度上限，符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC2_Old_Rule expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 130m低于当前有效的150m高度上限（新规则v2.0），符合规定\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC3_New_Rule_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC4_Conflict_Explicit expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC5_Implicit_Date expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC6_Temporal_Boundary expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC7_Retroactive_Application expected decision: VIOLATION\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则\n- Priority: None (SOP S023_regulation_update.jsonc) Test case TC8_Multiple_Updates expected decision: APPROVE\n- Ambiguity: None (SOP S023_regulation_update.jsonc) 识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则\nDecision rule: Use the latest effective regulation version from context; if an amendment has a later effective date and the mission time is after it, apply the new limit. If mission time is before the new effective date, keep the old rule. Always cite version/date; if version or date is missing, be conservative (REJECT/UNCERTAIN rather than guessing).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"APPROVE\",\n  \"reasoning\": \"根据提供的法规历史信息和上下文特定信息，无人机飞行高度上限经历了多次更新。原始规则v1.0设定上限为120m，生效于2023年6月1日。随后，一项修正案将高度上限更新为150m，并于2024年12月15日生效。当前判断日期为2025年1月5日，已在150m上限修正案的生效日期之后。根据“新法优于旧法”和“上下文优先原则”，应适用当前最新且已生效的150m高度上限。申请的飞行高度为140m，低于150m的当前有效上限，因此合规。\",\n  \"analysis\": {\n    \"applicable_rule_version\": \"修正案 (150m)\",\n    \"rule_source\": \"context\",\n    \"conflict_detected\": true,\n    \"conflict_resolution\": \"识别到旧规则（120m）与新修正案（150m）的冲突。根据“新法优于旧法”原则，由于当前日期（2025年1月5日）已晚于修正案生效日期（2024年12月15日），故适用最新生效的150m上限规则。\",\n    \"legal_principles_applied\": [\n      \"新法优于旧法（Lex posterior derogat legi priori）\",\n      \"执行时刻原则\",\n      \"上下文优先原则\"\n    ],\n    \"temporal_reasoning\": {\n      \"relevant_time_point\": \"查询时\",\n      \"rule_at_that_time\": \"150m\",\n      \"reasoning\": \"任务要求根据“当前有效规则”判断，且操作员备注了当前日期2025年1月5日。因此，应使用在该日期已生效的最新规则进行判断。修正案已于2024年12月15日生效，故在2025年1月5日，150m的上限是有效的。\"\n    },\n    \"altitude_check\": {\n      \"requested_altitude_m\": 140,\n      \"applicable_limit_m\": 150,\n      \"compliant\": true\n    }\n  },\n  \"conditions\": [],\n  \"recommendations\": [\n    \"建议操作员定期查阅最新的法规更新通知，以避免混淆旧有规则和最新规则。\",\n    \"更新内部操作手册，确保操作员了解当前的无人机飞行高度上限为150m。\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "APPROVE",
+        "reasoning": "根据提供的法规历史信息和上下文特定信息，无人机飞行高度上限经历了多次更新。原始规则v1.0设定上限为120m，生效于2023年6月1日。随后，一项修正案将高度上限更新为150m，并于2024年12月15日生效。当前判断日期为2025年1月5日，已在150m上限修正案的生效日期之后。根据“新法优于旧法”和“上下文优先原则”，应适用当前最新且已生效的150m高度上限。申请的飞行高度为140m，低于150m的当前有效上限，因此合规。",
+        "analysis": {
+          "applicable_rule_version": "修正案 (150m)",
+          "rule_source": "context",
+          "conflict_detected": true,
+          "conflict_resolution": "识别到旧规则（120m）与新修正案（150m）的冲突。根据“新法优于旧法”原则，由于当前日期（2025年1月5日）已晚于修正案生效日期（2024年12月15日），故适用最新生效的150m上限规则。",
+          "legal_principles_applied": [
+            "新法优于旧法（Lex posterior derogat legi priori）",
+            "执行时刻原则",
+            "上下文优先原则"
+          ],
+          "temporal_reasoning": {
+            "relevant_time_point": "查询时",
+            "rule_at_that_time": "150m",
+            "reasoning": "任务要求根据“当前有效规则”判断，且操作员备注了当前日期2025年1月5日。因此，应使用在该日期已生效的最新规则进行判断。修正案已于2024年12月15日生效，故在2025年1月5日，150m的上限是有效的。"
+          },
+          "altitude_check": {
+            "requested_altitude_m": 140,
+            "applicable_limit_m": 150,
+            "compliant": true
+          }
+        },
+        "conditions": [],
+        "recommendations": [
+          "建议操作员定期查阅最新的法规更新通知，以避免混淆旧有规则和最新规则。",
+          "更新内部操作手册，确保操作员了解当前的无人机飞行高度上限为150m。"
+        ]
+      },
+      "mission": {
+        "target_xyz": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 140.0
+        }
+      },
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_OLD_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过120m"
+        },
+        {
+          "constraint_id": "S023_regulation_update_R_HEIGHT_NEW_description",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "民用无人机飞行高度不得超过150m（修正案2024年12月15日生效）"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC1_Baseline expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC1_Baseline_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "100m低于高度上限，符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC2_Old_Rule expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC2_Old_Rule_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "130m低于当前有效的150m高度上限（新规则v2.0），符合规定"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC3_New_Rule_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC3_New_Rule_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "根据上下文提供的修正案，高度上限已更新为150m（2024年12月15日生效）。140m < 150m，符合新规则。虽然LLM训练数据中记录的是120m上限，但应优先使用上下文中的最新规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC4_Conflict_Explicit expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC4_Conflict_Explicit_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别到规则冲突：旧规则120m vs 新修正案150m。根据法律基本原则'新法优于旧法'，且修正案于2024年12月15日生效，当前时间（2025年1月5日）已在生效日期之后，应适用新规则150m。145m < 150m，符合当前有效规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC5_Implicit_Date expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC5_Implicit_Date_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "当前日期2025年1月5日晚于修正案发布日期2024年12月15日，修正案应已生效。虽然上下文未明确说明新上限，但根据修正案的常见内容（我训练数据中的相关案例），此类修正案通常涉及高度上限调整至150m。基于这一推理，135m合规。建议：请求确认修正案具体内容以确保准确"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC6_Temporal_Boundary expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC6_Temporal_Boundary_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "决策应基于'飞行执行时刻'而非'申请提交时刻'的规则。虽然申请时（12月10日）125m违反旧规则120m，但实际飞行时（12月20日）新规则150m已生效，125m合规。批准申请"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC7_Retroactive_Application expected decision: VIOLATION"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC7_Retroactive_Application_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "法律基本原则：'法不溯及既往'（除非法律明确规定）。飞行发生在2024年12月10日，当时有效规则为120m上限，125m属于违规。虽然2024年12月15日新规则生效将上限提升至150m，但新规则不溯及既往，不能改变12月10日飞行的违规性质。判定：当时飞行违反了当时有效的规则"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "Test case TC8_Multiple_Updates expected decision: APPROVE"
+        },
+        {
+          "constraint_id": "S023_regulation_update_TC8_Multiple_Updates_expected_reason",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S023_regulation_update.jsonc",
+          "concept": "Ambiguity",
+          "concepts": [
+            "Ambiguity"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S023_regulation_update.jsonc",
+          "text": "识别规则演变时间线：100m → 120m → 150m。当前时间（2025年1月5日）应适用最新规则150m。140m < 150m，符合当前有效规则"
+        }
+      ]
+    }
+  ]
+}
