@@ -1,7 +1,6 @@
 # S003 Path Crossing Detection – Test Report
 
 **Scenario**: S003_PathCrossingDetection  
-**Test Date**: 2025-10-31  
 **Result**: ✅ **4/4 PASS (100%)**
 
 ---
@@ -84,6 +83,3 @@ Total: ~N/A, 0 trajectory points
 
 ---
 
-**Test Date**: 2025-10-31  
-**Execution Time**: ~12 minutes  
-**Framework**: AirSim-RuleBench v1.0

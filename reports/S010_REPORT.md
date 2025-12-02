@@ -1,7 +1,6 @@
 # S010 Zoned Speed Limit – Test Report
 
 **Scenario**: S010_ZonedSpeedLimit  
-**Test Date**: 2025-10-31  
 **Result**: ✅ **4/4 PASS (100%)**
 
 ---
@@ -84,6 +83,3 @@ Total: ~N/A, 0 trajectory points
 
 ---
 
-**Test Date**: 2025-10-31  
-**Execution Time**: ~12 minutes  
-**Framework**: AirSim-RuleBench v1.0

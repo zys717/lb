@@ -1,7 +1,6 @@
 # S007 Zoned Altitude – Test Report
 
 **Scenario**: S007_ZonedAltitude  
-**Test Date**: 2025-10-31  
 **Result**: ✅ **8/8 PASS (100%)**
 
 ---
@@ -88,6 +87,3 @@ Total: ~N/A, 0 trajectory points
 
 ---
 
-**Test Date**: 2025-10-31  
-**Execution Time**: ~24 minutes  
-**Framework**: AirSim-RuleBench v1.0

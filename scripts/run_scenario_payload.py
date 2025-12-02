@@ -6,7 +6,7 @@ Specialized script for S017 - Payload and Drop Restrictions
 - Pre-flight: Check payload weight limit
 - In-flight: Check drop zone restrictions and authorization
 
-Author: AirSim-RuleBench Team
+Author: LAE-GPT Team
 Date: 2025-10-31
 Version: 1.0
 

@@ -1,7 +1,6 @@
 # S008 Building Proximity – Test Report
 
 **Scenario**: S008_BuildingProximity  
-**Test Date**: 2025-10-31  
 **Result**: ✅ **4/4 PASS (100%)**
 
 ---
@@ -84,6 +83,3 @@ Total: ~N/A, 0 trajectory points
 
 ---
 
-**Test Date**: 2025-10-31  
-**Execution Time**: ~12 minutes  
-**Framework**: AirSim-RuleBench v1.0

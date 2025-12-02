@@ -166,7 +166,7 @@
   "ground_truth_metadata": {
     "version": "1.0",
     "created_date": "2025-10-31",
-    "author": "AirSim-RuleBench Team",
+    "author": "LAE-GPT Team",
     "total_test_cases": 6,
     "expected_pass_rate": "100%",
     "notes": "S016实时障碍物避让场景Ground Truth，重点测试In-flight检测和自动停止"

@@ -1,7 +1,6 @@
 # S012 Time Window Restrictions – Test Report
 
 **Scenario**: S012_TimeWindowRestrictions  
-**Test Date**: 2025-10-31  
 **Result**: ✅ **5/5 PASS (100%)**
 
 ---
@@ -85,6 +84,3 @@ Total: ~N/A, 0 trajectory points
 
 ---
 
-**Test Date**: 2025-10-31  
-**Execution Time**: ~15 minutes  
-**Framework**: AirSim-RuleBench v1.0

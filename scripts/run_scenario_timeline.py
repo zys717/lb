@@ -7,7 +7,7 @@ Specialized script for S020 - Flight Approval Timeline
 - Exemptions: Emergency missions and uncontrolled airspace
 - Pure logic checks, no flight simulation required
 
-Author: AirSim-RuleBench Team
+Author: LAE-GPT Team
 Date: 2025-11-01
 Version: 1.0
 

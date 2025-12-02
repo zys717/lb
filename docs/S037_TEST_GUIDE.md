@@ -21,7 +21,7 @@
 
 ## Run Command
 ```bash
-cd /Users/zhangyunshi/Desktop/实习/airsim/AirSim-RuleBench
+cd /Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT
 python3 scripts/run_scenario_llm_validator.py \
     scenarios/advanced/S037_ImplicitPriority.jsonc \
     --ground-truth ground_truth/S037_violations.json \

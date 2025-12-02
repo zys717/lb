@@ -1,5 +1,5 @@
 {
-  "_comment": "Ground Truth Annotation Template for AirSim-RuleBench",
+  "_comment": "Ground Truth Annotation Template for LAE-GPT",
   "_instructions": "Replace all placeholders (XXXX, values, descriptions) with actual data",
   
   "scenario_id": "SXXX",

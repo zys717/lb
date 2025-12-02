@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Scenario Runner for AirSim-RuleBench
+Scenario Runner for LAE-GPT
 
 This script loads and executes test scenarios in ProjectAirSim, recording drone
 trajectories for violation detection. It implements client-side geofence checking
@@ -1380,7 +1380,7 @@ async def run_scenario_async(
 def main():
     """Command-line interface."""
     parser = argparse.ArgumentParser(
-        description="Run AirSim-RuleBench test scenarios",
+        description="Run LAE-GPT test scenarios",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

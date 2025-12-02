@@ -1,7 +1,6 @@
 # S014 BVLOS Waiver – Test Report
 
 **Scenario**: S014_BVLOSWaiver  
-**Test Date**: 2025-10-31  
 **Result**: ✅ **6/6 PASS (100%)**
 
 ---
@@ -86,6 +85,3 @@ Total: ~N/A, 0 trajectory points
 
 ---
 
-**Test Date**: 2025-10-31  
-**Execution Time**: ~18 minutes  
-**Framework**: AirSim-RuleBench v1.0

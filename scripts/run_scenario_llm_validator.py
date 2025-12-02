@@ -5,7 +5,7 @@ run_scenario_llm_validator.py - LLM Compliance Validator
 Validates LLM's ability to perform UAV compliance checking using specialized prompts.
 Compares LLM decisions against ground truth (rule engines already validated in AirSim tests).
 
-Author: AirSim-RuleBench Team
+Author: LAE-GPT Team
 Date: 2025-10-31
 Version: 3.0 - LLM-Only Validation (Rule engine validation done via AirSim)
 

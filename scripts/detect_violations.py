@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Geofence Violation Detection for AirSim-RuleBench
+Geofence Violation Detection for LAE-GPT
 
 This script analyzes drone trajectory data and detects rule violations based on
 ground truth annotations. It supports geofence (no-fly zone) violation detection

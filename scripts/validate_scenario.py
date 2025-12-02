@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Scenario Configuration Validator for AirSim-RuleBench
+Scenario Configuration Validator for LAE-GPT
 
 This script validates scene configuration files (.jsonc) before running tests.
 It checks for syntax errors, required fields, coordinate validity, and

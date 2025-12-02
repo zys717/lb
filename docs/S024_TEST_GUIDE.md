@@ -17,7 +17,7 @@
 
 ## Run Command
 ```bash
-cd /Users/zhangyunshi/Desktop/实习/airsim/AirSim-RuleBench
+cd /Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT
 python3 scripts/run_scenario_llm_validator.py \
     scenarios/intermediate/S024_conflicting_sources.jsonc \
     --ground-truth ground_truth/S024_violations.json \

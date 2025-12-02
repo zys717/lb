@@ -75,5 +75,5 @@ For complete per-test case analysis including:
 ---
 
 **Report Generated**: 2025-11-13  
-**Framework**: AirSim-RuleBench v1.0  
+**Framework**: LAE-GPT v1.0  
 **Validation Tool**: `scripts/run_scenario_llm_validator.py`

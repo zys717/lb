@@ -77,7 +77,7 @@ See `docs/QUICKSTART.md` for details.
 ## Documents
 
 - `docs/QUICKSTART.md`: fast start for validation.
-- `AirSim_RuleBench_Three_Layer_Architecture.md`: legacy architecture (constraint taxonomy reference).
+- `LAE-GPT_Three_Layer_Architecture.md`: legacy architecture (constraint taxonomy reference).
 - `PROJECT_WORKFLOW_GUIDE.md`: development workflow.
 - `regulations_reference.md`: regulation citations and sources.
 

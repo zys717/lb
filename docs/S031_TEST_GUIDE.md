@@ -21,7 +21,7 @@
 
 ## Run Command
 ```bash
-cd /Users/zhangyunshi/Desktop/实习/airsim/AirSim-RuleBench
+cd /Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT
 python3 scripts/run_scenario_llm_validator.py \
     scenarios/advanced/S031_medical_nested_conditionals.jsonc \
     --ground-truth ground_truth/S031_violations.json \

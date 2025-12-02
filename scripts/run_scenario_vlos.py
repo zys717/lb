@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VLOS and Avoidance Scenario Runner for AirSim-RuleBench (S013-S016)
+VLOS and Avoidance Scenario Runner for LAE-GPT (S013-S016)
 
 This script handles scenarios involving visual line of sight (VLOS) 
 requirements and avoidance rules.
@@ -818,7 +818,7 @@ async def run_scenario_async(
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description="VLOS & Avoidance Scenario Runner for AirSim-RuleBench (S013-S016)"
+        description="VLOS & Avoidance Scenario Runner for LAE-GPT (S013-S016)"
     )
     
     parser.add_argument(

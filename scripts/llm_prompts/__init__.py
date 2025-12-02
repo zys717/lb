@@ -1,5 +1,5 @@
 """
-LLM Prompt Templates for AirSim-RuleBench
+LLM Prompt Templates for LAE-GPT
 
 This module contains specialized prompt builders for different scenario types.
 Each scenario type has its own prompt builder to maintain clarity and modularity.
@@ -20,7 +20,7 @@ Supported Scenario Types:
 - Conflicting Sources (S024): Multi-source contradiction & epistemic humility
 - Dynamic Environment (S032): Dynamic state tracking and temporal reasoning
 
-Author: AirSim-RuleBench Team
+Author: LAE-GPT Team
 Date: 2025-11-02
 Version: 1.3
 """

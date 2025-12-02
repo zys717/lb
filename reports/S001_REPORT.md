@@ -1,7 +1,6 @@
 # S001 Geofence Basic – Test Report 
 
 **Scenario**: S001_GeofenceBasic
-**Test Date**: 2025-10-31
 **Result**: ✅ **8/8 PASS (100%)**
 
 ---
@@ -101,6 +100,3 @@ Total: ~605KB, 3303 trajectory points
 
 ---
 
-**Test Date**: 2025-10-31
-**Execution Time**: ~24 minutes
-**Framework**: AirSim-RuleBench v1.0

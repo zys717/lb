@@ -1,7 +1,6 @@
 # S005 Temporary NFZ – Test Report
 
 **Scenario**: S005_TemporaryNFZ  
-**Test Date**: 2025-10-31  
 **Result**: ✅ **5/5 PASS (100%)**
 
 ---
@@ -85,6 +84,3 @@ Total: ~N/A, 0 trajectory points
 
 ---
 
-**Test Date**: 2025-10-31  
-**Execution Time**: ~15 minutes  
-**Framework**: AirSim-RuleBench v1.0
