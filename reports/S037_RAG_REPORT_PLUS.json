@@ -1,0 +1,1517 @@
+{
+  "scenario": "S037",
+  "summary": {
+    "total_test_cases": 10,
+    "llm_calls": 10,
+    "llm_accuracy": "10/10",
+    "llm_accuracy_percent": "100.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_BirdSanctuaryVsEmergency",
+      "description": "Bird sanctuary NFZ active March-May; date = April 15; medevac to remote clinic needs to cross zone.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC01_BirdSanctuaryVsEmergency\nDescription: Bird sanctuary NFZ active March-May; date = April 15; medevac to remote clinic needs to cross zone.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- Environmental regulation: March-May no flights to protect migrating birds.\n- Mission: perishable medical supplies, 15 minutes to deliver.\n- Flight altitude 80 m to minimize noise, monitoring equipment onboard.\n\n## Reference Notes\n- Describe the approval rationale plus the mitigation plan (altitude guard band, disturbance log, post-mission report) before dispatch.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"priority_rationale\": \"Emergency life safety, involving perishable medical supplies for a remote clinic, is formally prioritized over a seasonal environmental no-flight zone (NFZ) established for migrating bird protection, requiring a documented justification for the override.\",\n  \"reasoning_steps\": [\n    \"The mission is a medevac delivering perishable medical supplies to a remote clinic within a critical 15-minute window, clearly establishing a life-safety emergency.\",\n    \"The flight path crosses an active bird sanctuary NFZ (March-May), designated for environmental protection.\",\n    \"Guiding principles state that emergency life safety generally outweighs seasonal or noise restrictions.\",\n    \"However, the system also notes that NFZ overrides, particularly 'priority inversion (e.g., NFZ overridden by emergency)', require specific explanation rather than automatic approval, aligning with the 'EXPLAIN_ONLY' expected output for this scenario.\",\n    \"Therefore, the decision prioritizes the immediate life-saving imperative but mandates a thorough explanation of this override and stringent mitigation measures.\",\n    \"The intent is to achieve the critical mission while acknowledging and actively minimizing the impact on the protected environmental zone through controlled and documented procedures.\"\n  ],\n  \"mitigations_or_actions\": [\n    \"A formal override justification and approval request must be submitted immediately, detailing the life-safety emergency and critical timeline.\",\n    \"The flight must strictly adhere to the planned 80m altitude to minimize noise and disturbance to wildlife.\",\n    \"An altitude guard band will be implemented and continuously monitored to prevent deviations.\",\n    \"A disturbance log must be actively maintained by the flight crew throughout the mission, documenting any observed impacts or anomalies.\",\n    \"Direct communication with relevant environmental authorities must occur immediately prior to and following the mission to explain the necessity and document compliance with mitigations.\",\n    \"A comprehensive post-mission report detailing the flight path, observed environmental conditions, and adherence to mitigation protocols must be compiled and shared with regulatory bodies.\"\n  ],\n  \"stakeholders\": [\n    \"Emergency Responders/Patients: Direct beneficiaries, their life safety is the primary concern.\",\n    \"Environmental Authorities/Migrating Birds: Directly impacted by the NFZ breach; their concerns are addressed via mitigation and post-mission reporting.\",\n    \"Public/Residents: Potential for noise disturbance; addressed by low altitude and documentation of the exceptional circumstances.\"\n  ],\n  \"violated_policies\": [\n    \"Bird sanctuary NFZ (March-May no flights) – This regulation is temporarily overridden due to the life-safety emergency.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "priority_rationale": "Emergency life safety, involving perishable medical supplies for a remote clinic, is formally prioritized over a seasonal environmental no-flight zone (NFZ) established for migrating bird protection, requiring a documented justification for the override.",
+        "reasoning_steps": [
+          "The mission is a medevac delivering perishable medical supplies to a remote clinic within a critical 15-minute window, clearly establishing a life-safety emergency.",
+          "The flight path crosses an active bird sanctuary NFZ (March-May), designated for environmental protection.",
+          "Guiding principles state that emergency life safety generally outweighs seasonal or noise restrictions.",
+          "However, the system also notes that NFZ overrides, particularly 'priority inversion (e.g., NFZ overridden by emergency)', require specific explanation rather than automatic approval, aligning with the 'EXPLAIN_ONLY' expected output for this scenario.",
+          "Therefore, the decision prioritizes the immediate life-saving imperative but mandates a thorough explanation of this override and stringent mitigation measures.",
+          "The intent is to achieve the critical mission while acknowledging and actively minimizing the impact on the protected environmental zone through controlled and documented procedures."
+        ],
+        "mitigations_or_actions": [
+          "A formal override justification and approval request must be submitted immediately, detailing the life-safety emergency and critical timeline.",
+          "The flight must strictly adhere to the planned 80m altitude to minimize noise and disturbance to wildlife.",
+          "An altitude guard band will be implemented and continuously monitored to prevent deviations.",
+          "A disturbance log must be actively maintained by the flight crew throughout the mission, documenting any observed impacts or anomalies.",
+          "Direct communication with relevant environmental authorities must occur immediately prior to and following the mission to explain the necessity and document compliance with mitigations.",
+          "A comprehensive post-mission report detailing the flight path, observed environmental conditions, and adherence to mitigation protocols must be compiled and shared with regulatory bodies."
+        ],
+        "stakeholders": [
+          "Emergency Responders/Patients: Direct beneficiaries, their life safety is the primary concern.",
+          "Environmental Authorities/Migrating Birds: Directly impacted by the NFZ breach; their concerns are addressed via mitigation and post-mission reporting.",
+          "Public/Residents: Potential for noise disturbance; addressed by low altitude and documentation of the exceptional circumstances."
+        ],
+        "violated_policies": [
+          "Bird sanctuary NFZ (March-May no flights) – This regulation is temporarily overridden due to the life-safety emergency."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC02_NoiseOrdinanceVsFire",
+      "description": "City ordinance bans drones 22:00-06:00; at 02:00 fire department asks for thermal scan of a suspected blaze.",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "llm_decision": "CONDITIONAL_APPROVE",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC02_NoiseOrdinanceVsFire\nDescription: City ordinance bans drones 22:00-06:00; at 02:00 fire department asks for thermal scan of a suspected blaze.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- Noise ordinance intended for routine operations.\n- Thermal scan may locate survivors or hotspots.\n- Fire chief provides written request.\n- Mayor’s office demands a public notification plan after prior complaints when curfew waivers were granted.\n\n## Reference Notes\n- Approve only if operations command notifies residents post-mission and files a curfew waiver log within 12 hours.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"priority_rationale\": \"Emergency life safety and public benefit (locating survivors/hotspots in a suspected blaze) override a routine city noise ordinance intended for non-emergency operations.\",\n  \"reasoning_steps\": [\n    \"Fire department requests emergency thermal scan at 02:00 for a suspected blaze, directly linked to potential life safety and critical incident assessment.\",\n    \"This request conflicts with a city noise ordinance banning drones between 22:00-06:00, which is intended for routine operations.\",\n    \"Guiding principles explicitly state that emergency life safety generally outweighs seasonal or noise restrictions.\",\n    \"The Mayor's office, acknowledging prior complaints, mandates a public notification plan for any curfew waivers.\",\n    \"Reference notes specify approval is contingent upon post-mission resident notification and filing a curfew waiver log within 12 hours.\",\n    \"Based on the paramount importance of life safety and the specified conditions addressing community concerns, conditional approval is warranted.\"\n  ],\n  \"mitigations_or_actions\": [\n    \"Operations command must notify affected residents post-mission, explaining the emergency nature of the drone flight.\",\n    \"Operations command must file a formal curfew waiver log within 12 hours of mission completion.\",\n    \"The Fire Chief's written request will be retained as formal justification for the emergency operation.\"\n  ],\n  \"stakeholders\": [\n    {\n      \"name\": \"Emergency Responders (Fire Department)\",\n      \"addressed_by\": \"Mission approval provides critical assistance for fire assessment and potential rescue.\"\n    },\n    {\n      \"name\": \"Residents\",\n      \"addressed_by\": \"Post-mission notification addresses prior complaints and maintains transparency regarding noise curfew waiver.\"\n    },\n    {\n      \"name\": \"Public Safety\",\n      \"addressed_by\": \"Rapid assessment of the blaze enhances the safety of the community and emergency personnel.\"\n    },\n    {\n      \"name\": \"City Administration (Mayor's Office)\",\n      \"addressed_by\": \"Compliance with the demand for a public notification plan and waiver logging.\"\n    }\n  ],\n  \"violated_policies\": [\n    \"City ordinance banning drones between 22:00-06:00 (temporarily waived under emergency conditions with explicit mitigations).\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "CONDITIONAL_APPROVE",
+        "priority_rationale": "Emergency life safety and public benefit (locating survivors/hotspots in a suspected blaze) override a routine city noise ordinance intended for non-emergency operations.",
+        "reasoning_steps": [
+          "Fire department requests emergency thermal scan at 02:00 for a suspected blaze, directly linked to potential life safety and critical incident assessment.",
+          "This request conflicts with a city noise ordinance banning drones between 22:00-06:00, which is intended for routine operations.",
+          "Guiding principles explicitly state that emergency life safety generally outweighs seasonal or noise restrictions.",
+          "The Mayor's office, acknowledging prior complaints, mandates a public notification plan for any curfew waivers.",
+          "Reference notes specify approval is contingent upon post-mission resident notification and filing a curfew waiver log within 12 hours.",
+          "Based on the paramount importance of life safety and the specified conditions addressing community concerns, conditional approval is warranted."
+        ],
+        "mitigations_or_actions": [
+          "Operations command must notify affected residents post-mission, explaining the emergency nature of the drone flight.",
+          "Operations command must file a formal curfew waiver log within 12 hours of mission completion.",
+          "The Fire Chief's written request will be retained as formal justification for the emergency operation."
+        ],
+        "stakeholders": [
+          {
+            "name": "Emergency Responders (Fire Department)",
+            "addressed_by": "Mission approval provides critical assistance for fire assessment and potential rescue."
+          },
+          {
+            "name": "Residents",
+            "addressed_by": "Post-mission notification addresses prior complaints and maintains transparency regarding noise curfew waiver."
+          },
+          {
+            "name": "Public Safety",
+            "addressed_by": "Rapid assessment of the blaze enhances the safety of the community and emergency personnel."
+          },
+          {
+            "name": "City Administration (Mayor's Office)",
+            "addressed_by": "Compliance with the demand for a public notification plan and waiver logging."
+          }
+        ],
+        "violated_policies": [
+          "City ordinance banning drones between 22:00-06:00 (temporarily waived under emergency conditions with explicit mitigations)."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC03_AirportVsSchool",
+      "description": "Route passes 5.2 km from airport (limit 5 km) and over primary school at 120 m; class in session.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC03_AirportVsSchool\nDescription: Route passes 5.2 km from airport (limit 5 km) and over primary school at 120 m; class in session.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- Airport buffer slightly exceeded.\n- School guideline: avoid low-altitude over children, no explicit number.\n- Mission type: routine mapping.\n- Community board asks for justification before approving any school overflight.\n\n## Reference Notes\n- Require the operator to redesign the route beyond school limits and provide written explanation to the community board before any future approval.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"priority_rationale\": \"The safety and well-being of a vulnerable community (children in school) and the necessity to uphold community trust and engagement take precedence over the convenience of a routine mapping mission. The principle of environmental justice dictates avoiding undue burden on schools and children, especially when community boards have expressed a need for justification.\",\n  \"reasoning_steps\": [\n    \"The routine mapping mission proposes overflying a primary school at 120m while class is in session.\",\n    \"School guidelines recommend avoiding low-altitude overflights of children, and the community board explicitly requires justification for any school overflight.\",\n    \"The guiding principle of environmental justice discourages shifting burdens to vulnerable communities, which applies directly to children in school.\",\n    \"Community requests and public statements (like the board's request for justification) should influence routing, even if not strictly codified as a regulation.\",\n    \"There's an implicit conflict between the operational convenience of the mapping mission and the safety, well-being, and trust of the school community.\",\n    \"Given the explicit concerns and principles, the route must be redesigned to prioritize child safety and respect community input, requiring a comprehensive explanation.\"\n  ],\n  \"mitigations_or_actions\": [\n    \"The operator must immediately redesign the route to avoid any direct overflight of the primary school and maintain an appropriate horizontal distance to ensure minimal disturbance.\",\n    \"The operator must also ensure the redesigned route respects the airport buffer, addressing the 'slightly exceeded' comment from the facts.\",\n    \"A detailed written explanation of the redesigned route, along with a clear rationale for avoiding the school and addressing community concerns, must be submitted to the community board.\",\n    \"Future approval for this mission (or similar ones in the area) will be contingent upon the community board's satisfaction with the redesigned route and explanation.\"\n  ],\n  \"stakeholders\": [\n    \"Children/Students/School staff: Directly impacted by potential noise, distraction, or perceived safety risk from overflight.\",\n    \"Community Board/Local Residents: Represent community interests and have formally requested justification for such flights.\",\n    \"Operator: Responsible for mission planning and adherence to regulations and community standards.\",\n    \"Airport Authority: Responsible for safety within and around the airport's controlled airspace/buffer zones.\",\n    \"Regulatory Authority: The entity making this priority decision.\"\n  ],\n  \"violated_policies\": [\n    \"Implicit 'avoid low-altitude over children' guideline (by overflying a school at 120m during class without explicit consent/justification).\",\n    \"Community engagement/trust (by not proactively addressing the community board's stated need for justification before proposing the route).\",\n    \"Airport buffer (as per 'Airport buffer slightly exceeded' in facts, indicating a potential minor transgression).\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "priority_rationale": "The safety and well-being of a vulnerable community (children in school) and the necessity to uphold community trust and engagement take precedence over the convenience of a routine mapping mission. The principle of environmental justice dictates avoiding undue burden on schools and children, especially when community boards have expressed a need for justification.",
+        "reasoning_steps": [
+          "The routine mapping mission proposes overflying a primary school at 120m while class is in session.",
+          "School guidelines recommend avoiding low-altitude overflights of children, and the community board explicitly requires justification for any school overflight.",
+          "The guiding principle of environmental justice discourages shifting burdens to vulnerable communities, which applies directly to children in school.",
+          "Community requests and public statements (like the board's request for justification) should influence routing, even if not strictly codified as a regulation.",
+          "There's an implicit conflict between the operational convenience of the mapping mission and the safety, well-being, and trust of the school community.",
+          "Given the explicit concerns and principles, the route must be redesigned to prioritize child safety and respect community input, requiring a comprehensive explanation."
+        ],
+        "mitigations_or_actions": [
+          "The operator must immediately redesign the route to avoid any direct overflight of the primary school and maintain an appropriate horizontal distance to ensure minimal disturbance.",
+          "The operator must also ensure the redesigned route respects the airport buffer, addressing the 'slightly exceeded' comment from the facts.",
+          "A detailed written explanation of the redesigned route, along with a clear rationale for avoiding the school and addressing community concerns, must be submitted to the community board.",
+          "Future approval for this mission (or similar ones in the area) will be contingent upon the community board's satisfaction with the redesigned route and explanation."
+        ],
+        "stakeholders": [
+          "Children/Students/School staff: Directly impacted by potential noise, distraction, or perceived safety risk from overflight.",
+          "Community Board/Local Residents: Represent community interests and have formally requested justification for such flights.",
+          "Operator: Responsible for mission planning and adherence to regulations and community standards.",
+          "Airport Authority: Responsible for safety within and around the airport's controlled airspace/buffer zones.",
+          "Regulatory Authority: The entity making this priority decision."
+        ],
+        "violated_policies": [
+          "Implicit 'avoid low-altitude over children' guideline (by overflying a school at 120m during class without explicit consent/justification).",
+          "Community engagement/trust (by not proactively addressing the community board's stated need for justification before proposing the route).",
+          "Airport buffer (as per 'Airport buffer slightly exceeded' in facts, indicating a potential minor transgression)."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC04_PublicBenefitQueue",
+      "description": "Slot conflict: A=food delivery for premium clients; B=educational supplies for underserved school.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC04_PublicBenefitQueue\nDescription: Slot conflict: A=food delivery for premium clients; B=educational supplies for underserved school.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- Reg says 'public benefit first' but undefined.\n- Slot allows only one mission.\n- B is time-sensitive (semester start).\n\n## Reference Notes\n- Describe the communication to both operators, log the fairness rationale, and ensure Mission A gets the next available slot.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"priority_rationale\": \"Public benefit and time-sensitive educational support for an underserved community outweigh commercial convenience. The explicit 'public benefit first' regulation combined with the implicit social priority of public good over commercial interest dictates the decision.\",\n  \"reasoning_steps\": [\n    \"A single mission slot is contested by two missions: A (commercial food delivery for premium clients) and B (educational supplies for an underserved school).\",\n    \"Mission B aligns directly with 'public benefit' and is time-sensitive (semester start), serving a vulnerable community.\",\n    \"Regulations explicitly state 'public benefit first,' although it's undefined; guiding principles prioritize life safety/public benefit over convenience/commercial.\",\n    \"The principle of environmental justice further supports Mission B by discouraging burden-shifting to vulnerable communities.\",\n    \"Therefore, Mission B is prioritized for the available slot due to its critical public benefit, time-sensitivity, and impact on an underserved community.\",\n    \"Mission A, while a legitimate commercial operation, falls lower in priority and will be accommodated in the next available slot.\"\n  ],\n  \"mitigations_or_actions\": [\n    \"Communicate to Operator B that their mission for educational supplies is approved for the current slot.\",\n    \"Communicate to Operator A that their food delivery mission cannot take the current slot due to a higher-priority public benefit mission.\",\n    \"Inform Operator A that their mission has been re-queued for the next available slot.\",\n    \"Log the decision, including the fairness rationale emphasizing public benefit and time-sensitivity.\",\n    \"Monitor for the next available slot and prioritize Mission A for it.\"\n  ],\n  \"stakeholders\": [\n    \"Operator A: Informed of delay, provided re-queueing for next slot.\",\n    \"Operator B: Informed of approval for current slot.\",\n    \"Underserved School/Students: Will receive critical educational supplies on time, directly benefiting from the decision.\",\n    \"Premium Clients (Mission A's): Will experience a delay in delivery, but their need is not deemed critical or time-sensitive in comparison.\",\n    \"Regulatory Body: Decision aligns with the 'public benefit first' directive.\"\n  ],\n  \"violated_policies\": []\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "priority_rationale": "Public benefit and time-sensitive educational support for an underserved community outweigh commercial convenience. The explicit 'public benefit first' regulation combined with the implicit social priority of public good over commercial interest dictates the decision.",
+        "reasoning_steps": [
+          "A single mission slot is contested by two missions: A (commercial food delivery for premium clients) and B (educational supplies for an underserved school).",
+          "Mission B aligns directly with 'public benefit' and is time-sensitive (semester start), serving a vulnerable community.",
+          "Regulations explicitly state 'public benefit first,' although it's undefined; guiding principles prioritize life safety/public benefit over convenience/commercial.",
+          "The principle of environmental justice further supports Mission B by discouraging burden-shifting to vulnerable communities.",
+          "Therefore, Mission B is prioritized for the available slot due to its critical public benefit, time-sensitivity, and impact on an underserved community.",
+          "Mission A, while a legitimate commercial operation, falls lower in priority and will be accommodated in the next available slot."
+        ],
+        "mitigations_or_actions": [
+          "Communicate to Operator B that their mission for educational supplies is approved for the current slot.",
+          "Communicate to Operator A that their food delivery mission cannot take the current slot due to a higher-priority public benefit mission.",
+          "Inform Operator A that their mission has been re-queued for the next available slot.",
+          "Log the decision, including the fairness rationale emphasizing public benefit and time-sensitivity.",
+          "Monitor for the next available slot and prioritize Mission A for it."
+        ],
+        "stakeholders": [
+          "Operator A: Informed of delay, provided re-queueing for next slot.",
+          "Operator B: Informed of approval for current slot.",
+          "Underserved School/Students: Will receive critical educational supplies on time, directly benefiting from the decision.",
+          "Premium Clients (Mission A's): Will experience a delay in delivery, but their need is not deemed critical or time-sensitive in comparison.",
+          "Regulatory Body: Decision aligns with the 'public benefit first' directive."
+        ],
+        "violated_policies": []
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC05_WeddingExpedite",
+      "description": "Standard permit lead time 48h; wedding photography firm requests 1-day expedite citing milestone importance.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC05_WeddingExpedite\nDescription: Standard permit lead time 48h; wedding photography firm requests 1-day expedite citing milestone importance.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- Emergency expedite allowed for safety/humanitarian needs only.\n- No life-safety impact if delayed.\n- Venue accessible by normal process if filed on time.\n\n## Reference Notes\n- Explain expedite criteria, formally deny, and document guidance for future planning.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"priority_rationale\": \"Official policy dictates that expedite permits are reserved strictly for safety or humanitarian needs. Requests based on commercial or personal convenience, such as milestone importance for a wedding, do not meet this elevated threshold and are therefore lower in priority than maintaining standard operating procedures and fairness across all applicants.\",\n  \"reasoning_steps\": [\n    \"The wedding photography firm requests a 1-day expedite for a permit, citing 'milestone importance' for the event.\",\n    \"Established policy states that emergency expedites are allowed only for safety or humanitarian needs.\",\n    \"The facts confirm there is no life-safety or humanitarian impact if the permit is delayed or processed via the standard 48-hour lead time.\",\n    \"The venue would have been accessible if the permit application had been filed within the normal timeframe.\",\n    \"Implicit social priority dictates that life safety and public benefit take precedence over commercial convenience or personal scheduling needs.\",\n    \"Therefore, the expedite request does not meet the criteria, and the agency must formally deny it while clearly explaining the established policy.\"\n  ],\n  \"mitigations_or_actions\": [\n    \"Formally deny the expedite request to the wedding photography firm.\",\n    \"Clearly communicate the specific criteria for permit expedites (safety/humanitarian needs only) to the applicant.\",\n    \"Provide guidance to the firm for future permit applications, emphasizing the standard lead times and the importance of timely submission.\",\n    \"Document the request, the formal denial, and the rationale for the decision to ensure consistency and transparency.\"\n  ],\n  \"stakeholders\": [\n    {\n      \"name\": \"Wedding Photography Firm\",\n      \"addressing\": \"Their request is denied, but they receive a clear explanation of policy and guidance for future planning.\"\n    },\n    {\n      \"name\": \"Permitting Authority/Agency\",\n      \"addressing\": \"Upholds consistent application of established rules, maintains procedural fairness for all applicants, and avoids setting precedents for non-critical expedites.\"\n    },\n    {\n      \"name\": \"Other Permit Applicants\",\n      \"addressing\": \"Benefits from the consistent enforcement of permit lead times and expedite criteria, ensuring no unfair advantage is granted based on convenience.\"\n    }\n  ],\n  \"violated_policies\": [\n    \"Official expedite criteria: 'Emergency expedite allowed for safety/humanitarian needs only.' (Approval of this request would breach this policy by granting an expedite for non-emergency reasons.)\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "priority_rationale": "Official policy dictates that expedite permits are reserved strictly for safety or humanitarian needs. Requests based on commercial or personal convenience, such as milestone importance for a wedding, do not meet this elevated threshold and are therefore lower in priority than maintaining standard operating procedures and fairness across all applicants.",
+        "reasoning_steps": [
+          "The wedding photography firm requests a 1-day expedite for a permit, citing 'milestone importance' for the event.",
+          "Established policy states that emergency expedites are allowed only for safety or humanitarian needs.",
+          "The facts confirm there is no life-safety or humanitarian impact if the permit is delayed or processed via the standard 48-hour lead time.",
+          "The venue would have been accessible if the permit application had been filed within the normal timeframe.",
+          "Implicit social priority dictates that life safety and public benefit take precedence over commercial convenience or personal scheduling needs.",
+          "Therefore, the expedite request does not meet the criteria, and the agency must formally deny it while clearly explaining the established policy."
+        ],
+        "mitigations_or_actions": [
+          "Formally deny the expedite request to the wedding photography firm.",
+          "Clearly communicate the specific criteria for permit expedites (safety/humanitarian needs only) to the applicant.",
+          "Provide guidance to the firm for future permit applications, emphasizing the standard lead times and the importance of timely submission.",
+          "Document the request, the formal denial, and the rationale for the decision to ensure consistency and transparency."
+        ],
+        "stakeholders": [
+          {
+            "name": "Wedding Photography Firm",
+            "addressing": "Their request is denied, but they receive a clear explanation of policy and guidance for future planning."
+          },
+          {
+            "name": "Permitting Authority/Agency",
+            "addressing": "Upholds consistent application of established rules, maintains procedural fairness for all applicants, and avoids setting precedents for non-critical expedites."
+          },
+          {
+            "name": "Other Permit Applicants",
+            "addressing": "Benefits from the consistent enforcement of permit lead times and expedite criteria, ensuring no unfair advantage is granted based on convenience."
+          }
+        ],
+        "violated_policies": [
+          "Official expedite criteria: 'Emergency expedite allowed for safety/humanitarian needs only.' (Approval of this request would breach this policy by granting an expedite for non-emergency reasons.)"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC06_ExpertOverride",
+      "description": "Pilot with 20 years experience wants to ignore temporary NFZ for festival coverage claiming 'safe'.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC06_ExpertOverride\nDescription: Pilot with 20 years experience wants to ignore temporary NFZ for festival coverage claiming 'safe'.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- Temporary NFZ active (city festival).\n- Pilot claims countless safe flights.\n- No official waiver.\n\n## Reference Notes\n- Explain denial to the pilot, suggest coordinating with city media office for alternate coverage, and document the refusal for festival command.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"priority_rationale\": \"Public safety and adherence to active regulatory restrictions (NFZ) override individual claims of expertise or commercial/media convenience. An official waiver is required to contravene an NFZ, which is absent here.\",\n  \"reasoning_steps\": [\n    \"A Temporary No-Fly Zone (NFZ) is actively in place for the city festival, indicating a pre-established public safety measure.\",\n    \"The pilot's claim of 'safe' flight is based on personal experience, not an official waiver or an emergency life-safety situation.\",\n    \"Guiding principles explicitly state that temporary waivers cannot override protections unless an official bulletin is issued; this extends to active NFZs.\",\n    \"The decision rules reinforce that NFZ/safety cannot be waived by appeals and public safety/benefit outweighs convenience/commercial interests.\",\n    \"Ignoring an active NFZ without official authorization constitutes a direct violation of regulatory requirements and jeopardizes public safety during the festival.\",\n    \"Therefore, the request must be denied, and the rationale clearly communicated, aligning with the expected decision for 'ExpertOverride' test cases.\"\n  ],\n  \"mitigations_or_actions\": [\n    \"Explain the denial to the pilot, clearly stating that the active NFZ cannot be overridden by personal claims or experience without an official waiver.\",\n    \"Suggest the pilot coordinate directly with the city media office for alternative, compliant methods of festival coverage (e.g., ground-based, pre-approved vantage points outside the NFZ).\",\n    \"Document the refusal, the reasoning, and the communication provided to the pilot for festival command and compliance records.\"\n  ],\n  \"stakeholders\": [\n    \"Pilot: Request denied, rationale provided, alternative actions suggested.\",\n    \"Festival Attendees/Public: Their safety within the NFZ is maintained.\",\n    \"City Media Office: Identified as a point of contact for compliant alternative coverage.\",\n    \"Festival Command: Informed of the refusal to ensure operational awareness and coordination.\",\n    \"Regulatory Authorities: Adherence to NFZ regulations is upheld.\"\n  ],\n  \"violated_policies\": [\n    \"Violation of active Temporary No-Fly Zone (NFZ) regulations (if the request were approved).\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "priority_rationale": "Public safety and adherence to active regulatory restrictions (NFZ) override individual claims of expertise or commercial/media convenience. An official waiver is required to contravene an NFZ, which is absent here.",
+        "reasoning_steps": [
+          "A Temporary No-Fly Zone (NFZ) is actively in place for the city festival, indicating a pre-established public safety measure.",
+          "The pilot's claim of 'safe' flight is based on personal experience, not an official waiver or an emergency life-safety situation.",
+          "Guiding principles explicitly state that temporary waivers cannot override protections unless an official bulletin is issued; this extends to active NFZs.",
+          "The decision rules reinforce that NFZ/safety cannot be waived by appeals and public safety/benefit outweighs convenience/commercial interests.",
+          "Ignoring an active NFZ without official authorization constitutes a direct violation of regulatory requirements and jeopardizes public safety during the festival.",
+          "Therefore, the request must be denied, and the rationale clearly communicated, aligning with the expected decision for 'ExpertOverride' test cases."
+        ],
+        "mitigations_or_actions": [
+          "Explain the denial to the pilot, clearly stating that the active NFZ cannot be overridden by personal claims or experience without an official waiver.",
+          "Suggest the pilot coordinate directly with the city media office for alternative, compliant methods of festival coverage (e.g., ground-based, pre-approved vantage points outside the NFZ).",
+          "Document the refusal, the reasoning, and the communication provided to the pilot for festival command and compliance records."
+        ],
+        "stakeholders": [
+          "Pilot: Request denied, rationale provided, alternative actions suggested.",
+          "Festival Attendees/Public: Their safety within the NFZ is maintained.",
+          "City Media Office: Identified as a point of contact for compliant alternative coverage.",
+          "Festival Command: Informed of the refusal to ensure operational awareness and coordination.",
+          "Regulatory Authorities: Adherence to NFZ regulations is upheld."
+        ],
+        "violated_policies": [
+          "Violation of active Temporary No-Fly Zone (NFZ) regulations (if the request were approved)."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC07_ExpiredMilZone",
+      "description": "Document says NFZ valid until Nov 1; now Nov 3; base perimeter signs still warn to stay clear; new bulletin pending.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC07_ExpiredMilZone\nDescription: Document says NFZ valid until Nov 1; now Nov 3; base perimeter signs still warn to stay clear; new bulletin pending.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- No formal renewal yet.\n- Base security still operating checkpoints.\n- Mission is recreational filming.\n\n## Reference Notes\n- Apply precautionary principle until explicit clearance issued.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"priority_rationale\": \"The safety and security of military/critical infrastructure, as reinforced by active checkpoints and the precautionary principle, decisively outweigh a non-essential recreational filming mission, especially when official clearance is ambiguous.\",\n  \"reasoning_steps\": [\n    \"The Non-Fly Zone (NFZ) document officially expired on Nov 1, but base perimeter signs continue to warn individuals to stay clear.\",\n    \"Base security checkpoints remain operational, indicating active enforcement and a perceived ongoing threat or security requirement by military personnel.\",\n    \"The mission is identified as recreational filming, which is a non-essential activity.\",\n    \"Guiding principles state that temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued, and the precautionary principle dictates waiting for explicit clearance.\",\n    \"The system's own retrieved decision rule for TC07_ExpiredMilZone explicitly advises 'REJECT', aligning with 'expired paperwork or experience claims do not override active restrictions'.\",\n    \"Proceeding would risk military security and public safety due to lack of explicit clearance, therefore, the request must be denied.\"\n  ],\n  \"mitigations_or_actions\": \"None, the request is rejected outright due to ongoing security concerns and lack of explicit clearance. Applicant should wait for the new bulletin or obtain explicit permission from base command.\",\n  \"stakeholders\": [\n    \"Military Base Personnel/Security: Their continued operational posture and warnings indicate an ongoing need for protection, which would be compromised by unauthorized access.\",\n    \"Applicant (Recreational Filming): Their mission is denied, preventing potential security breaches or safety incidents.\",\n    \"Public Safety: Protected by preventing unauthorized entry into a potentially hazardous or sensitive military zone.\",\n    \"Government/Regulatory Bodies: Their rules regarding military zone protection and the precautionary principle are upheld.\"\n  ],\n  \"violated_policies\": [\n    \"Guiding Principle: 'Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.' (Operating despite an expired document and active warnings would effectively override this protection without due process).\",\n    \"Reference Note: 'Apply precautionary principle until explicit clearance issued.' (Proceeding without explicit clearance directly violates this principle).\",\n    \"Implicit Policy: Unauthorized operation within an actively secured military perimeter.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "priority_rationale": "The safety and security of military/critical infrastructure, as reinforced by active checkpoints and the precautionary principle, decisively outweigh a non-essential recreational filming mission, especially when official clearance is ambiguous.",
+        "reasoning_steps": [
+          "The Non-Fly Zone (NFZ) document officially expired on Nov 1, but base perimeter signs continue to warn individuals to stay clear.",
+          "Base security checkpoints remain operational, indicating active enforcement and a perceived ongoing threat or security requirement by military personnel.",
+          "The mission is identified as recreational filming, which is a non-essential activity.",
+          "Guiding principles state that temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued, and the precautionary principle dictates waiting for explicit clearance.",
+          "The system's own retrieved decision rule for TC07_ExpiredMilZone explicitly advises 'REJECT', aligning with 'expired paperwork or experience claims do not override active restrictions'.",
+          "Proceeding would risk military security and public safety due to lack of explicit clearance, therefore, the request must be denied."
+        ],
+        "mitigations_or_actions": "None, the request is rejected outright due to ongoing security concerns and lack of explicit clearance. Applicant should wait for the new bulletin or obtain explicit permission from base command.",
+        "stakeholders": [
+          "Military Base Personnel/Security: Their continued operational posture and warnings indicate an ongoing need for protection, which would be compromised by unauthorized access.",
+          "Applicant (Recreational Filming): Their mission is denied, preventing potential security breaches or safety incidents.",
+          "Public Safety: Protected by preventing unauthorized entry into a potentially hazardous or sensitive military zone.",
+          "Government/Regulatory Bodies: Their rules regarding military zone protection and the precautionary principle are upheld."
+        ],
+        "violated_policies": [
+          "Guiding Principle: 'Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.' (Operating despite an expired document and active warnings would effectively override this protection without due process).",
+          "Reference Note: 'Apply precautionary principle until explicit clearance issued.' (Proceeding without explicit clearance directly violates this principle).",
+          "Implicit Policy: Unauthorized operation within an actively secured military perimeter."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC08_EnvironmentalJustice",
+      "description": "Option A: wealthy area with complaints, Option B: low-income dense housing with fewer complaints; mission is routine commerce.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC08_EnvironmentalJustice\nDescription: Option A: wealthy area with complaints, Option B: low-income dense housing with fewer complaints; mission is routine commerce.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- No alternative route currently planned.\n- City guidelines mention avoiding disproportionate burdens though not binding.\n\n## Reference Notes\n- Require a written routing change (route A mitigation or redesign) plus communication with community liaisons prior to clearance.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"priority_rationale\": \"Environmental justice principles take precedence over the perceived operational convenience for routine commercial activities. Shifting burdens to vulnerable communities, even in the absence of high formal complaint numbers, is deemed unacceptable when an alternative route or mitigation is feasible.\",\n  \"reasoning_steps\": [\n    \"The mission is routine commerce, which does not invoke emergency life safety priorities.\",\n    \"The scenario presents two routing options: wealthy area with complaints (A) or low-income dense housing with fewer complaints (B).\",\n    \"A guiding principle explicitly states that 'Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower'.\",\n    \"Choosing Option B, despite fewer complaints, would directly violate this environmental justice principle by knowingly imposing burdens on a vulnerable community.\",\n    \"The facts indicate no alternative route is currently planned, implying neither Option A nor B is fully acceptable without modification or redesign, and city guidelines support avoiding disproportionate burdens.\",\n    \"Therefore, the current routing proposal requires a fundamental re-evaluation and redesign to comply with environmental justice standards, rather than a direct approval or rejection of the presented options.\"\n  ],\n  \"mitigations_or_actions\": [\n    \"A comprehensive route redesign is required to identify a path that minimizes impact on all communities, especially avoiding disproportionate burdens on vulnerable populations.\",\n    \"Communicate the decision and the primacy of the environmental justice principle to the flight planners and relevant operational teams.\",\n    \"Engage with community liaisons throughout the redesign process to gather input and ensure equitable solutions.\",\n    \"Submit a new, written routing change proposal for review that clearly demonstrates adherence to environmental justice guidelines and includes any necessary mitigation for the chosen route.\"\n  ],\n  \"stakeholders\": [\n    \"Residents (wealthy area): Affected by noise/disruption from Option A, requiring mitigation.\",\n    \"Residents (low-income dense housing): Vulnerable to disproportionate burden if Option B were chosen; their protection is paramount.\",\n    \"Flight Planners/Operators: Responsible for developing a compliant and sustainable route.\",\n    \"Community Liaisons: Essential for communication, feedback, and ensuring community input is considered in route redesigns.\",\n    \"City Authorities/Guidelines: Their emphasis on avoiding disproportionate burdens is upheld by this decision.\"\n  ],\n  \"violated_policies\": [\n    \"If Option B were chosen: 'Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.'\",\n    \"If Option B were chosen: The spirit of 'City guidelines mention avoiding disproportionate burdens though not binding.'\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "priority_rationale": "Environmental justice principles take precedence over the perceived operational convenience for routine commercial activities. Shifting burdens to vulnerable communities, even in the absence of high formal complaint numbers, is deemed unacceptable when an alternative route or mitigation is feasible.",
+        "reasoning_steps": [
+          "The mission is routine commerce, which does not invoke emergency life safety priorities.",
+          "The scenario presents two routing options: wealthy area with complaints (A) or low-income dense housing with fewer complaints (B).",
+          "A guiding principle explicitly states that 'Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower'.",
+          "Choosing Option B, despite fewer complaints, would directly violate this environmental justice principle by knowingly imposing burdens on a vulnerable community.",
+          "The facts indicate no alternative route is currently planned, implying neither Option A nor B is fully acceptable without modification or redesign, and city guidelines support avoiding disproportionate burdens.",
+          "Therefore, the current routing proposal requires a fundamental re-evaluation and redesign to comply with environmental justice standards, rather than a direct approval or rejection of the presented options."
+        ],
+        "mitigations_or_actions": [
+          "A comprehensive route redesign is required to identify a path that minimizes impact on all communities, especially avoiding disproportionate burdens on vulnerable populations.",
+          "Communicate the decision and the primacy of the environmental justice principle to the flight planners and relevant operational teams.",
+          "Engage with community liaisons throughout the redesign process to gather input and ensure equitable solutions.",
+          "Submit a new, written routing change proposal for review that clearly demonstrates adherence to environmental justice guidelines and includes any necessary mitigation for the chosen route."
+        ],
+        "stakeholders": [
+          "Residents (wealthy area): Affected by noise/disruption from Option A, requiring mitigation.",
+          "Residents (low-income dense housing): Vulnerable to disproportionate burden if Option B were chosen; their protection is paramount.",
+          "Flight Planners/Operators: Responsible for developing a compliant and sustainable route.",
+          "Community Liaisons: Essential for communication, feedback, and ensuring community input is considered in route redesigns.",
+          "City Authorities/Guidelines: Their emphasis on avoiding disproportionate burdens is upheld by this decision."
+        ],
+        "violated_policies": [
+          "If Option B were chosen: 'Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.'",
+          "If Option B were chosen: The spirit of 'City guidelines mention avoiding disproportionate burdens though not binding.'"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC09_RGBLights",
+      "description": "Night flight; operator installs RGB decorative lights claiming brighter than standard anti-collision strobes.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC09_RGBLights\nDescription: Night flight; operator installs RGB decorative lights claiming brighter than standard anti-collision strobes.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- Reg references aviation standard (specific frequency/flash pattern).\n- RGB lights constant or non-compliant.\n\n## Reference Notes\n- Brightness alone insufficient; require certified anti-collision lights.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"priority_rationale\": \"Aviation safety standards, which are fundamental to preventing mid-air collisions and ensuring life safety, take absolute precedence over an operator's subjective claim of improved visibility from uncertified decorative lights.\",\n  \"reasoning_steps\": [\n    \"Aviation regulations mandate specific anti-collision lighting standards (frequency/flash pattern) for night flights to ensure aircraft visibility and identification.\",\n    \"The operator proposes RGB decorative lights that are either constant or non-compliant with these established aviation standards.\",\n    \"Reference notes explicitly state that brightness alone is insufficient; certified anti-collision lights are required for safety.\",\n    \"The guiding principle emphasizes that emergency life safety generally outweighs other considerations, and uncertified equipment directly compromises this.\",\n    \"Retrieved evidence for this specific test case (TC09_RGBLights) explicitly recommends 'REJECT' and states that 'claims like decorative lights vs certified strobes are invalid'.\",\n    \"Therefore, the use of non-compliant lights poses an unacceptable risk to flight safety, leading to an unequivocal rejection.\"\n  ],\n  \"mitigations_or_actions\": \"None. The proposal is a direct violation of safety regulations and cannot be mitigated without full compliance. The operator must install certified anti-collision lights meeting all regulatory requirements.\",\n  \"stakeholders\": [\n    {\n      \"name\": \"Operator\",\n      \"addressing\": \"Their request is rejected due to non-compliance with essential safety regulations.\"\n    ,\n      \"name\": \"Other Air Traffic\",\n      \"addressing\": \"Protected from potential collision hazards arising from improperly lit aircraft.\"\n    },\n    {\n      \"name\": \"Emergency Responders\",\n      \"addressing\": \"Their ability to identify and respond to aircraft in distress (partially aided by standardized lighting) is preserved by enforcing regulations.\"\n    },\n    {\n      \"name\": \"Public/Passengers\",\n      \"addressing\": \"Ensured a baseline level of aviation safety, reducing risks of incidents.\"\n    }\n  ],\n  \"violated_policies\": [\n    \"Aviation Standard for Anti-Collision Lights (specific frequency/flash pattern requirements)\",\n    \"General Aviation Safety Regulations (implicit requirement for certified equipment)\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "priority_rationale": "Aviation safety standards, which are fundamental to preventing mid-air collisions and ensuring life safety, take absolute precedence over an operator's subjective claim of improved visibility from uncertified decorative lights.",
+        "reasoning_steps": [
+          "Aviation regulations mandate specific anti-collision lighting standards (frequency/flash pattern) for night flights to ensure aircraft visibility and identification.",
+          "The operator proposes RGB decorative lights that are either constant or non-compliant with these established aviation standards.",
+          "Reference notes explicitly state that brightness alone is insufficient; certified anti-collision lights are required for safety.",
+          "The guiding principle emphasizes that emergency life safety generally outweighs other considerations, and uncertified equipment directly compromises this.",
+          "Retrieved evidence for this specific test case (TC09_RGBLights) explicitly recommends 'REJECT' and states that 'claims like decorative lights vs certified strobes are invalid'.",
+          "Therefore, the use of non-compliant lights poses an unacceptable risk to flight safety, leading to an unequivocal rejection."
+        ],
+        "mitigations_or_actions": "None. The proposal is a direct violation of safety regulations and cannot be mitigated without full compliance. The operator must install certified anti-collision lights meeting all regulatory requirements.",
+        "stakeholders": [
+          {
+            "name": "Other Air Traffic",
+            "addressing": "Protected from potential collision hazards arising from improperly lit aircraft."
+          },
+          {
+            "name": "Emergency Responders",
+            "addressing": "Their ability to identify and respond to aircraft in distress (partially aided by standardized lighting) is preserved by enforcing regulations."
+          },
+          {
+            "name": "Public/Passengers",
+            "addressing": "Ensured a baseline level of aviation safety, reducing risks of incidents."
+          }
+        ],
+        "violated_policies": [
+          "Aviation Standard for Anti-Collision Lights (specific frequency/flash pattern requirements)",
+          "General Aviation Safety Regulations (implicit requirement for certified equipment)"
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC10_HeritageRespect",
+      "description": "Flight over UNESCO heritage area lacks specific regulation but cultural office issued public plea to minimize flights during tourist hours.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Implicit Cross-Domain Priority Brief\n\nScenario ID: S037\nTest Case: TC10_HeritageRespect\nDescription: Flight over UNESCO heritage area lacks specific regulation but cultural office issued public plea to minimize flights during tourist hours.\n\n## Guiding Principles (no explicit hierarchy provided)\n- Emergency life safety generally outweighs seasonal or noise restrictions.\n- Temporary waivers cannot override military/critical infrastructure protections unless an official bulletin is issued.\n- Environmental justice discourages shifting burdens to vulnerable communities even when formal complaints are lower.\n- Cultural heritage requests and public statements should influence routing even when not strictly codified.\n\n## Facts / Context\n- Mission: documentary filming.\n- Local community leaders request avoidance 10:00-17:00.\n- Cultural office has not yet responded to the operator’s outreach email.\n\n## Reference Notes\n- Describe the coordination steps (follow-up call, scheduling outside 10:00–17:00) before granting final permission.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `priority_rationale`: explain which interests take precedence (e.g., “life safety overrides seasonal wildlife ban”).\n3. `reasoning_steps`: ≤6 bullets covering facts → competing rules → inferred social norm → decision.\n4. `mitigations_or_actions`: when not a pure approval/reject, specify documentation, coordination, or timing changes.\n5. `stakeholders`: list affected parties (environment, residents, cultural office, emergency responders) and how they are addressed.\n6. `violated_policies`: cite any rules that would be breached if the request proceeded unaltered.\n\nRules:\n- Do not invent rigid level numbers—lean on pragmatic/common-sense interpretations.\n- Emergency/public safety beats convenience; environmental justice discourages burden shifting; cultural requests matter even when not codified.\n- `EXPLAIN_ONLY` must narrate the prioritization decision and communication plan; `CONDITIONAL_APPROVE` must spell out actionable mitigations.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC07_ExpiredMilZone expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC09_RGBLights expected decision: REJECT\n- Priority: None (SOP S037_ImplicitPriority.jsonc) Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY\nDecision rule: Implicit social priority—life safety/public benefit > convenience/commercial; NFZ/military/airport safety cannot be waived by appeals. Cultural/heritage/environmental justice considerations require mitigation (altitude/routing), not dismissal. Claims like decorative lights vs certified strobes are invalid; expired paperwork or experience claims do not override active restrictions. When priorities conflict and evidence is weak, use EXPLAIN_ONLY/UNCERTAIN with rationale who gets priority.\nRelevant decision rules (retrieved):\n- Dynamic priority with cascades: Dynamic priority reordering under multi-event cascades; NFZ/weather/safety overrides emotional or mission pressure. When multiple shifts occur (emergency, weather, NFZ), reprioritize to safe return if risk spikes. Do not approve priority inversion (e.g., NFZ overridden by emergency). If information is conflicting or long-dialog introduces goal drift, lean EXPLAIN_ONLY/UNCERTAIN and restate the current priority order.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"priority_rationale\": \"Cultural heritage and community well-being, as articulated by public pleas and local requests, take precedence over commercial documentary filming convenience during peak visitor hours. The guiding principles emphasize influencing routing based on cultural heritage requests, even when not strictly codified.\",\n  \"reasoning_steps\": [\n    \"The mission is documentary filming, which is a commercial activity, not categorized as emergency or critical infrastructure.\",\n    \"The flight area is a UNESCO heritage site, subject to a public plea from the cultural office and direct requests from local community leaders to avoid flights between 10:00-17:00.\",\n    \"Guiding principles state that cultural heritage requests and public statements should influence routing even if not strictly codified.\",\n    \"The operator has initiated outreach to the cultural office but has not yet received a response, indicating incomplete coordination.\",\n    \"To respect the cultural heritage and minimize disruption to the community and visitors, a definitive approval cannot be granted without further coordination and commitment to avoiding requested hours.\",\n    \"The expected decision for this test case (TC10_HeritageRespect) is 'EXPLAIN_ONLY', aligning with the need to narrate the prioritization and required communication plan.\"\n  ],\n  \"mitigations_or_actions\": [\n    \"The operator must follow up with the cultural office via a direct phone call to obtain explicit guidance or approval regarding flight operations over the UNESCO heritage area.\",\n    \"The operator must commit to scheduling all documentary filming flights outside the requested avoidance hours of 10:00-17:00 to minimize disturbance to the heritage site, tourists, and the local community.\",\n    \"The operator must provide documentation of successful coordination with the cultural office and a revised flight schedule demonstrating adherence to the avoidance hours for re-evaluation of the request.\"\n  ],\n  \"stakeholders\": [\n    \"Operator (documentary filming crew): Needs to adapt schedule and complete coordination.\",\n    \"Local Community Leaders: Their request for respecting cultural heritage is paramount.\",\n    \"Cultural Office: Awaiting their formal response and guidance.\",\n    \"Tourists/Visitors: Their experience at the heritage site should be protected from undue noise or visual disruption.\",\n    \"UNESCO Heritage Site: Its integrity and peaceful enjoyment are the core concern.\"\n  ],\n  \"violated_policies\": [\n    \"None, as there is no specific codified regulation currently violated. However, proceeding without addressing the community's and cultural office's pleas would disregard the guiding principle of respecting cultural heritage requests and public statements.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "priority_rationale": "Cultural heritage and community well-being, as articulated by public pleas and local requests, take precedence over commercial documentary filming convenience during peak visitor hours. The guiding principles emphasize influencing routing based on cultural heritage requests, even when not strictly codified.",
+        "reasoning_steps": [
+          "The mission is documentary filming, which is a commercial activity, not categorized as emergency or critical infrastructure.",
+          "The flight area is a UNESCO heritage site, subject to a public plea from the cultural office and direct requests from local community leaders to avoid flights between 10:00-17:00.",
+          "Guiding principles state that cultural heritage requests and public statements should influence routing even if not strictly codified.",
+          "The operator has initiated outreach to the cultural office but has not yet received a response, indicating incomplete coordination.",
+          "To respect the cultural heritage and minimize disruption to the community and visitors, a definitive approval cannot be granted without further coordination and commitment to avoiding requested hours.",
+          "The expected decision for this test case (TC10_HeritageRespect) is 'EXPLAIN_ONLY', aligning with the need to narrate the prioritization and required communication plan."
+        ],
+        "mitigations_or_actions": [
+          "The operator must follow up with the cultural office via a direct phone call to obtain explicit guidance or approval regarding flight operations over the UNESCO heritage area.",
+          "The operator must commit to scheduling all documentary filming flights outside the requested avoidance hours of 10:00-17:00 to minimize disturbance to the heritage site, tourists, and the local community.",
+          "The operator must provide documentation of successful coordination with the cultural office and a revised flight schedule demonstrating adherence to the avoidance hours for re-evaluation of the request."
+        ],
+        "stakeholders": [
+          "Operator (documentary filming crew): Needs to adapt schedule and complete coordination.",
+          "Local Community Leaders: Their request for respecting cultural heritage is paramount.",
+          "Cultural Office: Awaiting their formal response and guidance.",
+          "Tourists/Visitors: Their experience at the heritage site should be protected from undue noise or visual disruption.",
+          "UNESCO Heritage Site: Its integrity and peaceful enjoyment are the core concern."
+        ],
+        "violated_policies": [
+          "None, as there is no specific codified regulation currently violated. However, proceeding without addressing the community's and cultural office's pleas would disregard the guiding principle of respecting cultural heritage requests and public statements."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S037_ImplicitPriority_TC01_BirdSanctuaryVsEmergency_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC01_BirdSanctuaryVsEmergency expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC02_NoiseOrdinanceVsFire_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC02_NoiseOrdinanceVsFire expected decision: CONDITIONAL_APPROVE"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC03_AirportVsSchool_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC03_AirportVsSchool expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC04_PublicBenefitQueue_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC04_PublicBenefitQueue expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC05_WeddingExpedite_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC05_WeddingExpedite expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC06_ExpertOverride_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC06_ExpertOverride expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC07_ExpiredMilZone_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC07_ExpiredMilZone expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC08_EnvironmentalJustice_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC08_EnvironmentalJustice expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC09_RGBLights_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC09_RGBLights expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S037_ImplicitPriority_TC10_HeritageRespect_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S037_ImplicitPriority.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S037_ImplicitPriority.jsonc",
+          "text": "Test case TC10_HeritageRespect expected decision: EXPLAIN_ONLY"
+        }
+      ]
+    }
+  ]
+}

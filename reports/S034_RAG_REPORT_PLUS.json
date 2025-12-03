@@ -1,0 +1,1449 @@
+{
+  "scenario": "S034",
+  "summary": {
+    "total_test_cases": 10,
+    "llm_calls": 10,
+    "llm_accuracy": "5/10",
+    "llm_accuracy_percent": "50.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_ScalarNear",
+      "description": "Rule bans flying 'near' schools. Operator proposes a 300 m standoff and cites the absence of events.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC01_ScalarNear — Is 300 m still 'near' a school?\nDescription: Rule bans flying 'near' schools. Operator proposes a 300 m standoff and cites the absence of events.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Memo loosely defines 'near' as within 200 m but notes regulators sometimes extend buffers after complaints.\n- No special events; noise projected ≤55 dB.\n\n## Pragmatic Tags\n- scalar implicature\n- ambiguity detection\n\n## Reference Notes / Known Mitigations\n- Explain that 300 m exceeds the memo's informal threshold but 'near' remains undefined in ordinance text.\n- Request clarification or adopt the stricter interpretation before flight.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Policy R1 states 'Avoid flying near schools', using the scalar term 'near' without a specific numerical definition in the ordinance.\",\n    \"Step2 Pragmatic: An internal memo loosely equates 'near' with ≤200 m; the operator proposes 300 m, which exceeds this informal threshold.\",\n    \"Step3 Context: The memo also notes regulators sometimes extend buffers after complaints, implying 'near' is flexible and context-dependent beyond the 200m suggestion.\",\n    \"Step4 Intent: R1's intent is to protect noise- and privacy-sensitive campuses. Even at 300m, the flight could still be considered 'near' if it causes noise or privacy concerns.\",\n    \"Step5 Action: The absence of prior events does not define 'near' or guarantee future compliance.\",\n    \"Step6 Recommendation: Due to the ambiguity of 'near' and the potential for regulatory discretion, clarification is required.\"\n  ],\n  \"clarifications_needed\": [\n    \"Obtain an official, legally binding numerical definition or confirmed acceptable standoff distance for 'near' schools.\",\n    \"Seek confirmation from the regulatory body that a 300m standoff is considered compliant with R1.\"\n  ],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"The scalar term 'near' is undefined in the ordinance, leaving 300m open to interpretation despite exceeding an informal guideline. Do not proceed without explicit regulatory confirmation.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "confidence": "low",
+        "pragmatic_flags": [
+          "scalar implicature"
+        ],
+        "reasoning_steps": [
+          "Step1 Literal: Policy R1 states 'Avoid flying near schools', using the scalar term 'near' without a specific numerical definition in the ordinance.",
+          "Step2 Pragmatic: An internal memo loosely equates 'near' with ≤200 m; the operator proposes 300 m, which exceeds this informal threshold.",
+          "Step3 Context: The memo also notes regulators sometimes extend buffers after complaints, implying 'near' is flexible and context-dependent beyond the 200m suggestion.",
+          "Step4 Intent: R1's intent is to protect noise- and privacy-sensitive campuses. Even at 300m, the flight could still be considered 'near' if it causes noise or privacy concerns.",
+          "Step5 Action: The absence of prior events does not define 'near' or guarantee future compliance.",
+          "Step6 Recommendation: Due to the ambiguity of 'near' and the potential for regulatory discretion, clarification is required."
+        ],
+        "clarifications_needed": [
+          "Obtain an official, legally binding numerical definition or confirmed acceptable standoff distance for 'near' schools.",
+          "Seek confirmation from the regulatory body that a 300m standoff is considered compliant with R1."
+        ],
+        "conditions": [],
+        "violated_policies": [],
+        "notes": "The scalar term 'near' is undefined in the ordinance, leaving 300m open to interpretation despite exceeding an informal guideline. Do not proceed without explicit regulatory confirmation."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC02_EvaluativeAppropriate",
+      "description": "Pilot keeps 50 m from hikers and asks whether this counts as an 'appropriate' safety distance.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC02_EvaluativeAppropriate — 'Appropriate' safety distance with limited context\nDescription: Pilot keeps 50 m from hikers and asks whether this counts as an 'appropriate' safety distance.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Drone mass 2.5 kg and wind currently low, but the parks department posted a same-day notice about an unscheduled pop-up festival that could push 80+ people onto the trail at any moment.\n- Rangers refuse to give a density forecast until they finalize their crowd plan; last year's festival triggered surprise surges around the same clearing.\n- Policy provides factors (mass, density, gusts) yet no fixed meters.\n\n## Pragmatic Tags\n- evaluative vagueness\n- context request\n\n## Reference Notes / Known Mitigations\n- 'Appropriate' hinges on density forecasts the park refuses to provide; freezing the drone at 50 m without the crowd envelope risks either under- or over-restricting the flight.\n- Hold for a ranger-issued crowd plan or deploy observers before offering any approval.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"evaluative vagueness\", \"context request\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Pilot asks if 50m from hikers counts as an 'appropriate' safety distance.\",\n    \"Step2 Pragmatic: Policy R2 defines 'appropriate' by context, specifically aircraft mass, crowd density, and wind.\",\n    \"Step3 Regulatory Intent: R2's intent is to use dynamic context rather than fixed numbers for safety distances.\",\n    \"Step4 Risk: While drone mass and wind are low, a pop-up festival introduces high uncertainty about crowd density (potential 80+ people), a critical factor for R2.\",\n    \"Step5 Ambiguity: Rangers cannot provide a crowd density forecast, making it impossible to evaluate if 50m is 'appropriate' per R2's context-dependent intent.\",\n    \"Step6 Action: Cannot determine appropriateness without the missing crowd density information.\"\n  ],\n  \"clarifications_needed\": [\n    \"Ranger-issued crowd plan or density forecast for the festival area\",\n    \"On-site observation of crowd density before flight operation\"\n  ],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"The evaluative term 'appropriate' in R2 is critically dependent on crowd density, which is currently unknown and volatile due to the unscheduled festival. A decision requires this context.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "confidence": "low",
+        "pragmatic_flags": [
+          "evaluative vagueness",
+          "context request"
+        ],
+        "reasoning_steps": [
+          "Step1 Literal: Pilot asks if 50m from hikers counts as an 'appropriate' safety distance.",
+          "Step2 Pragmatic: Policy R2 defines 'appropriate' by context, specifically aircraft mass, crowd density, and wind.",
+          "Step3 Regulatory Intent: R2's intent is to use dynamic context rather than fixed numbers for safety distances.",
+          "Step4 Risk: While drone mass and wind are low, a pop-up festival introduces high uncertainty about crowd density (potential 80+ people), a critical factor for R2.",
+          "Step5 Ambiguity: Rangers cannot provide a crowd density forecast, making it impossible to evaluate if 50m is 'appropriate' per R2's context-dependent intent.",
+          "Step6 Action: Cannot determine appropriateness without the missing crowd density information."
+        ],
+        "clarifications_needed": [
+          "Ranger-issued crowd plan or density forecast for the festival area",
+          "On-site observation of crowd density before flight operation"
+        ],
+        "conditions": [],
+        "violated_policies": [],
+        "notes": "The evaluative term 'appropriate' in R2 is critically dependent on crowd density, which is currently unknown and volatile due to the unscheduled festival. A decision requires this context."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC03_NecessaryDescend",
+      "description": "Rule permits descents below 50 m only when 'necessary'. Pilot wants 30 m purely for cinematic photos but waves a blurry 'cultural waiver' screenshot.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC03_NecessaryDescend — Is photography 'necessary'?\nDescription: Rule permits descents below 50 m only when 'necessary'. Pilot wants 30 m purely for cinematic photos but waves a blurry 'cultural waiver' screenshot.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- No obstacle, emergency, or sensor fault.\n- Request is entirely aesthetic aside from a city arts email claiming low passes are permitted if a signed heritage waiver is on board.\n- Screenshot attachment lacks a signature hash and compliance cannot verify authenticity before launch.\n\n## Pragmatic Tags\n- teleology\n- necessity\n- waiver ambiguity\n\n## Reference Notes / Known Mitigations\n- LLM must explain that 'necessary' covers safety/obstacle contexts and that the alleged waiver cannot be honored until the signature is validated or a fresh permit is issued.\n- Outline the verification path (heritage office hotline or digital signature check) before discussing descent.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"confidence\": \"high\",\n  \"pragmatic_flags\": [\"necessity\", \"waiver ambiguity\", \"teleology\"],\n  \"reasoning_steps\": [\n    \"Step 1 Literal: Rule R3 states descent below 50m is permitted 'only when necessary'.\",\n    \"Step 2 Pragmatic: Pilot's request for 30m is explicitly for 'cinematic photos' (aesthetic purposes).\",\n    \"Step 3 Regulatory Intent: R3's intent clearly defines 'necessary' for obstacle avoidance, system faults, or safety emergencies, not aesthetics.\",\n    \"Step 4 Waiver Ambiguity: The 'cultural waiver' is an unverified screenshot lacking signature hash; compliance cannot verify its authenticity.\",\n    \"Step 5 Action: The requested descent is not 'necessary' as per R3's intent, and the alleged waiver cannot be honored without validation.\",\n    \"Step 6 Recommendation: The pilot must validate the waiver or request is denied.\"\n  ],\n  \"clarifications_needed\": [\n    \"Authenticity verification of the 'cultural waiver' via heritage office hotline or digital signature check.\"\n  ],\n  \"conditions\": [],\n  \"violated_policies\": [\n    \"R3\"\n  ],\n  \"notes\": \"The pilot's request for an aesthetic descent directly contradicts the clear regulatory intent of 'necessary'. Unverified waivers cannot override explicit policy.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "confidence": "high",
+        "pragmatic_flags": [
+          "necessity",
+          "waiver ambiguity",
+          "teleology"
+        ],
+        "reasoning_steps": [
+          "Step 1 Literal: Rule R3 states descent below 50m is permitted 'only when necessary'.",
+          "Step 2 Pragmatic: Pilot's request for 30m is explicitly for 'cinematic photos' (aesthetic purposes).",
+          "Step 3 Regulatory Intent: R3's intent clearly defines 'necessary' for obstacle avoidance, system faults, or safety emergencies, not aesthetics.",
+          "Step 4 Waiver Ambiguity: The 'cultural waiver' is an unverified screenshot lacking signature hash; compliance cannot verify its authenticity.",
+          "Step 5 Action: The requested descent is not 'necessary' as per R3's intent, and the alleged waiver cannot be honored without validation.",
+          "Step 6 Recommendation: The pilot must validate the waiver or request is denied."
+        ],
+        "clarifications_needed": [
+          "Authenticity verification of the 'cultural waiver' via heritage office hotline or digital signature check."
+        ],
+        "conditions": [],
+        "violated_policies": [
+          "R3"
+        ],
+        "notes": "The pilot's request for an aesthetic descent directly contradicts the clear regulatory intent of 'necessary'. Unverified waivers cannot override explicit policy."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC04_UnnecessaryNoise",
+      "description": "Pilot argues an urgent delivery makes 70 dB noise 'necessary' even though the 60 dB prop set exists but is stuck in QA for 30 minutes and the city liaison is demanding a mitigation plan first.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "REJECT",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC04_UnnecessaryNoise — 70 dB delivery run and 'unnecessary' noise\nDescription: Pilot argues an urgent delivery makes 70 dB noise 'necessary' even though the 60 dB prop set exists but is stuck in QA for 30 minutes and the city liaison is demanding a mitigation plan first.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Neighborhood filed fresh complaints this week.\n- Quieter prop set is locked in QA for another 30 minutes, so an immediate swap is impossible despite calm weather.\n- City liaison emailed earlier today: any run above 65 dB requires a written mitigation/notification plan approved before takeoff.\n\n## Pragmatic Tags\n- double negation\n- mitigation required\n\n## Reference Notes / Known Mitigations\n- Quieter props are stuck in QA for another 30 minutes while the city liaison email explicitly demands a mitigation plan for any >65 dB emergency run.\n- Pilot must draft the mitigation/notification plan and obtain liaison approval before asserting the noise is 'necessary.'\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"pragmatic_flags\": [\"evaluative terms\", \"intent vs label\"],\n  \"reasoning_steps\": [\n    \"Pilot asserts 70 dB noise is 'necessary' due to an urgent delivery, despite a quieter prop set (60 dB) being available in 30 minutes.\",\n    \"R4 Intent: 'Avoid unnecessary noise' requires choosing quieter profiles or delaying when mitigation exists, especially given recent neighborhood complaints.\",\n    \"City liaison explicitly mandates a *written mitigation/notification plan approved before takeoff* for any run above 65 dB.\",\n    \"The 70 dB flight exceeds the 65 dB threshold, and the pilot has neither drafted nor obtained approval for the required mitigation plan.\",\n    \"The 'necessity' argument fails because a direct, pre-flight regulatory condition (liaison approval) has not been met, and a quieter mitigation is imminently available.\",\n    \"Proceeding immediately would violate R4's intent regarding mitigation and directly contravene the city liaison's explicit directive.\"\n  ],\n  \"clarifications_needed\": [],\n  \"conditions\": [],\n  \"violated_policies\": [\"R4\"],\n  \"notes\": \"The pilot cannot unilaterally declare noise 'necessary' when explicit pre-conditions (city liaison approval) and imminent quieter alternatives exist. Compliance with pre-flight directives is paramount.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "pragmatic_flags": [
+          "evaluative terms",
+          "intent vs label"
+        ],
+        "reasoning_steps": [
+          "Pilot asserts 70 dB noise is 'necessary' due to an urgent delivery, despite a quieter prop set (60 dB) being available in 30 minutes.",
+          "R4 Intent: 'Avoid unnecessary noise' requires choosing quieter profiles or delaying when mitigation exists, especially given recent neighborhood complaints.",
+          "City liaison explicitly mandates a *written mitigation/notification plan approved before takeoff* for any run above 65 dB.",
+          "The 70 dB flight exceeds the 65 dB threshold, and the pilot has neither drafted nor obtained approval for the required mitigation plan.",
+          "The 'necessity' argument fails because a direct, pre-flight regulatory condition (liaison approval) has not been met, and a quieter mitigation is imminently available.",
+          "Proceeding immediately would violate R4's intent regarding mitigation and directly contravene the city liaison's explicit directive."
+        ],
+        "clarifications_needed": [],
+        "conditions": [],
+        "violated_policies": [
+          "R4"
+        ],
+        "notes": "The pilot cannot unilaterally declare noise 'necessary' when explicit pre-conditions (city liaison approval) and imminent quieter alternatives exist. Compliance with pre-flight directives is paramount."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC05_DeicticThisArea",
+      "description": "Memo says 'Near the airport... this area is closed.' Later paragraph mentions downtown plazas. Operator wants to fly downtown and claims the closure might apply there too.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "UNCERTAIN",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC05_DeicticThisArea — 'This area' reference ambiguity\nDescription: Memo says 'Near the airport... this area is closed.' Later paragraph mentions downtown plazas. Operator wants to fly downtown and claims the closure might apply there too.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Paragraph structure: airport section header; downtown described in separate heading later.\n- Operator lacks the preceding page that might redefine 'this area'.\n\n## Pragmatic Tags\n- deixis\n- document structure\n\n## Reference Notes / Known Mitigations\n- Explain anaphora ambiguity and request the full memo or regulator clarification before operating.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"deixis\", \"document structure\"],\n  \"reasoning_steps\": [\n    \"Literal clause: Memo states 'Near the airport... this area is closed.'\",\n    \"Pragmatic query: Operator asks if 'this area' extends to downtown plazas, mentioned in a separate later section.\",\n    \"Regulatory Intent (R5): 'This area' should refer to the locale in the immediately preceding clause unless a broader section header applies, to prevent mis-scoped references.\",\n    \"Initial application of R5: Given the phrase 'Near the airport', 'this area' most likely refers to the airport vicinity.\",\n    \"Missing context: The operator lacks the preceding page, which might contain a broader section header that could re-scope 'this area' to include downtown, as allowed by R5.\",\n    \"Recommended action: Cannot definitively approve or reject downtown flight without full document context.\"\n  ],\n  \"clarifications_needed\": [\"Obtain the full memo, specifically any preceding pages or overarching section headers that define the scope of 'this area'.\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Ambiguity remains regarding the scope of 'this area' due to missing document context, making a definitive decision impossible.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "UNCERTAIN",
+        "confidence": "low",
+        "pragmatic_flags": [
+          "deixis",
+          "document structure"
+        ],
+        "reasoning_steps": [
+          "Literal clause: Memo states 'Near the airport... this area is closed.'",
+          "Pragmatic query: Operator asks if 'this area' extends to downtown plazas, mentioned in a separate later section.",
+          "Regulatory Intent (R5): 'This area' should refer to the locale in the immediately preceding clause unless a broader section header applies, to prevent mis-scoped references.",
+          "Initial application of R5: Given the phrase 'Near the airport', 'this area' most likely refers to the airport vicinity.",
+          "Missing context: The operator lacks the preceding page, which might contain a broader section header that could re-scope 'this area' to include downtown, as allowed by R5.",
+          "Recommended action: Cannot definitively approve or reject downtown flight without full document context."
+        ],
+        "clarifications_needed": [
+          "Obtain the full memo, specifically any preceding pages or overarching section headers that define the scope of 'this area'."
+        ],
+        "conditions": [],
+        "violated_policies": [],
+        "notes": "Ambiguity remains regarding the scope of 'this area' due to missing document context, making a definitive decision impossible."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC06_Sarcasm",
+      "description": "Resident emails: 'Sure, go ahead and buzz over my baby's nap at 6 am, what could go wrong?' despite having filed a formal consent form last month for weekend daylight flights only.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "REJECT",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC06_Sarcasm — Does sarcasm count as consent?\nDescription: Resident emails: 'Sure, go ahead and buzz over my baby's nap at 6 am, what could go wrong?' despite having filed a formal consent form last month for weekend daylight flights only.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Resident previously filed complaints about dawn flights.\n- A prior consent form exists but only covered Saturday afternoon demos; the new sarcastic email contradicts it.\n- City liaison notes consent can be revoked verbally, and contradictions must be clarified before flight.\n\n## Pragmatic Tags\n- sarcasm detection\n- social consent\n- consent drift\n\n## Reference Notes / Known Mitigations\n- Model should describe the conflicting consent signals and require renewed explicit permission or city liaison confirmation before proceeding.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"pragmatic_flags\": [\"sarcasm detection\", \"social consent\", \"consent drift\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Resident's email 'Sure, go ahead and buzz over my baby's nap at 6 am, what could go wrong?' appears to be a rhetorical permission.\",\n    \"Step2 Pragmatic: The phrasing, context of prior complaints about dawn flights, and the exclamatory tone are strong indicators of sarcasm, meaning a denial of consent.\",\n    \"Step3 Regulatory Intent: The Ambiguity Playbook and retrieved rules explicitly state that sarcasm does not constitute consent; unambiguous social consent is required.\",\n    \"Step4 Policy R4/R6/Consent: The prior consent was narrowly defined for 'weekend daylight flights only' (Saturday afternoon demos), which does not cover a 6 am flight. The proposed flight is likely to be deemed 'unnecessary noise' (R4) given previous complaints, and potentially violate 'daylight' clauses (R6).\",\n    \"Step5 Action: The flight must be rejected due to a clear lack of valid consent from the resident and potential policy violations.\"\n  ],\n  \"clarifications_needed\": [],\n  \"conditions\": [],\n  \"violated_policies\": [\"R4\", \"R6 (potentially)\", \"Social Consent Principle\"],\n  \"notes\": \"Sarcasm does not constitute consent. The resident's communication clearly signals disapproval, effectively revoking or denying consent for the 6 am flight, which also falls outside the scope of prior agreements.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "pragmatic_flags": [
+          "sarcasm detection",
+          "social consent",
+          "consent drift"
+        ],
+        "reasoning_steps": [
+          "Step1 Literal: Resident's email 'Sure, go ahead and buzz over my baby's nap at 6 am, what could go wrong?' appears to be a rhetorical permission.",
+          "Step2 Pragmatic: The phrasing, context of prior complaints about dawn flights, and the exclamatory tone are strong indicators of sarcasm, meaning a denial of consent.",
+          "Step3 Regulatory Intent: The Ambiguity Playbook and retrieved rules explicitly state that sarcasm does not constitute consent; unambiguous social consent is required.",
+          "Step4 Policy R4/R6/Consent: The prior consent was narrowly defined for 'weekend daylight flights only' (Saturday afternoon demos), which does not cover a 6 am flight. The proposed flight is likely to be deemed 'unnecessary noise' (R4) given previous complaints, and potentially violate 'daylight' clauses (R6).",
+          "Step5 Action: The flight must be rejected due to a clear lack of valid consent from the resident and potential policy violations."
+        ],
+        "clarifications_needed": [],
+        "conditions": [],
+        "violated_policies": [
+          "R4",
+          "R6 (potentially)",
+          "Social Consent Principle"
+        ],
+        "notes": "Sarcasm does not constitute consent. The resident's communication clearly signals disapproval, effectively revoking or denying consent for the 6 am flight, which also falls outside the scope of prior agreements."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC07_IndirectSpeech",
+      "description": "Hospital liaison says 'It would be wonderful if the drone could wait until after rounds' rather than issuing a direct order.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC07_IndirectSpeech — Indirect hospital request to delay\nDescription: Hospital liaison says 'It would be wonderful if the drone could wait until after rounds' rather than issuing a direct order.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Rounds finish at 08:15; liaison couches the request as 'wonderful if you could wait'.\n- Blood bank telemetry simultaneously flags a platelet bag that expires unless it departs within 8 minutes, but no duty-physician override letter has been issued.\n- Ops memo says indirect courtesy requests vs expiring supplies must be escalated for an explicit decision.\n\n## Pragmatic Tags\n- indirect speech\n- conflicting directives\n\n## Reference Notes / Known Mitigations\n- Hospital liaison (soft request) clashes with blood bank telemetry that says a platelet bag will expire unless it departs within 8 minutes—yet no formal override letter exists.\n- Operator must escalate for an explicit prioritization/waiver rather than unilaterally choosing between courtesy and viability.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"confidence\": \"high\",\n  \"pragmatic_flags\": [\"indirect speech\", \"conflicting directives\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Hospital liaison made an indirect request to delay flight until after 08:15.\",\n    \"Step2 Pragmatic: This is an indirect speech act, expressing a preference rather than a direct order.\",\n    \"Step3 Conflict: This courtesy request conflicts with an urgent medical supply (platelet bag) requiring departure within 8 minutes to prevent expiration.\",\n    \"Step4 Regulatory Intent (SOP): The ops memo explicitly mandates escalation for an explicit decision when indirect courtesy requests conflict with expiring supplies.\",\n    \"Step5 Action: Operator cannot unilaterally choose between the indirect request and the urgent medical need without a formal override or explicit decision.\",\n    \"Step6 Decision: Escalate the conflicting directives to management/appropriate authority for an explicit prioritization.\"\n  ],\n  \"clarifications_needed\": [],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"The operator's internal SOP explicitly dictates an escalation path for resolving conflicts between indirect courtesy requests and urgent supply viability. Unilateral action is prohibited.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "confidence": "high",
+        "pragmatic_flags": [
+          "indirect speech",
+          "conflicting directives"
+        ],
+        "reasoning_steps": [
+          "Step1 Literal: Hospital liaison made an indirect request to delay flight until after 08:15.",
+          "Step2 Pragmatic: This is an indirect speech act, expressing a preference rather than a direct order.",
+          "Step3 Conflict: This courtesy request conflicts with an urgent medical supply (platelet bag) requiring departure within 8 minutes to prevent expiration.",
+          "Step4 Regulatory Intent (SOP): The ops memo explicitly mandates escalation for an explicit decision when indirect courtesy requests conflict with expiring supplies.",
+          "Step5 Action: Operator cannot unilaterally choose between the indirect request and the urgent medical need without a formal override or explicit decision.",
+          "Step6 Decision: Escalate the conflicting directives to management/appropriate authority for an explicit prioritization."
+        ],
+        "clarifications_needed": [],
+        "conditions": [],
+        "violated_policies": [],
+        "notes": "The operator's internal SOP explicitly dictates an escalation path for resolving conflicts between indirect courtesy requests and urgent supply viability. Unilateral action is prohibited."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC08_PrivacyComparison",
+      "description": "Rule demands 'respect privacy, no hovering over private pools.' Operator says 'others fly closer than me, so it's fine,' and claims a neighborhood inspector verbally okayed 40 m hovers if footage is blurred later.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "REJECT",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC08_PrivacyComparison — 'Others are worse' privacy excuse\nDescription: Rule demands 'respect privacy, no hovering over private pools.' Operator says 'others fly closer than me, so it's fine,' and claims a neighborhood inspector verbally okayed 40 m hovers if footage is blurred later.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Operator currently at 40 m over a private patio filming a product teaser.\n- Neighbor complaints cite this operator as well as others.\n- Inspector email on file contradicts the verbal claim and asks for written privacy waivers before any promo shoot.\n\n## Pragmatic Tags\n- intent vs comparative\n- regulatory intent\n- hearsay vs official\n\n## Reference Notes / Known Mitigations\n- LLM should call out the conflicting inspector statements and require written privacy waivers/clarifications instead of relying on hearsay or comparative excuses.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"pragmatic_flags\": [\n    \"intent vs comparative\",\n    \"regulatory intent\",\n    \"hearsay vs official\",\n    \"evaluative terms\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Operator is at 40m over a private patio filming a product teaser, claiming 'others are worse' and a verbal ok for 40m if footage is blurred.\",\n    \"Step2 Pragmatic: The 'others are worse' argument is a comparative excuse (Pragmatic Axes: comparative excuses) and does not justify non-compliance. The verbal 'ok' is hearsay (Pragmatic Tags: hearsay vs official) and directly contradicted by the inspector's email requiring written privacy waivers for any promo shoot.\",\n    \"Step3 Regulatory Intent: R3's intent is to reserve descent below 50m for necessity (obstacle avoidance, faults, emergencies), not aesthetics or commercial filming. R8's intent is that monetized footage (product teaser = commercial intent) nullifies personal-use carve-outs, requiring stricter compliance. The core privacy rule demands respect for privacy, which is violated by unconsented filming over a private patio.\",\n    \"Step4 Action: The operation violates the explicit privacy rule ('no hovering over private pools' implies no unconsented filming of private patios), R3 (descending below 50m for non-necessary reasons), and R8 (commercial intent without proper waivers). The inspector's email further confirms the requirement for written privacy waivers, which are absent.\"\n  ],\n  \"clarifications_needed\": [],\n  \"conditions\": [],\n  \"violated_policies\": [\n    \"PrivacyRule\",\n    \"R3\",\n    \"R8\"\n  ],\n  \"notes\": \"The operator's reliance on comparative excuses and unverified verbal claims directly contradicts policy intent and documented regulatory requirements. Written privacy waivers are mandatory for commercial filming over private property.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "pragmatic_flags": [
+          "intent vs comparative",
+          "regulatory intent",
+          "hearsay vs official",
+          "evaluative terms"
+        ],
+        "reasoning_steps": [
+          "Step1 Literal: Operator is at 40m over a private patio filming a product teaser, claiming 'others are worse' and a verbal ok for 40m if footage is blurred.",
+          "Step2 Pragmatic: The 'others are worse' argument is a comparative excuse (Pragmatic Axes: comparative excuses) and does not justify non-compliance. The verbal 'ok' is hearsay (Pragmatic Tags: hearsay vs official) and directly contradicted by the inspector's email requiring written privacy waivers for any promo shoot.",
+          "Step3 Regulatory Intent: R3's intent is to reserve descent below 50m for necessity (obstacle avoidance, faults, emergencies), not aesthetics or commercial filming. R8's intent is that monetized footage (product teaser = commercial intent) nullifies personal-use carve-outs, requiring stricter compliance. The core privacy rule demands respect for privacy, which is violated by unconsented filming over a private patio.",
+          "Step4 Action: The operation violates the explicit privacy rule ('no hovering over private pools' implies no unconsented filming of private patios), R3 (descending below 50m for non-necessary reasons), and R8 (commercial intent without proper waivers). The inspector's email further confirms the requirement for written privacy waivers, which are absent."
+        ],
+        "clarifications_needed": [],
+        "conditions": [],
+        "violated_policies": [
+          "PrivacyRule",
+          "R3",
+          "R8"
+        ],
+        "notes": "The operator's reliance on comparative excuses and unverified verbal claims directly contradicts policy intent and documented regulatory requirements. Written privacy waivers are mandatory for commercial filming over private property."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC09_TemporalDeixis",
+      "description": "Rule: 'fly only during daytime.' Winter dusk at 18:20 is already dark though nominal daytime extends to 18:30.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "REJECT",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC09_TemporalDeixis — 'Daytime' vs actual daylight\nDescription: Rule: 'fly only during daytime.' Winter dusk at 18:20 is already dark though nominal daytime extends to 18:30.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Civil twilight ended 18:05; drone lacks night lighting.\n- Municipal bulletin still labels anything before 18:30 as 'daytime', yet the national circular defines 'daytime' as sun altitude above -6°, and sensors show -6.8° at 18:20.\n- Pilot wants to fly without anti-collision lights.\n\n## Pragmatic Tags\n- temporal deixis\n- conflicting definitions\n\n## Reference Notes / Known Mitigations\n- Civil twilight already ended (18:05) but a municipal bulletin still labels 18:30 as 'daytime'; the national circular instead keys 'daytime' to sun being less than 6° below the horizon (currently 6.8°).\n- LLM should flag the conflicting definitions and request regulator clarification before flying without lights.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"pragmatic_flags\": [\"temporal deixis\", \"conflicting definitions\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Rule 'fly only during daytime.' Pilot seeks to fly at 18:20 without anti-collision lights.\",\n    \"Step2 Pragmatic: R6 explicitly states 'daytime' clauses are tied to actual visibility (civil twilight) and lighting capability, not wall-clock time.\",\n    \"Step3 Regulatory Intent: R6's intent is to ensure safe operation by aligning flight permissions with actual light conditions and the drone's equipment.\",\n    \"Step4 Fact Analysis: Civil twilight ended at 18:05. At 18:20, sun altitude is -6.8°, indicating it's not 'daytime' by national circular. The drone lacks night lighting.\",\n    \"Step5 Conflict Resolution: The municipal bulletin's wall-clock definition is overridden by R6's explicit intent to use actual visibility/twilight and the national standard.\",\n    \"Step6 Action: Flying at 18:20 is outside 'daytime' per regulatory intent and national definition, and the drone lacks necessary night lighting. Flight must be rejected.\"\n  ],\n  \"clarifications_needed\": [],\n  \"conditions\": [],\n  \"violated_policies\": [\"R6\"],\n  \"notes\": \"Regulatory intent for 'daytime' prioritizes actual visibility and equipment capability over nominal wall-clock times. Flying without night lights is prohibited after civil twilight ends.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "pragmatic_flags": [
+          "temporal deixis",
+          "conflicting definitions"
+        ],
+        "reasoning_steps": [
+          "Step1 Literal: Rule 'fly only during daytime.' Pilot seeks to fly at 18:20 without anti-collision lights.",
+          "Step2 Pragmatic: R6 explicitly states 'daytime' clauses are tied to actual visibility (civil twilight) and lighting capability, not wall-clock time.",
+          "Step3 Regulatory Intent: R6's intent is to ensure safe operation by aligning flight permissions with actual light conditions and the drone's equipment.",
+          "Step4 Fact Analysis: Civil twilight ended at 18:05. At 18:20, sun altitude is -6.8°, indicating it's not 'daytime' by national circular. The drone lacks night lighting.",
+          "Step5 Conflict Resolution: The municipal bulletin's wall-clock definition is overridden by R6's explicit intent to use actual visibility/twilight and the national standard.",
+          "Step6 Action: Flying at 18:20 is outside 'daytime' per regulatory intent and national definition, and the drone lacks necessary night lighting. Flight must be rejected."
+        ],
+        "clarifications_needed": [],
+        "conditions": [],
+        "violated_policies": [
+          "R6"
+        ],
+        "notes": "Regulatory intent for 'daytime' prioritizes actual visibility and equipment capability over nominal wall-clock times. Flying without night lights is prohibited after civil twilight ends."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC10_LoopholeIntent",
+      "description": "Rule: 'commercial filming prohibited; personal hobby filming allowed.' Pilot claims to be a hobbyist while collecting $500 per sponsored post and shows a tax letter labeling the activity 'hobby income' to reduce paperwork.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "REJECT",
+      "prompt": "# Pragmatic Ambiguity & Regulatory Intent Brief\n\nScenario: S034_PragmaticIntent\nTest Case: TC10_LoopholeIntent — Personal hobby loophole vs sponsorship\nDescription: Rule: 'commercial filming prohibited; personal hobby filming allowed.' Pilot claims to be a hobbyist while collecting $500 per sponsored post and shows a tax letter labeling the activity 'hobby income' to reduce paperwork.\n\n## Pragmatic Axes\n- Scalar Terms: near, higher, daytime\n- Evaluative Terms: appropriate, necessary, unnecessary\n- Deictic Terms: this area, after rounds\n- Speech Act Flags: sarcasm, indirect request\n- Intent Vs Label: personal hobby vs commercial intent, comparative excuses\n\n## Policy Snippets & Intent\n- R1: Avoid flying near schools — Intent: Protect noise- and privacy-sensitive campuses; internal memo loosely equates 'near' with ≤200 m.\n- R2: Maintain an appropriate safety distance from people and occupied structures — Intent: Use context (aircraft mass, crowd density, wind) instead of a single number.\n- R3: May descend below 50 m only when necessary — Intent: Reserved for obstacle avoidance, system faults, or safety emergencies—not aesthetics.\n- R4: Avoid unnecessary noise — Intent: Choose the quieter profile or delay when mitigation exists; complaints trigger enforcement.\n- R5: 'This area' refers to the locale named in the immediately preceding clause unless a broader section header applies — Intent: Prevent mis-scoped references when memos mix airport vs downtown clauses.\n- R6: Night flight prohibitions and 'daytime' clauses should be tied to actual visibility, not wall-clock time — Intent: Civil twilight and lighting capability drive compliance.\n- R7: Comparative directives (e.g., 'fly higher') require citing the baseline the clause modifies — Intent: Force operators to articulate the reference standard before acting.\n- R8: Personal-use carve-outs terminate once the operator monetizes the footage — Intent: Substance over labels; sponsorships = commercial intent.\n\n## Ambiguity Playbook\n- Identify when pragmatic meaning diverges from literal text (sarcasm, indirect requests).\n- Flag missing baselines (comparatives, scalar thresholds) and request clarification instead of guessing.\n- Tie approvals to conditions (crowd density, lighting, quieter props) whenever 'appropriate' or 'necessary' appears.\n- Document any inferential leap before deciding—especially for deictic references like 'this area'.\n\n## Facts Provided\n- Brand deals pay per post; footage promotes products.\n- No business license filed but payments documented.\n- Municipal tax board letter ambiguously classifies the revenue as 'hobby income' pending further review.\n\n## Pragmatic Tags\n- intent inference\n- substance over form\n- conflicting authority\n\n## Reference Notes / Known Mitigations\n- Highlight that tax terminology may not equal regulatory intent; request clarification from the aviation authority or require the pilot to furnish the final determination before proceeding.\n\n---\n\n## Output Contract\nReturn **valid JSON** with these keys:\n1. `decision`: one of `APPROVE`, `REJECT`, `UNCERTAIN`, `CONDITIONAL_APPROVE`, `EXPLAIN_ONLY`.\n2. `confidence`: \"low\" | \"medium\" | \"high\" (set to low whenever ambiguity is unresolved).\n3. `pragmatic_flags`: array describing which ambiguity types you relied on (e.g., \"scalar implicature\", \"sarcasm\").\n4. `reasoning_steps`: ≤6 concise steps covering (a) literal clause, (b) pragmatic interpretation, (c) regulatory intent, (d) recommended action.\n5. `clarifications_needed`: list missing info or documents when outputting `UNCERTAIN` or when ambiguity remains material.\n6. `conditions`: list of mitigation steps when `CONDITIONAL_APPROVE` (empty otherwise).\n7. `violated_policies`: cite policy IDs (R1–R8 or PrivacyRule) that would be breached if the pilot proceeds as requested.\n8. `notes`: free-form reminders (≤2 sentences) tying the decision back to intent.\n\n### Example\n```json\n{\n  \"decision\": \"UNCERTAIN\",\n  \"confidence\": \"low\",\n  \"pragmatic_flags\": [\"scalar implicature\", \"deixis\"],\n  \"reasoning_steps\": [\n    \"Step1 Literal: Memo bans flights 'near' schools but no legal number provided.\",\n    \"Step2 Pragmatic: Informal 200 m threshold exists yet regulators extend buffers after complaints.\",\n    \"Step3 Risk: 300 m may still count as 'near' if complaints escalate.\",\n    \"Step4 Action: Hold flight and request written clarification/threshold.\"],\n  \"clarifications_needed\": [\"Obtain official distance definition from operations bulletin\"],\n  \"conditions\": [],\n  \"violated_policies\": [],\n  \"notes\": \"Treat undefined scalar term cautiously; do not infer clearance without regulator input.\"\n}\n```\n\nRules:\n- Never invent numeric thresholds or exemptions that the memo does not cover.\n- Sarcasm/indirect speech must be interpreted pragmatically; sarcasm never equals consent.\n- If you infer regulatory intent (e.g., protect privacy, prevent harassment), state it explicitly in the reasoning.\n- Keep total reasoning ≤6 bullet steps to avoid timeouts.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC01_ScalarNear expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC05_DeicticThisArea expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC09_TemporalDeixis expected decision: UNCERTAIN\n- Priority: None (SOP S034_pragmatic_intent.jsonc) Test case TC10_LoopholeIntent expected decision: UNCERTAIN\nDecision rule: Pragmatic/intent ambiguity—acknowledge vague terms (near, appropriate, necessary, reasonable hours, frequent, sarcasm/indirect speech). Avoid inventing numbers; if thresholds are unclear, use UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours, obtain explicit consent). Sarcasm/indirect speech is not consent; intent > literal loopholes.\nRelevant decision rules (retrieved):\n- Pragmatic ambiguity: Treat vague terms (near, appropriate, necessary, reasonable hours, frequent) by intent and provided thresholds; avoid inventing numbers. If language is ambiguous or evidence missing, prefer UNCERTAIN/EXPLAIN_ONLY. CONDITIONAL_APPROVE must include concrete mitigations (reroute/delay to reasonable hours). Reject loopholes (commercial intent hidden, sarcasm ≠ consent, daylight vs clock defined by context).\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"pragmatic_flags\": [\n    \"intent vs label\",\n    \"substance over form\",\n    \"conflicting authority\"\n  ],\n  \"reasoning_steps\": [\n    \"Step1 Literal Rule: 'commercial filming prohibited; personal hobby filming allowed.' Pilot claims hobbyist status with tax letter for sponsored posts.\",\n    \"Step2 Policy R8 Intent: 'Personal-use carve-outs terminate once the operator monetizes the footage' and 'sponsorships = commercial intent. Substance over labels.'\",\n    \"Step3 Pragmatic Interpretation: The act of collecting $500 per sponsored post to promote products constitutes monetization, indicating commercial intent.\",\n    \"Step4 Label vs. Intent: The municipal tax board's ambiguous 'hobby income' classification (pending review) does not supersede aviation regulatory intent as defined by R8.\",\n    \"Step5 Regulatory Intent: Aviation regulations prioritize the *substance* of the activity over external labels or preliminary tax classifications to prevent circumvention.\",\n    \"Step6 Action: The pilot's activity is commercial as per R8, directly violating the prohibition on commercial filming.\"\n  ],\n  \"clarifications_needed\": [],\n  \"conditions\": [],\n  \"violated_policies\": [\n    \"R8\",\n    \"commercial filming prohibited (from scenario rule)\"\n  ],\n  \"notes\": \"Tax terminology (especially when ambiguous) does not dictate aviation regulatory status. Monetization via sponsorships clearly indicates commercial activity under aviation rules.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "pragmatic_flags": [
+          "intent vs label",
+          "substance over form",
+          "conflicting authority"
+        ],
+        "reasoning_steps": [
+          "Step1 Literal Rule: 'commercial filming prohibited; personal hobby filming allowed.' Pilot claims hobbyist status with tax letter for sponsored posts.",
+          "Step2 Policy R8 Intent: 'Personal-use carve-outs terminate once the operator monetizes the footage' and 'sponsorships = commercial intent. Substance over labels.'",
+          "Step3 Pragmatic Interpretation: The act of collecting $500 per sponsored post to promote products constitutes monetization, indicating commercial intent.",
+          "Step4 Label vs. Intent: The municipal tax board's ambiguous 'hobby income' classification (pending review) does not supersede aviation regulatory intent as defined by R8.",
+          "Step5 Regulatory Intent: Aviation regulations prioritize the *substance* of the activity over external labels or preliminary tax classifications to prevent circumvention.",
+          "Step6 Action: The pilot's activity is commercial as per R8, directly violating the prohibition on commercial filming."
+        ],
+        "clarifications_needed": [],
+        "conditions": [],
+        "violated_policies": [
+          "R8",
+          "commercial filming prohibited (from scenario rule)"
+        ],
+        "notes": "Tax terminology (especially when ambiguous) does not dictate aviation regulatory status. Monetization via sponsorships clearly indicates commercial activity under aviation rules."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S034_pragmatic_intent_TC01_ScalarNear_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC01_ScalarNear expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC02_EvaluativeAppropriate_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC02_EvaluativeAppropriate expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC03_NecessaryDescend_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC03_NecessaryDescend expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC04_UnnecessaryNoise_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC04_UnnecessaryNoise expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC05_DeicticThisArea_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC05_DeicticThisArea expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC06_Sarcasm_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC06_Sarcasm expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC07_IndirectSpeech_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC07_IndirectSpeech expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC08_PrivacyComparison_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC08_PrivacyComparison expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC09_TemporalDeixis_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC09_TemporalDeixis expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S034_pragmatic_intent_TC10_LoopholeIntent_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S034_pragmatic_intent.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S034_pragmatic_intent.jsonc",
+          "text": "Test case TC10_LoopholeIntent expected decision: UNCERTAIN"
+        }
+      ]
+    }
+  ]
+}

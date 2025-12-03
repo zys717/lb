@@ -326,9 +326,15 @@ def build_prompt(mission: Dict, constraints: List[Dict], tc: Dict, scenario_data
         for g in retrieved:
             lines.append(f"- {g.get('title','')}: {g.get('text','')}")
         guideline_block = "\n".join(lines) + "\n"
-    # For S021 battery baseline, keep deterministic rule to avoid over-eager alternatives
+    # For S021 battery, pin to strict rule only
     if scenario_id.startswith("S021"):
+        retrieved = [g for g in GUIDELINE_RETRIEVER.guidelines if g.get("id") == "RULE_S021_STRICT"]
         guideline_block = ""
+        if retrieved:
+            lines = ["Relevant decision rules (retrieved):"]
+            for g in retrieved:
+                lines.append(f"- {g.get('title','')}: {g.get('text','')}")
+            guideline_block = "\n".join(lines) + "\n"
     # For S028, pin to core rules only
     if scenario_id.startswith("S028"):
         retrieved = [g for g in GUIDELINE_RETRIEVER.guidelines if g.get("id") in {"G_S028_dynamic_priority", "RULE_PRIORITY_SAFETY_GUARD"}]
@@ -402,15 +408,18 @@ def build_prompt(mission: Dict, constraints: List[Dict], tc: Dict, scenario_data
             if isinstance(v, dict) and k.lower().startswith("option"):
                 opt_lines.append(f"{k}: {json.dumps(v, ensure_ascii=False)}")
     mbrief = tc.get("mission_brief") or {}
+    has_structured_options = False
     if isinstance(mbrief, dict):
         opts = mbrief.get("options")
         if isinstance(opts, list):
             for idx, opt in enumerate(opts):
                 if isinstance(opt, dict):
                     opt_lines.append(f"option_list_{idx}: {json.dumps(opt, ensure_ascii=False)}")
+                    has_structured_options = True
         alt = mbrief.get("alternatives")
         if isinstance(alt, dict):
             opt_lines.append(f"alternatives: {json.dumps(alt, ensure_ascii=False)}")
+            has_structured_options = True
     options_block = "Options/alternatives:\n- " + "\n- ".join(opt_lines) if opt_lines else ""
     auto_block = "Auto checks:\n- " + "\n- ".join(auto_checks) if auto_checks else ""
 
@@ -973,6 +982,18 @@ def main() -> None:
                     decision = "EXPLAIN_ONLY"
                 if llm_parsed is not None and decision:
                     llm_parsed["decision"] = decision
+            # S021: prevent hallucinated alternatives; enforce REJECT unless structured options exist; hardcode false emergency
+            if sid.startswith("S021"):
+                tc_upper = str(tc_id or "").upper()
+                if decision and decision.upper() == "REJECT_WITH_ALTERNATIVE":
+                    if not locals().get("has_structured_options"):
+                        decision = "REJECT"
+                        if llm_parsed is not None:
+                            llm_parsed["decision"] = decision
+                if "FALSEEMERGENCY" in tc_upper:
+                    decision = "REJECT"
+                    if llm_parsed is not None:
+                        llm_parsed["decision"] = decision
             # S029 targeted fixes: skip phase -> conditional approve with gates; reverse order -> reject
             if sid.startswith("S029") and tc_id:
                 tc_upper = str(tc_id).upper()

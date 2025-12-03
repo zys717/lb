@@ -1,0 +1,1461 @@
+{
+  "scenario": "S038",
+  "summary": {
+    "total_test_cases": 10,
+    "llm_calls": 10,
+    "llm_accuracy": "10/10",
+    "llm_accuracy_percent": "100.0%"
+  },
+  "results": [
+    {
+      "test_case_id": "TC01_BackwardsWeather",
+      "description": "Application describes completing flight, then takeoff, and only at the end mentions checking weather.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC01_BackwardsWeather\nDescription: Application describes completing flight, then takeoff, and only at the end mentions checking weather.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Regulation requires weather review before launch.\n- Applicant wants retroactive approval after flight.\n\n## Reference Notes\n- Explain why the retroactive weather report is invalid and outline the required reset (redo weather review, re-authorize flight).\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"reasoning_steps\": [\n    \"Step 1: Regulation mandates that a weather review is a critical prerequisite that must be completed BEFORE any flight launch or takeoff.\",\n    \"Step 2: The narrative describes the sequence of events as: flight completion, then takeoff, and finally (retroactively) a weather check.\",\n    \"Step 3: This reported sequence directly violates the regulatory requirement for a pre-flight weather review. The weather check occurred AFTER the flight operations commenced and completed.\",\n    \"Step 4: The causal link is broken: the 'weather check' precondition for 'takeoff' and 'flight' was not met in the correct temporal order.\",\n    \"Step 5: Retroactive application of a prerequisite check is invalid as it does not fulfill the purpose of mitigating pre-flight risks. The flight was undertaken without the necessary safety verification.\",\n    \"Step 6: Therefore, the flight operation cannot be retroactively approved under current regulations due to the foundational procedural breach.\"\n  ],\n  \"causal_graph\": \"Weather Review → Takeoff → Flight Completion\",\n  \"temporal_checks\": [\n    \"Verify: Timestamp of Weather Review < Timestamp of Takeoff\",\n    \"Verify: Timestamp of Takeoff < Timestamp of Flight Completion\"\n  ],\n  \"missing_prerequisites\": [\n    \"Valid weather review conducted *before* takeoff.\"\n  ],\n  \"actions\": [\n    \"Applicant must redo the weather review at the appropriate time before any future flight operations.\",\n    \"Any future flight must be re-authorized only after all necessary pre-flight checks, including weather review, are completed in the correct procedural and temporal sequence.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning_steps": [
+          "Step 1: Regulation mandates that a weather review is a critical prerequisite that must be completed BEFORE any flight launch or takeoff.",
+          "Step 2: The narrative describes the sequence of events as: flight completion, then takeoff, and finally (retroactively) a weather check.",
+          "Step 3: This reported sequence directly violates the regulatory requirement for a pre-flight weather review. The weather check occurred AFTER the flight operations commenced and completed.",
+          "Step 4: The causal link is broken: the 'weather check' precondition for 'takeoff' and 'flight' was not met in the correct temporal order.",
+          "Step 5: Retroactive application of a prerequisite check is invalid as it does not fulfill the purpose of mitigating pre-flight risks. The flight was undertaken without the necessary safety verification.",
+          "Step 6: Therefore, the flight operation cannot be retroactively approved under current regulations due to the foundational procedural breach."
+        ],
+        "causal_graph": "Weather Review → Takeoff → Flight Completion",
+        "temporal_checks": [
+          "Verify: Timestamp of Weather Review < Timestamp of Takeoff",
+          "Verify: Timestamp of Takeoff < Timestamp of Flight Completion"
+        ],
+        "missing_prerequisites": [
+          "Valid weather review conducted *before* takeoff."
+        ],
+        "actions": [
+          "Applicant must redo the weather review at the appropriate time before any future flight operations.",
+          "Any future flight must be re-authorized only after all necessary pre-flight checks, including weather review, are completed in the correct procedural and temporal sequence."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC02_ForkATC",
+      "description": "Applicant promises to obey approved altitude and route but never mentions obtaining ATC clearance.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC02_ForkATC\nDescription: Applicant promises to obey approved altitude and route but never mentions obtaining ATC clearance.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- ATC clearance yields both route and altitude approvals (fork).\n- Mission near class B airspace.\n\n## Reference Notes\n- Without clearance, the promised constraints are unknown; must secure ATC approval first.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"reasoning_steps\": [\n    \"Step 1: For a mission near Class B airspace, obtaining ATC clearance is a mandatory prerequisite.\",\n    \"Step 2: ATC clearance functions as a 'fork' in the causal graph, providing both the approved route and approved altitude.\",\n    \"Step 3: The applicant states a commitment to obey 'approved' altitude and route, which implies these approvals have been secured.\",\n    \"Step 4: However, the applicant explicitly never mentions obtaining ATC clearance.\",\n    \"Step 5: Without the prerequisite ATC clearance, no approved altitude or route exists for the applicant to obey.\",\n    \"Step 6: Therefore, the foundational approvals are missing, invalidating the applicant's claim and indicating a critical procedural omission.\"\n  ],\n  \"causal_graph\": \"ATC_Clearance (fork) -> Route_Approval; ATC_Clearance (fork) -> Altitude_Approval. Both Route_Approval AND Altitude_Approval are joint preconditions for Obey_Approved_Altitude_Route.\",\n  \"temporal_checks\": [],\n  \"missing_prerequisites\": [\n    \"ATC clearance\"\n  ],\n  \"actions\": \"Obtain ATC clearance before promising adherence to approved altitude and route.\"\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "reasoning_steps": [
+          "Step 1: For a mission near Class B airspace, obtaining ATC clearance is a mandatory prerequisite.",
+          "Step 2: ATC clearance functions as a 'fork' in the causal graph, providing both the approved route and approved altitude.",
+          "Step 3: The applicant states a commitment to obey 'approved' altitude and route, which implies these approvals have been secured.",
+          "Step 4: However, the applicant explicitly never mentions obtaining ATC clearance.",
+          "Step 5: Without the prerequisite ATC clearance, no approved altitude or route exists for the applicant to obey.",
+          "Step 6: Therefore, the foundational approvals are missing, invalidating the applicant's claim and indicating a critical procedural omission."
+        ],
+        "causal_graph": "ATC_Clearance (fork) -> Route_Approval; ATC_Clearance (fork) -> Altitude_Approval. Both Route_Approval AND Altitude_Approval are joint preconditions for Obey_Approved_Altitude_Route.",
+        "temporal_checks": [],
+        "missing_prerequisites": [
+          "ATC clearance"
+        ],
+        "actions": "Obtain ATC clearance before promising adherence to approved altitude and route."
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC03_ColliderHighRisk",
+      "description": "High-sensitivity school flyover requires both equipment inspection AND special permit; applicant only mentions inspection.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC03_ColliderHighRisk\nDescription: High-sensitivity school flyover requires both equipment inspection AND special permit; applicant only mentions inspection.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Collider structure: inspection ∧ permit → authorization.\n- Permit not referenced.\n\n## Reference Notes\n- Describe how to obtain the missing permit and schedule the flight only after both inspection and permit are documented.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"reasoning_steps\": [\n    \"Step 1: Authorization for a high-sensitivity school flyover is subject to a 'collider' structure, requiring joint completion of an equipment inspection AND a special permit.\",\n    \"Step 2: The applicant has indicated completion of the equipment inspection.\",\n    \"Step 3: The application, however, does not reference or include documentation for the required special permit.\",\n    \"Step 4: As per the collider structure (inspection ∧ permit → authorization), both preconditions must be met for authorization.\",\n    \"Step 5: The absence of the special permit documentation means the authorization cannot be granted at this time.\",\n    \"Step 6: Further action is required to obtain the missing prerequisite before the flyover can be scheduled.\"\n  ],\n  \"causal_graph\": \"Nodes: Equipment Inspection, Special Permit, Flyover Authorization. Edges: (Equipment Inspection AND Special Permit) → Flyover Authorization.\",\n  \"temporal_checks\": [\n    \"No specific temporal validity windows or timestamps were provided in the scenario to evaluate.\"\n  ],\n  \"missing_prerequisites\": [\n    \"Special Permit for high-sensitivity school flyover\"\n  ],\n  \"actions\": [\n    \"Applicant must obtain and document the special permit required for high-sensitivity school flyovers.\",\n    \"Resubmit the request with documentation for both the completed equipment inspection and the newly acquired special permit.\",\n    \"Only after both the equipment inspection and the special permit are documented, can the flyover be scheduled and authorized.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning_steps": [
+          "Step 1: Authorization for a high-sensitivity school flyover is subject to a 'collider' structure, requiring joint completion of an equipment inspection AND a special permit.",
+          "Step 2: The applicant has indicated completion of the equipment inspection.",
+          "Step 3: The application, however, does not reference or include documentation for the required special permit.",
+          "Step 4: As per the collider structure (inspection ∧ permit → authorization), both preconditions must be met for authorization.",
+          "Step 5: The absence of the special permit documentation means the authorization cannot be granted at this time.",
+          "Step 6: Further action is required to obtain the missing prerequisite before the flyover can be scheduled."
+        ],
+        "causal_graph": "Nodes: Equipment Inspection, Special Permit, Flyover Authorization. Edges: (Equipment Inspection AND Special Permit) → Flyover Authorization.",
+        "temporal_checks": [
+          "No specific temporal validity windows or timestamps were provided in the scenario to evaluate."
+        ],
+        "missing_prerequisites": [
+          "Special Permit for high-sensitivity school flyover"
+        ],
+        "actions": [
+          "Applicant must obtain and document the special permit required for high-sensitivity school flyovers.",
+          "Resubmit the request with documentation for both the completed equipment inspection and the newly acquired special permit.",
+          "Only after both the equipment inspection and the special permit are documented, can the flyover be scheduled and authorized."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC04_CounterintuitiveMaintenance",
+      "description": "Rules require maintenance docs submitted before inspection scheduling (to verify repairs). Applicant says inspection happened before submitting maintenance report.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC04_CounterintuitiveMaintenance\nDescription: Rules require maintenance docs submitted before inspection scheduling (to verify repairs). Applicant says inspection happened before submitting maintenance report.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Doc timestamps: inspection 09:00, maintenance report upload 11:00 same day.\n\n## Reference Notes\n- Inspection invalid because documentation order reversed; must redo inspection after filing repairs.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"reasoning_steps\": [\n    \"Step 1: The governing rules (as per scenario description) explicitly state that maintenance documentation must be submitted before an inspection can be scheduled or performed.\",\n    \"Step 2: This establishes a clear causal and temporal prerequisite: Maintenance Report Upload -> Inspection.\",\n    \"Step 3: The provided documentation timestamps indicate the inspection occurred at 09:00.\",\n    \"Step 4: The maintenance report was uploaded at 11:00 on the same day.\",\n    \"Step 5: The actual sequence (inspection at 09:00 followed by report upload at 11:00) contradicts the required causal order.\",\n    \"Step 6: Consequently, the inspection performed at 09:00 is invalid because its prerequisite (the submitted maintenance report) was not fulfilled prior to the inspection.\"\n  ],\n  \"causal_graph\": \"Maintenance Report Upload (prerequisite) -> Inspection (dependent action)\",\n  \"temporal_checks\": [\n    \"Inspection timestamp: 09:00\",\n    \"Maintenance Report Upload timestamp: 11:00\",\n    \"Check: Is 'Maintenance Report Upload' timestamp < 'Inspection' timestamp? No (11:00 is not less than 09:00).\"\n  ],\n  \"missing_prerequisites\": [\n    \"The valid submission of the maintenance report prior to the inspection.\"\n  ],\n  \"actions\": [\n    \"Submit the maintenance report.\",\n    \"Reschedule and conduct a new inspection after the maintenance report has been properly submitted.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "reasoning_steps": [
+          "Step 1: The governing rules (as per scenario description) explicitly state that maintenance documentation must be submitted before an inspection can be scheduled or performed.",
+          "Step 2: This establishes a clear causal and temporal prerequisite: Maintenance Report Upload -> Inspection.",
+          "Step 3: The provided documentation timestamps indicate the inspection occurred at 09:00.",
+          "Step 4: The maintenance report was uploaded at 11:00 on the same day.",
+          "Step 5: The actual sequence (inspection at 09:00 followed by report upload at 11:00) contradicts the required causal order.",
+          "Step 6: Consequently, the inspection performed at 09:00 is invalid because its prerequisite (the submitted maintenance report) was not fulfilled prior to the inspection."
+        ],
+        "causal_graph": "Maintenance Report Upload (prerequisite) -> Inspection (dependent action)",
+        "temporal_checks": [
+          "Inspection timestamp: 09:00",
+          "Maintenance Report Upload timestamp: 11:00",
+          "Check: Is 'Maintenance Report Upload' timestamp < 'Inspection' timestamp? No (11:00 is not less than 09:00)."
+        ],
+        "missing_prerequisites": [
+          "The valid submission of the maintenance report prior to the inspection."
+        ],
+        "actions": [
+          "Submit the maintenance report.",
+          "Reschedule and conduct a new inspection after the maintenance report has been properly submitted."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC05_ChainDistance",
+      "description": "Route length 7 km (>5 km threshold). Applicant attaches track but omits timestamps.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC05_ChainDistance\nDescription: Route length 7 km (>5 km threshold). Applicant attaches track but omits timestamps.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Rule: distance>5 km → submit track; track must include timestamps.\n- Submission: track image only.\n\n## Reference Notes\n- Reject current submission but specify the remediation (resubmit track with timestamps covering the entire 7 km leg).\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"reasoning_steps\": [\n    \"Step 1: Evaluate route length. The route is 7 km.\",\n    \"Step 2: Apply the rule for track submission. Since 7 km is > 5 km, submitting a track is required.\",\n    \"Step 3: Apply the rule for track content. The submitted track must include timestamps.\",\n    \"Step 4: Check applicant's submission against requirements. The applicant submitted a track image but omitted timestamps.\",\n    \"Step 5: Identify the missing prerequisite. The requirement for timestamps was not met, making the submitted track incomplete/invalid.\",\n    \"Step 6: Conclude that the submission cannot be approved due to missing essential data.\"\n  ],\n  \"causal_graph\": {\n    \"nodes\": [\n      \"route_length_check\",\n      \"track_submission_required\",\n      \"track_must_include_timestamps\",\n      \"applicant_submitted_track_image\",\n      \"applicant_omitted_timestamps\",\n      \"valid_track_submission_complete\"\n    ],\n    \"edges\": [\n      \"route_length_check (7km > 5km) -> track_submission_required\",\n      \"track_submission_required -> track_must_include_timestamps\",\n      \"applicant_submitted_track_image (collider_precondition)\",\n      \"applicant_omitted_timestamps (missing_collider_precondition)\",\n      \"applicant_submitted_track_image AND track_must_include_timestamps -> valid_track_submission_complete\"\n    ]\n  },\n  \"temporal_checks\": [],\n  \"missing_prerequisites\": [\n    \"Timestamps for the submitted track, covering the entire 7 km leg.\"\n  ],\n  \"actions\": [\n    \"Resubmit the track with timestamps covering the entire 7 km leg.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning_steps": [
+          "Step 1: Evaluate route length. The route is 7 km.",
+          "Step 2: Apply the rule for track submission. Since 7 km is > 5 km, submitting a track is required.",
+          "Step 3: Apply the rule for track content. The submitted track must include timestamps.",
+          "Step 4: Check applicant's submission against requirements. The applicant submitted a track image but omitted timestamps.",
+          "Step 5: Identify the missing prerequisite. The requirement for timestamps was not met, making the submitted track incomplete/invalid.",
+          "Step 6: Conclude that the submission cannot be approved due to missing essential data."
+        ],
+        "causal_graph": {
+          "nodes": [
+            "route_length_check",
+            "track_submission_required",
+            "track_must_include_timestamps",
+            "applicant_submitted_track_image",
+            "applicant_omitted_timestamps",
+            "valid_track_submission_complete"
+          ],
+          "edges": [
+            "route_length_check (7km > 5km) -> track_submission_required",
+            "track_submission_required -> track_must_include_timestamps",
+            "applicant_submitted_track_image (collider_precondition)",
+            "applicant_omitted_timestamps (missing_collider_precondition)",
+            "applicant_submitted_track_image AND track_must_include_timestamps -> valid_track_submission_complete"
+          ]
+        },
+        "temporal_checks": [],
+        "missing_prerequisites": [
+          "Timestamps for the submitted track, covering the entire 7 km leg."
+        ],
+        "actions": [
+          "Resubmit the track with timestamps covering the entire 7 km leg."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC06_BackupWithoutAssessment",
+      "description": "Applicant touts prepared backup landing site but never performed main site safety assessment (precondition for needing backup).",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC06_BackupWithoutAssessment\nDescription: Applicant touts prepared backup landing site but never performed main site safety assessment (precondition for needing backup).\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Rule: only declare backup if main site assessment indicates potential risk.\n- Application lacks main site evaluation.\n\n## Reference Notes\n- Require completion of the main-site assessment first, then resubmit backup plan; describe this sequence in the response.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"reasoning_steps\": [\n    \"Step 1: The 'Guiding Principles' state that counterfactual cues (like mentioning backup plans) imply prerequisites must have happened first.\",\n    \"Step 2: The established rule (from 'Facts') is that a backup landing site can only be declared if the main site assessment indicates potential risk.\",\n    \"Step 3: This rule creates a causal dependency: 'Main Site Assessment' must precede 'Declare Backup Landing Site' if risk is found.\",\n    \"Step 4: The applicant has touted a prepared backup landing site, which implies they believe a backup is necessary or prudent.\",\n    \"Step 5: However, the 'Facts' clearly state the application lacks the required main site evaluation.\",\n    \"Step 6: Therefore, the primary precondition for needing or declaring a backup site has not been met, making the backup declaration premature and inconsistent with the procedural order.\"\n  ],\n  \"causal_graph\": \"Main Site Safety Assessment → (IF Potential Risk) → Declare Backup Landing Site\",\n  \"temporal_checks\": [\n    \"N/A (No specific timestamps or validity windows are applicable; the issue is causal ordering.)\"\n  ],\n  \"missing_prerequisites\": [\n    \"Main site safety assessment\"\n  ],\n  \"actions\": [\n    \"Complete the main site safety assessment.\",\n    \"If the main site assessment indicates potential risk, then resubmit the application, including the assessment results and the prepared backup landing site plan.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning_steps": [
+          "Step 1: The 'Guiding Principles' state that counterfactual cues (like mentioning backup plans) imply prerequisites must have happened first.",
+          "Step 2: The established rule (from 'Facts') is that a backup landing site can only be declared if the main site assessment indicates potential risk.",
+          "Step 3: This rule creates a causal dependency: 'Main Site Assessment' must precede 'Declare Backup Landing Site' if risk is found.",
+          "Step 4: The applicant has touted a prepared backup landing site, which implies they believe a backup is necessary or prudent.",
+          "Step 5: However, the 'Facts' clearly state the application lacks the required main site evaluation.",
+          "Step 6: Therefore, the primary precondition for needing or declaring a backup site has not been met, making the backup declaration premature and inconsistent with the procedural order."
+        ],
+        "causal_graph": "Main Site Safety Assessment → (IF Potential Risk) → Declare Backup Landing Site",
+        "temporal_checks": [
+          "N/A (No specific timestamps or validity windows are applicable; the issue is causal ordering.)"
+        ],
+        "missing_prerequisites": [
+          "Main site safety assessment"
+        ],
+        "actions": [
+          "Complete the main site safety assessment.",
+          "If the main site assessment indicates potential risk, then resubmit the application, including the assessment results and the prepared backup landing site plan."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC07_TransitiveBattery",
+      "description": "Battery check at Nov10 10:00, flight plan submission Nov11 09:00, intended flight Nov12 11:00.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC07_TransitiveBattery\nDescription: Battery check at Nov10 10:00, flight plan submission Nov11 09:00, intended flight Nov12 11:00.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Battery inspection valid 24h; plan inherits inspection timestamp.\n- Execution scheduled beyond inspection window.\n\n## Reference Notes\n- Inspection → plan → execution must occur within 24h window; schedule violates transitive constraint.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"reasoning_steps\": [\n    \"Step 1: The battery inspection is a critical prerequisite for both flight plan submission and the actual flight execution.\",\n    \"Step 2: The battery inspection performed on Nov10 10:00 has a validity window of 24 hours, meaning it is valid until Nov11 10:00.\",\n    \"Step 3: The flight plan was submitted on Nov11 09:00, which falls within the active validity window of the battery inspection.\",\n    \"Step 4: The intended flight is scheduled for Nov12 11:00.\",\n    \"Step 5: The intended flight time (Nov12 11:00) occurs after the battery inspection's validity has expired (Nov11 10:00).\",\n    \"Step 6: According to policy, the inspection, plan submission, and flight execution must all be covered by the initial 24-hour inspection window. This transitive constraint is violated.\"\n  ],\n  \"causal_graph\": \"Battery Inspection (validity check) → Flight Plan Submission (inherits validity) → Flight Execution (requires active inherited validity)\",\n  \"temporal_checks\": [\n    \"Battery inspection valid from: Nov10 10:00\",\n    \"Battery inspection valid until: Nov11 10:00 (24 hours after inspection)\",\n    \"Flight plan submission time: Nov11 09:00 (within inspection validity)\",\n    \"Intended flight time: Nov12 11:00 (outside inspection validity, as it's after Nov11 10:00)\"\n  ],\n  \"missing_prerequisites\": [\n    \"A currently valid battery inspection at the time of flight execution.\"\n  ],\n  \"actions\": [\n    \"Conduct a new battery inspection closer to the intended flight time (Nov12 11:00) to ensure its 24-hour validity window encompasses the flight execution.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "reasoning_steps": [
+          "Step 1: The battery inspection is a critical prerequisite for both flight plan submission and the actual flight execution.",
+          "Step 2: The battery inspection performed on Nov10 10:00 has a validity window of 24 hours, meaning it is valid until Nov11 10:00.",
+          "Step 3: The flight plan was submitted on Nov11 09:00, which falls within the active validity window of the battery inspection.",
+          "Step 4: The intended flight is scheduled for Nov12 11:00.",
+          "Step 5: The intended flight time (Nov12 11:00) occurs after the battery inspection's validity has expired (Nov11 10:00).",
+          "Step 6: According to policy, the inspection, plan submission, and flight execution must all be covered by the initial 24-hour inspection window. This transitive constraint is violated."
+        ],
+        "causal_graph": "Battery Inspection (validity check) → Flight Plan Submission (inherits validity) → Flight Execution (requires active inherited validity)",
+        "temporal_checks": [
+          "Battery inspection valid from: Nov10 10:00",
+          "Battery inspection valid until: Nov11 10:00 (24 hours after inspection)",
+          "Flight plan submission time: Nov11 09:00 (within inspection validity)",
+          "Intended flight time: Nov12 11:00 (outside inspection validity, as it's after Nov11 10:00)"
+        ],
+        "missing_prerequisites": [
+          "A currently valid battery inspection at the time of flight execution."
+        ],
+        "actions": [
+          "Conduct a new battery inspection closer to the intended flight time (Nov12 11:00) to ensure its 24-hour validity window encompasses the flight execution."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC08_NightAND",
+      "description": "Applicant states 'I have strobes or can bring an observer'; rule requires strobes AND night rating AND observer.",
+      "expected_decision": "EXPLAIN_ONLY",
+      "llm_decision": "EXPLAIN_ONLY",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC08_NightAND\nDescription: Applicant states 'I have strobes or can bring an observer'; rule requires strobes AND night rating AND observer.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Night ops rule = strobe ∧ night rating ∧ observer.\n- Applicant offers OR phrasing.\n\n## Reference Notes\n- List the missing items (night rating, observer) and instruct the operator to satisfy all AND conditions before approval.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"EXPLAIN_ONLY\",\n  \"reasoning_steps\": [\n    \"Step 1: The rule for night operations is a collider structure, requiring three joint preconditions: strobe AND night rating AND observer.\",\n    \"Step 2: The applicant's statement 'I have strobes or can bring an observer' uses an 'OR' operator, which contradicts the 'AND' requirement for strobes and observer.\",\n    \"Step 3: Additionally, the critical precondition of possessing a 'night rating' is entirely unaddressed by the applicant.\",\n    \"Step 4: To satisfy the night operations rule, all three conditions (strobe, night rating, observer) must be explicitly and jointly affirmed.\"\n  ],\n  \"causal_graph\": {\n    \"nodes\": [\n      \"Strobe\",\n      \"Night Rating\",\n      \"Observer\",\n      \"Night Operations Approval\"\n    ],\n    \"edges\": \"Strobe AND Night Rating AND Observer (joint preconditions) → Night Operations Approval (collider structure)\"\n  },\n  \"temporal_checks\": [],\n  \"missing_prerequisites\": [\n    \"Explicit confirmation of both 'strobe' AND 'observer' (not 'OR').\",\n    \"Confirmation of 'night rating'.\"\n  ],\n  \"actions\": [\n    \"Applicant must explicitly confirm that they possess strobes AND a night rating AND an observer to meet all prerequisites for night operations approval.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "EXPLAIN_ONLY",
+        "reasoning_steps": [
+          "Step 1: The rule for night operations is a collider structure, requiring three joint preconditions: strobe AND night rating AND observer.",
+          "Step 2: The applicant's statement 'I have strobes or can bring an observer' uses an 'OR' operator, which contradicts the 'AND' requirement for strobes and observer.",
+          "Step 3: Additionally, the critical precondition of possessing a 'night rating' is entirely unaddressed by the applicant.",
+          "Step 4: To satisfy the night operations rule, all three conditions (strobe, night rating, observer) must be explicitly and jointly affirmed."
+        ],
+        "causal_graph": {
+          "nodes": [
+            "Strobe",
+            "Night Rating",
+            "Observer",
+            "Night Operations Approval"
+          ],
+          "edges": "Strobe AND Night Rating AND Observer (joint preconditions) → Night Operations Approval (collider structure)"
+        },
+        "temporal_checks": [],
+        "missing_prerequisites": [
+          "Explicit confirmation of both 'strobe' AND 'observer' (not 'OR').",
+          "Confirmation of 'night rating'."
+        ],
+        "actions": [
+          "Applicant must explicitly confirm that they possess strobes AND a night rating AND an observer to meet all prerequisites for night operations approval."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC09_NFZTiming",
+      "description": "NFZ activates 14:00. Applicant claims 12:00 departure, 3h flight but says 'will finish before activation'.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC09_NFZTiming\nDescription: NFZ activates 14:00. Applicant claims 12:00 departure, 3h flight but says 'will finish before activation'.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Flight would end 15:00 > 14:00.\n\n## Reference Notes\n- Causal claim contradicts numbers; must adjust duration or timing.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"reasoning_steps\": [\n    \"Step 1: Identify the proposed flight departure time (12:00) and flight duration (3 hours).\",\n    \"Step 2: Calculate the estimated flight completion time: 12:00 + 3 hours = 15:00.\",\n    \"Step 3: Identify the No-Fly Zone (NFZ) activation time: 14:00.\",\n    \"Step 4: Compare the calculated flight completion time (15:00) with the NFZ activation time (14:00).\",\n    \"Step 5: Determine that the calculated flight completion time (15:00) is after the NFZ activation time (14:00), which means the flight would be operating within the NFZ after its activation.\",\n    \"Step 6: Conclude that the applicant's claim ('will finish before activation') directly contradicts the temporal calculation, violating NFZ restrictions.\"\n  ],\n  \"causal_graph\": \"Departure Time + Flight Duration → Flight End Time; Flight End Time vs. NFZ Activation Time → NFZ Compliance.\",\n  \"temporal_checks\": [\n    \"Flight End Time (15:00) must be before NFZ Activation Time (14:00).\",\n    \"Actual check: 15:00 < 14:00 is FALSE.\"\n  ],\n  \"missing_prerequisites\": [\n    \"Temporal consistency between proposed flight plan and NFZ activation window.\"\n  ],\n  \"actions\": [\n    \"Resubmit flight plan with an adjusted departure time or reduced duration to ensure flight completion before 14:00 NFZ activation.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "reasoning_steps": [
+          "Step 1: Identify the proposed flight departure time (12:00) and flight duration (3 hours).",
+          "Step 2: Calculate the estimated flight completion time: 12:00 + 3 hours = 15:00.",
+          "Step 3: Identify the No-Fly Zone (NFZ) activation time: 14:00.",
+          "Step 4: Compare the calculated flight completion time (15:00) with the NFZ activation time (14:00).",
+          "Step 5: Determine that the calculated flight completion time (15:00) is after the NFZ activation time (14:00), which means the flight would be operating within the NFZ after its activation.",
+          "Step 6: Conclude that the applicant's claim ('will finish before activation') directly contradicts the temporal calculation, violating NFZ restrictions."
+        ],
+        "causal_graph": "Departure Time + Flight Duration → Flight End Time; Flight End Time vs. NFZ Activation Time → NFZ Compliance.",
+        "temporal_checks": [
+          "Flight End Time (15:00) must be before NFZ Activation Time (14:00).",
+          "Actual check: 15:00 < 14:00 is FALSE."
+        ],
+        "missing_prerequisites": [
+          "Temporal consistency between proposed flight plan and NFZ activation window."
+        ],
+        "actions": [
+          "Resubmit flight plan with an adjusted departure time or reduced duration to ensure flight completion before 14:00 NFZ activation."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    },
+    {
+      "test_case_id": "TC10_LoopInsurance",
+      "description": "Rule A: commercial flight requires insurance proof. Rule B: insurer needs license number. Applicant says 'approve first, then I'll buy insurance'.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# Causal & Temporal Consistency Brief\n\nScenario ID: S038\nTest Case: TC10_LoopInsurance\nDescription: Rule A: commercial flight requires insurance proof. Rule B: insurer needs license number. Applicant says 'approve first, then I'll buy insurance'.\n\n## Guiding Principles\n- Procedural steps must be completed in the prescribed order even if described backwards.\n- ATC/waiver decisions propagate constraints to all dependent actions (fork structure).\n- Certain tasks require multiple joint preconditions (collider) – missing any invalidates the task.\n- Temporary approvals/inspections can expire; consider transitive time windows.\n- Counterfactual cues (mentioning backup plans) imply prerequisites (main site evaluation) must have happened first.\n\n## Facts\n- Industry practice: temporary license number issued first to break loop.\n- Applicant ignores temporary-number procedure.\n\n## Reference Notes\n- Must obtain insurance via temporary number before final approval; request misorders the loop-breaking steps.\n\n---\n\n## Output Contract\nReturn JSON with:\n1. `decision`: `APPROVE`, `REJECT`, `CONDITIONAL_APPROVE`, `UNCERTAIN`, or `EXPLAIN_ONLY`.\n2. `reasoning_steps`: ≤6 items explicitly reconstructing the causal order (e.g., “Step 1: maintenance docs must precede inspection …”).\n3. `causal_graph`: describe key nodes/edges (e.g., “weather check → launch → flight”).\n4. `temporal_checks`: list timestamp comparisons or validity windows used.\n5. `missing_prerequisites`: name any required steps that were absent/out of order.\n6. `actions`: if remediation is possible, list the exact step to redo (e.g., “Resubmit track with timestamps” or “Obtain ATC clearance before promising altitude”).\n\nRules:\n- Do not trust narration order; reorder steps according to causality/policy.\n- Fork/collider structures require mentioning both branches or both prerequisites.\n- When math/time contradicts claims, rely on the computed values.\n- `EXPLAIN_ONLY` should describe the remediation sequence rather than approving immediately.\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC02_ForkATC expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC04_CounterintuitiveMaintenance expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC07_TransitiveBattery expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC08_NightAND expected decision: EXPLAIN_ONLY\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC09_NFZTiming expected decision: REJECT\n- Priority: None (SOP S038_CausalTemporal.jsonc) Test case TC10_LoopInsurance expected decision: REJECT\nDecision rule: Causal/temporal consistency—reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRelevant decision rules (retrieved):\n- Causal/temporal consistency: Reconstruct correct order of checks (weather/clearances before flight), and reject when prerequisites are missing/expired. Detect forks/colliders: if parent approval/inspection is missing, dependent claims are invalid. Expiring checks must be applied transitively; NFZ timing math overrides narrative. When steps are out of order or contradictory, use EXPLAIN_ONLY/REJECT/UNCERTAIN rather than approve.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"reasoning_steps\": [\n    \"Step 1: Rule A states that a commercial flight requires proof of insurance.\",\n    \"Step 2: Rule B states that an insurer requires a license number to issue insurance.\",\n    \"Step 3: These two rules create a dependency loop where insurance depends on a license, and final approval (which implies a license) depends on insurance.\",\n    \"Step 4: Industry practice breaks this loop by first issuing a temporary license number, which then allows the applicant to obtain insurance.\",\n    \"Step 5: The applicant's request 'approve first, then I'll buy insurance' reverses the necessary causal and temporal order, attempting to gain approval before fulfilling the insurance prerequisite.\",\n    \"Step 6: The applicant has not followed the procedure for obtaining a temporary license number nor provided proof of insurance, thus failing to meet a critical precondition for approval.\"\n  ],\n  \"causal_graph\": \"Nodes: Commercial Flight Approval (CFA), Insurance Proof (IP), License Number (LN), Temporary License Number (TLN). Edges: IP → CFA (Rule A), LN → IP (Rule B), TLN → IP (enables via LN), TLN is a prerequisite for IP in the loop-breaking process.\",\n  \"temporal_checks\": [\n    \"The applicant's proposed sequence ('approve first, then buy insurance') violates the prescribed causal and temporal order where insurance proof must precede final approval.\"\n  ],\n  \"missing_prerequisites\": [\n    \"Temporary License Number (as the initial step to enable insurance acquisition)\",\n    \"Insurance Proof (required for Commercial Flight Approval)\"\n  ],\n  \"actions\": [\n    \"Obtain a temporary license number.\",\n    \"Use the temporary license number to acquire the required insurance.\",\n    \"Resubmit the application for commercial flight approval with valid proof of insurance.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "reasoning_steps": [
+          "Step 1: Rule A states that a commercial flight requires proof of insurance.",
+          "Step 2: Rule B states that an insurer requires a license number to issue insurance.",
+          "Step 3: These two rules create a dependency loop where insurance depends on a license, and final approval (which implies a license) depends on insurance.",
+          "Step 4: Industry practice breaks this loop by first issuing a temporary license number, which then allows the applicant to obtain insurance.",
+          "Step 5: The applicant's request 'approve first, then I'll buy insurance' reverses the necessary causal and temporal order, attempting to gain approval before fulfilling the insurance prerequisite.",
+          "Step 6: The applicant has not followed the procedure for obtaining a temporary license number nor provided proof of insurance, thus failing to meet a critical precondition for approval."
+        ],
+        "causal_graph": "Nodes: Commercial Flight Approval (CFA), Insurance Proof (IP), License Number (LN), Temporary License Number (TLN). Edges: IP → CFA (Rule A), LN → IP (Rule B), TLN → IP (enables via LN), TLN is a prerequisite for IP in the loop-breaking process.",
+        "temporal_checks": [
+          "The applicant's proposed sequence ('approve first, then buy insurance') violates the prescribed causal and temporal order where insurance proof must precede final approval."
+        ],
+        "missing_prerequisites": [
+          "Temporary License Number (as the initial step to enable insurance acquisition)",
+          "Insurance Proof (required for Commercial Flight Approval)"
+        ],
+        "actions": [
+          "Obtain a temporary license number.",
+          "Use the temporary license number to acquire the required insurance.",
+          "Resubmit the application for commercial flight approval with valid proof of insurance."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S038_CausalTemporal_TC01_BackwardsWeather_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC01_BackwardsWeather expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC02_ForkATC_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC02_ForkATC expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC03_ColliderHighRisk_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC03_ColliderHighRisk expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC04_CounterintuitiveMaintenance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC04_CounterintuitiveMaintenance expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC05_ChainDistance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC05_ChainDistance expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC06_BackupWithoutAssessment_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC06_BackupWithoutAssessment expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC07_TransitiveBattery_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC07_TransitiveBattery expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC08_NightAND_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC08_NightAND expected decision: EXPLAIN_ONLY"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC09_NFZTiming_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC09_NFZTiming expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S038_CausalTemporal_TC10_LoopInsurance_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/advanced/S038_CausalTemporal.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S038_CausalTemporal.jsonc",
+          "text": "Test case TC10_LoopInsurance expected decision: REJECT"
+        }
+      ]
+    }
+  ]
+}
