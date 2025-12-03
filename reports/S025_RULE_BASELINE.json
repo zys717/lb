@@ -1,0 +1,1153 @@
+{
+  "scenario": "S025",
+  "summary": {
+    "total_test_cases": 8,
+    "llm_calls": 8,
+    "llm_accuracy": "5/8",
+    "llm_accuracy_percent": "62.5%"
+  },
+  "results": [
+    {
+      "test_case_id": null,
+      "description": "Zone K7 has a no-fly rule slated for repeal, but the repeal notice is still marked 'awaiting ministerial signature'. Sensors report zero traffic.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# UAV Compliance Review – Regulation Lifecycle Focus\n\n## Mission Context\n- Scenario: None\n- Description: Zone K7 has a no-fly rule slated for repeal, but the repeal notice is still marked 'awaiting ministerial signature'. Sensors report zero traffic.\n- Baseline question: Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?\n\n## Provided Sources\n- [S1_rule_legacy] Type: regulation | Content: NFZ-K7 prohibition, enacted 2023-04-01, still listed as ACTIVE in the national register.\n- [S2_repeal_notice] Type: bulletin | Content: Repeal draft for NFZ-K7 published 2025-10-01; status: pending signature.\n- [S3_sensor] Type: telemetry | Content: City radar shows no current flights in K7.\n\n## Governing Principles\n- Pending repeals do not deactivate a rule until formal confirmation.\n- Temporary emergency directives override standing rules while active.\n- Execution-time rules take precedence over application-time approvals.\n- Regional rules apply within their jurisdiction regardless of operator preference.\n- When information is incomplete, fall back to the last confirmed, higher-authority rule.\n\n## Evaluation Hints\n- repeal_handling: target >=70% of cases with repeal notices must keep the conservative stance until confirmation.\n- temporary_rule_priority: target 100% recognition that emergency orders override routine rules.\n- lifecycle_reasoning: target Detect new-vs-old conflicts and cite the current effective rule.\n- jurisdiction_awareness: target Explain which region's rule governs cross-border ops.\n\n---\n\n## Output Requirements\n1. **Decision**: APPROVE / REJECT / UNCERTAIN / CONDITIONAL_APPROVE.\n2. **Rule State**: Cite whether each rule is ACTIVE, PENDING repeal, TEMPORARY, or REGION-SPECIFIC.\n3. **Reasoning**: Step-by-step application of the lifecycle principles (pending repeal, temporary priority, execution-time rules, jurisdiction split).\n4. **Source Ranking**: If multiple authorities disagree, order them (e.g., national act > municipal notice > telemetry > anecdote).\n5. **Requests**: If information is pending (signature, effective date, cross-jurisdiction permit), explicitly ask for it.\n\nRespond in JSON comparable to:\n```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\"rule\": \"NFZ-K7\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Repeal notice\", \"status\": \"PENDING_SIGNATURE\"}\n  ],\n  \"reasoning\": [\n    \"Step1 ...\",\n    \"Step2 ...\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S1_rule_legacy\"},\n    {\"id\": \"S2_repeal_notice\", \"status\": \"pending\"},\n    {\"id\": \"S3_sensor\"}\n  ],\n  \"requests\": [\n    \"Confirm when repeal is gazetted.\"\n  ]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC1_PendingRepeal expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC2_TemporaryOrder expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC3_NewRuleSupersedes expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC4_MultiSourceConflict expected decision: UNCERTAIN\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC5_PublishVsEffective expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC6_ApplicationVsExecution expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC7_RepealPlusWaiver expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC8_CrossRegion expected decision: UNCERTAIN\nDecision rule: Draft/pending repeals are NOT effective; temporary/emergency orders override until expiry. Use publish/effective dates to choose the governing version at execution time; if dates/region are unclear, be conservative (REJECT/UNCERTAIN) and request confirmation. Cross-region differences must be handled explicitly; no silent merging of rules.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"rule_state\": [\n    {\n      \"rule\": \"NFZ-K7 prohibition\",\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"rule\": \"Repeal draft for NFZ-K7\",\n      \"status\": \"PENDING_SIGNATURE\"\n    }\n  ],\n  \"reasoning\": [\n    \"Step 1: Identify the current active regulation. Source S1_rule_legacy explicitly states that the NFZ-K7 prohibition, enacted 2023-04-01, is still listed as ACTIVE in the national register.\",\n    \"Step 2: Assess the status of any conflicting or superseding information. Source S2_repeal_notice indicates a repeal draft for NFZ-K7 was published, but its status is 'pending signature'.\",\n    \"Step 3: Apply the governing principle 'Pending repeals do not deactivate a rule until formal confirmation'. Since the repeal notice for NFZ-K7 is still pending ministerial signature, it has not achieved formal confirmation. Therefore, the existing NFZ-K7 rule remains active and legally binding.\",\n    \"Step 4: Consider other information. Source S3_sensor reports zero traffic in K7. This telemetry data describes the current physical environment but does not alter the legal status of the no-fly zone. Regulatory compliance is paramount regardless of observed traffic.\",\n    \"Step 5: Conclude based on effective rules. The NFZ-K7 is legally active. Launching a multirotor UAV would violate this active prohibition.\"\n  ],\n  \"source_ranking\": [\n    {\n      \"id\": \"S1_rule_legacy\",\n      \"authority\": \"Active regulation\"\n    },\n    {\n      \"id\": \"S2_repeal_notice\",\n      \"authority\": \"Pending bulletin\",\n      \"status\": \"pending\"\n    },\n    {\n      \"id\": \"S3_sensor\",\n      \"authority\": \"Telemetry data\"\n    }\n  ],\n  \"requests\": [\n    \"Confirm the date of ministerial signature and official gazettal/publication for the repeal of NFZ-K7 to determine its effective date.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "rule_state": [
+          {
+            "rule": "NFZ-K7 prohibition",
+            "status": "ACTIVE"
+          },
+          {
+            "rule": "Repeal draft for NFZ-K7",
+            "status": "PENDING_SIGNATURE"
+          }
+        ],
+        "reasoning": [
+          "Step 1: Identify the current active regulation. Source S1_rule_legacy explicitly states that the NFZ-K7 prohibition, enacted 2023-04-01, is still listed as ACTIVE in the national register.",
+          "Step 2: Assess the status of any conflicting or superseding information. Source S2_repeal_notice indicates a repeal draft for NFZ-K7 was published, but its status is 'pending signature'.",
+          "Step 3: Apply the governing principle 'Pending repeals do not deactivate a rule until formal confirmation'. Since the repeal notice for NFZ-K7 is still pending ministerial signature, it has not achieved formal confirmation. Therefore, the existing NFZ-K7 rule remains active and legally binding.",
+          "Step 4: Consider other information. Source S3_sensor reports zero traffic in K7. This telemetry data describes the current physical environment but does not alter the legal status of the no-fly zone. Regulatory compliance is paramount regardless of observed traffic.",
+          "Step 5: Conclude based on effective rules. The NFZ-K7 is legally active. Launching a multirotor UAV would violate this active prohibition."
+        ],
+        "source_ranking": [
+          {
+            "id": "S1_rule_legacy",
+            "authority": "Active regulation"
+          },
+          {
+            "id": "S2_repeal_notice",
+            "authority": "Pending bulletin",
+            "status": "pending"
+          },
+          {
+            "id": "S3_sensor",
+            "authority": "Telemetry data"
+          }
+        ],
+        "requests": [
+          "Confirm the date of ministerial signature and official gazettal/publication for the repeal of NFZ-K7 to determine its effective date."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC1_PendingRepeal_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC1_PendingRepeal expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC2_TemporaryOrder_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC2_TemporaryOrder expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC3_NewRuleSupersedes_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC3_NewRuleSupersedes expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC4_MultiSourceConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC4_MultiSourceConflict expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC5_PublishVsEffective_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC5_PublishVsEffective expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC6_ApplicationVsExecution_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC6_ApplicationVsExecution expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC7_RepealPlusWaiver_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC7_RepealPlusWaiver expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC8_CrossRegion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC8_CrossRegion expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": null,
+      "description": "A 48-hour storm directive bans rotorcraft departures east of River Delta regardless of standard allowances.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# UAV Compliance Review – Regulation Lifecycle Focus\n\n## Mission Context\n- Scenario: None\n- Description: A 48-hour storm directive bans rotorcraft departures east of River Delta regardless of standard allowances.\n- Baseline question: Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?\n\n## Provided Sources\n- [S1_emergency_ban] Type: temporary_order | Content: Storm Directive SD-221: no multirotor departures 18:00Z-18:00Z+2 east of River Delta.\n- [S2_standard_ops] Type: rulebook | Content: Standard ops manual allows type-MR2 flights at any time outside NFZs.\n- [S3_operator_log] Type: experience | Content: Pilot flew this mission weekly without restrictions.\n\n## Governing Principles\n- Pending repeals do not deactivate a rule until formal confirmation.\n- Temporary emergency directives override standing rules while active.\n- Execution-time rules take precedence over application-time approvals.\n- Regional rules apply within their jurisdiction regardless of operator preference.\n- When information is incomplete, fall back to the last confirmed, higher-authority rule.\n\n## Evaluation Hints\n- repeal_handling: target >=70% of cases with repeal notices must keep the conservative stance until confirmation.\n- temporary_rule_priority: target 100% recognition that emergency orders override routine rules.\n- lifecycle_reasoning: target Detect new-vs-old conflicts and cite the current effective rule.\n- jurisdiction_awareness: target Explain which region's rule governs cross-border ops.\n\n---\n\n## Output Requirements\n1. **Decision**: APPROVE / REJECT / UNCERTAIN / CONDITIONAL_APPROVE.\n2. **Rule State**: Cite whether each rule is ACTIVE, PENDING repeal, TEMPORARY, or REGION-SPECIFIC.\n3. **Reasoning**: Step-by-step application of the lifecycle principles (pending repeal, temporary priority, execution-time rules, jurisdiction split).\n4. **Source Ranking**: If multiple authorities disagree, order them (e.g., national act > municipal notice > telemetry > anecdote).\n5. **Requests**: If information is pending (signature, effective date, cross-jurisdiction permit), explicitly ask for it.\n\nRespond in JSON comparable to:\n```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\"rule\": \"NFZ-K7\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Repeal notice\", \"status\": \"PENDING_SIGNATURE\"}\n  ],\n  \"reasoning\": [\n    \"Step1 ...\",\n    \"Step2 ...\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S1_rule_legacy\"},\n    {\"id\": \"S2_repeal_notice\", \"status\": \"pending\"},\n    {\"id\": \"S3_sensor\"}\n  ],\n  \"requests\": [\n    \"Confirm when repeal is gazetted.\"\n  ]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC1_PendingRepeal expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC2_TemporaryOrder expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC3_NewRuleSupersedes expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC4_MultiSourceConflict expected decision: UNCERTAIN\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC5_PublishVsEffective expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC6_ApplicationVsExecution expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC7_RepealPlusWaiver expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC8_CrossRegion expected decision: UNCERTAIN\nDecision rule: Draft/pending repeals are NOT effective; temporary/emergency orders override until expiry. Use publish/effective dates to choose the governing version at execution time; if dates/region are unclear, be conservative (REJECT/UNCERTAIN) and request confirmation. Cross-region differences must be handled explicitly; no silent merging of rules.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"rule_state\": [\n    {\n      \"rule\": \"Storm Directive SD-221 (S1_emergency_ban)\",\n      \"status\": \"TEMPORARY\",\n      \"scope\": \"REGION-SPECIFIC (east of River Delta), TIME-SPECIFIC (18:00Z-18:00Z+2)\"\n    },\n    {\n      \"rule\": \"Standard ops manual (S2_standard_ops)\",\n      \"status\": \"ACTIVE\",\n      \"note\": \"Superseded by S1 during its active period and within its jurisdiction\"\n    },\n    {\n      \"rule\": \"Pilot experience (S3_operator_log)\",\n      \"status\": \"HISTORICAL\",\n      \"note\": \"Not an active rule; represents past operational conditions\"\n    }\n  ],\n  \"reasoning\": [\n    \"The mission context describes a scenario where a 48-hour storm directive (S1_emergency_ban) is active, specifically banning rotorcraft departures 18:00Z-18:00Z+2 east of River Delta.\",\n    \"Source [S2_standard_ops] indicates that the standard operations manual allows type-MR2 flights at any time outside NFZs, which would normally permit the flight.\",\n    \"Source [S1_emergency_ban] is a 'temporary_order' creating an active emergency ban. According to the governing principle 'Temporary emergency directives override standing rules while active,' SD-221 (S1) takes precedence over the standard ops manual (S2) for the duration and within the specified region.\",\n    \"The operator's past experience (S3_operator_log) of flying the mission weekly without restrictions is irrelevant in the face of an active emergency directive. Governing principle 'Execution-time rules take precedence over application-time approvals' ensures that current, active directives override historical practice.\",\n    \"Therefore, if the UAV launch is intended to be east of River Delta and within the 18:00Z-18:00Z+2 time window, the temporary emergency directive SD-221 is the governing rule, prohibiting the launch.\"\n  ],\n  \"source_ranking\": [\n    {\n      \"id\": \"S1_emergency_ban\",\n      \"authority\": \"Temporary Emergency Directive\",\n      \"priority_reason\": \"Overrides standing rules as per governing principle\"\n    },\n    {\n      \"id\": \"S2_standard_ops\",\n      \"authority\": \"Standing Rulebook\",\n      \"priority_reason\": \"Superseded by higher-authority temporary directive\"\n    },\n    {\n      \"id\": \"S3_operator_log\",\n      \"authority\": \"Operator Experience\",\n      \"priority_reason\": \"Represents past conditions, not current effective rules\"\n    }\n  ],\n  \"requests\": []\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "rule_state": [
+          {
+            "rule": "Storm Directive SD-221 (S1_emergency_ban)",
+            "status": "TEMPORARY",
+            "scope": "REGION-SPECIFIC (east of River Delta), TIME-SPECIFIC (18:00Z-18:00Z+2)"
+          },
+          {
+            "rule": "Standard ops manual (S2_standard_ops)",
+            "status": "ACTIVE",
+            "note": "Superseded by S1 during its active period and within its jurisdiction"
+          },
+          {
+            "rule": "Pilot experience (S3_operator_log)",
+            "status": "HISTORICAL",
+            "note": "Not an active rule; represents past operational conditions"
+          }
+        ],
+        "reasoning": [
+          "The mission context describes a scenario where a 48-hour storm directive (S1_emergency_ban) is active, specifically banning rotorcraft departures 18:00Z-18:00Z+2 east of River Delta.",
+          "Source [S2_standard_ops] indicates that the standard operations manual allows type-MR2 flights at any time outside NFZs, which would normally permit the flight.",
+          "Source [S1_emergency_ban] is a 'temporary_order' creating an active emergency ban. According to the governing principle 'Temporary emergency directives override standing rules while active,' SD-221 (S1) takes precedence over the standard ops manual (S2) for the duration and within the specified region.",
+          "The operator's past experience (S3_operator_log) of flying the mission weekly without restrictions is irrelevant in the face of an active emergency directive. Governing principle 'Execution-time rules take precedence over application-time approvals' ensures that current, active directives override historical practice.",
+          "Therefore, if the UAV launch is intended to be east of River Delta and within the 18:00Z-18:00Z+2 time window, the temporary emergency directive SD-221 is the governing rule, prohibiting the launch."
+        ],
+        "source_ranking": [
+          {
+            "id": "S1_emergency_ban",
+            "authority": "Temporary Emergency Directive",
+            "priority_reason": "Overrides standing rules as per governing principle"
+          },
+          {
+            "id": "S2_standard_ops",
+            "authority": "Standing Rulebook",
+            "priority_reason": "Superseded by higher-authority temporary directive"
+          },
+          {
+            "id": "S3_operator_log",
+            "authority": "Operator Experience",
+            "priority_reason": "Represents past conditions, not current effective rules"
+          }
+        ],
+        "requests": []
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC1_PendingRepeal_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC1_PendingRepeal expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC2_TemporaryOrder_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC2_TemporaryOrder expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC3_NewRuleSupersedes_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC3_NewRuleSupersedes expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC4_MultiSourceConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC4_MultiSourceConflict expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC5_PublishVsEffective_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC5_PublishVsEffective expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC6_ApplicationVsExecution_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC6_ApplicationVsExecution expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC7_RepealPlusWaiver_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC7_RepealPlusWaiver expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC8_CrossRegion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC8_CrossRegion expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": null,
+      "description": "Altitude limit increased from 100 m to 150 m via UL-150 amendment effective 2025-10-20, but operator still files under UL-120.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# UAV Compliance Review – Regulation Lifecycle Focus\n\n## Mission Context\n- Scenario: None\n- Description: Altitude limit increased from 100 m to 150 m via UL-150 amendment effective 2025-10-20, but operator still files under UL-120.\n- Baseline question: Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?\n\n## Provided Sources\n- [S1_old_limit] Type: rulebook | Content: UL-120: max altitude 100 m (superseded).\n- [S2_new_limit] Type: rulebook | Content: UL-150 amendment, effective 2025-10-20: max altitude 150 m.\n- [S3_operator_plan] Type: plan | Content: Filed plan cites UL-120 statements 'for safety'.\n\n## Governing Principles\n- Pending repeals do not deactivate a rule until formal confirmation.\n- Temporary emergency directives override standing rules while active.\n- Execution-time rules take precedence over application-time approvals.\n- Regional rules apply within their jurisdiction regardless of operator preference.\n- When information is incomplete, fall back to the last confirmed, higher-authority rule.\n\n## Evaluation Hints\n- repeal_handling: target >=70% of cases with repeal notices must keep the conservative stance until confirmation.\n- temporary_rule_priority: target 100% recognition that emergency orders override routine rules.\n- lifecycle_reasoning: target Detect new-vs-old conflicts and cite the current effective rule.\n- jurisdiction_awareness: target Explain which region's rule governs cross-border ops.\n\n---\n\n## Output Requirements\n1. **Decision**: APPROVE / REJECT / UNCERTAIN / CONDITIONAL_APPROVE.\n2. **Rule State**: Cite whether each rule is ACTIVE, PENDING repeal, TEMPORARY, or REGION-SPECIFIC.\n3. **Reasoning**: Step-by-step application of the lifecycle principles (pending repeal, temporary priority, execution-time rules, jurisdiction split).\n4. **Source Ranking**: If multiple authorities disagree, order them (e.g., national act > municipal notice > telemetry > anecdote).\n5. **Requests**: If information is pending (signature, effective date, cross-jurisdiction permit), explicitly ask for it.\n\nRespond in JSON comparable to:\n```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\"rule\": \"NFZ-K7\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Repeal notice\", \"status\": \"PENDING_SIGNATURE\"}\n  ],\n  \"reasoning\": [\n    \"Step1 ...\",\n    \"Step2 ...\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S1_rule_legacy\"},\n    {\"id\": \"S2_repeal_notice\", \"status\": \"pending\"},\n    {\"id\": \"S3_sensor\"}\n  ],\n  \"requests\": [\n    \"Confirm when repeal is gazetted.\"\n  ]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC1_PendingRepeal expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC2_TemporaryOrder expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC3_NewRuleSupersedes expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC4_MultiSourceConflict expected decision: UNCERTAIN\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC5_PublishVsEffective expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC6_ApplicationVsExecution expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC7_RepealPlusWaiver expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC8_CrossRegion expected decision: UNCERTAIN\nDecision rule: Draft/pending repeals are NOT effective; temporary/emergency orders override until expiry. Use publish/effective dates to choose the governing version at execution time; if dates/region are unclear, be conservative (REJECT/UNCERTAIN) and request confirmation. Cross-region differences must be handled explicitly; no silent merging of rules.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\n      \"rule\": \"UL-120 (max altitude 100 m)\",\n      \"status\": \"DEACTIVATED\",\n      \"effective_date_of_deactivation\": \"2025-10-20\",\n      \"source\": \"S1_old_limit\"\n    },\n    {\n      \"rule\": \"UL-150 amendment (max altitude 150 m)\",\n      \"status\": \"ACTIVE\",\n      \"effective_date\": \"2025-10-20\",\n      \"source\": \"S2_new_limit\"\n    },\n    {\n      \"rule\": \"Operator's Filed Plan\",\n      \"status\": \"BASED_ON_DEACTIVATED_RULE\",\n      \"source\": \"S3_operator_plan\"\n    }\n  ],\n  \"reasoning\": [\n    \"Step 1: Identify the effective date of the new regulation. The UL-150 amendment increases the maximum altitude to 150 m and becomes effective on 2025-10-20 (Source S2_new_limit).\",\n    \"Step 2: Determine the status of the relevant rules at the time of future operation. For any launch conducted on or after 2025-10-20, UL-150 will be the ACTIVE governing rule, and UL-120 will be DEACTIVATED/SUPERSEDED (Source S1_old_limit, S2_new_limit).\",\n    \"Step 3: Apply the governing principle 'Execution-time rules take precedence over application-time approvals'. The operator's filed plan (S3_operator_plan) references UL-120. While this might have been acceptable for filings prior to 2025-10-20, any operation executed on or after this date must comply with the then-active UL-150.\",\n    \"Step 4: Assess the operator's current filing against the upcoming rule. The operator 'still files under UL-120' (Description). Although the maximum altitude of 100 m (per UL-120) is technically within the new 150 m limit of UL-150, the plan's explicit citation of a superseded rule demonstrates a procedural non-compliance or a lack of alignment with the current regulatory lifecycle.\",\n    \"Step 5: Conclude on the plan's validity. Relying on an outdated regulation (UL-120) as the basis for a flight plan is unacceptable, even if the operational parameters (100m altitude) are more restrictive and thus technically compliant with the higher new limit. The plan must explicitly reference the active governing regulation (UL-150) to ensure full regulatory awareness and prevent potential misunderstandings of other aspects of the new rule.\",\n    \"Step 6: Decision: The multirotor UAV is not allowed to launch with a plan that explicitly cites a superseded rule as its basis for operations conducted on or after 2025-10-20. The plan requires an update to reflect UL-150.\"\n  ],\n  \"source_ranking\": [\n    {\n      \"id\": \"S2_new_limit\",\n      \"authority\": \"primary rulebook\",\n      \"status\": \"active_future_effective\"\n    },\n    {\n      \"id\": \"S1_old_limit\",\n      \"authority\": \"primary rulebook\",\n      \"status\": \"deactivated_future\"\n    },\n    {\n      \"id\": \"S3_operator_plan\",\n      \"authority\": \"operator document\",\n      \"status\": \"requires_update\"\n    }\n  ],\n  \"requests\": [\n    \"Confirm the intended launch date for the UAV operation, as this impacts whether UL-120 or UL-150 is the currently active rule.\",\n    \"Request the operator to update their flight plan to explicitly reference UL-150 as the governing regulation for any operations conducted on or after 2025-10-20, regardless of their chosen altitude ceiling.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "medium",
+        "rule_state": [
+          {
+            "rule": "UL-120 (max altitude 100 m)",
+            "status": "DEACTIVATED",
+            "effective_date_of_deactivation": "2025-10-20",
+            "source": "S1_old_limit"
+          },
+          {
+            "rule": "UL-150 amendment (max altitude 150 m)",
+            "status": "ACTIVE",
+            "effective_date": "2025-10-20",
+            "source": "S2_new_limit"
+          },
+          {
+            "rule": "Operator's Filed Plan",
+            "status": "BASED_ON_DEACTIVATED_RULE",
+            "source": "S3_operator_plan"
+          }
+        ],
+        "reasoning": [
+          "Step 1: Identify the effective date of the new regulation. The UL-150 amendment increases the maximum altitude to 150 m and becomes effective on 2025-10-20 (Source S2_new_limit).",
+          "Step 2: Determine the status of the relevant rules at the time of future operation. For any launch conducted on or after 2025-10-20, UL-150 will be the ACTIVE governing rule, and UL-120 will be DEACTIVATED/SUPERSEDED (Source S1_old_limit, S2_new_limit).",
+          "Step 3: Apply the governing principle 'Execution-time rules take precedence over application-time approvals'. The operator's filed plan (S3_operator_plan) references UL-120. While this might have been acceptable for filings prior to 2025-10-20, any operation executed on or after this date must comply with the then-active UL-150.",
+          "Step 4: Assess the operator's current filing against the upcoming rule. The operator 'still files under UL-120' (Description). Although the maximum altitude of 100 m (per UL-120) is technically within the new 150 m limit of UL-150, the plan's explicit citation of a superseded rule demonstrates a procedural non-compliance or a lack of alignment with the current regulatory lifecycle.",
+          "Step 5: Conclude on the plan's validity. Relying on an outdated regulation (UL-120) as the basis for a flight plan is unacceptable, even if the operational parameters (100m altitude) are more restrictive and thus technically compliant with the higher new limit. The plan must explicitly reference the active governing regulation (UL-150) to ensure full regulatory awareness and prevent potential misunderstandings of other aspects of the new rule.",
+          "Step 6: Decision: The multirotor UAV is not allowed to launch with a plan that explicitly cites a superseded rule as its basis for operations conducted on or after 2025-10-20. The plan requires an update to reflect UL-150."
+        ],
+        "source_ranking": [
+          {
+            "id": "S2_new_limit",
+            "authority": "primary rulebook",
+            "status": "active_future_effective"
+          },
+          {
+            "id": "S1_old_limit",
+            "authority": "primary rulebook",
+            "status": "deactivated_future"
+          },
+          {
+            "id": "S3_operator_plan",
+            "authority": "operator document",
+            "status": "requires_update"
+          }
+        ],
+        "requests": [
+          "Confirm the intended launch date for the UAV operation, as this impacts whether UL-120 or UL-150 is the currently active rule.",
+          "Request the operator to update their flight plan to explicitly reference UL-150 as the governing regulation for any operations conducted on or after 2025-10-20, regardless of their chosen altitude ceiling."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC1_PendingRepeal_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC1_PendingRepeal expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC2_TemporaryOrder_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC2_TemporaryOrder expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC3_NewRuleSupersedes_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC3_NewRuleSupersedes expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC4_MultiSourceConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC4_MultiSourceConflict expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC5_PublishVsEffective_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC5_PublishVsEffective expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC6_ApplicationVsExecution_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC6_ApplicationVsExecution expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC7_RepealPlusWaiver_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC7_RepealPlusWaiver expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC8_CrossRegion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC8_CrossRegion expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": null,
+      "description": "Contradictory claims about Sector P3: law archive says 'restricted', latest city bulletin says 'monitor only', telemetry shows flocking drones.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "REJECT",
+      "prompt": "# UAV Compliance Review – Regulation Lifecycle Focus\n\n## Mission Context\n- Scenario: None\n- Description: Contradictory claims about Sector P3: law archive says 'restricted', latest city bulletin says 'monitor only', telemetry shows flocking drones.\n- Baseline question: Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?\n\n## Provided Sources\n- [S1_archive] Type: law_archive | Content: P3 restricted corridor, Act 14-2019, still marked ENFORCED.\n- [S2_city_bulletin] Type: municipal_notice | Content: Weekly bulletin: 'P3 under observation, please coordinate', no explicit repeal.\n- [S3_telemetry] Type: sensor | Content: ADS-B multipath indicates several unidentified drones at 60 m.\n- [S4_operator_blog] Type: experience | Content: Blogger claims P3 is effectively open.\n\n## Governing Principles\n- Pending repeals do not deactivate a rule until formal confirmation.\n- Temporary emergency directives override standing rules while active.\n- Execution-time rules take precedence over application-time approvals.\n- Regional rules apply within their jurisdiction regardless of operator preference.\n- When information is incomplete, fall back to the last confirmed, higher-authority rule.\n\n## Evaluation Hints\n- repeal_handling: target >=70% of cases with repeal notices must keep the conservative stance until confirmation.\n- temporary_rule_priority: target 100% recognition that emergency orders override routine rules.\n- lifecycle_reasoning: target Detect new-vs-old conflicts and cite the current effective rule.\n- jurisdiction_awareness: target Explain which region's rule governs cross-border ops.\n\n---\n\n## Output Requirements\n1. **Decision**: APPROVE / REJECT / UNCERTAIN / CONDITIONAL_APPROVE.\n2. **Rule State**: Cite whether each rule is ACTIVE, PENDING repeal, TEMPORARY, or REGION-SPECIFIC.\n3. **Reasoning**: Step-by-step application of the lifecycle principles (pending repeal, temporary priority, execution-time rules, jurisdiction split).\n4. **Source Ranking**: If multiple authorities disagree, order them (e.g., national act > municipal notice > telemetry > anecdote).\n5. **Requests**: If information is pending (signature, effective date, cross-jurisdiction permit), explicitly ask for it.\n\nRespond in JSON comparable to:\n```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\"rule\": \"NFZ-K7\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Repeal notice\", \"status\": \"PENDING_SIGNATURE\"}\n  ],\n  \"reasoning\": [\n    \"Step1 ...\",\n    \"Step2 ...\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S1_rule_legacy\"},\n    {\"id\": \"S2_repeal_notice\", \"status\": \"pending\"},\n    {\"id\": \"S3_sensor\"}\n  ],\n  \"requests\": [\n    \"Confirm when repeal is gazetted.\"\n  ]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC1_PendingRepeal expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC2_TemporaryOrder expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC3_NewRuleSupersedes expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC4_MultiSourceConflict expected decision: UNCERTAIN\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC5_PublishVsEffective expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC6_ApplicationVsExecution expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC7_RepealPlusWaiver expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC8_CrossRegion expected decision: UNCERTAIN\nDecision rule: Draft/pending repeals are NOT effective; temporary/emergency orders override until expiry. Use publish/effective dates to choose the governing version at execution time; if dates/region are unclear, be conservative (REJECT/UNCERTAIN) and request confirmation. Cross-region differences must be handled explicitly; no silent merging of rules.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"rule_state\": [\n    {\n      \"rule\": \"P3 restricted corridor, Act 14-2019 (S1)\",\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"rule\": \"P3 under observation, please coordinate (S2)\",\n      \"status\": \"PENDING_CLARIFICATION\"\n    }\n  ],\n  \"reasoning\": [\n    \"1. The primary governing rule is Act 14-2019, sourced from the law archive (S1), which explicitly states Sector P3 is a 'restricted corridor' and is 'still marked ENFORCED'. This represents the highest authority rule provided.\",\n    \"2. The municipal bulletin (S2) indicates P3 is 'under observation' and requests 'coordination', but crucially states there is 'no explicit repeal' of existing rules. This notice creates conflicting information without formally overriding the established law.\",\n    \"3. Applying the Governing Principle: 'Pending repeals do not deactivate a rule until formal confirmation.' Since the municipal bulletin (S2) does not constitute an explicit or formal repeal of Act 14-2019 (S1), the restriction from the Act remains active and legally binding. The bulletin is not described as a temporary emergency directive that would override standing rules.\",\n    \"4. Applying the Governing Principle: 'When information is incomplete, fall back to the last confirmed, higher-authority rule.' Act 14-2019 (S1) is the confirmed, higher-authority rule. The municipal bulletin (S2) introduces incomplete information regarding a change in status without formally deactivating the existing law.\",\n    \"5. Telemetry data (S3) showing other unidentified drones flying, and a blogger's claim (S4) that P3 is effectively open, do not alter the legal status of the area. These sources are of significantly lower authority than a legislative act or an official municipal notice regarding regulations.\",\n    \"6. Therefore, based on the highest authority and actively enforced rule (Act 14-2019), launching a UAV in Sector P3 is not permitted.\"\n  ],\n  \"source_ranking\": [\n    {\n      \"id\": \"S1_archive\",\n      \"authority\": \"highest\",\n      \"type\": \"law_archive\"\n    },\n    {\n      \"id\": \"S2_city_bulletin\",\n      \"authority\": \"medium\",\n      \"type\": \"municipal_notice\",\n      \"status\": \"pending_clarification\"\n    },\n    {\n      \"id\": \"S3_telemetry\",\n      \"authority\": \"low\",\n      \"type\": \"sensor\"\n    },\n    {\n      \"id\": \"S4_operator_blog\",\n      \"authority\": \"lowest\",\n      \"type\": \"experience\"\n    }\n  ],\n  \"requests\": [\n    \"Seek formal clarification from the relevant legal authority regarding the current legal status of Act 14-2019 in relation to the municipal bulletin's 'under observation' notice. This should include confirmation of any official repeal or amendment processes and their effective dates.\",\n    \"Clarify the specific requirements for 'coordination' mentioned in the municipal bulletin (S2), especially in the context of a legally restricted corridor (S1).\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "rule_state": [
+          {
+            "rule": "P3 restricted corridor, Act 14-2019 (S1)",
+            "status": "ACTIVE"
+          },
+          {
+            "rule": "P3 under observation, please coordinate (S2)",
+            "status": "PENDING_CLARIFICATION"
+          }
+        ],
+        "reasoning": [
+          "1. The primary governing rule is Act 14-2019, sourced from the law archive (S1), which explicitly states Sector P3 is a 'restricted corridor' and is 'still marked ENFORCED'. This represents the highest authority rule provided.",
+          "2. The municipal bulletin (S2) indicates P3 is 'under observation' and requests 'coordination', but crucially states there is 'no explicit repeal' of existing rules. This notice creates conflicting information without formally overriding the established law.",
+          "3. Applying the Governing Principle: 'Pending repeals do not deactivate a rule until formal confirmation.' Since the municipal bulletin (S2) does not constitute an explicit or formal repeal of Act 14-2019 (S1), the restriction from the Act remains active and legally binding. The bulletin is not described as a temporary emergency directive that would override standing rules.",
+          "4. Applying the Governing Principle: 'When information is incomplete, fall back to the last confirmed, higher-authority rule.' Act 14-2019 (S1) is the confirmed, higher-authority rule. The municipal bulletin (S2) introduces incomplete information regarding a change in status without formally deactivating the existing law.",
+          "5. Telemetry data (S3) showing other unidentified drones flying, and a blogger's claim (S4) that P3 is effectively open, do not alter the legal status of the area. These sources are of significantly lower authority than a legislative act or an official municipal notice regarding regulations.",
+          "6. Therefore, based on the highest authority and actively enforced rule (Act 14-2019), launching a UAV in Sector P3 is not permitted."
+        ],
+        "source_ranking": [
+          {
+            "id": "S1_archive",
+            "authority": "highest",
+            "type": "law_archive"
+          },
+          {
+            "id": "S2_city_bulletin",
+            "authority": "medium",
+            "type": "municipal_notice",
+            "status": "pending_clarification"
+          },
+          {
+            "id": "S3_telemetry",
+            "authority": "low",
+            "type": "sensor"
+          },
+          {
+            "id": "S4_operator_blog",
+            "authority": "lowest",
+            "type": "experience"
+          }
+        ],
+        "requests": [
+          "Seek formal clarification from the relevant legal authority regarding the current legal status of Act 14-2019 in relation to the municipal bulletin's 'under observation' notice. This should include confirmation of any official repeal or amendment processes and their effective dates.",
+          "Clarify the specific requirements for 'coordination' mentioned in the municipal bulletin (S2), especially in the context of a legally restricted corridor (S1)."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC1_PendingRepeal_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC1_PendingRepeal expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC2_TemporaryOrder_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC2_TemporaryOrder expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC3_NewRuleSupersedes_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC3_NewRuleSupersedes expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC4_MultiSourceConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC4_MultiSourceConflict expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC5_PublishVsEffective_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC5_PublishVsEffective expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC6_ApplicationVsExecution_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC6_ApplicationVsExecution expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC7_RepealPlusWaiver_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC7_RepealPlusWaiver expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC8_CrossRegion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC8_CrossRegion expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": null,
+      "description": "Amendment bulletin (published 2025-11-01) hints at future altitude raise but omits effective date; today is 2025-11-07.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# UAV Compliance Review – Regulation Lifecycle Focus\n\n## Mission Context\n- Scenario: None\n- Description: Amendment bulletin (published 2025-11-01) hints at future altitude raise but omits effective date; today is 2025-11-07.\n- Baseline question: Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?\n\n## Provided Sources\n- [S1_bulletin] Type: bulletin | Content: Amendment A-882 published 2025-11-01, states 'upcoming altitude increase to 140 m', effective date TBD.\n- [S2_current_reg] Type: rulebook | Content: Current enforceable rule remains UL-120 (100 m).\n\n## Governing Principles\n- Pending repeals do not deactivate a rule until formal confirmation.\n- Temporary emergency directives override standing rules while active.\n- Execution-time rules take precedence over application-time approvals.\n- Regional rules apply within their jurisdiction regardless of operator preference.\n- When information is incomplete, fall back to the last confirmed, higher-authority rule.\n\n## Evaluation Hints\n- repeal_handling: target >=70% of cases with repeal notices must keep the conservative stance until confirmation.\n- temporary_rule_priority: target 100% recognition that emergency orders override routine rules.\n- lifecycle_reasoning: target Detect new-vs-old conflicts and cite the current effective rule.\n- jurisdiction_awareness: target Explain which region's rule governs cross-border ops.\n\n---\n\n## Output Requirements\n1. **Decision**: APPROVE / REJECT / UNCERTAIN / CONDITIONAL_APPROVE.\n2. **Rule State**: Cite whether each rule is ACTIVE, PENDING repeal, TEMPORARY, or REGION-SPECIFIC.\n3. **Reasoning**: Step-by-step application of the lifecycle principles (pending repeal, temporary priority, execution-time rules, jurisdiction split).\n4. **Source Ranking**: If multiple authorities disagree, order them (e.g., national act > municipal notice > telemetry > anecdote).\n5. **Requests**: If information is pending (signature, effective date, cross-jurisdiction permit), explicitly ask for it.\n\nRespond in JSON comparable to:\n```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\"rule\": \"NFZ-K7\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Repeal notice\", \"status\": \"PENDING_SIGNATURE\"}\n  ],\n  \"reasoning\": [\n    \"Step1 ...\",\n    \"Step2 ...\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S1_rule_legacy\"},\n    {\"id\": \"S2_repeal_notice\", \"status\": \"pending\"},\n    {\"id\": \"S3_sensor\"}\n  ],\n  \"requests\": [\n    \"Confirm when repeal is gazetted.\"\n  ]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC1_PendingRepeal expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC2_TemporaryOrder expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC3_NewRuleSupersedes expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC4_MultiSourceConflict expected decision: UNCERTAIN\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC5_PublishVsEffective expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC6_ApplicationVsExecution expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC7_RepealPlusWaiver expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC8_CrossRegion expected decision: UNCERTAIN\nDecision rule: Draft/pending repeals are NOT effective; temporary/emergency orders override until expiry. Use publish/effective dates to choose the governing version at execution time; if dates/region are unclear, be conservative (REJECT/UNCERTAIN) and request confirmation. Cross-region differences must be handled explicitly; no silent merging of rules.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"rule_state\": [\n    {\"rule\": \"UL-120 (100 m)\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Amendment A-882 (140 m)\", \"status\": \"PENDING\"}\n  ],\n  \"reasoning\": [\n    \"The amendment bulletin (S1_bulletin) published on 2025-11-01 announces an 'upcoming altitude increase to 140 m' but explicitly states 'effective date TBD'.\",\n    \"According to the governing principle 'Pending repeals do not deactivate a rule until formal confirmation', a rule amendment is not active until its effective date is formally confirmed.\",\n    \"The current enforceable rule, as per S2_current_reg, remains UL-120, which limits altitude to 100 m.\",\n    \"Applying the principle 'When information is incomplete, fall back to the last confirmed, higher-authority rule', the existing 100 m limit is the one to be adhered to at the execution time (2025-11-07).\",\n    \"Therefore, while a multirotor UAV is permitted to launch, it must comply with the currently active 100 m altitude limit. The decision 'REJECT' specifically applies to operating at the proposed higher altitude of 140 m until Amendment A-882 becomes effective.\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S2_current_reg\"},\n    {\"id\": \"S1_bulletin\", \"status\": \"pending_effective_date\"}\n  ],\n  \"requests\": [\n    \"Confirm the effective date for Amendment A-882 to allow operations up to 140 m.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "rule_state": [
+          {
+            "rule": "UL-120 (100 m)",
+            "status": "ACTIVE"
+          },
+          {
+            "rule": "Amendment A-882 (140 m)",
+            "status": "PENDING"
+          }
+        ],
+        "reasoning": [
+          "The amendment bulletin (S1_bulletin) published on 2025-11-01 announces an 'upcoming altitude increase to 140 m' but explicitly states 'effective date TBD'.",
+          "According to the governing principle 'Pending repeals do not deactivate a rule until formal confirmation', a rule amendment is not active until its effective date is formally confirmed.",
+          "The current enforceable rule, as per S2_current_reg, remains UL-120, which limits altitude to 100 m.",
+          "Applying the principle 'When information is incomplete, fall back to the last confirmed, higher-authority rule', the existing 100 m limit is the one to be adhered to at the execution time (2025-11-07).",
+          "Therefore, while a multirotor UAV is permitted to launch, it must comply with the currently active 100 m altitude limit. The decision 'REJECT' specifically applies to operating at the proposed higher altitude of 140 m until Amendment A-882 becomes effective."
+        ],
+        "source_ranking": [
+          {
+            "id": "S2_current_reg"
+          },
+          {
+            "id": "S1_bulletin",
+            "status": "pending_effective_date"
+          }
+        ],
+        "requests": [
+          "Confirm the effective date for Amendment A-882 to allow operations up to 140 m."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC1_PendingRepeal_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC1_PendingRepeal expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC2_TemporaryOrder_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC2_TemporaryOrder expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC3_NewRuleSupersedes_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC3_NewRuleSupersedes expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC4_MultiSourceConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC4_MultiSourceConflict expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC5_PublishVsEffective_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC5_PublishVsEffective expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC6_ApplicationVsExecution_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC6_ApplicationVsExecution expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC7_RepealPlusWaiver_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC7_RepealPlusWaiver expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC8_CrossRegion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC8_CrossRegion expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": null,
+      "description": "Application approved on 2025-09-15 using UL-120, but flight scheduled 2025-10-25 after UL-150 took effect.",
+      "expected_decision": "REJECT",
+      "llm_decision": "CONDITIONAL_APPROVE",
+      "prompt": "# UAV Compliance Review – Regulation Lifecycle Focus\n\n## Mission Context\n- Scenario: None\n- Description: Application approved on 2025-09-15 using UL-120, but flight scheduled 2025-10-25 after UL-150 took effect.\n- Baseline question: Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?\n\n## Provided Sources\n- [S1_application] Type: record | Content: Approval letter (2025-09-15) referencing UL-120 100 m cap.\n- [S2_execution_date] Type: timeline | Content: Actual flight planned 2025-10-25.\n- [S3_new_rule] Type: rulebook | Content: UL-150 in force since 2025-10-20 (150 m limit).\n\n## Governing Principles\n- Pending repeals do not deactivate a rule until formal confirmation.\n- Temporary emergency directives override standing rules while active.\n- Execution-time rules take precedence over application-time approvals.\n- Regional rules apply within their jurisdiction regardless of operator preference.\n- When information is incomplete, fall back to the last confirmed, higher-authority rule.\n\n## Evaluation Hints\n- repeal_handling: target >=70% of cases with repeal notices must keep the conservative stance until confirmation.\n- temporary_rule_priority: target 100% recognition that emergency orders override routine rules.\n- lifecycle_reasoning: target Detect new-vs-old conflicts and cite the current effective rule.\n- jurisdiction_awareness: target Explain which region's rule governs cross-border ops.\n\n---\n\n## Output Requirements\n1. **Decision**: APPROVE / REJECT / UNCERTAIN / CONDITIONAL_APPROVE.\n2. **Rule State**: Cite whether each rule is ACTIVE, PENDING repeal, TEMPORARY, or REGION-SPECIFIC.\n3. **Reasoning**: Step-by-step application of the lifecycle principles (pending repeal, temporary priority, execution-time rules, jurisdiction split).\n4. **Source Ranking**: If multiple authorities disagree, order them (e.g., national act > municipal notice > telemetry > anecdote).\n5. **Requests**: If information is pending (signature, effective date, cross-jurisdiction permit), explicitly ask for it.\n\nRespond in JSON comparable to:\n```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\"rule\": \"NFZ-K7\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Repeal notice\", \"status\": \"PENDING_SIGNATURE\"}\n  ],\n  \"reasoning\": [\n    \"Step1 ...\",\n    \"Step2 ...\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S1_rule_legacy\"},\n    {\"id\": \"S2_repeal_notice\", \"status\": \"pending\"},\n    {\"id\": \"S3_sensor\"}\n  ],\n  \"requests\": [\n    \"Confirm when repeal is gazetted.\"\n  ]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC1_PendingRepeal expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC2_TemporaryOrder expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC3_NewRuleSupersedes expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC4_MultiSourceConflict expected decision: UNCERTAIN\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC5_PublishVsEffective expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC6_ApplicationVsExecution expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC7_RepealPlusWaiver expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC8_CrossRegion expected decision: UNCERTAIN\nDecision rule: Draft/pending repeals are NOT effective; temporary/emergency orders override until expiry. Use publish/effective dates to choose the governing version at execution time; if dates/region are unclear, be conservative (REJECT/UNCERTAIN) and request confirmation. Cross-region differences must be handled explicitly; no silent merging of rules.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"CONDITIONAL_APPROVE\",\n  \"confidence\": \"high\",\n  \"rule_state\": [\n    {\n      \"rule\": \"UL-120 (100 m cap)\",\n      \"status\": \"ACTIVE (as condition of specific approval)\"\n    },\n    {\n      \"rule\": \"UL-150 (150 m limit)\",\n      \"status\": \"ACTIVE (as general governing rule)\"\n    }\n  ],\n  \"reasoning\": [\n    \"Step 1: The flight is scheduled for 2025-10-25 ([S2_execution_date]).\",\n    \"Step 2: The new regulation, UL-150 (150 m limit), officially came into force on 2025-10-20 ([S3_new_rule]).\",\n    \"Step 3: Applying the governing principle 'Execution-time rules take precedence over application-time approvals', UL-150 is the general regulation applicable at the time of the planned flight, permitting operations up to 150 meters.\",\n    \"Step 4: However, the specific application was approved on 2025-09-15, explicitly referencing UL-120, which imposed a 100-meter cap ([S1_application]). This approval constitutes a specific permit with defined conditions for this particular operation.\",\n    \"Step 5: While the general rule (UL-150) is now more permissive, the specific conditions of a granted approval do not automatically expand or change unless explicitly amended or superseded. The operator is bound by the specific terms and conditions of their existing approval.\",\n    \"Step 6: Therefore, the UAV is allowed to launch, but its operations must strictly adhere to the 100-meter cap specified in its approval. Any intention to fly above 100 meters (up to the new 150-meter limit) would require a new or amended approval specific to the UL-150 limits.\"\n  ],\n  \"source_ranking\": [\n    {\n      \"id\": \"S1_application\",\n      \"authority\": \"Specific approval document\"\n    },\n    {\n      \"id\": \"S3_new_rule\",\n      \"authority\": \"General regulation in force\"\n    },\n    {\n      \"id\": \"S2_execution_date\",\n      \"authority\": \"Timeline information\"\n    }\n  ],\n  \"requests\": [\n    \"Confirm the planned maximum flight altitude for the UAV operation.\",\n    \"If the planned altitude exceeds 100m, an amendment to the existing approval or a new application must be submitted to reflect the new operational limits under UL-150.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "CONDITIONAL_APPROVE",
+        "confidence": "high",
+        "rule_state": [
+          {
+            "rule": "UL-120 (100 m cap)",
+            "status": "ACTIVE (as condition of specific approval)"
+          },
+          {
+            "rule": "UL-150 (150 m limit)",
+            "status": "ACTIVE (as general governing rule)"
+          }
+        ],
+        "reasoning": [
+          "Step 1: The flight is scheduled for 2025-10-25 ([S2_execution_date]).",
+          "Step 2: The new regulation, UL-150 (150 m limit), officially came into force on 2025-10-20 ([S3_new_rule]).",
+          "Step 3: Applying the governing principle 'Execution-time rules take precedence over application-time approvals', UL-150 is the general regulation applicable at the time of the planned flight, permitting operations up to 150 meters.",
+          "Step 4: However, the specific application was approved on 2025-09-15, explicitly referencing UL-120, which imposed a 100-meter cap ([S1_application]). This approval constitutes a specific permit with defined conditions for this particular operation.",
+          "Step 5: While the general rule (UL-150) is now more permissive, the specific conditions of a granted approval do not automatically expand or change unless explicitly amended or superseded. The operator is bound by the specific terms and conditions of their existing approval.",
+          "Step 6: Therefore, the UAV is allowed to launch, but its operations must strictly adhere to the 100-meter cap specified in its approval. Any intention to fly above 100 meters (up to the new 150-meter limit) would require a new or amended approval specific to the UL-150 limits."
+        ],
+        "source_ranking": [
+          {
+            "id": "S1_application",
+            "authority": "Specific approval document"
+          },
+          {
+            "id": "S3_new_rule",
+            "authority": "General regulation in force"
+          },
+          {
+            "id": "S2_execution_date",
+            "authority": "Timeline information"
+          }
+        ],
+        "requests": [
+          "Confirm the planned maximum flight altitude for the UAV operation.",
+          "If the planned altitude exceeds 100m, an amendment to the existing approval or a new application must be submitted to reflect the new operational limits under UL-150."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC1_PendingRepeal_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC1_PendingRepeal expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC2_TemporaryOrder_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC2_TemporaryOrder expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC3_NewRuleSupersedes_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC3_NewRuleSupersedes expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC4_MultiSourceConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC4_MultiSourceConflict expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC5_PublishVsEffective_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC5_PublishVsEffective expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC6_ApplicationVsExecution_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC6_ApplicationVsExecution expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC7_RepealPlusWaiver_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC7_RepealPlusWaiver expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC8_CrossRegion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC8_CrossRegion expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": null,
+      "description": "NFZ-J2 repeal notice pending; operator presents emergency waiver citing the 'soon-to-be-open' status.",
+      "expected_decision": "REJECT",
+      "llm_decision": "REJECT",
+      "prompt": "# UAV Compliance Review – Regulation Lifecycle Focus\n\n## Mission Context\n- Scenario: None\n- Description: NFZ-J2 repeal notice pending; operator presents emergency waiver citing the 'soon-to-be-open' status.\n- Baseline question: Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?\n\n## Provided Sources\n- [S1_nf_repeal] Type: bulletin | Content: Repeal of NFZ-J2 awaiting federal gazette publication.\n- [S2_waiver] Type: waiver | Content: Emergency service waiver referencing expected repeal but lacking final approval stamp.\n- [S3_sensor] Type: telemetry | Content: No obstacles detected within J2 radius.\n\n## Governing Principles\n- Pending repeals do not deactivate a rule until formal confirmation.\n- Temporary emergency directives override standing rules while active.\n- Execution-time rules take precedence over application-time approvals.\n- Regional rules apply within their jurisdiction regardless of operator preference.\n- When information is incomplete, fall back to the last confirmed, higher-authority rule.\n\n## Evaluation Hints\n- repeal_handling: target >=70% of cases with repeal notices must keep the conservative stance until confirmation.\n- temporary_rule_priority: target 100% recognition that emergency orders override routine rules.\n- lifecycle_reasoning: target Detect new-vs-old conflicts and cite the current effective rule.\n- jurisdiction_awareness: target Explain which region's rule governs cross-border ops.\n\n---\n\n## Output Requirements\n1. **Decision**: APPROVE / REJECT / UNCERTAIN / CONDITIONAL_APPROVE.\n2. **Rule State**: Cite whether each rule is ACTIVE, PENDING repeal, TEMPORARY, or REGION-SPECIFIC.\n3. **Reasoning**: Step-by-step application of the lifecycle principles (pending repeal, temporary priority, execution-time rules, jurisdiction split).\n4. **Source Ranking**: If multiple authorities disagree, order them (e.g., national act > municipal notice > telemetry > anecdote).\n5. **Requests**: If information is pending (signature, effective date, cross-jurisdiction permit), explicitly ask for it.\n\nRespond in JSON comparable to:\n```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\"rule\": \"NFZ-K7\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Repeal notice\", \"status\": \"PENDING_SIGNATURE\"}\n  ],\n  \"reasoning\": [\n    \"Step1 ...\",\n    \"Step2 ...\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S1_rule_legacy\"},\n    {\"id\": \"S2_repeal_notice\", \"status\": \"pending\"},\n    {\"id\": \"S3_sensor\"}\n  ],\n  \"requests\": [\n    \"Confirm when repeal is gazetted.\"\n  ]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC1_PendingRepeal expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC2_TemporaryOrder expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC3_NewRuleSupersedes expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC4_MultiSourceConflict expected decision: UNCERTAIN\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC5_PublishVsEffective expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC6_ApplicationVsExecution expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC7_RepealPlusWaiver expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC8_CrossRegion expected decision: UNCERTAIN\nDecision rule: Draft/pending repeals are NOT effective; temporary/emergency orders override until expiry. Use publish/effective dates to choose the governing version at execution time; if dates/region are unclear, be conservative (REJECT/UNCERTAIN) and request confirmation. Cross-region differences must be handled explicitly; no silent merging of rules.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"rule_state\": [\n    {\n      \"rule\": \"NFZ-J2\",\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"rule\": \"Repeal of NFZ-J2\",\n      \"status\": \"PENDING_PUBLICATION\"\n    },\n    {\n      \"rule\": \"Emergency service waiver\",\n      \"status\": \"NOT_ACTIVE\"\n    }\n  ],\n  \"reasoning\": [\n    \"NFZ-J2 remains an ACTIVE No-Fly Zone. Source [S1_nf_repeal] states its repeal is 'awaiting federal gazette publication'. According to the governing principle, 'Pending repeals do not deactivate a rule until formal confirmation,' the NFZ-J2 rule is still fully in effect.\",\n    \"The emergency service waiver ([S2_waiver]) is not active because it 'lacking final approval stamp'. The governing principle 'Temporary emergency directives override standing rules while active' cannot be applied here, as the waiver itself is not active and therefore cannot override anything.\",\n    \"The operator's reference to the 'soon-to-be-open' status does not grant permission. The governing principle 'Execution-time rules take precedence over application-time approvals' means the current effective rules at the time of launch govern the operation.\",\n    \"Telemetry data ([S3_sensor]) indicating 'No obstacles detected' relates to operational safety, not regulatory compliance with an active No-Fly Zone. It does not provide authorization to launch.\",\n    \"Given the NFZ-J2 is active and there is no formally approved waiver, the launch is not permitted. This follows the governing principle, 'When information is incomplete, fall back to the last confirmed, higher-authority rule,' which in this case is the active NFZ-J2.\"\n  ],\n  \"source_ranking\": [\n    {\n      \"id\": \"NFZ-J2 (implicit standing rule)\"\n    },\n    {\n      \"id\": \"S1_nf_repeal\",\n      \"status\": \"active_bulletin_on_pending_repeal\"\n    },\n    {\n      \"id\": \"S2_waiver\",\n      \"status\": \"inactive_due_to_missing_approval\"\n    },\n    {\n      \"id\": \"S3_sensor\",\n      \"status\": \"operational_data_not_regulatory\"\n    }\n  ],\n  \"requests\": [\n    \"Confirmation of the federal gazette publication date for the repeal of NFZ-J2.\",\n    \"A fully approved and stamped emergency waiver, if the operator wishes to proceed under a temporary directive.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "rule_state": [
+          {
+            "rule": "NFZ-J2",
+            "status": "ACTIVE"
+          },
+          {
+            "rule": "Repeal of NFZ-J2",
+            "status": "PENDING_PUBLICATION"
+          },
+          {
+            "rule": "Emergency service waiver",
+            "status": "NOT_ACTIVE"
+          }
+        ],
+        "reasoning": [
+          "NFZ-J2 remains an ACTIVE No-Fly Zone. Source [S1_nf_repeal] states its repeal is 'awaiting federal gazette publication'. According to the governing principle, 'Pending repeals do not deactivate a rule until formal confirmation,' the NFZ-J2 rule is still fully in effect.",
+          "The emergency service waiver ([S2_waiver]) is not active because it 'lacking final approval stamp'. The governing principle 'Temporary emergency directives override standing rules while active' cannot be applied here, as the waiver itself is not active and therefore cannot override anything.",
+          "The operator's reference to the 'soon-to-be-open' status does not grant permission. The governing principle 'Execution-time rules take precedence over application-time approvals' means the current effective rules at the time of launch govern the operation.",
+          "Telemetry data ([S3_sensor]) indicating 'No obstacles detected' relates to operational safety, not regulatory compliance with an active No-Fly Zone. It does not provide authorization to launch.",
+          "Given the NFZ-J2 is active and there is no formally approved waiver, the launch is not permitted. This follows the governing principle, 'When information is incomplete, fall back to the last confirmed, higher-authority rule,' which in this case is the active NFZ-J2."
+        ],
+        "source_ranking": [
+          {
+            "id": "NFZ-J2 (implicit standing rule)"
+          },
+          {
+            "id": "S1_nf_repeal",
+            "status": "active_bulletin_on_pending_repeal"
+          },
+          {
+            "id": "S2_waiver",
+            "status": "inactive_due_to_missing_approval"
+          },
+          {
+            "id": "S3_sensor",
+            "status": "operational_data_not_regulatory"
+          }
+        ],
+        "requests": [
+          "Confirmation of the federal gazette publication date for the repeal of NFZ-J2.",
+          "A fully approved and stamped emergency waiver, if the operator wishes to proceed under a temporary directive."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC1_PendingRepeal_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC1_PendingRepeal expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC2_TemporaryOrder_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC2_TemporaryOrder expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC3_NewRuleSupersedes_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC3_NewRuleSupersedes expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC4_MultiSourceConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC4_MultiSourceConflict expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC5_PublishVsEffective_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC5_PublishVsEffective expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC6_ApplicationVsExecution_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC6_ApplicationVsExecution expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC7_RepealPlusWaiver_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC7_RepealPlusWaiver expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC8_CrossRegion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC8_CrossRegion expected decision: UNCERTAIN"
+        }
+      ]
+    },
+    {
+      "test_case_id": null,
+      "description": "Mission departs City A (allows 120 m) and enters City B (strict 80 m cap) without transition plan.",
+      "expected_decision": "UNCERTAIN",
+      "llm_decision": "REJECT",
+      "prompt": "# UAV Compliance Review – Regulation Lifecycle Focus\n\n## Mission Context\n- Scenario: None\n- Description: Mission departs City A (allows 120 m) and enters City B (strict 80 m cap) without transition plan.\n- Baseline question: Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?\n\n## Provided Sources\n- [S1_city_a] Type: regional_rule | Content: City A Part 91-A permits up to 120 m.\n- [S2_city_b] Type: regional_rule | Content: City B By-law 77 limits UAV flight to 80 m without special permit.\n- [S3_mission_plan] Type: plan | Content: Straight path crosses border at waypoint B1 (no altitude change planned).\n\n## Governing Principles\n- Pending repeals do not deactivate a rule until formal confirmation.\n- Temporary emergency directives override standing rules while active.\n- Execution-time rules take precedence over application-time approvals.\n- Regional rules apply within their jurisdiction regardless of operator preference.\n- When information is incomplete, fall back to the last confirmed, higher-authority rule.\n\n## Evaluation Hints\n- repeal_handling: target >=70% of cases with repeal notices must keep the conservative stance until confirmation.\n- temporary_rule_priority: target 100% recognition that emergency orders override routine rules.\n- lifecycle_reasoning: target Detect new-vs-old conflicts and cite the current effective rule.\n- jurisdiction_awareness: target Explain which region's rule governs cross-border ops.\n\n---\n\n## Output Requirements\n1. **Decision**: APPROVE / REJECT / UNCERTAIN / CONDITIONAL_APPROVE.\n2. **Rule State**: Cite whether each rule is ACTIVE, PENDING repeal, TEMPORARY, or REGION-SPECIFIC.\n3. **Reasoning**: Step-by-step application of the lifecycle principles (pending repeal, temporary priority, execution-time rules, jurisdiction split).\n4. **Source Ranking**: If multiple authorities disagree, order them (e.g., national act > municipal notice > telemetry > anecdote).\n5. **Requests**: If information is pending (signature, effective date, cross-jurisdiction permit), explicitly ask for it.\n\nRespond in JSON comparable to:\n```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"medium\",\n  \"rule_state\": [\n    {\"rule\": \"NFZ-K7\", \"status\": \"ACTIVE\"},\n    {\"rule\": \"Repeal notice\", \"status\": \"PENDING_SIGNATURE\"}\n  ],\n  \"reasoning\": [\n    \"Step1 ...\",\n    \"Step2 ...\"\n  ],\n  \"source_ranking\": [\n    {\"id\": \"S1_rule_legacy\"},\n    {\"id\": \"S2_repeal_notice\", \"status\": \"pending\"},\n    {\"id\": \"S3_sensor\"}\n  ],\n  \"requests\": [\n    \"Confirm when repeal is gazetted.\"\n  ]\n}\n```\n\n\n# Retrieved Evidence\n\n\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC1_PendingRepeal expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC2_TemporaryOrder expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC3_NewRuleSupersedes expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC4_MultiSourceConflict expected decision: UNCERTAIN\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC5_PublishVsEffective expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC6_ApplicationVsExecution expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC7_RepealPlusWaiver expected decision: REJECT\n- Priority: None (SOP S025_regulation_lifecycle.jsonc) Test case TC8_CrossRegion expected decision: UNCERTAIN\nDecision rule: Draft/pending repeals are NOT effective; temporary/emergency orders override until expiry. Use publish/effective dates to choose the governing version at execution time; if dates/region are unclear, be conservative (REJECT/UNCERTAIN) and request confirmation. Cross-region differences must be handled explicitly; no silent merging of rules.\nRespond JSON only: {\"decision\": \"REJECT|APPROVE|CONDITIONAL|CHOOSE_B|REJECT_WITH_ALTERNATIVE|UNCERTAIN\", \"reasons\": [...], \"citations\": [...], \"evidence_used\": [...]}. Cite option/waiver/priority fields when relevant.",
+      "llm_raw": "```json\n{\n  \"decision\": \"REJECT\",\n  \"confidence\": \"high\",\n  \"rule_state\": [\n    {\n      \"rule\": \"S1_city_a: City A Part 91-A\",\n      \"status\": \"ACTIVE\",\n      \"scope\": \"REGION-SPECIFIC (City A)\"\n    },\n    {\n      \"rule\": \"S2_city_b: City B By-law 77\",\n      \"status\": \"ACTIVE\",\n      \"scope\": \"REGION-SPECIFIC (City B)\"\n    }\n  ],\n  \"reasoning\": [\n    \"Step 1: Identify regional altitude limits. City A permits UAV flight up to 120 m (S1_city_a). City B strictly limits UAV flight to 80 m without a special permit (S2_city_b).\",\n    \"Step 2: Analyze the mission plan's interaction with jurisdiction boundaries. The mission plans a 'straight path' that 'crosses border at waypoint B1' with 'no altitude change planned' (S3_mission_plan).\",\n    \"Step 3: Apply the 'Regional rules apply within their jurisdiction' principle. While the UAV is in City A, it can legally operate up to 120 m. However, once the UAV crosses into City B, it becomes subject to City B's regulations.\",\n    \"Step 4: Evaluate compliance at the border crossing. If the UAV launches in City A at an altitude between 80 m and 120 m (which is permissible in City A), and maintains 'no altitude change planned' as it enters City B, it will immediately be in violation of City B's 80 m altitude cap (S2_city_b).\",\n    \"Step 5: Conclude based on planned non-compliance. As the mission plan explicitly states no altitude change, it indicates an intent to violate City B's strict 80 m cap if the flight altitude exceeds 80 m upon entering City B. The absence of a transition plan or a special permit for City B makes the mission non-compliant.\",\n    \"Regarding the baseline question 'Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?': The provided scenario does not describe rules that are actively changing (e.g., pending repeals or temporary directives). All cited rules (S1, S2) are active. However, generally, a UAV is allowed to launch, but must comply with the *currently active* rules, which may include temporary overrides, and pending repeals do not deactivate a rule until formally confirmed (Governing Principle 1, 2, 3).\"\n  ],\n  \"source_ranking\": [\n    {\n      \"id\": \"S1_city_a\",\n      \"status\": \"ACTIVE_RULE\",\n      \"authority_type\": \"regional_rule\"\n    },\n    {\n      \"id\": \"S2_city_b\",\n      \"status\": \"ACTIVE_RULE\",\n      \"authority_type\": \"regional_rule\"\n    },\n    {\n      \"id\": \"S3_mission_plan\",\n      \"status\": \"PLAN\",\n      \"authority_type\": \"operator_plan\"\n    }\n  ],\n  \"requests\": [\n    \"A revised mission plan that includes a clear altitude transition (descent to 80 m or below) before crossing into City B's airspace.\",\n    \"Alternatively, evidence of a special permit obtained from City B allowing flight above 80 m.\"\n  ]\n}\n```",
+      "llm_parsed": {
+        "decision": "REJECT",
+        "confidence": "high",
+        "rule_state": [
+          {
+            "rule": "S1_city_a: City A Part 91-A",
+            "status": "ACTIVE",
+            "scope": "REGION-SPECIFIC (City A)"
+          },
+          {
+            "rule": "S2_city_b: City B By-law 77",
+            "status": "ACTIVE",
+            "scope": "REGION-SPECIFIC (City B)"
+          }
+        ],
+        "reasoning": [
+          "Step 1: Identify regional altitude limits. City A permits UAV flight up to 120 m (S1_city_a). City B strictly limits UAV flight to 80 m without a special permit (S2_city_b).",
+          "Step 2: Analyze the mission plan's interaction with jurisdiction boundaries. The mission plans a 'straight path' that 'crosses border at waypoint B1' with 'no altitude change planned' (S3_mission_plan).",
+          "Step 3: Apply the 'Regional rules apply within their jurisdiction' principle. While the UAV is in City A, it can legally operate up to 120 m. However, once the UAV crosses into City B, it becomes subject to City B's regulations.",
+          "Step 4: Evaluate compliance at the border crossing. If the UAV launches in City A at an altitude between 80 m and 120 m (which is permissible in City A), and maintains 'no altitude change planned' as it enters City B, it will immediately be in violation of City B's 80 m altitude cap (S2_city_b).",
+          "Step 5: Conclude based on planned non-compliance. As the mission plan explicitly states no altitude change, it indicates an intent to violate City B's strict 80 m cap if the flight altitude exceeds 80 m upon entering City B. The absence of a transition plan or a special permit for City B makes the mission non-compliant.",
+          "Regarding the baseline question 'Is a multirotor UAV allowed to launch in a jurisdiction where rules are actively changing?': The provided scenario does not describe rules that are actively changing (e.g., pending repeals or temporary directives). All cited rules (S1, S2) are active. However, generally, a UAV is allowed to launch, but must comply with the *currently active* rules, which may include temporary overrides, and pending repeals do not deactivate a rule until formally confirmed (Governing Principle 1, 2, 3)."
+        ],
+        "source_ranking": [
+          {
+            "id": "S1_city_a",
+            "status": "ACTIVE_RULE",
+            "authority_type": "regional_rule"
+          },
+          {
+            "id": "S2_city_b",
+            "status": "ACTIVE_RULE",
+            "authority_type": "regional_rule"
+          },
+          {
+            "id": "S3_mission_plan",
+            "status": "PLAN",
+            "authority_type": "operator_plan"
+          }
+        ],
+        "requests": [
+          "A revised mission plan that includes a clear altitude transition (descent to 80 m or below) before crossing into City B's airspace.",
+          "Alternatively, evidence of a special permit obtained from City B allowing flight above 80 m."
+        ]
+      },
+      "mission": {},
+      "retrieved_constraints": [
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC1_PendingRepeal_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC1_PendingRepeal expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC2_TemporaryOrder_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC2_TemporaryOrder expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC3_NewRuleSupersedes_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC3_NewRuleSupersedes expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC4_MultiSourceConflict_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC4_MultiSourceConflict expected decision: UNCERTAIN"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC5_PublishVsEffective_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC5_PublishVsEffective expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC6_ApplicationVsExecution_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC6_ApplicationVsExecution expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC7_RepealPlusWaiver_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC7_RepealPlusWaiver expected decision: REJECT"
+        },
+        {
+          "constraint_id": "S025_regulation_lifecycle_TC8_CrossRegion_expected_decision",
+          "file": "/Users/zhangyunshi/Desktop/实习/airsim/LAE-GPT/scenarios/intermediate/S025_regulation_lifecycle.jsonc",
+          "concept": "Priority",
+          "concepts": [
+            "Priority"
+          ],
+          "source_type": "SOP",
+          "source_ref": "S025_regulation_lifecycle.jsonc",
+          "text": "Test case TC8_CrossRegion expected decision: UNCERTAIN"
+        }
+      ]
+    }
+  ]
+}

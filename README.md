@@ -86,9 +86,10 @@ See `docs/QUICKSTART.md` for details.
 - Completed:
   - 49-case library with ground truth, physics/oracle scripts, baseline LLM validation reports.
   - RAG pipeline for S001–S020 with scenario-specific pre-checks (speed/altitude/geo/path/time-window/VLOS-BVLOS/payload/drop/airspace/timeline/multi-drone). Snapshot archived at `rag/rag_S001-S020/`; reports at `reports_former20rag/`.
-- Completed (RAG):
+- Completed (RAG and baselines):
   - S001–S020 baseline snapshot (`rag/rag_S001-S020/`, reports in `reports_former20rag/`).
-  - S021–S049 RAG runs finished in `rag/rag_S021-S049/` with reports in `reports/`.
+  - S021–S049 experimental RAG+ (`rag/rag_S021-S049/`) with reports now named `reports/S0xx_RAG_REPORT.json`.
+  - S021–S049 rules-baseline (hardcoded prompt/logic) kept at `rag/rag_S021-S049_rules_basline/`; reports renamed to `reports/S0xx_RULE_BASELINE.json`.
 - Notes:
   - Keep `rag/rag_S001-S020/` untouched as regression baseline.
-  - New prompt/rule iterations for S021–S049 live under `rag/rag_S021-S049/`.
+  - New prompt/rule iterations for S021–S049 live under `rag/rag_S021-S049/`; rules baseline retained separately for comparison.
