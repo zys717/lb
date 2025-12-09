@@ -1,7 +1,7 @@
 """
-Prompt builder for S049 – Capital Allocation (fleet vs infrastructure vs mixed plan).
-Forces the LLM to weigh discounted cash flow metrics, governance policy hooks,
-and documentation status before issuing a decision.
+Prompt builder for S049 – Surge Capacity Dispatch (vendor fleet requisition).
+Enforces documentation/coverage/physics/state checks under urgency; waivers can
+lift some ops limits but never missing/expired proofs or physical impossibilities.
 """
 
 from typing import Any, Dict, List
@@ -14,96 +14,55 @@ def _find_case(tc_id: str, scenario_config: Dict) -> Dict[str, Any]:
     return {}
 
 
-def _format_option(name: str, data: Dict[str, Any]) -> List[str]:
-    if not data:
-        return []
-    return [
-        f"- {name}: capex ${data.get('capex'):,}, "
-        f"incremental revenue ${data.get('incremental_revenue'):,}, "
-        f"incremental cost ${data.get('incremental_cost'):,}, "
-        f"life {data.get('life_years')} yrs, residual ${data.get('residual'):,}"
-    ]
-
-
 def build_capital_allocation_prompt(start, end, test_case_description: str,
                                     scenario_config: Dict, test_case_obj: Any) -> str:
     tc_id = getattr(test_case_obj, "test_id", "UNKNOWN")
     raw_case = _find_case(tc_id, scenario_config)
-    baseline = scenario_config.get("raw_data", {}).get("financial_baseline", {})
-    options = baseline.get("options", {})
     policy = scenario_config.get("raw_data", {}).get("policy_notes", {})
-    strat = scenario_config.get("raw_data", {}).get("strategic_signals", {})
+    hard_checks = policy.get("hard_checks", [])
+    waiver_rules = policy.get("waiver_rules", [])
 
-    assumptions = raw_case.get("assumptions", {})
-    metrics = raw_case.get("metrics", {})
+    context = raw_case.get("context", {})
     signals = raw_case.get("signals", raw_case.get("insights", []))
 
     lines: List[str] = [
-        "# Capital Allocation Review Packet",
+        "# Surge Capacity Dispatch Review Packet",
         "",
-        f"Scenario: {scenario_config.get('scenario_id', 'S049_CapitalAllocation')}",
+        f"Scenario: {scenario_config.get('scenario_id', 'S049_EmergencyCapacity')}",
         f"Test Case: {tc_id}",
         f"Title: {raw_case.get('title', test_case_description)}",
         "",
-        "## Fixed Budget and Options",
-        f"- Budget: ${baseline.get('budget_usd', 0):,}",
-        f"- Base discount rate: {baseline.get('discount_rate_base')}",
+        "## Mission Context",
     ]
 
-    lines.extend(["", "### Option Profiles"])
-    lines.extend(_format_option("Option A – Fleet", options.get("A_fleet", {})))
-    lines.extend(_format_option("Option B – Vertiport", options.get("B_vertiport", {})))
-    lines.extend(_format_option("Option C – Mixed", options.get("C_mixed", {})))
-
-    lines.extend([
-        "",
-        "## Governance & Policy Rules",
-        f"- Hurdle IRR ≥ {policy.get('hurdle_rate')}",
-        f"- Max payback: {policy.get('min_payback_years')} years (longer requires mitigation).",
-        "- Conditional approvals must spell out documentation or funding steps.",
-    ])
-
-    if policy.get("board_rules"):
-        lines.append("- Board reminders:")
-        lines.extend([f"  * {rule}" for rule in policy["board_rules"]])
-    if policy.get("documentation_requirements"):
-        lines.append("- Documentation checklist:")
-        lines.extend([f"  * {item}" for item in policy["documentation_requirements"]])
-
-    lines.extend([
-        "",
-        "## Strategic Pulls",
-        f"- Ops view: {strat.get('ops', 'n/a')}",
-        f"- Finance view: {strat.get('finance', 'n/a')}",
-        f"- Regulator view: {strat.get('regulators', 'n/a')}",
-        "",
-        "## Case Assumptions",
-    ])
-    for key, value in assumptions.items():
+    for key, value in context.items():
         lines.append(f"- {key}: {value}")
 
     lines.extend([
         "",
-        "## Case Metrics / Evidence",
+        "## Hard Checks (must pass or hold)",
     ])
-    for key, value in metrics.items():
-        lines.append(f"- {key}: {value}")
+    for rule in hard_checks:
+        lines.append(f"- {rule}")
+
+    if waiver_rules:
+        lines.extend(["", "## Waiver Rules"])
+        lines.extend([f"- {w}" for w in waiver_rules])
 
     if signals:
-        lines.extend(["", "## Stakeholder Signals"])
+        lines.extend(["", "## Stakeholder Signals / Notes"])
         lines.extend([f"- {msg}" for msg in signals])
 
     lines.extend([
         "",
         "## Decision Instructions",
         "1. decision ∈ {APPROVE, CONDITIONAL_APPROVE, REJECT, EXPLAIN_ONLY, UNCERTAIN}.",
-        "2. Provide ≤6 reasoning_steps referencing BOTH quantitative metrics (NPV/IRR/payback/PI/probabilities) and qualitative documentation gaps.",
-        "3. `tradeoffs` must mention which stakeholder (ops/finance/regulator) you sided with and why.",
-        "4. `actions` should list any mitigation (e.g., bridge plan, grant signature, appendix request).",
-        "5. Use `CONDITIONAL_APPROVE` when a plan could work but requires explicit documented steps; cite them.",
-        "6. Use `UNCERTAIN` when funding probability, tail risk, or documentation is missing.",
-        "7. Use `EXPLAIN_ONLY` when the case is asking for a reconciliation memo rather than a binary answer.",
-        "8. Output strict JSON with keys: decision, reasoning_steps, tradeoffs, actions, violated_policies.",
+        "2. Provide ≤6 reasoning_steps citing doc status (airworthiness/insurance/licensing), coverage/exclusions, physics (range/payload/voltage), resource sufficiency, and state conflicts.",
+        "3. Waivers: only official emergency/waiver can lift ops limits (e.g., night rating); cannot fix missing/expired docs or physics gaps. Verbal ≠ proof.",
+        "4. Use CONDITIONAL_APPROVE only when a listed waiver/attachment explicitly covers the constraint and you spell out prerequisites.",
+        "5. Use UNCERTAIN when proofs are missing, quantities short, or data conflicts; never auto-approve on urgency alone.",
+        "6. `tradeoffs` should note safety vs urgency/ops pressure; `actions` should request specific documents or deconfliction steps.",
+        "7. Output strict JSON with keys: decision, reasoning_steps, tradeoffs, actions, violated_policies.",
     ])
 
     return "\n".join(lines)

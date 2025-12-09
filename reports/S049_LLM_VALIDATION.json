@@ -1,7 +1,7 @@
 {
-  "scenario": "S049_CapitalAllocation",
-  "scenario_type": "capital_allocation",
-  "timestamp": "2025-11-15T13:43:11.903146",
+  "scenario": "S049_EmergencyCapacity",
+  "scenario_type": "surge_capacity",
+  "timestamp": "2025-12-09T09:32:49.139759",
   "summary": {
     "total_test_cases": 10,
     "llm_accuracy": "4/10",
@@ -9,230 +9,336 @@
   },
   "results": [
     {
-      "test_case_id": "TC01_BaseNPV",
+      "test_case_id": "TC01_PartialAirworthiness",
       "description": "",
       "command": "",
       "ground_truth": {
         "decision": "CONDITIONAL_APPROVE"
       },
       "llm_result": {
-        "decision": "CONDITIONAL_APPROVE",
-        "reasoning": "Option B (Vertiport) presents the highest Net Present Value ($520,000) and Profitability Index (1.52) among the options, aligning with the Ops strategic pull for vertiport density.\nAll options surpass the Hurdle IRR (0.10) and meet the Max Payback (4 years) policy, indicating financial viability for each.\nHowever, Option B has a significant 18-month construction lag, resulting in zero revenue inflow until month 18. This triggers the policy requiring a documented bridge financing or interim service plan for revenues starting after month 12.\nWhile Ops has proposed leasing interim capacity to mitigate the revenue delay, the required bridge plan has not yet been drafted, violating the policy that conditional approvals must spell out funding/bridging steps.\nThe Regulator has signaled that conditional approval is acceptable if a bridge operations plan is attached, confirming the necessity of this documentation.\nOption A is financially sound with a strong NPV ($480,000) and no compliance issues, but Option B's higher NPV and direct strategic alignment make it the preferred choice if policy conditions can be met.",
+        "decision": "UNCERTAIN",
+        "reasoning": "The provided 'Airworthiness Cert' is a screenshot lacking a signature, making its validity unconfirmable and effectively 'missing' a verifiable certificate.\nHard Check: Airworthiness certificate must be present and valid; missing → UNCERTAIN/REJECT. The current documentation violates this policy.\nWaiver Rule: Official emergency/waiver cannot lift requirements for missing/expired docs or physical deficits, meaning urgency does not bypass this fundamental safety check.\nInsurance is active and covers the mission environment (inland), satisfying this specific Hard Check.\nInformation regarding asset performance meeting mission profile, pilot license validity, and asset state conflicts is not provided, contributing to overall uncertainty.\nLaunching without a verified airworthiness certificate poses an unacceptable safety risk, even for a critical mission.",
         "analysis": {
-          "decision": "CONDITIONAL_APPROVE",
+          "decision": "UNCERTAIN",
           "reasoning_steps": [
-            "Option B (Vertiport) presents the highest Net Present Value ($520,000) and Profitability Index (1.52) among the options, aligning with the Ops strategic pull for vertiport density.",
-            "All options surpass the Hurdle IRR (0.10) and meet the Max Payback (4 years) policy, indicating financial viability for each.",
-            "However, Option B has a significant 18-month construction lag, resulting in zero revenue inflow until month 18. This triggers the policy requiring a documented bridge financing or interim service plan for revenues starting after month 12.",
-            "While Ops has proposed leasing interim capacity to mitigate the revenue delay, the required bridge plan has not yet been drafted, violating the policy that conditional approvals must spell out funding/bridging steps.",
-            "The Regulator has signaled that conditional approval is acceptable if a bridge operations plan is attached, confirming the necessity of this documentation.",
-            "Option A is financially sound with a strong NPV ($480,000) and no compliance issues, but Option B's higher NPV and direct strategic alignment make it the preferred choice if policy conditions can be met."
+            "The provided 'Airworthiness Cert' is a screenshot lacking a signature, making its validity unconfirmable and effectively 'missing' a verifiable certificate.",
+            "Hard Check: Airworthiness certificate must be present and valid; missing → UNCERTAIN/REJECT. The current documentation violates this policy.",
+            "Waiver Rule: Official emergency/waiver cannot lift requirements for missing/expired docs or physical deficits, meaning urgency does not bypass this fundamental safety check.",
+            "Insurance is active and covers the mission environment (inland), satisfying this specific Hard Check.",
+            "Information regarding asset performance meeting mission profile, pilot license validity, and asset state conflicts is not provided, contributing to overall uncertainty.",
+            "Launching without a verified airworthiness certificate poses an unacceptable safety risk, even for a critical mission."
           ],
-          "tradeoffs": "We are siding with the Ops and Regulator views by prioritizing Option B's strategic alignment and highest NPV. Finance's concern regarding the 18-month revenue lag is addressed by making approval conditional on a documented bridge plan, balancing financial discipline with strategic growth.",
+          "tradeoffs": "Prioritizing immediate dispatch due to critical urgency would mean compromising fundamental airworthiness safety standards. Delaying dispatch to verify documentation ensures compliance but postpones aid to mudslide victims.",
           "actions": [
-            "Require immediate submission of a detailed, drafted bridge operations plan for leasing interim capacity, explicitly outlining funding, service steps, and responsible parties.",
-            "The drafted bridge plan must be reviewed and formally approved by both Finance and Legal departments before the full capital allocation for Option B is released."
+            "Provide the original, signed, and valid airworthiness certificate for verification.",
+            "If the original is truly missing, an emergency airworthiness inspection and re-certification must be completed and proof provided.",
+            "Provide documentation confirming the asset's performance capability meets the 5km shuttle and payload requirements.",
+            "Provide pilot license and medical certificate validity information."
           ],
           "violated_policies": [
-            "Conditional approvals must spell out documentation or funding steps; silence is treated as a denial. (Option B currently lacks the required drafted bridge plan)."
+            "Airworthiness certificate must be present and valid; missing → UNCERTAIN/REJECT."
           ]
-        },
-        "correct": true
-      }
-    },
-    {
-      "test_case_id": "TC02_DiscountSensitivity",
-      "description": "",
-      "command": "",
-      "ground_truth": {
-        "decision": "REJECT"
-      },
-      "llm_result": {
-        "decision": "APPROVE",
-        "reasoning": "The budget constraint of $1,000,000 allows for the selection of only one project among Options A, B, and C.\nAll options (A, B, C) meet the Hurdle IRR (≥ 0.10) and Max Payback (≤ 4 years) governance rules when evaluated with the mandated 0.12 discount rate.\nOption A exhibits the highest Net Present Value (NPV) of $300,000 and the highest Internal Rate of Return (IRR) of 0.24 among the three options.\nThe Treasury memo explicitly mandates the use of a 12% discount rate, overriding any prior calculations or preferences based on an 8% rate (as referenced by the Sponsor).\nThe Risk Committee's note, 'IRR < hurdle = hard stop,' reinforces the importance of adhering to the current hurdle rate and discount rate for evaluation.\nWhile Option B (Vertiport) aligns with Ops' strategic pull for vertiport density, its financial metrics (NPV $120,000, IRR 0.20) are significantly lower than Option A at the current discount rate.",
-        "analysis": {
-          "decision": "APPROVE",
-          "reasoning_steps": [
-            "The budget constraint of $1,000,000 allows for the selection of only one project among Options A, B, and C.",
-            "All options (A, B, C) meet the Hurdle IRR (≥ 0.10) and Max Payback (≤ 4 years) governance rules when evaluated with the mandated 0.12 discount rate.",
-            "Option A exhibits the highest Net Present Value (NPV) of $300,000 and the highest Internal Rate of Return (IRR) of 0.24 among the three options.",
-            "The Treasury memo explicitly mandates the use of a 12% discount rate, overriding any prior calculations or preferences based on an 8% rate (as referenced by the Sponsor).",
-            "The Risk Committee's note, 'IRR < hurdle = hard stop,' reinforces the importance of adhering to the current hurdle rate and discount rate for evaluation.",
-            "While Option B (Vertiport) aligns with Ops' strategic pull for vertiport density, its financial metrics (NPV $120,000, IRR 0.20) are significantly lower than Option A at the current discount rate."
-          ],
-          "tradeoffs": "This decision sides with the Finance view, prioritizing IRR discipline and maximizing NPV as per the current mandated discount rate. This means deferring Ops' immediate strategic preference for vertiport density (Option B) in favor of the financially superior Option A.",
-          "actions": [
-            "Communicate to the Sponsor that the capital allocation decision is based on the mandated 12% discount rate as per the Treasury memo, clarifying why prior 8% IRR rankings are not applicable.",
-            "Request Finance to prepare a follow-up analysis on potential future funding for vertiport density initiatives, to be considered in subsequent capital allocation cycles, if financially viable."
-          ],
-          "violated_policies": []
         },
         "correct": false
       }
     },
     {
-      "test_case_id": "TC03_IRRRanking",
+      "test_case_id": "TC02_ConflictingInsurance",
       "description": "",
       "command": "",
       "ground_truth": {
         "decision": "EXPLAIN_ONLY"
       },
       "llm_result": {
-        "decision": "CONDITIONAL_APPROVE",
-        "reasoning": "The fixed budget of $1,000,000 limits the selection to only one option, as each project requires the full capital outlay.\nAll options (A, B, C) individually meet the Hurdle IRR (≥ 0.1) and the Max Payback period (≤ 4 years), making them financially viable on these absolute criteria.\nThere is a clear ranking mismatch: Option A has the highest IRR (0.26), while Option B has the highest NPV ($530,000) at the given discount rate (0.08).\nOption B is selected as the preferred project due to its superior absolute NPV, which is the most reliable metric for maximizing shareholder wealth when comparing mutually exclusive projects of similar scale.\nOption B strongly aligns with the Ops view (vertiport density, new corridors) and partially with the Regulator's interest (funding underserved corridors), amplifying its strategic value.\nDespite Finance's preference for Option A's higher IRR for 'covenant optics', Option B's IRR (0.21) is still robust and significantly above the 10% hurdle, ensuring strong profitability.",
+        "decision": "REJECT",
+        "reasoning": "The mission environment is coastal, involving an over-water segment.\nPolicy A is active but explicitly excludes over-water operations, thus providing no coverage for the mission environment.\nPolicy B is a draft rider covering over-water but is explicitly noted as 'unsigned' and 'no signed endorsement in attachments'.\nPer Hard Checks, insurance must be active and cover the mission environment; exclusions void coverage. An unsigned document does not constitute active, valid coverage.\nWaiver Rules state that verbal assurances ('vendor claims rider is 'as good as signed'') do not override official records ('no signed endorsement').\nEmergency waivers cannot address missing documentation or create insurance coverage where none exists for a specific operational exclusion.",
         "analysis": {
-          "decision": "CONDITIONAL_APPROVE",
+          "decision": "REJECT",
           "reasoning_steps": [
-            "The fixed budget of $1,000,000 limits the selection to only one option, as each project requires the full capital outlay.",
-            "All options (A, B, C) individually meet the Hurdle IRR (≥ 0.1) and the Max Payback period (≤ 4 years), making them financially viable on these absolute criteria.",
-            "There is a clear ranking mismatch: Option A has the highest IRR (0.26), while Option B has the highest NPV ($530,000) at the given discount rate (0.08).",
-            "Option B is selected as the preferred project due to its superior absolute NPV, which is the most reliable metric for maximizing shareholder wealth when comparing mutually exclusive projects of similar scale.",
-            "Option B strongly aligns with the Ops view (vertiport density, new corridors) and partially with the Regulator's interest (funding underserved corridors), amplifying its strategic value.",
-            "Despite Finance's preference for Option A's higher IRR for 'covenant optics', Option B's IRR (0.21) is still robust and significantly above the 10% hurdle, ensuring strong profitability."
+            "The mission environment is coastal, involving an over-water segment.",
+            "Policy A is active but explicitly excludes over-water operations, thus providing no coverage for the mission environment.",
+            "Policy B is a draft rider covering over-water but is explicitly noted as 'unsigned' and 'no signed endorsement in attachments'.",
+            "Per Hard Checks, insurance must be active and cover the mission environment; exclusions void coverage. An unsigned document does not constitute active, valid coverage.",
+            "Waiver Rules state that verbal assurances ('vendor claims rider is 'as good as signed'') do not override official records ('no signed endorsement').",
+            "Emergency waivers cannot address missing documentation or create insurance coverage where none exists for a specific operational exclusion."
           ],
-          "tradeoffs": "This decision sides with the Ops and Regulator's strategic pulls by prioritizing Option B's higher NPV and long-term strategic benefits (unlocking new corridors, serving underserved districts). It acknowledges Finance's preference for Option A's highest IRR due to 'covenant optics' but balances it against the greater absolute value creation and strategic fit of Option B, whose IRR is still strong.",
+          "tradeoffs": "Operating without active and explicit insurance coverage for the mission's over-water segment introduces unacceptable financial liability and legal risk, outweighing the urgency expressed by Ops.",
           "actions": [
-            "Request a comprehensive 'trade-off appendix' from the project proponents to formally address the IRR vs. NPV ranking conflict and provide detailed justification for selecting Option B over Option A, explicitly considering 'covenant optics' and strategic weighting.",
-            "Ensure documentation detailing how Option B's benefit to 'underserved corridors' aligns with regulatory expectations and any associated corridor letters or agreements."
-          ],
-          "violated_policies": []
-        },
-        "correct": false
-      }
-    },
-    {
-      "test_case_id": "TC04_DeliveryDelayRisk",
-      "description": "",
-      "command": "",
-      "ground_truth": {
-        "decision": "REJECT"
-      },
-      "llm_result": {
-        "decision": "CONDITIONAL_APPROVE",
-        "reasoning": "Option A demonstrates strong financial viability with a positive NPV of $120,000 and an IRR of 0.13 (13%), which exceeds the 0.10 (10%) hurdle rate set by policy, satisfying a key financial discipline requirement.\nThe payback period of 4.6 years exceeds the maximum 4-year limit, constituting a clear violation of company policy and triggering the requirement for explicit mitigation and documentation.\nDespite a 6-month revenue delay, Ops has not provided evidence of bridge capacity or an interim service plan, indicating a critical documentation gap for managing the delay's impact, as highlighted by stakeholder signals.\nCompany policy explicitly prohibits full approval for options with payback periods exceeding 4 years without documented mitigation, and conditional approvals mandate clear funding or bridging steps.\nWhile the 6-month delay means revenues start at month 7, not 'later than month 12', the absence of any bridge plan from Ops signals an unaddressed risk regarding the delay's operational and financial impact.",
-        "analysis": {
-          "decision": "CONDITIONAL_APPROVE",
-          "reasoning_steps": [
-            "Option A demonstrates strong financial viability with a positive NPV of $120,000 and an IRR of 0.13 (13%), which exceeds the 0.10 (10%) hurdle rate set by policy, satisfying a key financial discipline requirement.",
-            "The payback period of 4.6 years exceeds the maximum 4-year limit, constituting a clear violation of company policy and triggering the requirement for explicit mitigation and documentation.",
-            "Despite a 6-month revenue delay, Ops has not provided evidence of bridge capacity or an interim service plan, indicating a critical documentation gap for managing the delay's impact, as highlighted by stakeholder signals.",
-            "Company policy explicitly prohibits full approval for options with payback periods exceeding 4 years without documented mitigation, and conditional approvals mandate clear funding or bridging steps.",
-            "While the 6-month delay means revenues start at month 7, not 'later than month 12', the absence of any bridge plan from Ops signals an unaddressed risk regarding the delay's operational and financial impact."
-          ],
-          "tradeoffs": "This decision sides with the Finance view on IRR discipline (met) but holds firm on their demand for short payback periods, requiring mitigation for the extended payback. It acknowledges the operational delay and the need for a documented plan from Ops, ensuring that the project's viability is secured against implementation risks, aligning with Board reminders on documentation.",
-          "actions": [
-            "Require a comprehensive mitigation plan for the 4.6-year payback period, detailing how the company will address the extended timeline, such as identifying revenue acceleration strategies or cost control measures.",
-            "Mandate the submission of a documented bridge capacity plan or interim service plan by Ops to clearly articulate how the 6-month delay in fleet delivery will be managed, ensuring service continuity and minimizing financial impact.",
-            "Request confirmation from Ops that all identified documentation gaps related to project delays and mitigation strategies are fully addressed and integrated into the project plan before final funding release."
+            "Provide a fully executed and active insurance policy or rider that explicitly covers over-water operations for the asset and duration of the mission.",
+            "Obtain documented confirmation from the insurance provider confirming active coverage for the specified mission environment."
           ],
           "violated_policies": [
-            "Max payback: 4 years (Option A: 4.6 years)",
-            "Any option with payback > 4 years requires explicit mitigation and documentation before full approval (Mitigation and documentation are currently missing for Option A's payback)."
+            "Insurance must be active and cover mission environment; exclusions void coverage.",
+            "Verbal assurances do not override records."
           ]
         },
         "correct": false
       }
     },
     {
-      "test_case_id": "TC05_MonteCarloDemand",
-      "description": "",
-      "command": "",
-      "ground_truth": {
-        "decision": "UNCERTAIN"
-      },
-      "llm_result": {
-        "decision": "APPROVE",
-        "reasoning": "Option B (Vertiport) is rejected due to significant, unmitigated tail risk and clear governance policy violations. The Monte Carlo analysis shows a 20% probability of negative NPV (growth <17%), which implies IRR falls below the 10% hurdle, violating the policy requiring rejection without a regulator-signed corridor letter.\nOption B's Monte Carlo study fails to mention tail scenarios below the 5th percentile, which is a specific governance policy violation. Furthermore, the regulator explicitly requested this tail disclosure, reinforcing the lack of sufficient risk information.\nThe Finance team's VAR worksheet for Option B is in draft, indicating an incomplete and unverified risk assessment, making the project's financial stability highly uncertain.\nAll options presented use a base discount rate of 8%, which is below the company WACC (10-12%) without justification. This violates policy, and for Option B, with an 'expected_npv' of only $460,000 at 8%, a recalculation at WACC would likely diminish its viability significantly.\nGiven Option B's rejection, Option A (Fleet) is selected due to its superior financial performance and alignment with Finance's strategic pull for 'IRR discipline and short payback.' Option A boasts an IRR of 88.5% and a payback of 1.11 years, both exceptionally strong.\nWhile Option C also offers strong financial metrics (IRR 67.8%, NPV higher at 10% than A), Option A's higher IRR and shorter payback period make it marginally preferable in meeting Finance's explicit criteria.",
-        "analysis": {
-          "decision": "APPROVE",
-          "reasoning_steps": [
-            "Option B (Vertiport) is rejected due to significant, unmitigated tail risk and clear governance policy violations. The Monte Carlo analysis shows a 20% probability of negative NPV (growth <17%), which implies IRR falls below the 10% hurdle, violating the policy requiring rejection without a regulator-signed corridor letter.",
-            "Option B's Monte Carlo study fails to mention tail scenarios below the 5th percentile, which is a specific governance policy violation. Furthermore, the regulator explicitly requested this tail disclosure, reinforcing the lack of sufficient risk information.",
-            "The Finance team's VAR worksheet for Option B is in draft, indicating an incomplete and unverified risk assessment, making the project's financial stability highly uncertain.",
-            "All options presented use a base discount rate of 8%, which is below the company WACC (10-12%) without justification. This violates policy, and for Option B, with an 'expected_npv' of only $460,000 at 8%, a recalculation at WACC would likely diminish its viability significantly.",
-            "Given Option B's rejection, Option A (Fleet) is selected due to its superior financial performance and alignment with Finance's strategic pull for 'IRR discipline and short payback.' Option A boasts an IRR of 88.5% and a payback of 1.11 years, both exceptionally strong.",
-            "While Option C also offers strong financial metrics (IRR 67.8%, NPV higher at 10% than A), Option A's higher IRR and shorter payback period make it marginally preferable in meeting Finance's explicit criteria."
-          ],
-          "tradeoffs": "We sided with Finance's pull for 'IRR discipline and short payback' by approving Option A, which demonstrated the strongest financial metrics. We also sided with the Regulator's demand for 'tail-risk disclosure' by rejecting Option B due to its significant and poorly disclosed risks and policy violations, despite Ops' strategic desire for 'vertiport density.'",
-          "actions": [
-            "Formally reject Option B and request the project team to fully address all governance and risk disclosure issues before any future re-submission, including complete Monte Carlo tail scenario analysis (<5th percentile and all negative NPV outcomes).",
-            "Require Finance to complete and present the VAR worksheet for any future re-evaluation of Option B.",
-            "For Option A (and all future capital projects), require justification for the 8% discount rate or recalculate NPV/IRR using the company's WACC (10-12%) to ensure compliance with policy."
-          ],
-          "violated_policies": [
-            "If IRR falls below the 10% hurdle, downgrade to REJECT unless a regulator-signed corridor letter exists. (Option B, due to 20% chance of negative NPV)",
-            "Monte Carlo studies must mention tail scenarios (<5th percentile) when cited as evidence. (Option B, only <17% disclosed)",
-            "Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared. (Applies to all options, as 8% base rate was used without justification)"
-          ]
-        },
-        "correct": false
-      }
-    },
-    {
-      "test_case_id": "TC06_StrategicValue",
+      "test_case_id": "TC03_MarginalPerformanceRelay",
       "description": "",
       "command": "",
       "ground_truth": {
         "decision": "CONDITIONAL_APPROVE"
       },
       "llm_result": {
-        "decision": "CONDITIONAL_APPROVE",
-        "reasoning": "Option B, despite its lower NPV ($480,000) compared to Option A ($520,000), is the preferred choice due to its significant strategic value in securing two vertiport permits, regulatory fast lanes, and unlocking new corridors, aligning strongly with the Ops view.\nThe Board policy explicitly states that if IRR falls below the 10% hurdle, it can be approved if a regulator-signed corridor letter exists. Option B is directly linked to securing such permits, and Legal requires this letter.\nFinance's requirement for a mitigation plan to fund any initial shortfall indicates a likely payback period exceeding 4 years, which mandates explicit mitigation and documentation as per governance policy.\nLegal's demand for the attachment of the regulator-signed corridor letter is a critical prerequisite for any approval of Option B, especially if its IRR is below the 10% hurdle.\nOption A, while having the highest NPV, lacks the long-term strategic and regulatory advantages critical for the company's future growth and competitive positioning that Option B offers.\nOption C presents the lowest NPV and no unique strategic drivers, making it the least favorable choice.",
+        "decision": "UNCERTAIN",
+        "reasoning": "Asset range (9.5 km) does not meet the 10 km mission profile, violating the 'Performance must meet mission profile' hard check.\nThe proposed 5 km ground relay mitigation lacks critical timing and staffing details, rendering it non-executable and failing the 'Resource sufficiency' hard check.\nProof of a valid airworthiness certificate and active insurance covering the mission environment are missing, which are mandatory hard checks.\nProof of a valid pilot license is missing, which is a mandatory hard check.\nOperational claims of 'we've done similar' are unsubstantiated by logs, violating the waiver rule that 'Verbal assurances do not override records'.\nNo strobe/lighting information is provided for a potential night segment, indicating a possible safety oversight if applicable to the mission time.",
         "analysis": {
-          "decision": "CONDITIONAL_APPROVE",
+          "decision": "UNCERTAIN",
           "reasoning_steps": [
-            "Option B, despite its lower NPV ($480,000) compared to Option A ($520,000), is the preferred choice due to its significant strategic value in securing two vertiport permits, regulatory fast lanes, and unlocking new corridors, aligning strongly with the Ops view.",
-            "The Board policy explicitly states that if IRR falls below the 10% hurdle, it can be approved if a regulator-signed corridor letter exists. Option B is directly linked to securing such permits, and Legal requires this letter.",
-            "Finance's requirement for a mitigation plan to fund any initial shortfall indicates a likely payback period exceeding 4 years, which mandates explicit mitigation and documentation as per governance policy.",
-            "Legal's demand for the attachment of the regulator-signed corridor letter is a critical prerequisite for any approval of Option B, especially if its IRR is below the 10% hurdle.",
-            "Option A, while having the highest NPV, lacks the long-term strategic and regulatory advantages critical for the company's future growth and competitive positioning that Option B offers.",
-            "Option C presents the lowest NPV and no unique strategic drivers, making it the least favorable choice."
+            "Asset range (9.5 km) does not meet the 10 km mission profile, violating the 'Performance must meet mission profile' hard check.",
+            "The proposed 5 km ground relay mitigation lacks critical timing and staffing details, rendering it non-executable and failing the 'Resource sufficiency' hard check.",
+            "Proof of a valid airworthiness certificate and active insurance covering the mission environment are missing, which are mandatory hard checks.",
+            "Proof of a valid pilot license is missing, which is a mandatory hard check.",
+            "Operational claims of 'we've done similar' are unsubstantiated by logs, violating the waiver rule that 'Verbal assurances do not override records'.",
+            "No strobe/lighting information is provided for a potential night segment, indicating a possible safety oversight if applicable to the mission time."
           ],
-          "tradeoffs": "We are siding with the Operations view and long-term strategic growth (vertiport density, new corridors, regulatory advantages) over Finance's immediate focus on maximizing NPV and strict IRR discipline. However, the conditional approval incorporates Finance's demand for a mitigation plan to address financial risks.",
+          "tradeoffs": "Accepting this mission without verified documentation and an executable mitigation plan introduces significant safety risks and potential regulatory non-compliance. This directly opposes the urgency for emergency capacity by prioritizing safety and adherence to operational standards.",
           "actions": [
-            "Obtain and formally attach the regulator-signed corridor letter, as required by Legal and to meet the Board's policy for projects potentially below the IRR hurdle.",
-            "Develop and submit a detailed financial mitigation plan specifying funding/bridging steps to address any initial shortfall and ensure compliance with the maximum payback policy (if payback > 4 years), as required by Finance.",
-            "Confirm and document the current IRR and payback period for Option B, detailing how the strategic value and mitigation plan bring the project into compliance or justify the exception under board policies."
+            "Provide a valid airworthiness certificate for the asset.",
+            "Provide proof of active insurance covering the mission environment.",
+            "Provide valid pilot license details for the operating pilot.",
+            "Submit a detailed, executable plan for the 5 km ground relay, including specific personnel (with licenses/certifications), equipment, timing, and explicit procedures for battery swap and drone transfer.",
+            "Clarify mission operating time (day/night) and provide evidence of required lighting/strobes if operating during night hours.",
+            "Provide operational logs or official records to substantiate claims of similar past missions."
           ],
           "violated_policies": [
-            "Hurdle IRR ≥ 0.1 (potentially violated if Option B's IRR is below 10% without the formalization of the corridor letter exception).",
-            "Max payback: 4 years (potentially violated if Option B's payback period exceeds 4 years without a documented mitigation plan)."
+            "Hard Check: Performance must meet mission profile.",
+            "Hard Check: Resource sufficiency: gaps require an executable split/backup plan.",
+            "Hard Check: Airworthiness certificate must be present and valid.",
+            "Hard Check: Insurance must be active and cover mission environment.",
+            "Hard Check: Pilot/license/waiver dates must be valid at mission time.",
+            "Waiver Rule: Verbal assurances do not override records."
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC04_TelemetryConflict",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "UNCERTAIN",
+        "reasoning": "Critical data conflict: Telemetry shows 3.5V/cell preflight, while the lab record from yesterday shows 4.1V/cell, representing a significant (approx. 15%) discrepancy in a primary power source indicator.\nLack of verification: There is no second telemetry source to validate either reading or to independently confirm the vendor's claim of sensor drift.\nUnverified vendor claim: The vendor's note about sensor drift is a verbal assurance that does not override conflicting records without independent verification or immediate recalibration.\nPotential performance deficit: If the actual voltage is 3.5V/cell, the asset may not meet mission profile performance requirements, violating the 'Performance must meet mission profile' hard check.\nResource sufficiency gap: The state of a critical resource (power) is uncertain, and there is no executable backup plan or immediate resolution for this critical data gap, violating the 'Resource sufficiency' hard check.\nUnacceptable proposal: The vendor's proposal to 'launch then recalibrate' defers a critical safety and operational verification to post-launch, which poses an unacceptable risk given the uncertainty.",
+        "analysis": {
+          "decision": "UNCERTAIN",
+          "reasoning_steps": [
+            "Critical data conflict: Telemetry shows 3.5V/cell preflight, while the lab record from yesterday shows 4.1V/cell, representing a significant (approx. 15%) discrepancy in a primary power source indicator.",
+            "Lack of verification: There is no second telemetry source to validate either reading or to independently confirm the vendor's claim of sensor drift.",
+            "Unverified vendor claim: The vendor's note about sensor drift is a verbal assurance that does not override conflicting records without independent verification or immediate recalibration.",
+            "Potential performance deficit: If the actual voltage is 3.5V/cell, the asset may not meet mission profile performance requirements, violating the 'Performance must meet mission profile' hard check.",
+            "Resource sufficiency gap: The state of a critical resource (power) is uncertain, and there is no executable backup plan or immediate resolution for this critical data gap, violating the 'Resource sufficiency' hard check.",
+            "Unacceptable proposal: The vendor's proposal to 'launch then recalibrate' defers a critical safety and operational verification to post-launch, which poses an unacceptable risk given the uncertainty."
+          ],
+          "tradeoffs": "Proceeding with dispatch carries a high safety risk due to unverified power status and potential performance degradation versus the operational pressure/urgency to launch. Resolving the conflict delays the mission but ensures safety and reliability.",
+          "actions": [
+            "Immediately halt launch preparations until the battery voltage discrepancy is fully resolved.",
+            "Conduct an independent, verified measurement of the battery's actual voltage using calibrated ground equipment.",
+            "Inspect, recalibrate, or replace the telemetry sensor responsible for the voltage reading.",
+            "If the asset's actual voltage is confirmed to be 3.5V/cell, assess the impact on mission profile and recharge/replace batteries as necessary.",
+            "Implement a redundant telemetry source or pre-flight verification protocol for critical power indicators to prevent future similar conflicts."
+          ],
+          "violated_policies": [
+            "Hard Check: Performance must meet mission profile; waivers cannot override physics (potential actual voltage deficit leading to non-compliance).",
+            "Hard Check: Resource sufficiency: gaps require an executable split/backup plan (uncertain power state, no backup plan for verification).",
+            "Waiver Rule: Verbal assurances do not override records.",
+            "Decision Instruction: Use UNCERTAIN when proofs are missing, quantities short, or data conflicts."
           ]
         },
         "correct": true
       }
     },
     {
-      "test_case_id": "TC07_StagedInvestment",
+      "test_case_id": "TC05_StateConflictSwap",
       "description": "",
       "command": "",
       "ground_truth": {
-        "decision": "APPROVE"
+        "decision": "UNCERTAIN"
       },
       "llm_result": {
-        "decision": "APPROVE",
-        "reasoning": "The staged investment approach for Option C significantly enhances financial performance, yielding a strong NPV of $420,000 and a high Profitability Index of 1.42, exceeding the lump-sum option's NPV by $60,000.\nThe payback period of 2.9 years is well within the 4-year maximum policy, satisfying Finance's preference for short payback and mitigating risk.\nThe staged capital draw is confirmed by a credit committee letter, fulfilling the governance requirement for clear funding steps in conditional approvals.\nThe 'No policy conflicts flagged' signal from Finance is critical, indicating that the project is deemed compliant with internal policies, including the Hurdle IRR ≥ 0.1, which Finance prioritizes.\nWhile the base discount rate of 0.08 is below the company's WACC (10-12%), the absence of a flagged policy conflict suggests that appropriate justification or an exception has been accepted for this specific project evaluation.\nThe overall financial metrics demonstrate a prudent and high-return use of capital within the budget constraints, making it a compelling investment.",
+        "decision": "UNCERTAIN",
+        "reasoning": "Drone-X-99 is currently ACTIVE in M-002, creating an immediate asset state conflict. No deconfliction token/log is attached.\nThe proposed substitute, Drone-X-101, is contingent on M-002 finishing by T+15, which is explicitly noted as 'No guarantee'. This means the proposed resolution is not firm or guaranteed, failing resource sufficiency.\nNo airworthiness certificate or proof of validity for the substitute Drone-X-101 is provided.\nNo proof of active insurance covering the mission environment for the substitute Drone-X-101 is provided.\nNo performance documentation for Drone-X-101 to confirm it meets the mission profile is provided.\nNo valid pilot license or waiver dates specific to Drone-X-101 are provided.",
         "analysis": {
-          "decision": "APPROVE",
+          "decision": "UNCERTAIN",
           "reasoning_steps": [
-            "The staged investment approach for Option C significantly enhances financial performance, yielding a strong NPV of $420,000 and a high Profitability Index of 1.42, exceeding the lump-sum option's NPV by $60,000.",
-            "The payback period of 2.9 years is well within the 4-year maximum policy, satisfying Finance's preference for short payback and mitigating risk.",
-            "The staged capital draw is confirmed by a credit committee letter, fulfilling the governance requirement for clear funding steps in conditional approvals.",
-            "The 'No policy conflicts flagged' signal from Finance is critical, indicating that the project is deemed compliant with internal policies, including the Hurdle IRR ≥ 0.1, which Finance prioritizes.",
-            "While the base discount rate of 0.08 is below the company's WACC (10-12%), the absence of a flagged policy conflict suggests that appropriate justification or an exception has been accepted for this specific project evaluation.",
-            "The overall financial metrics demonstrate a prudent and high-return use of capital within the budget constraints, making it a compelling investment."
+            "Drone-X-99 is currently ACTIVE in M-002, creating an immediate asset state conflict. No deconfliction token/log is attached.",
+            "The proposed substitute, Drone-X-101, is contingent on M-002 finishing by T+15, which is explicitly noted as 'No guarantee'. This means the proposed resolution is not firm or guaranteed, failing resource sufficiency.",
+            "No airworthiness certificate or proof of validity for the substitute Drone-X-101 is provided.",
+            "No proof of active insurance covering the mission environment for the substitute Drone-X-101 is provided.",
+            "No performance documentation for Drone-X-101 to confirm it meets the mission profile is provided.",
+            "No valid pilot license or waiver dates specific to Drone-X-101 are provided."
           ],
-          "tradeoffs": "This decision primarily sides with Finance's view by demonstrating strong IRR discipline (implied by no conflict flag) and a short payback period, while optimizing capital deployment through a confirmed staged funding mechanism. It does not directly address Ops' desire for increased vertiport density but also does not preclude future investments aligned with that goal. Regulator concerns regarding tail-risk or underserved districts were not triggered by the specifics of this Mixed option.",
+          "tradeoffs": "Prioritizing the high ROC urgency by approving this request would necessitate bypassing fundamental hard checks, leading to significant safety and regulatory compliance risks due to an active asset conflict, unconfirmed substitute availability, and critical missing documentation.",
           "actions": [
-            "None required for immediate approval, as the documentation for staged funding is confirmed. For future projects, ensure explicit documentation for any discount rate used below WACC is readily available."
+            "Provide a definitive deconfliction token/log for Drone-X-99, or confirm unconditional and immediate availability of Drone-X-101.",
+            "Provide current and valid airworthiness certificate for Drone-X-101.",
+            "Provide proof of active insurance covering the mission environment for Drone-X-101.",
+            "Provide performance data for Drone-X-101 ensuring it meets mission profile requirements.",
+            "Provide valid pilot license(s) and any required waiver dates for Drone-X-101.",
+            "Clarify exact state and guaranteed availability time for Drone-X-101, independent of M-002 completion."
           ],
-          "violated_policies": []
+          "violated_policies": [
+            "Asset state conflicts (Drone-X-99 ACTIVE elsewhere).",
+            "Resource sufficiency (substitute availability is uncertain and conditional).",
+            "Airworthiness certificate must be present and valid (missing for Drone-X-101).",
+            "Insurance must be active and cover mission environment (missing for Drone-X-101).",
+            "Performance must meet mission profile (documentation missing for Drone-X-101).",
+            "Pilot/license/waiver dates must be valid (documentation missing for Drone-X-101)."
+          ]
         },
         "correct": true
       }
     },
     {
-      "test_case_id": "TC08_DiscountAssumption",
+      "test_case_id": "TC06_QuantityGapPartner",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "UNCERTAIN",
+        "reasoning": "Only 30 units are confirmed with listed serials against a mission requirement of 80 units.\nThe 40 units promised by the partner lack serials or any verifiable documentation, directly violating the waiver rule that 'Verbal assurances do not override records'. Therefore, these units cannot be counted.\nResource sufficiency hard check fails: only 30 verified units are available, leaving a substantial 50-unit gap for the 80-unit requirement.\nMandatory hard checks for airworthiness and insurance are implicitly missing for the unverified 40 partner units, as no serials or documentation are provided.\nStakeholder notes indicate 'No partner proof/serial list,' reinforcing the lack of verifiable assets for the 40 promised units.\nNo split-plan or routing is provided for coordinating multiple fleets, which would be essential even if additional units were verified.",
+        "analysis": {
+          "decision": "UNCERTAIN",
+          "reasoning_steps": [
+            "Only 30 units are confirmed with listed serials against a mission requirement of 80 units.",
+            "The 40 units promised by the partner lack serials or any verifiable documentation, directly violating the waiver rule that 'Verbal assurances do not override records'. Therefore, these units cannot be counted.",
+            "Resource sufficiency hard check fails: only 30 verified units are available, leaving a substantial 50-unit gap for the 80-unit requirement.",
+            "Mandatory hard checks for airworthiness and insurance are implicitly missing for the unverified 40 partner units, as no serials or documentation are provided.",
+            "Stakeholder notes indicate 'No partner proof/serial list,' reinforcing the lack of verifiable assets for the 40 promised units.",
+            "No split-plan or routing is provided for coordinating multiple fleets, which would be essential even if additional units were verified."
+          ],
+          "tradeoffs": [
+            "Prioritizing the urgent 80-unit requirement risks dispatching unverified assets or failing the mission due to severe resource insufficiency and lack of operational planning.",
+            "Delaying dispatch to verify assets ensures safety and compliance but might impact emergency response timelines."
+          ],
+          "actions": [
+            "Immediately request full verifiable documentation (serials, airworthiness certificates, insurance policies, pilot licenses) for the 40 units promised by the partner.",
+            "Develop an executable split/backup plan and routing for the 50-unit deficit, detailing how the remaining capacity will be sourced and integrated.",
+            "Confirm the validity and availability of airworthiness, insurance, and pilot licenses for the 30 currently listed units."
+          ],
+          "violated_policies": [
+            "Hard Check: Resource sufficiency (gaps require an executable split/backup plan)",
+            "Waiver Rule: Verbal assurances do not override records.",
+            "Hard Check: Airworthiness certificate must be present and valid (for unverified partner units).",
+            "Hard Check: Insurance must be active and cover mission environment (for unverified partner units)."
+          ]
+        },
+        "correct": true
+      }
+    },
+    {
+      "test_case_id": "TC07_LicenseExpiring",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The pilot's license expires at 2025-12-10 23:59.\nThe current time is 2025-12-10 22:30.\nThe mission's estimated duration (ETA) is 90 minutes.\nA 90-minute mission starting at 22:30 will conclude at approximately 2025-12-11 00:00.\nThe pilot's license will therefore expire one minute *before* the mission's estimated completion, rendering them unqualified for the latter portion of the flight.\nStakeholder notes confirm no backup pilot is listed and no plan exists for a mid-mission pilot swap to ensure continuous valid licensure, violating resource sufficiency requirements.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The pilot's license expires at 2025-12-10 23:59.",
+            "The current time is 2025-12-10 22:30.",
+            "The mission's estimated duration (ETA) is 90 minutes.",
+            "A 90-minute mission starting at 22:30 will conclude at approximately 2025-12-11 00:00.",
+            "The pilot's license will therefore expire one minute *before* the mission's estimated completion, rendering them unqualified for the latter portion of the flight.",
+            "Stakeholder notes confirm no backup pilot is listed and no plan exists for a mid-mission pilot swap to ensure continuous valid licensure, violating resource sufficiency requirements."
+          ],
+          "tradeoffs": "Prioritizing regulatory compliance and flight safety over operational urgency. Operating an aircraft with an unqualified or unlicensed pilot poses a critical legal and safety risk that cannot be mitigated by urgency.",
+          "actions": [
+            "Pilot must provide proof of immediate license renewal valid through the entire mission duration.",
+            "If renewal is not possible, an alternative pilot with a valid license covering the entire mission must be assigned.",
+            "Alternatively, the mission parameters must be revised (e.g., shorten mission, plan a pilot swap at a designated point) to ensure all flight time occurs under a valid pilot license."
+          ],
+          "violated_policies": [
+            "Pilot/license/waiver dates must be valid at mission time.",
+            "Resource sufficiency: gaps require an executable split/backup plan."
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC08_PendingRider",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "UNCERTAIN"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The mission environment is 'Over-water'.\nThe active general liability insurance policy explicitly 'excludes' over-water operations.\nThis exclusion directly violates the Hard Check requiring insurance to be active and cover the mission environment, effectively voiding coverage.\nThe provided 'rider' is merely a 'draft email, no signature', which is not a legally binding document or valid endorsement.\nPer Waiver Rules, verbal assurances (or unsigned drafts) do not override official records or active policy exclusions.\nWithout valid insurance coverage for the specific mission environment, dispatch cannot be approved.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The mission environment is 'Over-water'.",
+            "The active general liability insurance policy explicitly 'excludes' over-water operations.",
+            "This exclusion directly violates the Hard Check requiring insurance to be active and cover the mission environment, effectively voiding coverage.",
+            "The provided 'rider' is merely a 'draft email, no signature', which is not a legally binding document or valid endorsement.",
+            "Per Waiver Rules, verbal assurances (or unsigned drafts) do not override official records or active policy exclusions.",
+            "Without valid insurance coverage for the specific mission environment, dispatch cannot be approved."
+          ],
+          "tradeoffs": "Rejecting prioritizes regulatory compliance and safety by preventing an uninsured operation, at the cost of delaying a potentially urgent mission. Approving would expose the operation to significant liability risk.",
+          "actions": [
+            "Obtain a fully signed and officially endorsed insurance rider that explicitly covers 'Over-water' operations.",
+            "Alternatively, secure a new insurance policy that covers the specified mission environment.",
+            "Do not proceed with dispatch until valid and active insurance coverage for over-water operations is confirmed and documented."
+          ],
+          "violated_policies": [
+            "Insurance must be active and cover mission environment; exclusions void coverage.",
+            "Verbal assurances do not override records."
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC09_VerbalWaiverMissingEquipment",
+      "description": "",
+      "command": "",
+      "ground_truth": {
+        "decision": "CONDITIONAL_APPROVE"
+      },
+      "llm_result": {
+        "decision": "REJECT",
+        "reasoning": "The 'Verbal police waiver (no doc)' is invalid as per policy stating that 'Verbal assurances do not override records' and 'No written waiver attached'.\nMissing anti-collision strobes constitute a critical physical deficit for night operations, which cannot be waived by any official emergency waiver.\nThe claim by Ops to have borrowed strobes is unsubstantiated ('none listed'), indicating a failure to meet resource sufficiency for required equipment.\nWithout a valid, documented waiver and essential safety equipment (anti-collision strobes), proceeding with night operations violates established safety protocols and regulatory requirements.\nWaiver rules explicitly state that official waivers cannot fix missing/expired documents or physical deficits.\nResource sufficiency hard check fails due to the absence of documented anti-collision strobes, which are essential for the mission profile.",
+        "analysis": {
+          "decision": "REJECT",
+          "reasoning_steps": [
+            "The 'Verbal police waiver (no doc)' is invalid as per policy stating that 'Verbal assurances do not override records' and 'No written waiver attached'.",
+            "Missing anti-collision strobes constitute a critical physical deficit for night operations, which cannot be waived by any official emergency waiver.",
+            "The claim by Ops to have borrowed strobes is unsubstantiated ('none listed'), indicating a failure to meet resource sufficiency for required equipment.",
+            "Without a valid, documented waiver and essential safety equipment (anti-collision strobes), proceeding with night operations violates established safety protocols and regulatory requirements.",
+            "Waiver rules explicitly state that official waivers cannot fix missing/expired documents or physical deficits.",
+            "Resource sufficiency hard check fails due to the absence of documented anti-collision strobes, which are essential for the mission profile."
+          ],
+          "tradeoffs": "Prioritizing safety and regulatory compliance by rejecting the mission due to critical missing equipment and an invalid waiver, despite potential operational urgency.",
+          "actions": [
+            "Require a formally documented and approved emergency waiver that explicitly covers any operational limits to be lifted for night operations.",
+            "Mandate physical verification and installation of anti-collision strobes, or documented proof of a certified, immediately available, and installed replacement.",
+            "Do not dispatch until all critical equipment is verified as present and functional, and all required documentation (especially the waiver) is formally submitted and approved."
+          ],
+          "violated_policies": [
+            "Waiver Rules: Verbal assurances do not override records.",
+            "Waiver Rules: Official emergency/waiver can lift some ops limits (e.g., night rating) but not missing/expired docs or physical deficits.",
+            "Hard Checks: Resource sufficiency: gaps require an executable split/backup plan (missing strobes, unsubstantiated claim)."
+          ]
+        },
+        "correct": false
+      }
+    },
+    {
+      "test_case_id": "TC10_ConflictingAuthority",
       "description": "",
       "command": "",
       "ground_truth": {
@@ -240,105 +346,28 @@
       },
       "llm_result": {
         "decision": "REJECT",
-        "reasoning": "The submitted analysis utilizes a 6% discount rate, which is below the company's base discount rate of 0.08 (WACC) and the 0.10 hurdle IRR.\nFinance policy explicitly states: 'Discount below WACC = automatically invalid unless risk-free funding proof attached.' The sponsor's 'macro optimism' is not valid risk-free funding proof, directly violating this policy.\nThe documentation checklist requires justification for discount rates < WACC, specifically why capital markets risk disappeared, which is absent from this submission.\nRegulators previously fined the operator for this exact shortcut, indicating a high risk of recurring non-compliance penalties if this analysis is accepted.\nAs the NPV metrics provided are based on an invalid and unapproved discount rate, they cannot be relied upon to make an informed capital allocation decision.\nWithout compliant financial metrics and given the severe policy violations and regulatory risk, no option can be considered for approval in its current form.",
+        "reasoning": "Aviation authority has explicitly denied launch due to an active airspace conflict, indicating a critical operational constraint.\nThere is no official waiver or deconfliction plan provided by the aviation authority to override this airspace denial.\nOur waiver rules state that official emergency/waivers can lift some operational limits, but none is present from the aviation side for this specific conflict.\nLaunching immediately as per police order without aviation clearance would violate airspace regulations and pose significant safety risks.\nThe conflicting authority signals (police order vs. aviation denial) cannot be resolved internally; external deconfliction is required.",
         "analysis": {
           "decision": "REJECT",
           "reasoning_steps": [
-            "The submitted analysis utilizes a 6% discount rate, which is below the company's base discount rate of 0.08 (WACC) and the 0.10 hurdle IRR.",
-            "Finance policy explicitly states: 'Discount below WACC = automatically invalid unless risk-free funding proof attached.' The sponsor's 'macro optimism' is not valid risk-free funding proof, directly violating this policy.",
-            "The documentation checklist requires justification for discount rates < WACC, specifically why capital markets risk disappeared, which is absent from this submission.",
-            "Regulators previously fined the operator for this exact shortcut, indicating a high risk of recurring non-compliance penalties if this analysis is accepted.",
-            "As the NPV metrics provided are based on an invalid and unapproved discount rate, they cannot be relied upon to make an informed capital allocation decision.",
-            "Without compliant financial metrics and given the severe policy violations and regulatory risk, no option can be considered for approval in its current form."
+            "Aviation authority has explicitly denied launch due to an active airspace conflict, indicating a critical operational constraint.",
+            "There is no official waiver or deconfliction plan provided by the aviation authority to override this airspace denial.",
+            "Our waiver rules state that official emergency/waivers can lift some operational limits, but none is present from the aviation side for this specific conflict.",
+            "Launching immediately as per police order without aviation clearance would violate airspace regulations and pose significant safety risks.",
+            "The conflicting authority signals (police order vs. aviation denial) cannot be resolved internally; external deconfliction is required."
           ],
-          "tradeoffs": "We are siding with Finance and Regulators. Finance demands IRR discipline and adherence to policy, while Regulators have a history of fining the operator for this specific shortcut. While Operations might desire vertiport density (Option B), the fundamental flaw in the financial analysis means no project can be approved based on these numbers, prioritizing financial integrity and regulatory compliance over potentially overstated project benefits.",
+          "tradeoffs": "Prioritizing regulatory compliance and flight safety by rejecting the mission, versus the urgency and potential benefit of the police's immediate launch request.",
           "actions": [
-            "Require immediate recalculation of all option NPVs, IRRs, and payback periods using a valid discount rate (e.g., company WACC of 0.08 or the 0.10 hurdle rate).",
-            "Demand a comprehensive justification for any proposed discount rate below WACC, including verifiable evidence of risk-free funding, per company policy.",
-            "Request a memo detailing internal controls and training to prevent future recurrence of policy violations regarding discount rate application, especially given past regulatory enforcement actions.",
-            "Re-submit the capital allocation packet with compliant financial analysis and all required documentation."
+            "Facilitate immediate deconfliction between police and aviation authorities to resolve the airspace conflict.",
+            "Request an official waiver or specific flight authorization from the aviation authority, detailing the nature of the emergency and any proposed mitigation measures.",
+            "Obtain specific details from the aviation authority regarding the airspace conflict (e.g., type, location, duration) to assess potential alternative routes or timing."
           ],
           "violated_policies": [
-            "Hurdle IRR ≥ 0.1 (implicit circumvention by using a lower discount rate)",
-            "Documentation checklist: Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared.",
-            "Finance policy: 'Discount below WACC = automatically invalid unless risk-free funding proof attached.'",
-            "Board reminder: If IRR falls below the 10% hurdle, downgrade to REJECT unless a regulator-signed corridor letter exists (the current methodology prevents valid assessment against this).",
-            "Board reminder: Any option with payback > 4 years requires explicit mitigation and documentation (payback not provided, but the overall submission is flawed)."
+            "Airspace Regulations (implicit in aviation denial)",
+            "Dispatch Policy requiring all necessary operational authorizations"
           ]
         },
         "correct": true
-      }
-    },
-    {
-      "test_case_id": "TC09_GrantDependency",
-      "description": "",
-      "command": "",
-      "ground_truth": {
-        "decision": "UNCERTAIN"
-      },
-      "llm_result": {
-        "decision": "CONDITIONAL_APPROVE",
-        "reasoning": "Option B presents strong financial performance with a positive NPV of $510,000 and an excellent payback period of approximately 10 months, well within the 4-year maximum.\nHowever, Option B's approval is explicitly contingent on a state grant covering 25% of its capex ($250,000), which is currently unsigned and has a low probability of release (0.55).\nFinance policy explicitly warns against approving projects that rely on unexecutable funds, a direct conflict with the pending status of the grant.\nThe governance rules for conditional approvals mandate detailing specific funding or bridging steps, which are currently absent for this critical grant component.\nThe NPV calculation for Option B uses a discount rate of 0.08, which is below the company's WACC (0.10-0.12), violating policy without justification.\nWhile strategically aligned with Ops' desire for vertiport density, the significant funding uncertainty and policy non-compliance prevent full approval.",
-        "analysis": {
-          "decision": "CONDITIONAL_APPROVE",
-          "reasoning_steps": [
-            "Option B presents strong financial performance with a positive NPV of $510,000 and an excellent payback period of approximately 10 months, well within the 4-year maximum.",
-            "However, Option B's approval is explicitly contingent on a state grant covering 25% of its capex ($250,000), which is currently unsigned and has a low probability of release (0.55).",
-            "Finance policy explicitly warns against approving projects that rely on unexecutable funds, a direct conflict with the pending status of the grant.",
-            "The governance rules for conditional approvals mandate detailing specific funding or bridging steps, which are currently absent for this critical grant component.",
-            "The NPV calculation for Option B uses a discount rate of 0.08, which is below the company's WACC (0.10-0.12), violating policy without justification.",
-            "While strategically aligned with Ops' desire for vertiport density, the significant funding uncertainty and policy non-compliance prevent full approval."
-          ],
-          "tradeoffs": "This decision sides with Finance and Regulatory concerns by prioritizing financial discipline, funding certainty, and policy adherence over the immediate strategic pull from Operations. While Option B is financially attractive on paper, the unaddressed grant condition and discount rate justification represent unacceptable risks and policy violations that must be mitigated before full commitment.",
-          "actions": [
-            "Obtain a fully executed letter of credit for the State DOT grant, converting it from a contingent to a certain funding source.",
-            "Develop and present a detailed bridge financing plan or an alternative funding strategy to cover the $250,000 capital in the event the grant is not secured.",
-            "Provide a robust justification for using a 0.08 discount rate, or recalculate NPV/IRR using a WACC-compliant rate (10-12%) and reconfirm the IRR meets the 0.1 hurdle.",
-            "Re-evaluate the project's overall risk profile after resolution of the grant and discount rate issues, addressing any tail-risk disclosures as per Regulator view."
-          ],
-          "violated_policies": [
-            "Finance warns approvals cannot cite funds that are not executable. (The pending grant is not executable but is a required component for Option B).",
-            "Conditional approvals must spell out documentation or funding steps. (These steps are not yet defined for the grant contingency).",
-            "Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared. (0.08 discount rate is used without justification)."
-          ]
-        },
-        "correct": false
-      }
-    },
-    {
-      "test_case_id": "TC10_BifurcatedPlan",
-      "description": "",
-      "command": "",
-      "ground_truth": {
-        "decision": "EXPLAIN_ONLY"
-      },
-      "llm_result": {
-        "decision": "CONDITIONAL_APPROVE",
-        "reasoning": "The partial fleet investment component demonstrates strong financial viability with an IRR of 0.19 (exceeding the 0.1 hurdle) and a payback period of 3.3 years (below the 4-year limit).\nA critical policy is violated as the proposed discount rate of 0.08 is below the company's WACC (0.10-0.12) without the required justification for why capital markets risk disappeared.\nFinance explicitly states there is no consolidated NPV/IRR story for the entire hybrid $1,000,000 plan, preventing a comprehensive assessment of the overall project's adherence to the 0.1 IRR hurdle.\nOperational claims of 'resilience' for the mixed approach lack supporting 'network utilization math,' weakening the strategic rationale and failing to satisfy Ops' own stated needs for documentation.\nThe Board's concern regarding whether mixing sub-scale investments violates a cohesive strategy remains unaddressed by the current documentation.\nRegulator interest in tail-risk disclosure is not met, as no Monte Carlo studies or related analysis are provided for the combined plan.",
-        "analysis": {
-          "decision": "CONDITIONAL_APPROVE",
-          "reasoning_steps": [
-            "The partial fleet investment component demonstrates strong financial viability with an IRR of 0.19 (exceeding the 0.1 hurdle) and a payback period of 3.3 years (below the 4-year limit).",
-            "A critical policy is violated as the proposed discount rate of 0.08 is below the company's WACC (0.10-0.12) without the required justification for why capital markets risk disappeared.",
-            "Finance explicitly states there is no consolidated NPV/IRR story for the entire hybrid $1,000,000 plan, preventing a comprehensive assessment of the overall project's adherence to the 0.1 IRR hurdle.",
-            "Operational claims of 'resilience' for the mixed approach lack supporting 'network utilization math,' weakening the strategic rationale and failing to satisfy Ops' own stated needs for documentation.",
-            "The Board's concern regarding whether mixing sub-scale investments violates a cohesive strategy remains unaddressed by the current documentation.",
-            "Regulator interest in tail-risk disclosure is not met, as no Monte Carlo studies or related analysis are provided for the combined plan."
-          ],
-          "tradeoffs": "We are conditionally approving, siding primarily with Finance and Governance by demanding a consolidated financial story and adherence to policy, while acknowledging the potential strategic and operational benefits (Ops' view) if properly justified and documented. This prioritizes financial discipline and complete documentation over immediate, unverified expansion.",
-          "actions": [
-            "Require a consolidated financial model showing the combined NPV and IRR for the entire $1,000,000 investment (fleet and pads) to ensure it meets the 0.1 IRR hurdle.",
-            "Demand explicit justification for the use of a 0.08 discount rate, addressing the company's WACC policy requirement.",
-            "Request the 'network utilization math' from Ops to substantiate the 'resilience' claims for the mixed investment and provide robust operational backing.",
-            "Require a strategic memo addressing the Board's concern about how this bifurcated investment contributes to a cohesive, rather than fragmented, strategy.",
-            "Address potential tail risks or provide a rationale for their omission in the financial analysis, fulfilling regulator expectations."
-          ],
-          "violated_policies": [
-            "Discount rates < company WACC (10-12%) must justify why capital markets risk disappeared.",
-            "If IRR falls below the 10% hurdle, downgrade to REJECT unless a regulator-signed corridor letter exists. (The consolidated IRR for the hybrid approach is missing, therefore compliance for the overall project cannot be confirmed.)"
-          ]
-        },
-        "correct": false
       }
     }
   ]

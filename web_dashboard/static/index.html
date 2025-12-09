@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAE-GPT Demo: Rule Conflict Resolution</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Add some icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar: Only S022 TCs -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <h1>LAE-GPT</h1>
+                <p>Scenario S022 Demo</p>
+            </div>
+            <div class="scenario-list" id="tcList">
+                <!-- TCs will be populated here -->
+                <div class="loading">Loading Demo Data...</div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-bar">
+                <div class="scenario-title">
+                    <div class="scenario-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                    <div>
+                        <h2 id="headerTitle">Select a Case</h2>
+                        <span id="headerSubtitle" class="subtitle">Rule Conflict Priority Reasoning</span>
+                    </div>
+                </div>
+                <div class="status-indicators">
+                    <span class="badge" id="complexityBadge">Complexity: ⭐⭐⭐⭐</span>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                
+                <!-- Column 1: Context & Conflict -->
+                <div class="panel mission-panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-clipboard-list"></i> Mission Context
+                    </div>
+                    <div class="panel-body" id="missionPanel">
+                        <div class="placeholder-text">Select a test case to view mission details.</div>
+                    </div>
+                </div>
+
+                <!-- Column 2: AI Reasoning Timeline -->
+                <div class="panel analysis-panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-brain"></i> AI Reasoning Chain
+                    </div>
+                    <div class="panel-body" id="reasoningPanel">
+                        <div class="placeholder-text">AI reasoning process will appear here.</div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Verdict -->
+                <div class="panel decision-panel">
+                    <div class="panel-header">
+                        <i class="fa-solid fa-gavel"></i> Final Decision
+                    </div>
+                    <div class="panel-body centered-body" id="decisionPanel">
+                        <div class="placeholder-text">Decision result.</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

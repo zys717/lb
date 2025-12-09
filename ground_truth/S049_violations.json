@@ -1,99 +1,99 @@
 {
-  "scenario_id": "S049_CapitalAllocation",
-  "scenario_name": "Capital Allocation: Fleet vs Infrastructure",
-  "version": "1.2",
-  "created": "2025-01-20",
+  "scenario_id": "S049_EmergencyCapacity",
+  "scenario_name": "Surge Capacity Dispatch: Vendor Fleet Requisition",
+  "version": "2.1",
+  "created": "2025-02-10",
   "llm_only": true,
   "decision_labels": ["APPROVE", "CONDITIONAL_APPROVE", "REJECT", "EXPLAIN_ONLY", "UNCERTAIN"],
   "test_cases": [
     {
-      "case_id": "TC01_BaseNPV",
+      "case_id": "TC01_PartialAirworthiness",
       "expected_decision": "CONDITIONAL_APPROVE",
       "required_keywords": [
-        "year-one cash flow zero",
-        "18-month lag",
-        "bridge or interim plan"
+        "airworthiness missing original",
+        "screenshot only",
+        "approve only after original/signature"
       ]
     },
     {
-      "case_id": "TC02_DiscountSensitivity",
-      "expected_decision": "REJECT",
-      "required_keywords": [
-        "12% discount",
-        "IRR below hurdle",
-        "option A only passes"
-      ]
-    },
-    {
-      "case_id": "TC03_IRRRanking",
+      "case_id": "TC02_ConflictingInsurance",
       "expected_decision": "EXPLAIN_ONLY",
       "required_keywords": [
-        "IRR vs NPV trade-off",
-        "covenant optics",
-        "request appendix"
+        "over-water exclusion",
+        "rider unsigned",
+        "need signed endorsement"
       ]
     },
     {
-      "case_id": "TC04_DeliveryDelayRisk",
-      "expected_decision": "REJECT",
-      "required_keywords": [
-        "six-month delay",
-        "payback beyond 4 years",
-        "IRR < 10%"
-      ]
-    },
-    {
-      "case_id": "TC05_MonteCarloDemand",
-      "expected_decision": "UNCERTAIN",
-      "required_keywords": [
-        "15-25% demand",
-        "tails below 17%",
-        "need tail disclosure"
-      ]
-    },
-    {
-      "case_id": "TC06_StrategicValue",
+      "case_id": "TC03_MarginalPerformanceRelay",
       "expected_decision": "CONDITIONAL_APPROVE",
       "required_keywords": [
-        "strategic corridor value",
-        "corridor letter or permit",
-        "mitigate shortfall"
+        "9.5km vs 10km",
+        "relay at midpoint",
+        "must specify timing/staffing/equipment"
       ]
     },
     {
-      "case_id": "TC07_StagedInvestment",
-      "expected_decision": "APPROVE",
-      "required_keywords": [
-        "staged draw",
-        "NPV up by 60k",
-        "PI 1.42 or payback 2.9"
-      ]
-    },
-    {
-      "case_id": "TC08_DiscountAssumption",
-      "expected_decision": "REJECT",
-      "required_keywords": [
-        "6% discount invalid",
-        "WACC 10-12%",
-        "risk justification missing"
-      ]
-    },
-    {
-      "case_id": "TC09_GrantDependency",
+      "case_id": "TC04_TelemetryConflict",
       "expected_decision": "UNCERTAIN",
       "required_keywords": [
-        "grant pending signature",
-        "25% capex gap",
-        "no executable funds"
+        "telemetry 3.5V",
+        "lab 4.1V",
+        "need second telemetry/retest"
       ]
     },
     {
-      "case_id": "TC10_BifurcatedPlan",
-      "expected_decision": "EXPLAIN_ONLY",
+      "case_id": "TC05_StateConflictSwap",
+      "expected_decision": "UNCERTAIN",
       "required_keywords": [
-        "700k/300k split",
-        "no consolidated NPV",
-        "need coherent strategy"
+        "asset active elsewhere",
+        "swap not guaranteed",
+        "no deconfliction token"
+      ]
+    },
+    {
+      "case_id": "TC06_QuantityGapPartner",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": [
+        "need 80 have 30",
+        "partner 40 unverified",
+        "no split plan"
+      ]
+    },
+    {
+      "case_id": "TC07_LicenseExpiring",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": [
+        "license expires midnight",
+        "mission crosses midnight",
+        "needs backup or time cap"
+      ]
+    },
+    {
+      "case_id": "TC08_PendingRider",
+      "expected_decision": "UNCERTAIN",
+      "required_keywords": [
+        "over-water exclusion",
+        "draft rider only",
+        "need signed endorsement or reroute"
+      ]
+    },
+    {
+      "case_id": "TC09_VerbalWaiverMissingEquipment",
+      "expected_decision": "CONDITIONAL_APPROVE",
+      "required_keywords": [
+        "verbal waiver only",
+        "strobes missing",
+        "must provide written waiver and strobes before launch"
+      ]
+    },
+    {
+      "case_id": "TC10_ConflictingAuthority",
+      "expected_decision": "REJECT",
+      "required_keywords": [
+        "police vs aviation conflict",
+        "no aviation waiver",
+        "cannot launch with conflicting orders"
       ]
     }
   ]

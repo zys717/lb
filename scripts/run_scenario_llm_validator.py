@@ -28,6 +28,7 @@ Note: Rule-based engines are validated separately through AirSim scenario tests.
 import sys
 import json
 import math
+import time
 import argparse
 from importlib import metadata as _importlib_metadata
 from pathlib import Path
@@ -253,9 +254,9 @@ def classify_scenario(scenario_id: str) -> str:
     if 'S048' in scenario_id_upper:
         return 'emergency_evacuation'
 
-    # Capital allocation vs infrastructure (S049)
+    # Surge capacity vendor vetting (S049)
     if 'S049' in scenario_id_upper:
-        return 'capital_allocation'
+        return 'surge_capacity'
     # Default to NFZ for unknown scenarios
     print(f"⚠️  Unknown scenario {scenario_id}, defaulting to NFZ-based prompt")
     return 'nfz'
@@ -405,7 +406,7 @@ def check_compliance_llm(
         prompt = build_multi_operator_fairness_prompt(start, end, test_case_description, scenario_config, test_case_obj)
     elif scenario_type == 'emergency_evacuation':
         prompt = build_emergency_evacuation_prompt(start, end, test_case_description, scenario_config, test_case_obj)
-    elif scenario_type == 'capital_allocation':
+    elif scenario_type == 'surge_capacity':
         prompt = build_capital_allocation_prompt(start, end, test_case_description, scenario_config, test_case_obj)
     else:
         # Fallback to NFZ
@@ -753,7 +754,7 @@ def load_ground_truth(gt_file: Path) -> Dict[str, Any]:
 # SECTION 6: LLM Validation (Ground Truth Comparison Only)
 # ============================================================================
 
-def validate_scenario(scenario_file: Path, ground_truth_file: Path, api_key: str, output_file: Path, model_name: str = 'gemini-2.5-flash'):
+def validate_scenario(scenario_file: Path, ground_truth_file: Path, api_key: str, output_file: Path, model_name: str = 'gemini-2.5-flash', throttle_seconds: float = 0.0):
     """
     Run LLM validation on scenario and compare with rule-based engine.
     """
@@ -859,11 +860,11 @@ def validate_scenario(scenario_file: Path, ground_truth_file: Path, api_key: str
             print(f"     Waiver available: {vlos.get('waiver_available', 'N/A')}")
         elif 'time_analysis' in llm_analysis:
             print(f"   Time Analysis:")
-            time = llm_analysis['time_analysis']
-            print(f"     Flight time: {time.get('flight_time', 'N/A')}")
-            print(f"     Is nighttime: {time.get('is_nighttime', False)}")
-            print(f"     Equipment compliant: {time.get('night_equipment_compliant', 'N/A')}")
-            print(f"     Restriction violated: {time.get('time_restriction_violated', False)}")
+            time_info = llm_analysis['time_analysis']
+            print(f"     Flight time: {time_info.get('flight_time', 'N/A')}")
+            print(f"     Is nighttime: {time_info.get('is_nighttime', False)}")
+            print(f"     Equipment compliant: {time_info.get('night_equipment_compliant', 'N/A')}")
+            print(f"     Restriction violated: {time_info.get('time_restriction_violated', False)}")
         
         # Check correctness with semantic equivalence
         # APPROVE variants (flight allowed)
@@ -901,6 +902,10 @@ def validate_scenario(scenario_file: Path, ground_truth_file: Path, api_key: str
             }
         }
         results.append(result)
+
+        # Optional throttle to avoid rate limiting
+        if throttle_seconds > 0 and i < len(config['test_cases']):
+            time.sleep(throttle_seconds)
     
     # Summary
     print("\n" + "="*70)
@@ -963,6 +968,8 @@ def main():
     parser.add_argument('--api-key', type=str, help='Gemini API key (or use GEMINI_API_KEY env var)')
     parser.add_argument('--model', '-m', type=str, default='gemini-2.5-flash',
                         help='Gemini model name (default: gemini-2.5-flash)')
+    parser.add_argument('--throttle-seconds', type=float, default=0.0,
+                        help='Optional sleep between test cases to avoid rate limits')
     
     args = parser.parse_args()
     
@@ -986,7 +993,14 @@ def main():
         return 1
     
     # Run validation
-    success = validate_scenario(scenario_file, ground_truth_file, api_key, output_file, model_name=args.model)
+    success = validate_scenario(
+        scenario_file,
+        ground_truth_file,
+        api_key,
+        output_file,
+        model_name=args.model,
+        throttle_seconds=args.throttle_seconds
+    )
     
     return 0 if success else 1
 

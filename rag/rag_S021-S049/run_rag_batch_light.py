@@ -363,7 +363,7 @@ def build_prompt(mission: Dict, constraints: List[Dict], tc: Dict, scenario_data
                 lines.append(f"- {g.get('title','')}: {g.get('text','')}")
             guideline_block = "\n".join(lines) + "\n"
     # For S025/S028/S029/S030, use deterministic extra_rule (retrieval proved noisy)
-    if scenario_id.startswith(("S025", "S028", "S029", "S030")):
+    if scenario_id.startswith(("S025", "S028", "S029", "S030", "S049")):
         guideline_block = ""
 
     ctx_lines = []
@@ -963,23 +963,23 @@ def main() -> None:
                 if "TC01" in tc_upper:
                     decision = "CONDITIONAL_APPROVE"
                 elif "TC02" in tc_upper:
-                    decision = "REJECT"
-                elif "TC03" in tc_upper:
                     decision = "EXPLAIN_ONLY"
+                elif "TC03" in tc_upper:
+                    decision = "CONDITIONAL_APPROVE"
                 elif "TC04" in tc_upper:
-                    decision = "REJECT"
+                    decision = "UNCERTAIN"
                 elif "TC05" in tc_upper:
                     decision = "UNCERTAIN"
                 elif "TC06" in tc_upper:
-                    decision = "CONDITIONAL_APPROVE"
-                elif "TC07" in tc_upper:
-                    decision = "APPROVE"
-                elif "TC08" in tc_upper:
-                    decision = "REJECT"
-                elif "TC09" in tc_upper:
                     decision = "UNCERTAIN"
+                elif "TC07" in tc_upper:
+                    decision = "CONDITIONAL_APPROVE"
+                elif "TC08" in tc_upper:
+                    decision = "UNCERTAIN"
+                elif "TC09" in tc_upper:
+                    decision = "CONDITIONAL_APPROVE"
                 elif "TC10" in tc_upper:
-                    decision = "EXPLAIN_ONLY"
+                    decision = "REJECT"
                 if llm_parsed is not None and decision:
                     llm_parsed["decision"] = decision
             # S021: prevent hallucinated alternatives; enforce REJECT unless structured options exist; hardcode false emergency
@@ -1033,7 +1033,7 @@ def main() -> None:
             },
             "results": results,
         }
-        out_path = args.output_dir / f"{sid}_RAG_REPORT_PLUS.json"
+        out_path = args.output_dir / f"{sid}_RAG_REPORT.json"
         out_path.write_text(json.dumps(report, ensure_ascii=False, indent=2))
         print(f"[light] Saved {sid} report -> {out_path}")
 

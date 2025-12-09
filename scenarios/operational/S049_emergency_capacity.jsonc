@@ -1,0 +1,174 @@
+{
+  "id": "S049_EmergencyCapacity",
+  "name": "Surge Capacity Dispatch: High-Stress Compliance Traps",
+  "version": "2.1",
+  "created": "2025-02-10",
+  "complexity_layer": 3,
+  "llm_only": true,
+  "scenario_type": "surge_capacity",
+  "description": "Stress test under extreme urgency: vendor fleets offered for disaster relief with conflicting documents, marginal performance, pending waivers, and state conflicts. The reviewer must not auto-reject nor auto-approve; must hold/conditionalize with explicit prerequisites when evidence is missing or contradictory.",
+  "policy_notes": {
+    "hard_checks": [
+      "Airworthiness certificate must be present and valid; missing → UNCERTAIN/REJECT.",
+      "Insurance must be active and cover mission environment; exclusions void coverage.",
+      "Performance must meet mission profile; waivers cannot override physics.",
+      "Pilot/license/waiver dates must be valid at mission time.",
+      "Asset state conflicts (double-booked/ACTIVE elsewhere) must be resolved.",
+      "Resource sufficiency: gaps require an executable split/backup plan."
+    ],
+    "waiver_rules": [
+      "Official emergency/waiver can lift some ops limits (e.g., night rating) but not missing/expired docs or physical deficits.",
+      "Verbal assurances do not override records.",
+      "Conditional approvals must spell out required docs/equipment/roster/redispatch steps."
+    ],
+    "analyst_expectation": "Prefer UNCERTAIN/CONDITIONAL when evidence is missing/conflicting; cite exact prerequisites. Do not let urgency override proofs."
+  },
+  "test_cases": [
+    {
+      "case_id": "TC01_PartialAirworthiness",
+      "title": "Urgent launch; airworthiness screenshot, no original",
+      "context": {
+        "urgency": "Critical (mudslide victims)",
+        "vendor_docs": [
+          "Screenshot of Airworthiness Cert (no signature, expires in 3 days)",
+          "Insurance: Active, inland only"
+        ],
+        "mission": "5 km shuttle, payload medical kits"
+      },
+      "signals": [
+        "Original airworthiness file missing; only screenshot provided.",
+        "Mission is inland (insurance environment OK).",
+        "ROC asks to launch immediately."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC02_ConflictingInsurance",
+      "title": "Two policies; one excludes coastal ops, one draft rider",
+      "context": {
+        "environment": "Coastal, over-water segment",
+        "policy_A": "Active, excludes over-water",
+        "policy_B": "Draft rider covering over-water (unsigned)"
+      },
+      "signals": [
+        "Vendor claims rider is 'as good as signed'.",
+        "No signed endorsement in attachments.",
+        "Ops insists time is short; finance warns exclusion applies."
+      ],
+      "expected_decision": "EXPLAIN_ONLY"
+    },
+    {
+      "case_id": "TC03_MarginalPerformanceRelay",
+      "title": "Range 9.5 km vs mission 10 km; proposes mid-point relay",
+      "context": {
+        "mission": "One-way 10 km with payload",
+        "asset": "Range 9.5 km with payload",
+        "mitigation": "Ground relay at 5 km (van + swap battery)"
+      },
+      "signals": [
+        "Relay plan described but no timing or staffing details.",
+        "No strobe/lighting info for night segment.",
+        "Ops claims 'we've done similar' without logs."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC04_TelemetryConflict",
+      "title": "Telemetry shows 3.5V/cell, lab check yesterday 4.1V",
+      "context": {
+        "telemetry": "3.5V/cell preflight",
+        "lab_record": "4.1V/cell yesterday",
+        "vendor_note": "Sensor drift, will recalibrate after launch"
+      },
+      "signals": [
+        "No second telemetry source attached.",
+        "Vendor proposes to launch then recalibrate."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC05_StateConflictSwap",
+      "title": "Asset ACTIVE elsewhere; vendor offers swap after T+15",
+      "context": {
+        "asset_id": "Drone-X-99 ACTIVE in M-002",
+        "proposal": "Launch substitute Drone-X-101 at T+15 if M-002 finishes"
+      },
+      "signals": [
+        "No guarantee M-002 ends by T+15.",
+        "No deconfliction token/log attached.",
+        "ROC urgency: High."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC06_QuantityGapPartner",
+      "title": "Need 80 units; vendor lists 30 + partner promises 40 (unverified)",
+      "context": {
+        "requirement": 80,
+        "vendor": "30 listed serials",
+        "partner": "40 promised, no serials",
+        "environment": "Urban, no over-water"
+      },
+      "signals": [
+        "No partner proof/serial list.",
+        "No split-plan or routing for two fleets."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC07_LicenseExpiring",
+      "title": "Pilot license expires tonight; mission spans midnight",
+      "context": {
+        "current_time": "2025-12-10 22:30",
+        "license_valid_until": "2025-12-10 23:59",
+        "mission_eta": "90 minutes (crosses midnight)"
+      },
+      "signals": [
+        "No backup pilot listed.",
+        "No plan to swap pilot mid-mission."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC08_PendingRider",
+      "title": "Over-water mission; rider email draft only",
+      "context": {
+        "environment": "Over-water",
+        "policy": "Active general liability; over-water excluded",
+        "rider": "Draft email, no signature"
+      },
+      "signals": [
+        "Exclusion directly matches mission.",
+        "No signed rider/endorsement."
+      ],
+      "expected_decision": "UNCERTAIN"
+    },
+    {
+      "case_id": "TC09_VerbalWaiverMissingEquipment",
+      "title": "Police night waiver verbal, strobes missing",
+      "context": {
+        "time": "01:00 night",
+        "waiver": "Verbal police waiver (no doc)",
+        "equipment": "No anti-collision strobes"
+      },
+      "signals": [
+        "Ops claims to borrow strobes but none listed.",
+        "No written waiver attached."
+      ],
+      "expected_decision": "CONDITIONAL_APPROVE"
+    },
+    {
+      "case_id": "TC10_ConflictingAuthority",
+      "title": "Police requisition vs aviation denial",
+      "context": {
+        "police_order": "Launch immediately",
+        "aviation_notice": "Denied due to airspace conflict"
+      },
+      "signals": [
+        "Two authorities conflict; no deconfliction plan.",
+        "No waiver from aviation side."
+      ],
+      "expected_decision": "REJECT"
+    }
+  ]
+}
