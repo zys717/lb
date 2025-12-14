@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Scenario Configuration Validator for LAE-GPT
+Scenario Configuration Validator for LAE-Bench
 
 This script validates scene configuration files (.jsonc) before running tests.
 It checks for syntax errors, required fields, coordinate validity, and
@@ -582,4 +582,3 @@ Examples:
 
 if __name__ == '__main__':
     sys.exit(main())
-

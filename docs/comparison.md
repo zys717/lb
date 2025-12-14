@@ -1,4 +1,3 @@
-
 # Comprehensive Failure Analysis: LLM Decision-Making Performance Before and After RAG Enhancement
 
 ---
@@ -162,11 +161,21 @@ RAG demonstrates differential impact across failure types, with strongest improv
 | **Format Attacks**         | S035 40.0%   | 70.0%        | Partial improvement          |
 | **Staged Decisions**       | S027 62.5%   | 62.5%        | No improvement               |
 
- **Key Observations** :
+**Key Observations** :
 
 * RAG eliminates 14 of 15 high-risk scenarios (≥50% error rate in LLM)
 * Remaining errors concentrate in S034 (adversarial rhetoric) where retrieved policy cannot override prompt manipulation
 * Over-rejection persists at 75% of RAG errors (18/24), suggesting factual grounding increases confidence but does not teach uncertainty expression
+
+### 4.1 Failure Modes by Layer
+
+| Failure Pattern | Primary Layer(s) | Representative Scenarios |
+| --- | --- | --- |
+| Conditional Reasoning Failure | Intermediate, Advanced | S024/S026/S027/S028/S029, S034/S035 |
+| Solution Generation Deficit | Intermediate | S021/S026/S027 |
+| Knowledge Conflict Misresolution | Intermediate, Advanced | S024/S025, S031 |
+| Epistemic Uncertainty Miscalibration | Intermediate | S021, S028 (boundary SOC/timing) |
+| Prompt Injection Vulnerability | Advanced | S034/S035/S036 |
 
 ---
 
@@ -174,7 +183,7 @@ RAG demonstrates differential impact across failure types, with strongest improv
 
 Based on cross-scenario error patterns, we identify five fundamental failure modes that persist across both LLM and RAG configurations, each with distinct mechanisms and literature grounding.
 
-### 5.1 Pattern 1: Decision Granularity Collapse
+### 5.1 Pattern 1: Conditional Reasoning Failure
 
 **Definition** : Multi-level decision space compresses into binary outputs, losing intermediate states (`UNCERTAIN`, `EXPLAIN_ONLY`, `CONDITIONAL_APPROVE`).
 
@@ -194,7 +203,7 @@ Based on cross-scenario error patterns, we identify five fundamental failure mod
 
 ---
 
-### 5.2 Pattern 2: Alternative Solution Blindness
+### 5.2 Pattern 2: Solution Generation Deficit
 
 **Definition** : Retrieved or provided alternative courses of action fail to enter the final decision chain.
 
@@ -213,7 +222,7 @@ Based on cross-scenario error patterns, we identify five fundamental failure mod
 
 ---
 
-### 5.3 Pattern 3: Conflict Resolution Strategy Deficit
+### 5.3 Pattern 3: Knowledge Conflict Misresolution
 
 **Definition** : When multiple sources, timestamps, or jurisdictions conflict, models lack systematic prioritization frameworks and either reject defensively or select arbitrarily.
 
@@ -233,7 +242,7 @@ Based on cross-scenario error patterns, we identify five fundamental failure mod
 
 ---
 
-### 5.4 Pattern 4: Boundary Calibration Instability
+### 5.4 Pattern 4: Epistemic Uncertainty Miscalibration
 
 **Definition** : Near safety thresholds (battery reserves, timing margins, noise limits), decisions oscillate between over-conservatism and over-permissiveness without probabilistic calibration.
 
@@ -253,7 +262,7 @@ Based on cross-scenario error patterns, we identify five fundamental failure mod
 
 ---
 
-### 5.5 Pattern 5: Adversarial Robustness Gap
+### 5.5 Pattern 5: Prompt Injection Vulnerability
 
 **Definition** : Sarcasm, style constraints, loophole-seeking, and instruction injections degrade structured decision output.
 
@@ -365,34 +374,16 @@ Based on cross-scenario error patterns, we identify five fundamental failure mod
 
 ## References
 
-[1] W. H. Holliday, M. Mandelkern, and C. E. Zhang, "Conditional and Modal Reasoning in Large Language Models," in  *Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing* , Miami, Florida, USA: Association for Computational Linguistics, 2024, pp. 3800–3821. doi: 10.18653/v1/2024.emnlp-main.222.
+[1]V. Raina, A. Liusie, and M. Gales, “Is LLM-as-a-Judge Robust? Investigating Universal Adversarial Attacks on Zero-shot LLM Assessment,” in Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, Miami, Florida, USA: Association for Computational Linguistics, 2024, pp. 7499–7517. doi: 10.18653/v1/2024.emnlp-main.427.
 
-[2] Y. Hou et al., "WikiContradict: A Benchmark for Evaluating LLMs on Real-World Knowledge Conflicts from Wikipedia".
+[2]F. Ye et al., “Benchmarking LLMs via Uncertainty Quantification,” Oct. 31, 2024, arXiv: arXiv:2401.12794. doi: 10.48550/arXiv.2401.12794.
 
-[3] Z. Su et al., "CONFLICTBANK: A Benchmark for Evaluating Knowledge Conflicts in Large Language Models".
+[3]Z. Li, B. Peng, P. He, and X. Yan, “Evaluating the Instruction-Following Robustness of Large Language Models to Prompt Injection,” in Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, Y. Al-Onaizan, M. Bansal, and Y.-N. Chen, Eds., Miami, Florida, USA: Association for Computational Linguistics, Nov. 2024, pp. 557–568. doi: 10.18653/v1/2024.emnlp-main.33.
 
-[4] M. Bee, "Improving Large Language Models' Handling of Contradictions: Fostering Epistemic Humility,"  *Medium* . Accessed: Nov. 13, 2025. [Online]. Available: https://medium.com/@mbonsign/improving-large-language-models-handling-of-contradictions-fostering-epistemic-humility-629fca6abcf0
+[4]Y. A. Yadkori, I. Kuzborskij, A. György, and C. Szepesvári, “To Believe or Not to Believe Your LLM,” July 17, 2024, arXiv: arXiv:2406.02543. doi: 10.48550/arXiv.2406.02543.
 
-[5] Y. Cong, "Manner implicatures in large language models,"  *Sci. Rep.* , vol. 14, no. 1, p. 29113, Nov. 2024, doi: 10.1038/s41598-024-80571-3.
+[5]C. Ling et al., “Uncertainty Quantification for In-Context Learning of Large Language Models,” in Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers), Mexico City, Mexico: Association for Computational Linguistics, 2024, pp. 3357–3370. doi: 10.18653/v1/2024.naacl-long.184.
 
-[6] P. Pedinotti, E. Chersoni, E. Santus, and A. Lenci, "Pragmatic and Logical Inferences in NLI Systems: The Case of Conjunction Buttressing," in  *Proceedings of the Second Workshop on Understanding Implicit and Underspecified Language* , Seattle, USA: Association for Computational Linguistics, 2022, pp. 8–16. doi: 10.18653/v1/2022.unimplicit-1.2.
+[6]H. Puerto, M. Tutek, S. Aditya, X. Zhu, and I. Gurevych, “Code Prompting Elicits Conditional Reasoning Abilities in Text+Code LLMs,” in Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, Y. Al-Onaizan, M. Bansal, and Y.-N. Chen, Eds., Miami, Florida, USA: Association for Computational Linguistics, Nov. 2024, pp. 11234–11258. doi: 10.18653/v1/2024.emnlp-main.629.
 
-[7] N. Joshi, A. Saparov, Y. Wang, and H. He, "LLMs Are Prone to Fallacies in Causal Inference," in  *Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing* , Miami, Florida, USA: Association for Computational Linguistics, 2024, pp. 10553–10569. doi: 10.18653/v1/2024.emnlp-main.590.
-
-[8] K. Yamin, S. Gupta, G. R. Ghosal, Z. C. Lipton, and B. Wilder, "Failure Modes of LLMs for Causal Reasoning on Narratives," June 17, 2025, arXiv: arXiv:2410.23884. doi: 10.48550/arXiv.2410.23884.
-
-[9] I. Mirzadeh, K. Alizadeh, H. Shahrokhi, O. Tuzel, S. Bengio, and M. Farajtabar, "GSM-Symbolic: Understanding the Limitations of Mathematical Reasoning in Large Language Models," Aug. 28, 2025, arXiv: arXiv:2410.05229. doi: 10.48550/arXiv.2410.05229.
-
-[10] D. Ganguli et al., "Red Teaming Language Models to Reduce Harms: Methods, Scaling Behaviors, and Lessons Learned," Nov. 24, 2022, arXiv: arXiv:2209.07858. doi: 10.48550/arXiv.2209.07858.
-
-[11] Y. Jiang et al., "D-LLM: A Token Adaptive Computing Resource Allocation Strategy for Large Language Models".
-
-[12] E. Kıcıman, R. Ness, A. Sharma, and C. Tan, "Causal Reasoning and Large Language Models: Opening a New Frontier for Causality," Aug. 21, 2024, arXiv: arXiv:2305.00050. doi: 10.48550/arXiv.2305.00050.
-
-[13] O. Brady, P. Nulty, L. Zhang, T. E. Ward, and D. P. McGovern, "Dual-process theory and decision-making in large language models,"  *Nat. Rev. Psychol.* , pp. 1–16, Nov. 2025, doi: 10.1038/s44159-025-00506-1.
-
-[14] G. Piatti, Z. Jin, M. Kleiman-Weiner, B. Schölkopf, M. Sachan, and R. Mihalcea, "Cooperate or Collapse: Emergence of Sustainable Cooperation in a Society of LLM Agents," Dec. 08, 2024, arXiv: arXiv:2404.16698. doi: 10.48550/arXiv.2404.16698.
-
-[15] S. Backmann, D. G. Piedrahita, E. Tewolde, R. Mihalcea, B. Schölkopf, and Z. Jin, "When Ethics and Payoffs Diverge: LLM Agents in Morally Charged Social Dilemmas," May 25, 2025, arXiv: arXiv:2505.19212. doi: 10.48550/arXiv.2505.19212.
-
-[16] A. Prabhakar, T. L. Griffiths, and R. T. McCoy, "Deciphering the Factors Influencing the Efficacy of Chain-of-Thought: Probability, Memorization, and Noisy Reasoning," in  *Findings of the Association for Computational Linguistics: EMNLP 2024* , Y. Al-Onaizan, M. Bansal, and Y.-N. Chen, Eds., Miami, Florida, USA: Association for Computational Linguistics, Nov. 2024, pp. 3710–3724. doi: 10.18653/v1/2024.findings-emnlp.212.
+[7]R. Xu et al., “Knowledge Conflicts for LLMs: A Survey,” in Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing, Y. Al-Onaizan, M. Bansal, and Y.-N. Chen, Eds., Miami, Florida, USA: Association for Computational Linguistics, Nov. 2024, pp. 8541–8565. doi: 10.18653/v1/2024.emnlp-main.486.
