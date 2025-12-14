@@ -1,48 +1,95 @@
-# LAE-Bench: LLM Decision-Making in Low-Altitude Traffic Management
+# LAE-Bench: Evaluating LLM Decision-Making in Low-Altitude Traffic Management
 
-LAE-Bench is a benchmark for safety-critical low-altitude economy (LAE) scenarios. It evaluates how large language models handle rule conflicts, dynamic constraints, and adversarial intent, and ships a full pipeline that combines physical/rule engines with RAG-based cognitive checks.
+LAE-Bench is a benchmark for safety-critical unmanned traffic management (UTM). It stresses large language models with rule conflicts, dynamic constraints, and adversarial intent, and ships a reference implementation (LAE-GPT) plus RAG/rule baselines to reveal systematic reasoning limits.
 
-## 1. What & Why
-- **Goal:** Surface cognitive failure modes of LLMs in unmanned traffic management (UTM), not just “auto-approve flights.”
-- **Data:** 49 scenarios grounded in real CN/US regulations and ministry cases, covering the spectrum from hard constraints to operational/fairness trade-offs.
-- **Finding:** RAG sharply reduces routine errors, but remaining failures cluster into five universal patterns (conditional reasoning, alternative generation, conflict arbitration, boundary uncertainty, prompt injection) that are domain-agnostic.
+---
 
-## 2. Benchmark Layout (scenarios/)
-- **Basic (S001–S020):** Geofence, altitude/speed, VLOS/BVLOS, payload, airspace class, time windows; physical/rule scripts included.
-- **Intermediate (S021–S030):** Multi-source conflicts, dynamic priorities, ethics/value trade-offs, regulation updates/effective dates.
-- **Advanced (S031–S040):** Intent/ambiguity, causal/uncertainty reasoning, adversarial/impersonation/prompt-injection.
-- **Operational (S041–S049):** Fleet sizing, charging, repositioning, evacuation, fairness and capacity optimization.
+## Overview
+**LAE-Bench** is a systematic benchmark for low-altitude economy decision-making.
+- 49 scenarios, 368 expert-annotated test cases across Basic → Operational layers
+- Cross-regulatory grounding (CN/FAA/mixed) with bilingual assets
+- Pure LLM baseline: 65.49% → RAG: 88.98% (+23.49pp)
+- **Critical finding:** 75% of remaining RAG errors are conditional reasoning collapses
 
-## 3. Dual-Engine Validation
-- **Physical / Rule Engine** (scripts/): AirSim/rule scripts to validate trajectory, altitude/speed, VLOS-BVLOS, payload, airspace, timeline, multi-drone.
-- **Cognitive Engine** (rag/ + scripts/llm_prompts/): Scenario-routed prompts + retrieved guidelines/constraints; compare Raw LLM, Rules baseline, and RAG variants.
+**Primary contribution:** Benchmark dataset + failure taxonomy  
+**Secondary contribution:** LAE-GPT reference (raw/RAG/rules) for reproducible baselines
 
-## 4. Failure Taxonomy (cross-regulatory)
-Universal failure modes observed across CN/FAA/mixed cases:
-1) Conditional reasoning failure — soft states (UNCERTAIN/EXPLAIN_ONLY/CONDITIONAL_APPROVE) collapse to hard REJECT.
-2) Solution generation deficit — alternatives/phased paths never enter the decision chain.
-3) Knowledge conflict misresolution — no principled arbitration for multi-source/version clashes.
-4) Epistemic uncertainty miscalibration — over-/under-confidence near numeric thresholds (SOC/time).
-5) Prompt injection vulnerability — authority/format/translation attacks disrupt structured output.
+Further reading: `docs/comparison.md`, `docs/cross.md`, `docs/capability.md`
 
-## 5. Repository Map
+---
+
+## Why LAE-Bench?
+### The Problem
+- Existing benchmarks test generic reasoning, not safety-critical edge cases.
+- It is unclear whether failures stem from domain knowledge gaps or intrinsic reasoning limits.
+- Cross-regulatory robustness (CN/FAA) is rarely evaluated.
+
+### Our Solution
+LAE-Bench probes five capabilities:
+1. Conditional reasoning under uncertainty (UNCERTAIN/EXPLAIN_ONLY states)
+2. Conflict resolution across multi-source regulations
+3. Adversarial robustness (prompt/authority/format injection)
+4. Boundary calibration near safety thresholds (SOC/time)
+5. Alternative generation for constrained problems
+
+**Cross-reg insight:** In 254 RAG-evaluated cases, 0% failures were due to CN/FAA-specific knowledge; all traced to universal reasoning gaps (see `docs/cross.md`).
+
+---
+
+## Benchmark Structure (scenarios/)
+```
+Layer 1: Basic (S001–S020)
+  Geofence, altitude/speed, VLOS/BVLOS, payload, airspace, time windows; physical/rule checks.
+
+Layer 2: Intermediate (S021–S030)
+  Multi-source conflicts, priority arbitration, ethics/value trade-offs, regulation lifecycle.
+
+Layer 3: Advanced (S031–S040)
+  Intent/ambiguity, causal/epistemic uncertainty, adversarial prompts, authority impersonation.
+
+Layer 4: Operational (S041–S049)
+  Fleet sizing, charging, repositioning, evacuation, fairness/capacity optimization.
+```
+
+### Decision taxonomy
+`APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `REJECT_WITH_ALTERNATIVE`, `UNCERTAIN`, `EXPLAIN_ONLY` (plus revision states where applicable).
+
+---
+
+## Five Universal Failure Patterns
+Observed across CN/FAA/mixed contexts (details in `docs/comparison.md`):
+- Conditional reasoning failure (soft → hard collapse)
+- Alternative solution blindness (options/phase paths ignored)
+- Knowledge conflict misresolution (no source/jurisdiction arbitration)
+- Boundary calibration instability (over/under-confidence near thresholds)
+- Prompt injection vulnerability (authority/format/translation attacks)
+
+---
+
+## Dual-Engine Validation
+- **Physical / Rule Engine** (`scripts/`): AirSim/rule scripts to check trajectory, altitude/speed, VLOS-BVLOS, payload, airspace, timelines, multi-drone.
+- **Cognitive Engine** (`rag/` + `scripts/llm_prompts/`): Scenario-routed prompts + retrieved guidelines/constraints; compare Raw LLM, Rule baseline, RAG.
+
+---
+
+## Repository Map
 ```
 scenarios/             # 49 scenarios (basic/intermediate/advanced/operational)
 ground_truth/          # Expected decisions and evidence
 reports/               # Raw LLM / RAG / Rule baseline reports
-scripts/               # Physical/rule tools + LLM validator + prompt builders
-rag/                   # RAG pipeline, guidelines, constraints
-regulations/           # Source regulations/SOPs (PDF/Markdown)
-docs/                  # Quickstart, guides, notes
+scripts/               # Validators, physics/rule tools, prompt builders
+rag/                   # RAG pipelines, guidelines, constraints
+regulations/           # Source policy docs (CN/FAA) and mapping
+docs/                  # Analysis and reports (comparison, cross-reg, capability)
+figures/               # Generated charts/plots
 ```
 
-## 6. Quick Start
-Prereq: Python 3.9+. For LLM runs, install SDK and set API key.
-```bash
-pip install google-generativeai
-export GEMINI_API_KEY="your-key"
-```
-- **Raw LLM (no retrieval)**
+---
+
+## Quick Start
+Prereqs: Python 3.9+. For LLM runs: `pip install google-generativeai` and `export GEMINI_API_KEY=...`.
+
+**Raw LLM (no retrieval)**
 ```bash
 python scripts/run_scenario_llm_validator.py \
   scenarios/basic/S001_geofence_basic.jsonc \
@@ -51,7 +98,8 @@ python scripts/run_scenario_llm_validator.py \
   --model gemini-2.5-flash \
   --api-key "$GEMINI_API_KEY"
 ```
-- **RAG batch (S021–S049)**
+
+**RAG batch (S021–S049)**
 ```bash
 python rag/rag_S021-S049/run_rag_batch_light.py \
   --scenarios S021-S049 \
@@ -59,7 +107,8 @@ python rag/rag_S021-S049/run_rag_batch_light.py \
   --model gemini-2.5-flash \
   --api-key "$GEMINI_API_KEY"
 ```
-- **Rules baseline (S021–S049)**
+
+**Rules baseline (S021–S049)**
 ```bash
 python rag/rag_S021-S049_rules_baseline/run_rag_batch_light.py \
   --scenarios S021-S049 \
@@ -68,19 +117,26 @@ python rag/rag_S021-S049_rules_baseline/run_rag_batch_light.py \
   --api-key "$GEMINI_API_KEY"
 ```
 
-## 7. Results Snapshot
-- **FAA-referenced scenarios:** RAG lifts S029/S033/S039 to ~90–100%; authority/adversarial S035 to ~70% (still weak).
-- **CN-only scenarios:** S019/S020 at 100%; battery-boundary S021 improves from 62.5% (Raw) to 87.5% (RAG/Rule).
-- **Cross-reg insight:** Remaining errors are all universal reasoning failures; see `Cross-Regulatory Failure Analysis.md`.
+---
 
-## 8. Extend / Customize
+## Results Snapshot
+- FAA-referenced: RAG lifts S029/S033/S039 to ~90–100%; authority/adversarial S035 to ~70%.
+- CN-only: S019/S020 at 100%; S021 (battery boundary) 62.5% → 87.5% (RAG/Rule).
+- Remaining errors are universal reasoning failures (see `docs/cross.md`).
+
+---
+
+## Extend / Customize
 - Use `templates/` to add scenarios/ground truth; keep four-layer structure and decision labels.
-- To build pure FAA or pure CN variants, rewrite scenario/GT descriptions and policy baselines consistently with the target regulator.
+- To build pure FAA or pure CN variants, rewrite scenario/GT descriptions and policy baselines consistently.
+- Keep three report sets for comparison: `S0xx_LLM_VALIDATION.json`, `S0xx_RULE_BASELINE.json`, `S0xx_RAG_REPORT.json`.
 
-## 9. Citation (placeholder)
+---
+
+## Citation (placeholder)
 ```
 @inproceedings{lae-bench-2025,
-  title={LAE-Bench: A Benchmark for LLM Decision-Making in Low-Altitude Traffic Management},
+  title={LAE-Bench: Evaluating LLM Decision-Making in Low-Altitude Traffic Management},
   author={Zhang, Yunshi},
   year={2025}
 }
