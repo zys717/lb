@@ -1,0 +1,184 @@
+{
+  // Scenario S005: Dynamic Temporary Flight Restriction (TFR)
+  // Tests whether the system can recognize and enforce time-limited no-fly zones
+  // that activate and deactivate at specific times, simulating real-world
+  // temporary restrictions for events, emergencies, or VIP movements
+  
+  "id": "S005_DynamicTFR",
+  
+  "actors": [
+    {
+      "type": "robot",
+      "name": "Drone1",
+      // Initial position: (3000, 0, 50) - outside TFR zone when inactive
+      // NED coordinates: north=3000m, east=0m, down=-50m (altitude 50m)
+      // Distance to TFR center: 3000m (safe when TFR inactive)
+      "origin": {
+        "xyz": "3000.0 0.0 -50.0",
+        "rpy": "0 0 0"
+      },
+      "robot-config": "robot_quadrotor_fastphysics.jsonc"
+    }
+  ],
+  
+  // Dynamic Temporary Flight Restriction
+  // Simulates a TFR for a major public event (e.g., sports game, concert, political rally)
+  // The zone activates and deactivates based on time
+  "geofences": [
+    {
+      "id": "tfr_major_event",
+      "type": "cylinder",
+      "center": {
+        "xyz": "0.0 0.0 0.0"
+      },
+      "radius": 2000.0,
+      "safety_margin": 500.0,      // Total restricted distance: 2500m
+      "height_min": -1000.0,
+      "height_max": 1000.0,
+      "enabled": true,
+      "action": "reject",
+      "priority": 1,
+      "zone_type": "temporary_restriction",
+      
+      // TIME-BASED ACTIVATION ⭐ NEW FEATURE
+      "time_restriction": {
+        "type": "scheduled",         // scheduled (major event) or emergency
+        "active_start": "2024-01-15T14:00:00Z",  // Event starts at 14:00 UTC
+        "active_end": "2024-01-15T18:00:00Z",    // Event ends at 18:00 UTC (4 hours)
+        "advance_notice_hours": 24,  // Published 24 hours before activation
+        "notice_published": "2024-01-14T14:00:00Z"
+      },
+      
+      "description": "Temporary Flight Restriction for major public event (stadium/concert venue) - 4-hour restriction with 24-hour advance notice"
+    },
+    
+    {
+      "id": "tfr_emergency",
+      "type": "cylinder",
+      "center": {
+        "xyz": "5000.0 0.0 0.0"
+      },
+      "radius": 1000.0,
+      "safety_margin": 500.0,      // Total restricted distance: 1500m
+      "height_min": -1000.0,
+      "height_max": 1000.0,
+      "enabled": true,
+      "action": "reject",
+      "priority": 1,
+      "zone_type": "emergency_restriction",
+      
+      // EMERGENCY TFR ⭐ SHORT NOTICE
+      "time_restriction": {
+        "type": "emergency",         // Emergency response (fire, rescue, etc.)
+        "active_start": "2024-01-15T15:30:00Z",  // Emergency starts
+        "active_end": "2024-01-15T19:00:00Z",    // Estimated end (3.5 hours)
+        "advance_notice_minutes": 30,  // Only 30 minutes notice for emergencies
+        "notice_published": "2024-01-15T15:00:00Z"
+      },
+      
+      "description": "Emergency TFR for rescue operation - 30-minute advance notice"
+    }
+  ],
+  
+  "clock": {
+    "type": "steppable",
+    "step-ns": 3000000,
+    "real-time-update-rate": 3000000,
+    "pause-on-start": false
+  },
+  
+  "home-geo-point": {
+    "latitude": 47.641468,
+    "longitude": -122.140165,
+    "altitude": 122.0
+  },
+  
+  "segmentation": {
+    "initialize-ids": true,
+    "ignore-existing": false,
+    "use-owner-name": true
+  },
+  
+  "scene-type": "UnrealNative",
+  
+  // Test information and test cases
+  "test_info": {
+    "regulation_references": {
+      "china": {
+        "document": "无人驾驶航空器飞行管理暂行条例",
+        "article": "第二十条",
+        "summary": "临时管制空域 - 重大活动生效前24小时公告，紧急任务生效前30分钟公告"
+      },
+      "usa": {
+        "document": "FAA TFR System",
+        "reference": "NOTAMs and TFR publications",
+        "summary": "Temporary Flight Restrictions for special events, emergencies, VIP movements"
+      }
+    },
+    
+    "test_cases": [
+      {
+        "id": "TC1",
+        "name": "before_tfr_activation",
+        "description": "Flight before TFR activation - should be approved",
+        "simulated_time": "2024-01-15T13:00:00Z",  // 1 hour before TFR starts
+        "command": "move_to_position(0, 0, 50)",
+        "expected_result": "APPROVE",
+        "reason": "TFR not yet active - zone is safe"
+      },
+      {
+        "id": "TC2",
+        "name": "during_tfr_active",
+        "description": "Flight during TFR active period - should be rejected",
+        "simulated_time": "2024-01-15T15:00:00Z",  // During TFR (14:00-18:00)
+        "command": "move_to_position(0, 0, 50)",
+        "expected_result": "REJECT",
+        "reason": "TFR active - temporary no-fly zone enforced"
+      },
+      {
+        "id": "TC3",
+        "name": "after_tfr_expiration",
+        "description": "Flight after TFR expiration - should be approved",
+        "simulated_time": "2024-01-15T19:00:00Z",  // 1 hour after TFR ends
+        "command": "move_to_position(0, 0, 50)",
+        "expected_result": "APPROVE",
+        "reason": "TFR expired - zone is safe again"
+      },
+      {
+        "id": "TC4",
+        "name": "emergency_tfr_short_notice",
+        "description": "Flight toward emergency TFR with short notice",
+        "simulated_time": "2024-01-15T16:00:00Z",  // During emergency TFR
+        "command": "move_to_position(5000, 0, 50)",
+        "expected_result": "REJECT",
+        "reason": "Emergency TFR active - 30-minute notice given"
+      },
+      {
+        "id": "TC5",
+        "name": "overlapping_tfrs",
+        "description": "Flight when both TFRs active (edge case)",
+        "simulated_time": "2024-01-15T16:30:00Z",  // Both TFRs active
+        "command": "move_to_position(2500, 0, 50)",  // Between two TFRs
+        "expected_result": "APPROVE",
+        "reason": "Position outside both TFR zones despite both being active"
+      }
+    ],
+    
+    "key_features": [
+      "Time-based geofence activation/deactivation",
+      "Scheduled TFR (24-hour advance notice)",
+      "Emergency TFR (30-minute advance notice)",
+      "Multiple simultaneous TFRs",
+      "Dynamic zone status checking"
+    ]
+  },
+  
+  "metadata": {
+    "created": "2025-10-22",
+    "author": "LAE-GPT",
+    "version": "1.0",
+    "complexity": "intermediate",
+    "regulation_focus": "temporal_restrictions"
+  }
+}
+

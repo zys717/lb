@@ -1,160 +1,60 @@
-# LAE-Bench: Evaluating LLM Decision-Making in Low-Altitude Traffic Management
+# LAE-Bench
 
+LAE-Bench evaluates language-model decisions in low-altitude traffic management, including pre-flight authorization, in-flight contingency actions, and resource or policy decisions. This repository contains the materials used for the revised manuscript's four-model study, an earlier civil-aviation diagnostic, and a later check of decisions reconstructed from official records.
 
----
+## Study materials
 
-## Overview
+| Evaluation | Cases | Conditions and records |
+| --- | ---: | --- |
+| Main benchmark, Layer 1 | 114 in 20 clusters | RAW; explicit constraints |
+| Main benchmark, Layers 2–4 | 254 in 29 clusters | Paired RAW and RAG_REVISED |
+| Civil-aviation diagnostic | 180 in 15 scenarios | Earlier single-model diagnostic |
+| Official-record case check | 8 | 64 responses and 32 paired coding records |
 
-**LAE-Bench** is a systematic benchmark for low-altitude economy decision-making.
+The main panel comprises Qwen3.8, GLM-5.2, DeepSeek-V4-Flash, and Muse-Glimmer. Each model has 622 case-condition positions, giving 2,488 scored positions. Exact model identifiers and initial decoding settings are in [model_settings.json](data/main/results/model_settings.json).
 
-- 49 scenarios, 368 expert-annotated test cases across Basic → Operational layers
-- Cross-regulatory grounding (CN/FAA/mixed) with bilingual assets
-- Pure LLM baseline: 65.49% → RAG: 88.98% (+23.49pp)
-- **Critical finding:** 64.3% of remaining RAG errors are conditional reasoning collapses
+The 23 published operating cases supplied settings and management problems for 49 constructed clusters and 368 benchmark cases. The [source-to-scenario mapping](<regulations/23-49 Mapping.md>) distinguishes reported operating facts from author-defined test conditions and extensions to other settings.
 
-**Primary contribution:** Benchmark dataset + failure taxonomy
+RAG_REVISED combines selected benchmark records, outcome definitions, prerequisites, and numerical and temporal checks. It was developed after early analysis of the same corpus. The paired comparison evaluates that complete support package; production retrieval is outside the experiment's scope.
 
-Further reading: `docs/comparison.md`, `docs/cross.md`, `docs/capability.md`
+## Repository contents
 
----
+- [data/main](data/main/README.md): frozen complex cases, saved prompts, Layer 1 source facts, reconstructed inputs, and manuscript statistics.
+- [data/annotations](data/annotations/README.md): independent A1/A2 labels, annotation instructions, coordinator decisions, and final references.
+- [data/civil](data/civil/README.md): the earlier 180-item diagnostic and its cited ASRS records.
+- [data/official_cases](data/official_cases/README.md): the eight official-record decisions, prompts, responses, references, and coding definitions.
+- [scripts](scripts/): input construction, inference, response handling, scoring, and offline analysis.
+- [regulations](regulations/): the source-to-scenario mapping and public source documents.
 
-## Civil Aviation Transfer Study
+The local `revision/`, `paper/`, and `tmp/` workspaces are excluded from the public research package.
 
-Civil aviation approval tasks are more procedural and standardized than low-altitude operations.
+## Reproduce the saved results
 
-Data and mapping live under `civil/`; scenario/GT files are in `scenarios/civil_aviation/` and `ground_truth/` (C001–C015). See `civil/README.md` for details.
-
----
-
-## Why LAE-Bench?
-
-### The Problem
-
-- Existing benchmarks test generic reasoning, not safety-critical edge cases.
-- It is unclear whether failures stem from domain knowledge gaps or intrinsic reasoning limits.
-- Cross-regulatory robustness (CN/FAA) is rarely evaluated.
-
-### Our Solution
-
-LAE-Bench probes five capabilities:
-
-1. Conditional reasoning under uncertainty (UNCERTAIN/EXPLAIN_ONLY states)
-2. Conflict resolution across multi-source regulations
-3. Adversarial robustness (prompt/authority/format injection)
-4. Boundary calibration near safety thresholds (SOC/time)
-5. Alternative generation for constrained problems
-
-**Cross-reg insight:** In 254 RAG-evaluated cases, 0% failures were due to CN/FAA-specific knowledge; all traced to universal reasoning gaps (see `docs/cross.md`).
-
----
-
-## Benchmark Structure (scenarios/)
-
-```
-Layer 1: Basic (S001–S020)
-  Geofence, altitude/speed, VLOS/BVLOS, payload, airspace, time windows; physical/rule checks.
-
-Layer 2: Intermediate (S021–S030)
-  Multi-source conflicts, priority arbitration, ethics/value trade-offs, regulation lifecycle.
-
-Layer 3: Advanced (S031–S040)
-  Intent/ambiguity, causal/epistemic uncertainty, adversarial prompts, authority impersonation.
-
-Layer 4: Operational (S041–S049)
-  Fleet sizing, charging, repositioning, evacuation, fairness/capacity optimization.
-```
-
-### Decision taxonomy
-
-`APPROVE`, `CONDITIONAL_APPROVE`, `REJECT`, `REJECT_WITH_ALTERNATIVE`, `UNCERTAIN`, `EXPLAIN_ONLY` (plus revision states where applicable).
-
----
-
-## Five Universal Failure Patterns
-
-Observed across CN/FAA/mixed contexts (details in `docs/comparison.md`):
-
-- Conditional reasoning failure (soft → hard collapse)
-- Alternative solution blindness (options/phase paths ignored)
-- Knowledge conflict misresolution (no source/jurisdiction arbitration)
-- Boundary calibration instability (over/under-confidence near thresholds)
-- Prompt injection vulnerability (authority/format/translation attacks)
-
----
-
-## Dual-Engine Validation
-
-- **Physical / Rule Engine** (`scripts/`): AirSim/rule scripts to check trajectory, altitude/speed, VLOS-BVLOS, payload, airspace, timelines, multi-drone.
-- **Cognitive Engine** (`rag/` + `scripts/llm_prompts/`): Scenario-routed prompts + retrieved guidelines/constraints; compare Raw LLM, Rule baseline, RAG.
-
----
-
-## Repository Map
-
-```
-scenarios/             # 49 scenarios (basic/intermediate/advanced/operational)
-ground_truth/          # Expected decisions and evidence
-reports/               # Raw LLM / RAG / Rule baseline reports
-scripts/               # Validators, physics/rule tools, prompt builders
-rag/                   # RAG pipelines, guidelines, constraints
-regulations/           # Source policy docs (CN/FAA) and mapping
-docs/                  # Analysis and reports (comparison, cross-reg, capability)
-figures/               # Generated charts/plots
-```
-
----
-
-## Quick Start
-
-Prereqs: Python 3.9+ and your preferred LLM provider SDK/CLI.
-
-**Raw LLM (no retrieval)**
+Python 3.9 or later is required. The dependency versions in `requirements.txt` were used to check this package.
 
 ```bash
-YOUR_API_KEY_ENV="YOUR_API_KEY_HERE" python scripts/run_scenario_llm_validator.py \
-  scenarios/basic/S001_geofence_basic.jsonc \
-  --ground-truth ground_truth/S001_violations.json \
-  --output reports/S001_LLM_VALIDATION.json
+python3 -m pip install -r requirements.txt
+python3 scripts/analyze_main_results.py --check
+python3 scripts/analyze_annotations.py --check
+python3 scripts/build_reference_labels.py --check
+python3 scripts/reproduce_case_checks.py
+python3 scripts/plot_task_gains.py --output /tmp/lae-task-gains.pdf
 ```
 
-**RAG batch (S021–S049)**
+These commands work offline from the retained data and do not call models. The main checks compare recomputed statistics with the saved manuscript tables. Main complex-case scoring excludes three procedural-explanation cases per model and condition, leaving 251 paired cases; the 254-case input set itself is retained. The task confidence intervals use 10,000 scenario-cluster bootstrap draws, with NumPy's random generator seeded at 20260812.
+
+## Inputs and inference
 
 ```bash
-YOUR_API_KEY_ENV="YOUR_API_KEY_HERE" python rag/rag_S021-S049/run_rag_batch_light.py \
-  --scenarios S021-S049 \
-  --output-dir reports
+python3 scripts/build_main_prompts.py
 ```
 
-**Rules baseline (S021–S049)**
+This rebuilds the 114 Layer 1 prompts from the original construction procedure, including the specified S005/S020 historical facts, and combines them with the 254 saved RAW and 254 saved supported prompts. The generated 622-position file is explicitly named `prompts_main_reconstructed.jsonl`. It is a reconstruction; the original generated Layer 1 and combined prompt files have not been recovered.
 
-```bash
-YOUR_API_KEY_ENV="YOUR_API_KEY_HERE" python rag/rag_S021-S049_rules_baseline/run_rag_batch_light.py \
-  --scenarios S021-S049 \
-  --output-dir reports
-```
+The saved complex-case prompt text is retained from the files used for the current panel. The original supported input file calls its condition `RAG_REVISED_FULL`; construction of the combined panel normalizes that condition name to `RAG_REVISED`.
 
----
+The inference entry points are `run_main_evaluation.py`, `recover_main_responses.py`, and `score_main_responses.py` in `scripts/`; their `--help` output describes required inputs. New model calls require an API key and are separate from the offline checks above. Initial calls used temperature 0, low reasoning effort, and a 2,048-token output limit. Format-recovery rounds used the same prompt text with strict JSON, a 4,096-token limit in rounds 1–3 and an 8,192-token limit in rounds 4–7. Recovery selected responses by structural validity, without using reference correctness.
 
-## Results Snapshot
+The main experiment's original and final full response files have not been recovered in this package. The retained `case_results.csv` contains predictions, references, scoring, and response-selection information, so the reported statistics can be recalculated; it does not contain the full response texts. The inference and recovery scripts require actual response files and do not recreate missing historical answers. Scoring a recovered run requires valid responses at every position; counting original invalid responses as incorrect requires the explicit `original_invalid_as_incorrect` mode.
 
-- FAA-referenced: RAG lifts S029/S033/S039 to ~90–100%; authority/adversarial S035 to ~70%.
-- CN-only: S019/S020 at 100%; S021 (battery boundary) 62.5% → 87.5% (RAG/Rule).
-- Remaining errors are universal reasoning failures (see `docs/cross.md`).
-
-## Extend / Customize
-
-- Use `templates/` to add scenarios/ground truth; keep four-layer structure and decision labels.
-- To build pure FAA or pure CN variants, rewrite scenario/GT descriptions and policy baselines consistently.
-- Keep three report sets for comparison: `S0xx_LLM_VALIDATION.json`, `S0xx_RULE_BASELINE.json`, `S0xx_RAG_REPORT.json`.
-
----
-
-## Citation (placeholder)
-
-```
-@inproceedings{lae-bench-2025,
-  title={LAE-Bench: Evaluating LLM Decision-Making in Low-Altitude Traffic Management},
-  author={Zhang, Yunshi},
-  year={2025}
-}
-```
+The civil diagnostic's retained reports also lack the metadata needed to independently confirm its original model call. Its README describes this limitation. The eight-case package does retain all 64 response texts and the definitions used for its 32 paired coding records.

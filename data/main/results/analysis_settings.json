@@ -1,0 +1,15 @@
+{
+  "run_id": "current_openweight_20260826_v3",
+  "complete_622_ok_per_model": true,
+  "bootstrap_reps": 10000,
+  "bootstrap_seed": 20260812,
+  "correctness_triggered_retries": false,
+  "outputs": [
+    "case_level_scored.csv",
+    "layer_accuracy_primary.csv",
+    "rag_paired_gain.csv",
+    "denominator_sensitivity.csv",
+    "validity_recovery_sensitivity.csv",
+    "results_summary.md"
+  ]
+}

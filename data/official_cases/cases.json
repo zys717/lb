@@ -1,0 +1,406 @@
+{
+  "scenario_id": "OFFICIAL_RECORD_CHECK_V1",
+  "cases": [
+    {
+      "case_id": "S051",
+      "source_case_id": "SUP-S01-T150",
+      "source_key": "air_accidents_investigation_branch_aaib_2024",
+      "source_locator": "AAIB-29335, pp. 6-10",
+      "task_type": "PRE_FLIGHT_AUTHORIZATION",
+      "endpoint_family": "AUTHORIZATION_DECISION",
+      "decision_maker": "Remote pilot responsible for final flight release",
+      "decision_timepoint": "Before take-off, during final review of the skills-currency training plan",
+      "allowed_outcomes": [
+        "APPROVE",
+        "CONDITIONAL_APPROVE",
+        "REJECT",
+        "REJECT_WITH_ALTERNATIVE",
+        "UNCERTAIN"
+      ],
+      "raw_case_record": "A remote pilot is reviewing a skills-currency training flight in manual stabilised mode. The proposed geofence is 40 m high with a 300 m radius. The crew has accepted it because it is the organisation's standard training setting, but the case file contains no flight-specific assessment of whether that setting is suitable. Decide the current flight request.",
+      "rag_evidence_cards": [
+        {
+          "evidence_id": "E01",
+          "content": "The operating authorization permits operations up to 120 m in height and 500 m from the remote pilot. These are maximum permitted dimensions, not a recommended geofence for this training flight."
+        },
+        {
+          "evidence_id": "E02",
+          "content": "The operating-safety material requires the geofence to be set appropriately but gives no criteria for judging the setting for this operation."
+        },
+        {
+          "evidence_id": "E03",
+          "content": "The pre-existing operating material contains no applicable checklist or explicit procedure for a geofence crossing."
+        }
+      ],
+      "analysis_role": "QUALITATIVE_EVIDENCE_SUFFICIENCY",
+      "visible_facts_raw": {
+        "K1": "Skills-currency training in manual stabilised mode.",
+        "K2": "Proposed geofence is 40 m high with a 300 m radius.",
+        "K3": "The standard setting has no flight-specific suitability assessment."
+      },
+      "evidence_available_for_rag": {
+        "E01": "Authorization maxima are not a recommended setting.",
+        "E02": "The safety material says appropriate but supplies no selection criteria.",
+        "E03": "No applicable geofence-crossing checklist or procedure is supplied."
+      },
+      "material_missing": {
+        "M1": "Flight-specific suitability criteria or assessment.",
+        "M2": "Applicable response procedure for a geofence crossing."
+      },
+      "same_source_rule": "NONE",
+      "hidden_postdecision_information": [
+        "Actual geofence crossing.",
+        "Later mode changes, loss of control, impact, damage, causal analysis, and corrective actions."
+      ]
+    },
+    {
+      "case_id": "S052",
+      "source_case_id": "SUP-S02-ATSB-SWARM",
+      "source_key": "australian_transport_safety_bureau_control_2025",
+      "source_locator": "ATSB AO-2023-033, Aircraft limitations; Wind speed monitoring; Show launch",
+      "task_type": "OPTION_SELECTION",
+      "endpoint_family": "OPTION_SELECTION",
+      "decision_maker": "Remote pilot in command",
+      "decision_timepoint": "About 20 seconds after the first aircraft launched, before the formation began its transition to the show area",
+      "allowed_outcomes": [
+        "SELECT_A",
+        "SELECT_B",
+        "SELECT_C"
+      ],
+      "raw_case_record": "A 500-aircraft light-show swarm is still arranged in layers above its launch area and has not begun the transition to the show area. The ground station shows a real-time wind estimate of 9.9 m/s. Eighty-five aircraft already show errors, and every identifiable error indicates deviation from the planned position. Select the immediate action: A) continue the programmed transition; B) terminate the show before transition and begin a controlled recovery from the launch area; C) continue only with the lower layers while monitoring the rest.",
+      "rag_evidence_cards": [
+        {
+          "evidence_id": "E01",
+          "content": "The aircraft's published wind-speed limit is 8 m/s."
+        },
+        {
+          "evidence_id": "E02",
+          "content": "The formation uses small separation distances maintained by high-precision positioning; the aircraft do not have independent onboard collision-avoidance sensors."
+        },
+        {
+          "evidence_id": "E03",
+          "content": "The ground-station wind estimate is derived from aircraft state. Exceeding the wind limit does not generate an automatic warning, so the crew must actively read the display."
+        }
+      ],
+      "analysis_role": "RULE_GROUNDED_ANCHOR",
+      "visible_facts_raw": {
+        "K1": "The formation has not begun transition to the show area.",
+        "K2": "Real-time wind estimate is 9.9 m/s.",
+        "K3": "Eighty-five aircraft show errors and all identifiable errors are position deviations."
+      },
+      "evidence_available_for_rag": {
+        "E01": "Published wind-speed limit is 8 m/s.",
+        "E02": "Small separations depend on positioning and there is no independent onboard collision avoidance.",
+        "E03": "The wind display does not issue an automatic exceedance warning."
+      },
+      "material_missing": "NONE",
+      "same_source_rule": "R1: compare the 9.9 m/s current estimate with the supplied 8 m/s published limit.",
+      "hidden_postdecision_information": [
+        "Later wind increase to 18.5 m/s.",
+        "Collisions, geofence crossings, losses of contact, water impacts, later analysis, and corrective actions."
+      ]
+    },
+    {
+      "case_id": "S053",
+      "source_case_id": "SUP-S03-BEA-INSPIRE",
+      "source_key": "bureau_denquetes_et_danalyses_pour_la_securite_de_laviation_civile_bea_france_serious_2020",
+      "source_locator": "BEA2019-0416, sections 2.2, 2.3.1 and 2.3.2",
+      "task_type": "PRE_FLIGHT_AUTHORIZATION",
+      "endpoint_family": "AUTHORIZATION_DECISION",
+      "decision_maker": "Remote pilot responsible for the final go/no-go decision",
+      "decision_timepoint": "Before the fourth night flight",
+      "allowed_outcomes": [
+        "APPROVE",
+        "CONDITIONAL_APPROVE",
+        "REJECT",
+        "REJECT_WITH_ALTERNATIVE",
+        "UNCERTAIN"
+      ],
+      "raw_case_record": "A professional crew plans a night aerial-filming flight at a festival attended by several thousand people. The filming objective is the audience area in front of the main stage. The crew intends to launch from a children's playground that is not one of the sites shown in the filing for the night-flight authorization. Decide the current flight request.",
+      "rag_evidence_cards": [
+        {
+          "evidence_id": "E01",
+          "content": "The night-flight filing identifies the operating sites covered by the request; the children's playground is not one of the filed sites."
+        },
+        {
+          "evidence_id": "E02",
+          "content": "The applicable S-3 operation does not permit flight over third parties."
+        },
+        {
+          "evidence_id": "E03",
+          "content": "The night-flight permission requires at least 30 m horizontal separation from uninvolved people."
+        }
+      ],
+      "analysis_role": "RULE_GROUNDED_ANCHOR",
+      "visible_facts_raw": {
+        "K1": "Night filming at a festival attended by several thousand people.",
+        "K2": "The intended launch point is absent from the filed operating sites."
+      },
+      "evidence_available_for_rag": {
+        "E01": "The launch point is outside the sites listed in the night-flight filing.",
+        "E02": "The applicable S-3 operation does not permit flight over third parties.",
+        "E03": "Night permission requires at least 30 m horizontal separation from uninvolved people."
+      },
+      "material_missing": "NONE_FOR_CURRENT_SITE_STATUS",
+      "same_source_rule": "R1: the current launch point is not included in the filed sites. E02 and E03 govern review of any revised operation but are not assumed breached by an unprovided flight path.",
+      "hidden_postdecision_information": [
+        "Actual flight path and distances measured from later video.",
+        "Battery-alert account, impact, injuries, damage, missing logs, testing, and causal analysis."
+      ]
+    },
+    {
+      "case_id": "S054",
+      "source_case_id": "SUP-S04-AAIB-AR5",
+      "source_key": "air_accidents_investigation_branch_aaib_2025",
+      "source_locator": "AAIB-30688, pp. 1-2",
+      "task_type": "OPTION_SELECTION",
+      "endpoint_family": "OPTION_SELECTION",
+      "decision_maker": "Remote pilot",
+      "decision_timepoint": "After the generator failed to restore command-unit input and the UPS showed less than six minutes remaining",
+      "allowed_outcomes": [
+        "SELECT_A",
+        "SELECT_B",
+        "SELECT_C"
+      ],
+      "raw_case_record": "During a remotely operated UAS mission, the command unit loses mains power. Its UPS alarms with less than six minutes remaining, and connecting a generator does not restore input power. The crew cannot issue effective commands. The aircraft itself reports no malfunction, remains visible to ATC through its transponder, and is holding because a communications heartbeat is still present. Select the immediate action: A) establish emergency coordination with ATC now while ground troubleshooting continues; B) continue troubleshooting and notify ATC only when the UPS is close to depletion; C) switch off the heartbeat before notifying ATC so that the aircraft initiates its automatic response.",
+      "rag_evidence_cards": [
+        {
+          "evidence_id": "E01",
+          "content": "The command-unit UPS is alarming with less than six minutes remaining, and connecting the generator has not restored input power."
+        },
+        {
+          "evidence_id": "E02",
+          "content": "The aircraft reports no onboard fault, its transponder remains active, and ATC can continue to see it."
+        },
+        {
+          "evidence_id": "E03",
+          "content": "While the communications heartbeat remains present, the aircraft stays in its configured hold. Removing or restoring communications changes the aircraft's automatic state."
+        }
+      ],
+      "analysis_role": "QUALITATIVE_ACTION_RATIONALE",
+      "visible_facts_raw": {
+        "K1": "Command-unit power is not restored and the UPS has less than six minutes remaining.",
+        "K2": "The crew cannot issue effective commands.",
+        "K3": "The aircraft remains visible to ATC and holds while the communications heartbeat is present."
+      },
+      "evidence_available_for_rag": {
+        "E01": "Backup-power state and unsuccessful generator connection.",
+        "E02": "Aircraft and transponder state.",
+        "E03": "Effect of the communications heartbeat on the aircraft state."
+      },
+      "material_missing": {
+        "M1": "A prespecified emergency-notification trigger or procedure."
+      },
+      "same_source_rule": "NONE",
+      "hidden_postdecision_information": [
+        "Actual PAN call.",
+        "Later fault diagnosis, borrowed UPS, restored control, landing, and corrective actions."
+      ]
+    },
+    {
+      "case_id": "S055",
+      "source_case_id": "SUP-S05-AAIB-4J",
+      "source_key": "air_accidents_investigation_branch_aaib_2026",
+      "source_locator": "AAIB-31425, pp. 1-2",
+      "task_type": "OPTION_SELECTION",
+      "endpoint_family": "OPTION_SELECTION",
+      "decision_maker": "Ground-control operator",
+      "decision_timepoint": "After repeated navigation-recovery attempts failed, while tracking still placed the aircraft over an unpopulated area and before flight termination",
+      "allowed_outcomes": [
+        "SELECT_A",
+        "SELECT_B",
+        "SELECT_C"
+      ],
+      "raw_case_record": "A fixed-wing test UAS has lost reliable navigation and command control, has disregarded its preset geofence, and has not responded to repeated navigation-recovery attempts. Ground tracking confirms that it is currently over an unpopulated area. An installed flight-termination function remains available. Select the immediate action: A) activate flight termination now; B) continue navigation-recovery attempts while the aircraft remains over the unpopulated area; C) transfer recovery attempts to another ground operator without terminating the flight.",
+      "rag_evidence_cards": [
+        {
+          "evidence_id": "E01",
+          "content": "Reliable navigation and command control are lost, the preset geofence has not constrained the aircraft, and repeated navigation-recovery attempts have failed."
+        },
+        {
+          "evidence_id": "E02",
+          "content": "Ground tracking currently places the aircraft over an unpopulated area."
+        },
+        {
+          "evidence_id": "E03",
+          "content": "A ground-activated flight-termination function remains available. No prespecified termination trigger is supplied in the record."
+        }
+      ],
+      "analysis_role": "UNSCORED_NO_UNIQUE_NORM",
+      "visible_facts_raw": {
+        "K1": "Navigation and command control are lost and the geofence has not constrained the aircraft.",
+        "K2": "Repeated recovery attempts have failed.",
+        "K3": "Tracking places the aircraft over an unpopulated area and flight termination is available."
+      },
+      "evidence_available_for_rag": {
+        "E01": "The failed navigation, control, geofence, and recovery state.",
+        "E02": "Current location over an unpopulated area.",
+        "E03": "Termination is available but no prespecified trigger is supplied."
+      },
+      "material_missing": {
+        "M1": "The applicable flight-termination trigger or procedure."
+      },
+      "same_source_rule": "NONE",
+      "hidden_postdecision_information": [
+        "The operator's actual termination action.",
+        "Vertical descent, impact, total loss, technical cause, and later modifications."
+      ]
+    },
+    {
+      "case_id": "S056",
+      "source_case_id": "SUP-S06-ASRS-2331539",
+      "source_key": "national_aeronautics_and_space_administration_asrs_2026",
+      "source_locator": "NASA ASRS UAS report set, ACN 2331539",
+      "task_type": "PRE_FLIGHT_AUTHORIZATION",
+      "endpoint_family": "AUTHORIZATION_DECISION",
+      "decision_maker": "Government remote pilot",
+      "decision_timepoint": "Before launch for an urgent public-safety pursuit, after operating the application but without a verifiable approval record",
+      "allowed_outcomes": [
+        "APPROVE",
+        "CONDITIONAL_APPROVE",
+        "REJECT",
+        "REJECT_WITH_ALTERNATIVE",
+        "UNCERTAIN"
+      ],
+      "raw_case_record": "A government UAS crew is preparing an urgent public-safety pursuit about 2.6 NM from a Class D airport. The remote pilot says a LAANC request was submitted through an app, but the case file contains no approval message, authorization number, or approved time window. Decide the current launch request.",
+      "rag_evidence_cards": [
+        {
+          "evidence_id": "E01",
+          "content": "The mission is an urgent public-safety pursuit about 2.6 NM from a Class D airport, and the remote pilot reports using an application to submit a request."
+        },
+        {
+          "evidence_id": "E02",
+          "content": "The grid is eligible for automatic approval up to 100 ft. Eligibility for automatic approval does not show that this request has been approved."
+        },
+        {
+          "evidence_id": "E03",
+          "content": "The record supplied for the launch decision contains no approval message, authorization number, or approved time window."
+        }
+      ],
+      "analysis_role": "QUALITATIVE_AUTHORIZATION_EVIDENCE",
+      "visible_facts_raw": {
+        "K1": "Urgent public-safety pursuit about 2.6 NM from a Class D airport.",
+        "K2": "The pilot reports submitting through an application.",
+        "K3": "No approval message, authorization number, or approved time window is in the decision record."
+      },
+      "evidence_available_for_rag": {
+        "E01": "Mission, location, and submission account.",
+        "E02": "Eligibility for automatic approval up to 100 ft does not establish approval of this request.",
+        "E03": "No verifiable approval record is supplied."
+      },
+      "material_missing": {
+        "M1": "A verifiable approval record for the current operation.",
+        "M2": "Any applicable alternative emergency authorization and evidence that it was obtained."
+      },
+      "same_source_rule": "NONE",
+      "hidden_postdecision_information": [
+        "Actual flight duration and altitude.",
+        "Post-flight discovery that the request was not processed, later classification, observer accounts, and absence of conflicts."
+      ]
+    },
+    {
+      "case_id": "S057",
+      "source_case_id": "SUP-S07-FOCA-SR587",
+      "source_key": "federal_office_of_civil_aviation_foca_switzerland_sr_2025",
+      "source_locator": "FOCA Safety Recommendation 587 summary of STSB Final Report 2390",
+      "task_type": "RESOURCE_OR_POLICY_DECISION",
+      "endpoint_family": "PLAN_OR_ALLOCATION_DISPOSITION",
+      "decision_maker": "Civil-aviation application reviewer",
+      "decision_timepoint": "During review of a new special-category operating proposal, before a final disposition",
+      "allowed_outcomes": [
+        "ADOPT_PLAN",
+        "ADOPT_WITH_CONDITIONS",
+        "REJECT_PLAN",
+        "DEFER_DECISION",
+        "ADVISORY_ONLY"
+      ],
+      "raw_case_record": "A civil-aviation reviewer is assessing a new special-category UAS operating proposal that relies on a parachute to reduce ground risk. The dossier cites a nominal 80 J impact-energy value but provides no system-specific evidence for actual descent energy, attachment integrity, or whether the ground warning can be heard. Decide the proposal on the current record.",
+      "rag_evidence_cards": [
+        {
+          "evidence_id": "E01",
+          "content": "An official safety investigation found that actual impact energy in a parachute descent could substantially exceed 80 J, with or without the payload."
+        },
+        {
+          "evidence_id": "E02",
+          "content": "In the investigated event, the connecting line broke and nearby people did not hear the acoustic warning. These are historical findings, not observations that the same failures have occurred in the proposed system."
+        },
+        {
+          "evidence_id": "E03",
+          "content": "Special-category review uses a SORA risk assessment and, where applicable, the EASA M2 means of compliance."
+        }
+      ],
+      "analysis_role": "QUALITATIVE_HISTORICAL_EVIDENCE_USE",
+      "visible_facts_raw": {
+        "K1": "A new special-category proposal relies on a parachute for ground-risk reduction.",
+        "K2": "The dossier cites a nominal 80 J value.",
+        "K3": "No system-specific evidence is supplied for descent energy, attachment integrity, or warning audibility."
+      },
+      "evidence_available_for_rag": {
+        "E01": "A historical official investigation found impact energy substantially above 80 J.",
+        "E02": "Historical connection-line and warning-audibility failures are not observations of the new system.",
+        "E03": "Special-category review uses SORA and applicable M2 compliance material."
+      },
+      "material_missing": {
+        "M1": "System-specific impact-energy and attachment evidence.",
+        "M2": "System-specific warning-audibility evidence."
+      },
+      "same_source_rule": "NONE",
+      "hidden_postdecision_information": [
+        "Any later disposition or later submissions for the constructed proposal.",
+        "The final implementation status of the historical recommendation."
+      ]
+    },
+    {
+      "case_id": "S058",
+      "source_case_id": "SUP-S08-MEM-BARRIERLAKE",
+      "source_key": "ministry_of_emergency_management_of_the_peoples_republic_of_china_ministry_2026",
+      "source_locator": "Ministry of Emergency Management update, 2026-08-30",
+      "task_type": "RESOURCE_OR_POLICY_DECISION",
+      "endpoint_family": "PLAN_OR_ALLOCATION_DISPOSITION",
+      "decision_maker": "UAS operations coordinator",
+      "decision_timepoint": "After receiving the new-landslide report and before reallocating aerial resources",
+      "allowed_outcomes": [
+        "ADOPT_PLAN",
+        "ADOPT_WITH_CONDITIONS",
+        "REJECT_PLAN",
+        "DEFER_DECISION",
+        "ADVISORY_ONLY"
+      ],
+      "raw_case_record": "Reconnaissance and heavy-lift UAS are continuously monitoring an existing barrier lake during a debris-flow response. A reconnaissance UAS detects a new landslide about 2.8 km downstream; a second blockage and a new barrier lake are developing. A proposal would move all reconnaissance UAS to the new site and stop aerial monitoring at the original site. The record does not state fleet size, endurance, sensor coverage, communications, relative risk at the two sites, or whether both can be monitored at once. Decide the proposed allocation.",
+      "rag_evidence_cards": [
+        {
+          "evidence_id": "E01",
+          "content": "UAS are continuously monitoring the original barrier lake during the ongoing response."
+        },
+        {
+          "evidence_id": "E02",
+          "content": "A reconnaissance UAS has detected a new landslide about 2.8 km downstream; a second blockage and new barrier lake are developing."
+        },
+        {
+          "evidence_id": "E03",
+          "content": "The available record gives no reconnaissance-fleet capacity, endurance, sensor coverage, communications assessment, comparison of risk at the two sites, or evidence that concurrent monitoring is infeasible."
+        }
+      ],
+      "analysis_role": "QUALITATIVE_RESOURCE_EVIDENCE",
+      "visible_facts_raw": {
+        "K1": "UAS continue to monitor the original barrier lake.",
+        "K2": "A second blockage and barrier lake are forming 2.8 km downstream.",
+        "K3": "The proposal moves all reconnaissance UAS and stops monitoring the original site while key capacity and risk information is absent."
+      },
+      "evidence_available_for_rag": {
+        "E01": "The original site remains under active monitoring.",
+        "E02": "The second monitoring demand is confirmed and developing.",
+        "E03": "Fleet capacity, endurance, coverage, communications, comparative risk, and concurrent-monitoring feasibility are not supplied."
+      },
+      "material_missing": {
+        "M1": "Reconnaissance capacity, endurance, coverage, and communications.",
+        "M2": "Comparative risk and feasibility of concurrent monitoring."
+      },
+      "same_source_rule": "NONE",
+      "hidden_postdecision_information": [
+        "Later expert assessment and movement of nearby rescuers.",
+        "Later water conditions, damage, and response effects."
+      ]
+    }
+  ]
+}

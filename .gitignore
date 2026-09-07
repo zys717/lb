@@ -73,6 +73,34 @@ Desktop.ini
 scripts/generate_*.py
 !scripts/generate_scenario_template.py
 
+# LaTeX build artifacts
+*.abs
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.synctex.gz
+
+# Active paper PDFs are build products; immutable submitted PDFs live in revision/
+paper/manuscript.pdf
+paper/title_page.pdf
+paper/cover_letter.pdf
+revision/YTRA-D-26-01244/04_revised_manuscript/manuscript.pdf
+
+# Office lock files
+~$*
+
 # Personal notes
 TODO.md
 NOTES.md
+
+# Local manuscript and revision workspaces
+/revision/
+/paper/
+/tmp/
+
+# Combined prompts are generated from the three retained input sets
+/data/main/prompts_main_reconstructed.jsonl
+.cache/

@@ -1,0 +1,47 @@
+{
+  "registry_version": "1.0",
+  "frozen_at": "2026-08-26",
+  "selection_rule": "Current publicly released weights in the same Qwen, GLM, DeepSeek, and Meta family slots; capability-diverse rather than selected from benchmark results.",
+  "common_inference": {
+    "provider": "OpenRouter",
+    "temperature": 0,
+    "max_tokens": 2048,
+    "reasoning_effort": "low",
+    "strict_json_schema": false,
+    "repeats": 1
+  },
+  "models": [
+    {
+      "model_id": "qwen38_flagship",
+      "model": "qwen/qwen3.8-2.4t-a95b",
+      "upstream_provider": "siliconflow",
+      "quantization": "fp8",
+      "release_date": "2026-08-12",
+      "weight_source": "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B"
+    },
+    {
+      "model_id": "glm52_flagship",
+      "model": "z-ai/glm-5.2",
+      "upstream_provider": "streamlake",
+      "quantization": "fp8",
+      "release_date": "2026-06-16",
+      "weight_source": "https://huggingface.co/zai-org/GLM-5.2"
+    },
+    {
+      "model_id": "deepseek_v4_flash",
+      "model": "deepseek/deepseek-v4-flash",
+      "upstream_provider": "streamlake",
+      "quantization": "fp8",
+      "release_date": "2026-04-24",
+      "weight_source": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash"
+    },
+    {
+      "model_id": "meta_muse_30b",
+      "model": "meta/muse-glimmer-30b",
+      "upstream_provider": "deepinfra",
+      "quantization": "bf16",
+      "release_date": "2026-08-09",
+      "weight_source": "https://huggingface.co/meta-models/Muse-Glimmer-30B"
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "schema_version": "official_source_probe_qualitative_reference_v1",
+  "scenario_id": "OFFICIAL_RECORD_CHECK_V1",
+  "scenario_name": "official_source_probe",
+  "scoring": false,
+  "runner_must_not_load": true,
+  "reporting": "Two rule-grounded checks and six qualitative cases; S055 has no unique normative action.",
+  "case_keys": [
+    {
+      "case_id": "S051",
+      "source_case_id": "SUP-S01-T150",
+      "analysis_role": "QUALITATIVE_EVIDENCE_SUFFICIENCY",
+      "K_RAW": {
+        "K1": "Skills-currency training in manual stabilised mode.",
+        "K2": "Proposed geofence is 40 m high with a 300 m radius.",
+        "K3": "The standard setting has no flight-specific suitability assessment."
+      },
+      "K_RAG": {
+        "E01": "Authorization maxima are not a recommended setting.",
+        "E02": "The safety material says appropriate but supplies no selection criteria.",
+        "E03": "No applicable geofence-crossing checklist or procedure is supplied."
+      },
+      "M": {
+        "M1": "Flight-specific suitability criteria or assessment.",
+        "M2": "Applicable response procedure for a geofence crossing."
+      },
+      "R": "NONE",
+      "H": [
+        "Actual geofence crossing.",
+        "Later mode changes, loss of control, impact, damage, causal analysis, and corrective actions."
+      ]
+    },
+    {
+      "case_id": "S052",
+      "source_case_id": "SUP-S02-ATSB-SWARM",
+      "analysis_role": "RULE_GROUNDED_ANCHOR",
+      "K_RAW": {
+        "K1": "The formation has not begun transition to the show area.",
+        "K2": "Real-time wind estimate is 9.9 m/s.",
+        "K3": "Eighty-five aircraft show errors and all identifiable errors are position deviations."
+      },
+      "K_RAG": {
+        "E01": "Published wind-speed limit is 8 m/s.",
+        "E02": "Small separations depend on positioning and there is no independent onboard collision avoidance.",
+        "E03": "The wind display does not issue an automatic exceedance warning."
+      },
+      "M": "NONE",
+      "R": "R1: compare the 9.9 m/s current estimate with the supplied 8 m/s published limit.",
+      "anchor_check": "A response that says the supplied wind limit is not exceeded conflicts with R1. This check does not convert the eight-case probe into an accuracy analysis.",
+      "H": [
+        "Later wind increase to 18.5 m/s.",
+        "Collisions, geofence crossings, losses of contact, water impacts, later analysis, and corrective actions."
+      ]
+    },
+    {
+      "case_id": "S053",
+      "source_case_id": "SUP-S03-BEA-INSPIRE",
+      "analysis_role": "RULE_GROUNDED_ANCHOR",
+      "K_RAW": {
+        "K1": "Night filming at a festival attended by several thousand people.",
+        "K2": "The intended launch point is absent from the filed operating sites."
+      },
+      "K_RAG": {
+        "E01": "The launch point is outside the sites listed in the night-flight filing.",
+        "E02": "The applicable S-3 operation does not permit flight over third parties.",
+        "E03": "Night permission requires at least 30 m horizontal separation from uninvolved people."
+      },
+      "M": "NONE_FOR_CURRENT_SITE_STATUS",
+      "R": "R1: the current launch point is not included in the filed sites. E02 and E03 govern review of any revised operation but are not assumed breached by an unprovided flight path.",
+      "anchor_check": "Do not treat an actual later path or measured separation as available evidence.",
+      "H": [
+        "Actual flight path and distances measured from later video.",
+        "Battery-alert account, impact, injuries, damage, missing logs, testing, and causal analysis."
+      ]
+    },
+    {
+      "case_id": "S054",
+      "source_case_id": "SUP-S04-AAIB-AR5",
+      "analysis_role": "QUALITATIVE_ACTION_RATIONALE",
+      "K_RAW": {
+        "K1": "Command-unit power is not restored and the UPS has less than six minutes remaining.",
+        "K2": "The crew cannot issue effective commands.",
+        "K3": "The aircraft remains visible to ATC and holds while the communications heartbeat is present."
+      },
+      "K_RAG": {
+        "E01": "Backup-power state and unsuccessful generator connection.",
+        "E02": "Aircraft and transponder state.",
+        "E03": "Effect of the communications heartbeat on the aircraft state."
+      },
+      "M": {
+        "M1": "A prespecified emergency-notification trigger or procedure."
+      },
+      "R": "NONE",
+      "H": [
+        "Actual PAN call.",
+        "Later fault diagnosis, borrowed UPS, restored control, landing, and corrective actions."
+      ]
+    },
+    {
+      "case_id": "S055",
+      "source_case_id": "SUP-S05-AAIB-4J",
+      "analysis_role": "UNSCORED_NO_UNIQUE_NORM",
+      "K_RAW": {
+        "K1": "Navigation and command control are lost and the geofence has not constrained the aircraft.",
+        "K2": "Repeated recovery attempts have failed.",
+        "K3": "Tracking places the aircraft over an unpopulated area and flight termination is available."
+      },
+      "K_RAG": {
+        "E01": "The failed navigation, control, geofence, and recovery state.",
+        "E02": "Current location over an unpopulated area.",
+        "E03": "Termination is available but no prespecified trigger is supplied."
+      },
+      "M": {
+        "M1": "The applicable flight-termination trigger or procedure."
+      },
+      "R": "NONE",
+      "H": [
+        "The operator's actual termination action.",
+        "Vertical descent, impact, total loss, technical cause, and later modifications."
+      ]
+    },
+    {
+      "case_id": "S056",
+      "source_case_id": "SUP-S06-ASRS-2331539",
+      "analysis_role": "QUALITATIVE_AUTHORIZATION_EVIDENCE",
+      "K_RAW": {
+        "K1": "Urgent public-safety pursuit about 2.6 NM from a Class D airport.",
+        "K2": "The pilot reports submitting through an application.",
+        "K3": "No approval message, authorization number, or approved time window is in the decision record."
+      },
+      "K_RAG": {
+        "E01": "Mission, location, and submission account.",
+        "E02": "Eligibility for automatic approval up to 100 ft does not establish approval of this request.",
+        "E03": "No verifiable approval record is supplied."
+      },
+      "M": {
+        "M1": "A verifiable approval record for the current operation.",
+        "M2": "Any applicable alternative emergency authorization and evidence that it was obtained."
+      },
+      "R": "NONE",
+      "H": [
+        "Actual flight duration and altitude.",
+        "Post-flight discovery that the request was not processed, later classification, observer accounts, and absence of conflicts."
+      ]
+    },
+    {
+      "case_id": "S057",
+      "source_case_id": "SUP-S07-FOCA-SR587",
+      "analysis_role": "QUALITATIVE_HISTORICAL_EVIDENCE_USE",
+      "K_RAW": {
+        "K1": "A new special-category proposal relies on a parachute for ground-risk reduction.",
+        "K2": "The dossier cites a nominal 80 J value.",
+        "K3": "No system-specific evidence is supplied for descent energy, attachment integrity, or warning audibility."
+      },
+      "K_RAG": {
+        "E01": "A historical official investigation found impact energy substantially above 80 J.",
+        "E02": "Historical connection-line and warning-audibility failures are not observations of the new system.",
+        "E03": "Special-category review uses SORA and applicable M2 compliance material."
+      },
+      "M": {
+        "M1": "System-specific impact-energy and attachment evidence.",
+        "M2": "System-specific warning-audibility evidence."
+      },
+      "R": "NONE",
+      "H": [
+        "Any later disposition or later submissions for the constructed proposal.",
+        "The final implementation status of the historical recommendation."
+      ]
+    },
+    {
+      "case_id": "S058",
+      "source_case_id": "SUP-S08-MEM-BARRIERLAKE",
+      "analysis_role": "QUALITATIVE_RESOURCE_EVIDENCE",
+      "K_RAW": {
+        "K1": "UAS continue to monitor the original barrier lake.",
+        "K2": "A second blockage and barrier lake are forming 2.8 km downstream.",
+        "K3": "The proposal moves all reconnaissance UAS and stops monitoring the original site while key capacity and risk information is absent."
+      },
+      "K_RAG": {
+        "E01": "The original site remains under active monitoring.",
+        "E02": "The second monitoring demand is confirmed and developing.",
+        "E03": "Fleet capacity, endurance, coverage, communications, comparative risk, and concurrent-monitoring feasibility are not supplied."
+      },
+      "M": {
+        "M1": "Reconnaissance capacity, endurance, coverage, and communications.",
+        "M2": "Comparative risk and feasibility of concurrent monitoring."
+      },
+      "R": "NONE",
+      "H": [
+        "Later expert assessment and movement of nearby rescuers.",
+        "Later water conditions, damage, and response effects."
+      ]
+    }
+  ]
+}

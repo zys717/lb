@@ -1,0 +1,266 @@
+{
+  "generated_at": "2026-08-12",
+  "corpus": {
+    "n": 254,
+    "layers": [
+      2,
+      3,
+      4
+    ]
+  },
+  "pre_adjudication": {
+    "primary_label": {
+      "n": 254,
+      "matches": 163,
+      "agreement": 0.6417322834645669,
+      "expectedAgreement": 0.09906069812139624,
+      "kappa": 0.6023397849462365,
+      "agreement95CI": [
+        0.5810561078508218,
+        0.6981852536017195
+      ]
+    },
+    "answerability": {
+      "n": 254,
+      "matches": 237,
+      "agreement": 0.9330708661417323,
+      "expectedAgreement": 0.8906007812015625,
+      "kappa": 0.38821195806177344,
+      "agreement95CI": [
+        0.895441231003348,
+        0.9577962623238617
+      ]
+    },
+    "decision_basis": {
+      "n": 254,
+      "matches": 101,
+      "agreement": 0.39763779527559057,
+      "expectedAgreement": 0.18733337466674935,
+      "kappa": 0.2587831394239939,
+      "agreement95CI": [
+        0.3394062415572555,
+        0.45891944183813127
+      ]
+    },
+    "by_task_family": {
+      "IN_FLIGHT_CONTINGENCY": {
+        "outcome": {
+          "n": 27,
+          "matches": 13,
+          "agreement": 0.48148148148148145,
+          "expectedAgreement": 0.2181069958847736,
+          "kappa": 0.33684210526315794,
+          "agreement95CI": [
+            0.3074322697621846,
+            0.6601438424504771
+          ]
+        },
+        "decisionBasis": {
+          "n": 27,
+          "matches": 9,
+          "agreement": 0.3333333333333333,
+          "expectedAgreement": 0.12345679012345677,
+          "kappa": 0.23943661971830985,
+          "agreement95CI": [
+            0.18643261498715644,
+            0.5217523949267991
+          ]
+        },
+        "answerability": {
+          "n": 27,
+          "matches": 27,
+          "agreement": 1,
+          "expectedAgreement": 1,
+          "kappa": null,
+          "agreement95CI": [
+            0.8754449702581328,
+            0.9999999999999998
+          ]
+        }
+      },
+      "OPTION_SELECTION": {
+        "outcome": {
+          "n": 12,
+          "matches": 4,
+          "agreement": 0.3333333333333333,
+          "expectedAgreement": 0.2152777777777778,
+          "kappa": 0.15044247787610615,
+          "agreement95CI": [
+            0.13812009109121315,
+            0.6093779111272004
+          ]
+        },
+        "decisionBasis": {
+          "n": 12,
+          "matches": 4,
+          "agreement": 0.3333333333333333,
+          "expectedAgreement": 0.20833333333333334,
+          "kappa": 0.15789473684210523,
+          "agreement95CI": [
+            0.13812009109121315,
+            0.6093779111272004
+          ]
+        },
+        "answerability": {
+          "n": 12,
+          "matches": 4,
+          "agreement": 0.3333333333333333,
+          "expectedAgreement": 0.3333333333333333,
+          "kappa": 0,
+          "agreement95CI": [
+            0.13812009109121315,
+            0.6093779111272004
+          ]
+        }
+      },
+      "PRE_FLIGHT_AUTHORIZATION": {
+        "outcome": {
+          "n": 126,
+          "matches": 76,
+          "agreement": 0.6031746031746031,
+          "expectedAgreement": 0.2307886117409927,
+          "kappa": 0.48411398624303964,
+          "agreement95CI": [
+            0.5159151060445828,
+            0.6843291012844872
+          ]
+        },
+        "decisionBasis": {
+          "n": 126,
+          "matches": 45,
+          "agreement": 0.35714285714285715,
+          "expectedAgreement": 0.2131519274376417,
+          "kappa": 0.18299711815561964,
+          "agreement95CI": [
+            0.27884355878787953,
+            0.4438952310641771
+          ]
+        },
+        "answerability": {
+          "n": 126,
+          "matches": 117,
+          "agreement": 0.9285714285714286,
+          "expectedAgreement": 0.845679012345679,
+          "kappa": 0.5371428571428574,
+          "agreement95CI": [
+            0.869814774211143,
+            0.961968856232687
+          ]
+        }
+      },
+      "PROCEDURAL_EXPLANATION": {
+        "outcome": {
+          "n": 3,
+          "matches": 3,
+          "agreement": 1,
+          "expectedAgreement": 1,
+          "kappa": null,
+          "agreement95CI": [
+            0.4385029682449546,
+            1
+          ]
+        },
+        "decisionBasis": {
+          "n": 3,
+          "matches": 0,
+          "agreement": 0,
+          "expectedAgreement": 0,
+          "kappa": 0,
+          "agreement95CI": [
+            5.551115123125783e-17,
+            0.5614970317550454
+          ]
+        },
+        "answerability": {
+          "n": 3,
+          "matches": 3,
+          "agreement": 1,
+          "expectedAgreement": 1,
+          "kappa": null,
+          "agreement95CI": [
+            0.4385029682449546,
+            1
+          ]
+        }
+      },
+      "RESOURCE_OR_POLICY_DECISION": {
+        "outcome": {
+          "n": 84,
+          "matches": 65,
+          "agreement": 0.7738095238095238,
+          "expectedAgreement": 0.34963151927437647,
+          "kappa": 0.6522118108520374,
+          "agreement95CI": [
+            0.6735309285283279,
+            0.850139791625549
+          ]
+        },
+        "decisionBasis": {
+          "n": 84,
+          "matches": 42,
+          "agreement": 0.5,
+          "expectedAgreement": 0.35090702947845803,
+          "kappa": 0.22969432314410482,
+          "agreement95CI": [
+            0.3954393376854136,
+            0.6045606623145864
+          ]
+        },
+        "answerability": {
+          "n": 84,
+          "matches": 84,
+          "agreement": 1,
+          "expectedAgreement": 1,
+          "kappa": null,
+          "agreement95CI": [
+            0.95626827158534,
+            0.9999999999999999
+          ]
+        }
+      },
+      "RETROSPECTIVE_COMPLIANCE": {
+        "outcome": {
+          "n": 2,
+          "matches": 2,
+          "agreement": 1,
+          "expectedAgreement": 1,
+          "kappa": null,
+          "agreement95CI": [
+            0.34238022750665303,
+            1
+          ]
+        },
+        "decisionBasis": {
+          "n": 2,
+          "matches": 1,
+          "agreement": 0.5,
+          "expectedAgreement": 0.25,
+          "kappa": 0.3333333333333333,
+          "agreement95CI": [
+            0.09453120573423074,
+            0.9054687942657693
+          ]
+        },
+        "answerability": {
+          "n": 2,
+          "matches": 2,
+          "agreement": 1,
+          "expectedAgreement": 1,
+          "kappa": null,
+          "agreement95CI": [
+            0.34238022750665303,
+            1
+          ]
+        }
+      }
+    }
+  },
+  "disposition": {
+    "exact_agreements": 163,
+    "coordinator_adjudications": 91,
+    "final_match_a1_within_disagreements": 28,
+    "final_match_a2_within_disagreements": 58,
+    "final_match_neither_within_disagreements": 5
+  },
+  "reporting_rule": "Reliability statistics are pre-adjudication only. Report overall exact agreement descriptively and task-family-specific reliability; retain pooled kappa for audit diagnostics only. The final label is not treated as a third independent rating."
+}

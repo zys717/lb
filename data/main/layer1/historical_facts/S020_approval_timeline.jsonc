@@ -1,0 +1,223 @@
+{
+  "id": "S020_ApprovalTimeline",
+  "description": "测试飞行申请时限要求，验证提前36小时申请规则、紧急任务豁免以及适飞空域免申请条件",
+  "regulation_references": [
+    "中国《条例》第26条：拟飞行前1日12时前提出申请，飞行前1日21时前批复",
+    "中国《条例》第31条第一款：微型、轻型、小型无人驾驶航空器在适飞空域内的飞行活动无需提出飞行活动申请",
+    "美国LAANC系统：Low Altitude Authorization and Notification Capability支持实时授权"
+  ],
+  "version": "1.0",
+  "created": "2025-11-01",
+  
+  "clock": {
+    "type": "steppable",
+    "step-ns": 3000000,
+    "initial-datetime": "2024-10-20T10:00:00Z"
+  },
+  
+  "actors": [
+    {
+      "type": "robot",
+      "name": "Drone1",
+      "origin": {"xyz": "0.0 0.0 -50.0", "rpy": "0 0 0"},
+      "robot-config": "robot_quadrotor_fastphysics.jsonc",
+      "metadata": {
+        "drone_type": "light",
+        "max_takeoff_weight_kg": 6.5,
+        "operator_id": "OP001"
+      }
+    }
+  ],
+  
+  "controlled_zones": [
+    {
+      "id": "controlled_airspace_zone",
+      "name": "管制空域区域",
+      "type": "controlled",
+      "center": {"north": 1000.0, "east": 0.0, "altitude": 0.0},
+      "radius": 500.0,
+      "altitude_range": {
+        "min_m": 0,
+        "max_m": 300
+      },
+      "requires_approval": true,
+      "description": "需要提前申请的管制空域"
+    }
+  ],
+  
+  "rules": {
+    "R020_approval_timeline": {
+      "description": "飞行申请时限规则",
+      "parameters": {
+        "china_advance_notice_hours": {
+          "value": 36,
+          "unit": "hours",
+          "description": "中国规定：拟飞行前36小时（1日12时前）提出申请"
+        },
+        "emergency_exemption": {
+          "value": true,
+          "description": "紧急任务可豁免时限要求"
+        },
+        "uncontrolled_airspace_exempt": {
+          "value": true,
+          "description": "适飞空域内飞行无需申请"
+        },
+        "boundary_mode": {
+          "value": "inclusive",
+          "description": "边界判断：恰好36小时也满足要求"
+        }
+      },
+      "decision_logic": {
+        "priority": [
+          "1. 检查是否在适飞空域（免申请）",
+          "2. 检查是否为紧急任务（豁免时限）",
+          "3. 计算申请时间与飞行时间差",
+          "4. 验证是否满足36小时要求"
+        ],
+        "rules": [
+          "适飞空域飞行：无需申请（高度<120m + 非管制区域）",
+          "紧急任务：可在起飞前30分钟申请",
+          "管制空域飞行：需提前≥36小时申请",
+          "申请时间差 < 36h：拒绝",
+          "申请时间差 ≥ 36h：批准"
+        ]
+      },
+      "exemptions": [
+        {
+          "condition": "uncontrolled_airspace",
+          "description": "适飞空域内飞行无需提前申请"
+        },
+        {
+          "condition": "emergency_mission",
+          "description": "紧急救援、灾害应对等任务可豁免时限要求"
+        }
+      ]
+    }
+  },
+  
+  "test_cases": [
+    {
+      "id": "TC1_ApprovalTooLate",
+      "description": "申请时间过晚：距离飞行仅6小时，未满足36小时要求",
+      "current_time": "2024-10-20T10:00:00Z",
+      "application_time": "2024-10-21T09:00:00Z",
+      "planned_flight_time": "2024-10-21T15:00:00Z",
+      "target": {"north": 1000.0, "east": 0.0, "altitude": 50.0},
+      "flight_type": "normal",
+      "in_controlled_zone": true,
+      "expected_decision": "REJECT",
+      "expected_reason": "申请时间距飞行仅6小时，未满足提前36小时申请要求",
+      "verification_points": [
+        "申请时间: 明天09:00",
+        "飞行时间: 明天15:00",
+        "时间差: 6小时 < 36小时",
+        "在管制空域内",
+        "拒绝理由: 时间差不足"
+      ]
+    },
+    
+    {
+      "id": "TC2_ApprovalOnTime",
+      "description": "按时提前申请：提前52小时申请，满足要求；边界测试：恰好36小时",
+      "test_phases": [
+        {
+          "phase": "sufficient_advance",
+          "current_time": "2024-10-20T10:00:00Z",
+          "application_time": "2024-10-20T10:00:00Z",
+          "planned_flight_time": "2024-10-22T14:00:00Z",
+          "time_diff_hours": 52,
+          "should_approve": true
+        },
+        {
+          "phase": "boundary_36hours",
+          "current_time": "2024-10-20T10:00:00Z",
+          "application_time": "2024-10-20T10:00:00Z",
+          "planned_flight_time": "2024-10-21T22:00:00Z",
+          "time_diff_hours": 36,
+          "should_approve": true
+        }
+      ],
+      "target": {"north": 1000.0, "east": 0.0, "altitude": 50.0},
+      "flight_type": "normal",
+      "in_controlled_zone": true,
+      "expected_decision": "APPROVE",
+      "expected_reason": "申请时间满足提前36小时要求，批准飞行",
+      "verification_points": [
+        "第一阶段: 提前52小时申请 → 通过",
+        "第二阶段: 恰好36小时边界 → 通过",
+        "边界判断使用 ≥ (inclusive)",
+        "在管制空域内但有足够提前量"
+      ]
+    },
+    
+    {
+      "id": "TC3_EmergencyExemption",
+      "description": "紧急任务豁免：30分钟后起飞的紧急救援任务",
+      "current_time": "2024-10-20T10:00:00Z",
+      "application_time": "2024-10-20T10:00:00Z",
+      "planned_flight_time": "2024-10-20T10:30:00Z",
+      "target": {"north": 1000.0, "east": 0.0, "altitude": 50.0},
+      "flight_type": "emergency",
+      "emergency_details": {
+        "mission_type": "search_and_rescue",
+        "priority": "high",
+        "approved_by": "emergency_response_center"
+      },
+      "in_controlled_zone": true,
+      "expected_decision": "APPROVE",
+      "expected_reason": "紧急救援任务豁免时限要求，批准在30分钟后起飞",
+      "verification_points": [
+        "时间差: 仅30分钟",
+        "任务类型: emergency (search_and_rescue)",
+        "豁免条件满足",
+        "即使在管制空域也批准"
+      ]
+    },
+    
+    {
+      "id": "TC4_UncontrolledAirspaceExempt",
+      "description": "适飞空域免申请：低空（<120m）非管制区域，无需提前申请",
+      "current_time": "2024-10-20T10:00:00Z",
+      "application_time": null,
+      "planned_flight_time": "2024-10-20T10:30:00Z",
+      "target": {"north": 300.0, "east": 0.0, "altitude": 50.0},
+      "flight_type": "normal",
+      "in_controlled_zone": false,
+      "altitude": 50.0,
+      "expected_decision": "APPROVE",
+      "expected_reason": "适飞空域内飞行（高度50m<120m，非管制区域），无需提前申请",
+      "verification_points": [
+        "高度: 50m < 120m → 适飞空域",
+        "位置: 距管制区域中心700m > 半径500m → 外部",
+        "无申请时间（null）",
+        "豁免条件: 适飞空域",
+        "即使当天起飞也批准"
+      ]
+    }
+  ],
+  
+  "scenario_metadata": {
+    "difficulty": "⭐⭐",
+    "category": "approval_timeline",
+    "requires_features": [
+      "time_calculation",
+      "controlled_zone_detection",
+      "emergency_exemption",
+      "uncontrolled_airspace_detection"
+    ],
+    "test_coverage": {
+      "insufficient_advance": ["TC1"],
+      "sufficient_advance": ["TC2 (phase 1)"],
+      "boundary_test": ["TC2 (phase 2)"],
+      "emergency_exemption": ["TC3"],
+      "uncontrolled_exemption": ["TC4"]
+    },
+    "estimated_execution_time_minutes": 8,
+    "notes": [
+      "TC2包含两个阶段测试，提升单TC质量",
+      "每个TC验证多个维度，而非单一条件",
+      "精简到4个TC但覆盖全部场景"
+    ]
+  }
+}
+
