@@ -232,7 +232,7 @@
         "name": "airspace_violation_case_10",
         "description": "BE76 PLT BLUNDERED INTO MSP CLASS B AIRSPACE WITHOUT CLRNC.",
         "command": "BE76 PLT BLUNDERED INTO MSP CLASS B AIRSPACE WITHOUT CLRNC.",
-        "expected": "UNCERTAIN"
+        "expected": "REJECT"
       },
       {
         "case_id": "TC11",
@@ -435,7 +435,7 @@
         "name": "runway_incursion_case_01",
         "description": "ACR MLG UNAUTH RWY ENTRY.",
         "command": "ACR MLG UNAUTH RWY ENTRY.",
-        "expected": "UNCERTAIN"
+        "expected": "REJECT"
       },
       {
         "case_id": "TC2",
@@ -449,7 +449,7 @@
         "name": "runway_incursion_case_03",
         "description": "CRJ200 CREW AT EVV RPTS INADVERTENT RWY INCURSION ON RWY 4 AT TXWY F DUE TO POSITION OF HOLD LINES; BUT REMAINS CLEAR OF RWY 18 AS REQUESTED.",
         "command": "CRJ200 CREW AT EVV RPTS INADVERTENT RWY INCURSION ON RWY 4 AT TXWY F DUE TO POSITION OF HOLD LINES; BUT REMAINS CLEAR OF RWY 18 AS REQUESTED.",
-        "expected": "UNCERTAIN"
+        "expected": "REJECT"
       },
       {
         "case_id": "TC4",
@@ -834,7 +834,7 @@
         "name": "minimum_fuel_case_01",
         "description": "MTR X LANDED WITHOUT CLRNC. PLT DEVIATION.",
         "command": "MTR X LANDED WITHOUT CLRNC. PLT DEVIATION.",
-        "expected": "UNCERTAIN"
+        "expected": "REJECT"
       },
       {
         "case_id": "TC2",

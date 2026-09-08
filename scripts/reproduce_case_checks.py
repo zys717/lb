@@ -78,8 +78,8 @@ def reproduce_civil() -> None:
             label_counts[expected] += 1
             correct += match
             total += 1
-    require(total == 180 and correct == 180, "Civil aggregate differs from the retained 180/180 result")
-    require(label_counts == {"UNCERTAIN": 174, "REJECT": 6}, "Civil reference distribution changed")
+    require(total == 180 and correct == 175, "Civil aggregate differs from the retained 175/180 result")
+    require(label_counts == {"UNCERTAIN": 170, "REJECT": 10}, "Civil reference distribution changed")
     require(len(source_acns) == 174, "Civil unique ASRS source count changed")
     require(stored_label_differences == [("C004", "TC9", "UNCERTAIN", "REJECT")],
             "Unexpected difference between embedded and scoring references")
@@ -88,7 +88,7 @@ def reproduce_civil() -> None:
     print(f"  Reference agreement: {correct}/{total} ({100 * correct / total:.1f}%)")
     print(f"  Always-UNCERTAIN baseline: {baseline}/{total} ({100 * baseline / total:.1f}%)")
     print("  Preserved discrepancy: C004/TC9 embedded UNCERTAIN; scoring reference and report REJECT")
-    print("  Historical model/provider/request metadata are absent from these reports; no inference was run.")
+    print("  Qwen3.8 settings and responses are retained in reports.json; inputs are in prompts.json.")
 
 
 def reproduce_official() -> None:

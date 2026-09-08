@@ -465,9 +465,9 @@
           }
         },
         "expected_behavior": {
-          "should_reject": null,
-          "decision": "UNCERTAIN",
-          "reason": "Insufficient explicit airspace class/clearance details in report; requires ATC clearance and airspace constraints.",
+          "should_reject": true,
+          "decision": "REJECT",
+          "reason": "The case explicitly states entry into Class B airspace without clearance; this meets the prompt's explicit-violation exception.",
           "alternative_action": "request_clarification"
         }
       },
@@ -813,9 +813,9 @@
           }
         },
         "expected_behavior": {
-          "should_reject": null,
-          "decision": "UNCERTAIN",
-          "reason": "Insufficient explicit clearance and ground control constraints in report; requires taxi/hold-short instructions.",
+          "should_reject": true,
+          "decision": "REJECT",
+          "reason": "The case explicitly states unauthorized runway entry; this meets the prompt's explicit-violation exception.",
           "alternative_action": "request_clarification"
         }
       },
@@ -853,9 +853,9 @@
           }
         },
         "expected_behavior": {
-          "should_reject": null,
-          "decision": "UNCERTAIN",
-          "reason": "Insufficient explicit clearance and ground control constraints in report; requires taxi/hold-short instructions.",
+          "should_reject": true,
+          "decision": "REJECT",
+          "reason": "The case explicitly reports an incursion on Runway 4; remaining clear of Runway 18 does not negate that incursion.",
           "alternative_action": "request_clarification"
         }
       },
@@ -1605,9 +1605,9 @@
           }
         },
         "expected_behavior": {
-          "should_reject": null,
-          "decision": "UNCERTAIN",
-          "reason": "Insufficient explicit operational constraints in report; requires ATC clearance and declared status details.",
+          "should_reject": true,
+          "decision": "REJECT",
+          "reason": "The case explicitly states landing without clearance and identifies a pilot deviation; this meets the prompt's explicit-violation exception.",
           "alternative_action": "request_clarification"
         }
       },

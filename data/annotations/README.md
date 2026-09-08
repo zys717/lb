@@ -24,7 +24,7 @@ The eight S026 option-selection cases initially named Groups A and B without exp
 
 ## Reproduce the calculations
 
-The scripts require Python 3.10 or later and only the standard library. Run from the repository root:
+The scripts require Python 3.9 or later and only the standard library. Run from the repository root:
 
     python3 scripts/analyze_annotations.py --check
     python3 scripts/build_reference_labels.py --check

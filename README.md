@@ -1,6 +1,6 @@
 # LAE-Bench
 
-LAE-Bench evaluates language-model decisions in low-altitude traffic management, including pre-flight authorization, in-flight contingency actions, and resource or policy decisions. This repository contains the materials used for the revised manuscript's four-model study, an earlier civil-aviation diagnostic, and a later check of decisions reconstructed from official records.
+LAE-Bench evaluates language-model decisions in low-altitude traffic management, including pre-flight authorization, in-flight contingency actions, and resource or policy decisions. This repository contains the materials used for the revised manuscript's four-model study, a separate civil-aviation diagnostic, and a later check of decisions reconstructed from official records.
 
 ## Study materials
 
@@ -8,7 +8,7 @@ LAE-Bench evaluates language-model decisions in low-altitude traffic management,
 | --- | ---: | --- |
 | Main benchmark, Layer 1 | 114 in 20 clusters | RAW; explicit constraints |
 | Main benchmark, Layers 2–4 | 254 in 29 clusters | Paired RAW and RAG_REVISED |
-| Civil-aviation diagnostic | 180 in 15 scenarios | Earlier single-model diagnostic |
+| Civil-aviation diagnostic | 180 in 15 scenarios | Qwen3.8; 175/180 reference agreement (97.2%)|
 | Official-record case check | 8 | 64 responses and 32 paired coding records |
 
 The main panel comprises Qwen3.8, GLM-5.2, DeepSeek-V4-Flash, and Muse-Glimmer. Each model has 622 case-condition positions, giving 2,488 scored positions. Exact model identifiers and initial decoding settings are in [model_settings.json](data/main/results/model_settings.json).
@@ -21,7 +21,7 @@ RAG_REVISED combines selected benchmark records, outcome definitions, prerequisi
 
 - [data/main](data/main/README.md): frozen complex cases, saved prompts, Layer 1 source facts, reconstructed inputs, and manuscript statistics.
 - [data/annotations](data/annotations/README.md): independent A1/A2 labels, annotation instructions, coordinator decisions, and final references.
-- [data/civil](data/civil/README.md): the earlier 180-item diagnostic and its cited ASRS records.
+- [data/civil](data/civil/README.md): the 180-item Qwen3.8 diagnostic and its cited ASRS records.
 - [data/official_cases](data/official_cases/README.md): the eight official-record decisions, prompts, responses, references, and coding definitions.
 - [scripts](scripts/): input construction, inference, response handling, scoring, and offline analysis.
 - [regulations](regulations/): the source-to-scenario mapping and public source documents.
@@ -37,6 +37,7 @@ python3 -m pip install -r requirements.txt
 python3 scripts/analyze_main_results.py --check
 python3 scripts/analyze_annotations.py --check
 python3 scripts/build_reference_labels.py --check
+python3 scripts/analyze_civil_diagnostic.py --check
 python3 scripts/reproduce_case_checks.py
 python3 scripts/plot_task_gains.py --output /tmp/lae-task-gains.pdf
 ```
@@ -57,4 +58,4 @@ The inference entry points are `run_main_evaluation.py`, `recover_main_responses
 
 The main experiment's original and final full response files have not been recovered in this package. The retained `case_results.csv` contains predictions, references, scoring, and response-selection information, so the reported statistics can be recalculated; it does not contain the full response texts. The inference and recovery scripts require actual response files and do not recreate missing historical answers. Scoring a recovered run requires valid responses at every position; counting original invalid responses as incorrect requires the explicit `original_invalid_as_incorrect` mode.
 
-The civil diagnostic's retained reports also lack the metadata needed to independently confirm its original model call. Its README describes this limitation. The eight-case package does retain all 64 response texts and the definitions used for its 32 paired coding records.
+The civil diagnostic retains the actual requests and original API response text in `data/civil/run.json`, parsed responses and reference labels in `data/civil/reports.json`, and input texts in `data/civil/prompts.json`. The offline check verifies the correspondence between these files and recomputes the scores. The eight-case package retains all 64 response texts and the definitions used for its 32 paired coding records.
