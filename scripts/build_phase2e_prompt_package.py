@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild the 254 main RAW prompts from the frozen, label-free cases."""
+"""Build the 254 main RAW prompts from the label-free cases."""
 
 from __future__ import annotations
 

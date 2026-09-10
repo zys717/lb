@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Prepare validity-only repairs, run one repair round, or merge a new run.
 
-The historical controls are retained: strict JSON, 4096 tokens in rounds 1–3,
+Recovery uses strict JSON, 4096 tokens in rounds 1–3,
 8192 in rounds 4–7, temperature 0, low reasoning, and five attempts per round.
-Only --execute makes requests. This script cannot recover missing historical
-responses by reconstructing their scores.
+Only --execute makes requests.
 """
 from __future__ import annotations
 
@@ -29,7 +28,7 @@ def write_jsonl(path: Path, rows: list[dict]) -> None:
 def select_valid(run_dir: Path, model_id: str, before_round: int | None = None) -> dict[str, tuple[str, dict]]:
     original = run_dir / "original" / f"{model_id}.jsonl"
     if not original.is_file():
-        raise SystemExit(f"Missing original responses: {original}; historical transcripts are not included in this release.")
+        raise SystemExit(f"Missing input response file: {original}")
     sources = [("official", original)]
     for directory in sorted((run_dir / "repairs").glob("round_*"), key=lambda p: int(p.name.split("_")[-1])):
         if before_round is not None and int(directory.name.split("_")[-1]) >= before_round:
@@ -54,7 +53,7 @@ def prepare(run_dir: Path, models: list[dict], prompts: list[dict], round_number
             path = run_dir / "repairs" / f"round_{round_number}" / "prompts" / f"{model_id}.jsonl"
             write_jsonl(path, missing)
             paths[model_id] = path
-        print(f"{model_id}: {len(missing)} positions without a previous valid response")
+        print(f"{model_id}: {len(missing)} positions without a valid response")
     return paths
 
 

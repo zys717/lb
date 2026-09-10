@@ -2,7 +2,6 @@
   "scenario_id": "S020_ApprovalTimeline",
   "description": "飞行申请时限规则 - Ground Truth",
   "version": "1.0",
-  "created": "",
   
   "test_cases": [
     {

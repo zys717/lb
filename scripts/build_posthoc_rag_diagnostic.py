@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Evidence-selection functions and decision cards used by the revised RAG builder.
+"""Evidence-selection functions and decision cards used by the RAG_REVISED builder.
 
-These retain the original prompt-construction logic. This support module does
-not load reference labels or model outputs and has no separate experiment CLI.
+This support module does not load reference labels or model outputs and has
+no separate experiment CLI.
 """
 
 from __future__ import annotations
@@ -194,5 +194,4 @@ def build_prompt(record: dict[str, Any], operational: dict[str, Any], evidence: 
         "retrieved_evidence": evidence,
     }
     return f"{SYSTEM}\n\nINPUT\n{json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2)}"
-
 

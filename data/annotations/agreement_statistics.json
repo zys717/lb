@@ -1,5 +1,4 @@
 {
-  "generated_at": "2026-08-12",
   "corpus": {
     "n": 254,
     "layers": [
@@ -262,5 +261,5 @@
     "final_match_a2_within_disagreements": 58,
     "final_match_neither_within_disagreements": 5
   },
-  "reporting_rule": "Reliability statistics are pre-adjudication only. Report overall exact agreement descriptively and task-family-specific reliability; retain pooled kappa for audit diagnostics only. The final label is not treated as a third independent rating."
+  "reporting_rule": "Reliability statistics compare A1 and A2 before coordinator review. Overall exact agreement is descriptive; reliability is reported by task family, with pooled kappa included as a diagnostic statistic. The final label is not a third independent rating."
 }

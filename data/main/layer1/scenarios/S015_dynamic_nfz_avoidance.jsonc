@@ -281,7 +281,6 @@
   
   // Metadata
   "metadata": {
-    "created_date": "",
     "scenario_version": "1.0",
     "keywords": [
       "path_planning",

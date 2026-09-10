@@ -7,7 +7,6 @@
     "美国LAANC系统：Low Altitude Authorization and Notification Capability支持实时授权"
   ],
   "version": "1.0",
-  "created": "",
   
   "clock": {
     "type": "steppable",

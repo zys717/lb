@@ -2,7 +2,6 @@
   "scenario_id": "S019_AirspaceClassification",
   "description": "适飞空域判断与审批规则 - Ground Truth",
   "version": "1.0",
-  "created": "",
   
   "test_cases": [
     {

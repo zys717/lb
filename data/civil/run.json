@@ -50,7 +50,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766494-wBfk0m90gdbTLpvI6eCc",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -94,7 +93,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766527-h4tAIczhacfdzNesKrRw",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -138,7 +136,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766527-iKNZk75EAwnkhMK3vawc",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -182,7 +179,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766527-HbSdqacDRGXydBVzfiqZ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -226,7 +222,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766527-kDlcNGLLuqoh88TjvAsN",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -270,7 +265,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766543-CLhDXCz9IA6HK2JzVsvn",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -314,7 +308,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766550-wP7sNdAsmPIcfLwG5adY",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -358,7 +351,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766581-bXMvX7dJaCnUmfoW6ELg",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -402,7 +394,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766585-4O3Usof33sHY3Bq7eVyA",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -446,7 +437,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766586-TuBh9lsl69K3EC5dj08Y",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -490,7 +480,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766601-g0UmRlKXF3ls7uREt5mp",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -534,7 +523,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766606-ZwK3vk8kIDSZIHmNBUYm",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -578,7 +566,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766607-IX7jK3B3oZfeIM91opKU",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -622,7 +609,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766610-7V5Dr4p7NyQyZS3RakKF",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -666,7 +652,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766619-G5dPonjMCdHDtDoaS9u5",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -710,7 +695,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766633-UfZEjkXk7AmfmorKgjmr",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -754,7 +738,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766637-5zyBXj5BvRcA4bFIJWkC",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -798,7 +781,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775748-IqimkUURjSjusYNqMhzk",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -842,7 +824,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766653-lvyG5feMyv5xcCpedkCM",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -886,7 +867,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766656-GoIyIuyhpSXvu2sbkmTv",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -930,7 +910,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775764-ZyDUqq0ozPQFjH0goOCZ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -974,7 +953,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775764-N9oAE63nAMBFB2fjdISZ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1018,7 +996,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766676-RhR5Sqg6Kdr3krXCN7TK",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1062,7 +1039,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766684-rbotCAXij8p6SmFEc6LF",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1106,7 +1082,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766724-4HZCdJ1eAcMwh8o3HNqU",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1150,7 +1125,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766728-Xag2XS3PK3fklKoj90yA",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1194,7 +1168,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766733-WYzSu3itNEeOYz3K05N9",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1238,7 +1211,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775764-h4uXz75s7p0xeKjrQOPE",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1282,7 +1254,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766746-cVXR7H4X8ZsxkubxPwlU",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1326,7 +1297,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766749-zN99gSfhAMKMK8InINhJ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1370,7 +1340,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766756-LgtyPIGxoUHl7sknJkcv",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1414,7 +1383,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766767-BOlg3drcI4CFwgis0RS3",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1458,7 +1426,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766775-m6wrtHbtQx8UmJNy7DoJ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1502,7 +1469,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766785-PP3MWuAnPgHcWZpjupUE",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1546,7 +1512,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766785-1socp2SY98V6FE9H9YDJ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1590,7 +1555,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766793-Xn1FwV0UOZOSIGZxZ5uE",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1634,7 +1598,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775764-mVhVxJBeVeErwqeFyBfs",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1678,7 +1641,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766807-EQQpUAhNIoc2Spbx4cXQ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1722,7 +1684,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775775-kXE0alOwF9KjNM0QIUSv",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1766,7 +1727,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766834-1En9TaeGmLwQsMdep3tg",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1810,7 +1770,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775776-goJt92ohgfuT6avlWUJS",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1854,7 +1813,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775778-XI7vII3gwPbbSex3Y2AI",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1898,7 +1856,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766858-olCQVUuWPNnQafjCaBfE",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1942,7 +1899,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766860-QlYG85UbsRnuMAj9GKEX",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -1986,7 +1942,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766866-XqEmd9XLuZaYvMqObwAv",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2030,7 +1985,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766886-IWKuMZzbMOyAyAMZWMIe",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2074,7 +2028,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766890-zb8cQxs97tb1b61wnnhG",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2118,7 +2071,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766895-ezLmADxCkB1i82r9g3vu",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2162,7 +2114,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766906-5XKwGJEfu2BE7iwosgnH",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2206,7 +2157,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766919-bYNl8qTLbUZV7TmOmoKF",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2250,7 +2200,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766920-mRgl1kKCjqiylXLFmLTm",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2294,7 +2243,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766923-awEU9YYm13maCtkKTMDT",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2338,7 +2286,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766927-roRgPThQX4N76alfUjAI",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2382,7 +2329,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766938-TfOHsM90IwVmxGHkK7T4",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2426,7 +2372,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766947-Z9k9bGUYqxqo9MxXHIs7",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2470,7 +2415,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766953-QGxRm4KHVD6P0guOK0kH",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2514,7 +2458,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766962-zUGleqt7EmTHp6h4VMf8",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2558,7 +2501,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766967-HfmjrBKXe5vkSUZb5XVV",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2602,7 +2544,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766971-5Uae5ObArXdwjunL6pKi",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2646,7 +2587,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766982-4U6hdjWcnN6XxYjJVeWI",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2690,7 +2630,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788766992-ldsGATNnK1KI06c8Ax4K",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2734,7 +2673,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767016-FQTOTFVR0bKC8pGTjmgj",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2778,7 +2716,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767039-7qR2XD1WrHfxxz5Zijis",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2822,7 +2759,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767041-8DnpzrXBtZDLfb0q0R0y",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2866,7 +2802,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767055-PI6P53rPFJvqNHBea3lc",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2910,7 +2845,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767061-EiCIiOIW6j6hLf80DvtE",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2954,7 +2888,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767075-W4FiQCN3x0go7wX86DBF",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -2998,7 +2931,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767080-jvsjgoiX1ekJwSH1kOhe",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3042,7 +2974,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767081-5ETQRGhK40ovQeFcKhOX",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3086,7 +3017,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767087-lozCOTvFCEZKVUlS1oaW",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3130,7 +3060,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767097-XHyhTpA9o9lXLwhGilwo",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3174,7 +3103,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767103-j8tAASIeUTaYbFHLlVTs",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3218,7 +3146,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775788-vzyoaPVblQBkpwaJHDOg",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3262,7 +3189,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767114-KL2xXjt7oi6KaYvHzpvO",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3306,7 +3232,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767122-PuOy2Jaa37Sd0HKSFPZB",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3350,7 +3275,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767142-LMvTBDwVOnaJyu04za0P",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3394,7 +3318,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767145-P1BsMzgTJLUJZvNhJJ1Z",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3438,7 +3361,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775795-OHhvciar88i3juGcMOWq",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3482,7 +3404,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767163-cXW5ygA4JnWl6rSHXfkJ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3526,7 +3447,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767170-zHxDhjbmbPVizE74Xcz8",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3570,7 +3490,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767171-Pijr3auXPkw7AGqYPVzi",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3614,7 +3533,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767182-hJG27usRCRvENglZZDXC",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3658,7 +3576,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767188-Jd85iPe2cKuoXupjJKET",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3702,7 +3619,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767197-poleIHSrgbktK2XnXQtf",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3746,7 +3662,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767206-mbZZvAROUpIThcFIuPH9",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3790,7 +3705,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767207-ZnMIgcZ6Zx7n9xHBJY5Z",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3834,7 +3748,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767225-ekwjXIOpED3na7V1GtZO",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3878,7 +3791,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767234-d24Hv0SiawhxedD0LQrs",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3922,7 +3834,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767252-4ArtjLfK56XggQZHih4d",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -3966,7 +3877,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767261-n0l9aa9sRrfea5xQTPA1",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4010,7 +3920,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767270-ulY8C5pw7v6BmUS6tlPN",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4054,7 +3963,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767272-sJ9mQOWp6z4lhbVUqWf7",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4098,7 +4006,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767278-L9oSzHg8rGvqBk7cfLpX",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4142,7 +4049,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767288-pRSlAo380RByXklxG1CO",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4186,7 +4092,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767297-3dFePulnnPm6nUE5e9pR",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4230,7 +4135,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767303-s6h1K3xiAL3DX9RryOZD",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4274,7 +4178,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767319-TDqvoeZvI1aGahXmaEC6",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4318,7 +4221,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767322-gUuz7N0hRViaMjg4kXvy",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4362,7 +4264,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767328-ezm33mMjBOCnImVikmAP",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4406,7 +4307,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767338-BOAck2gLjBoYCYFwlibo",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4450,7 +4350,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767341-wele9hKFmVAxmsWouh5u",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4494,7 +4393,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767342-JUC4gnHLX2eBD4tqRgEc",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4538,7 +4436,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767345-7sUIGcDx203gBYjTBRgL",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4582,7 +4479,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767356-IbnNdFD7hZ5NXGsPr7Nr",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4626,7 +4522,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767358-tcE7p534RN7gisEquZiC",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4670,7 +4565,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767369-mSusWuthL8MLXsXnzHgS",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4714,7 +4608,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767380-9bSq8evSDIpKia8rXLPg",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4758,7 +4651,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767382-jANDla6cyCZ2iIelypHq",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4802,7 +4694,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767387-XvyAN2vhirK4GWs9nlYb",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4846,7 +4737,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767404-GLGn3Gg8TbNIJMVSG92j",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4890,7 +4780,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767404-XAaXFqY03fUAiC9SR6ng",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4934,7 +4823,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788781249-8njscq6EUPUMq0KYHoUQ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -4979,7 +4867,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767415-wkm9h6HjMlKBfaVDX6JA",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5023,7 +4910,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767426-d9qqCPQPVWZXoLpdb1jL",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5067,7 +4953,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767431-oFN2koGRXrgcws0BskZs",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5111,7 +4996,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767437-OE1hZdpTsftNRuerF8Zn",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5155,7 +5039,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767475-UNVWeKA8gUgmIw5Wbpr1",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5199,7 +5082,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767479-T5gVegMIsSmhm8TuIvBu",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5243,7 +5125,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767480-p4HPbqlaTfZqrtvcqEQH",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5287,7 +5168,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767492-Lu8fEU1PnwVCRT46kRRy",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5331,7 +5211,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767497-wZp651zI1I22vMbPXSly",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5375,7 +5254,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767498-jzFnpz5LWjvUCvdQKYyy",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5419,7 +5297,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767498-YekZCsVSNwAtuZwTeBIA",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5463,7 +5340,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767509-S0CPLAeF1pvvknN9s9a0",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5507,7 +5383,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767518-iFd3lEzd23xQ7Apx1pDg",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5551,7 +5426,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767520-Lg3ALZqpxuprcI5i1iqv",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5595,7 +5469,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767524-0shZ1kf6APMs0UFlWWdF",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5639,7 +5512,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767544-VyXW7fsmeI63fr5Pp5mi",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5683,7 +5555,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767563-KqzNz22ZdKilQYlnf83E",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5727,7 +5598,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767564-u493tQRMsdk1nsQJqlaH",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5771,7 +5641,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767577-3tIw7TMqrKsfOnxZWhb3",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5815,7 +5684,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767582-nHnx7bRYPN6TUqXfR2gf",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5859,7 +5727,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767583-n79g1pd8TcQFqViSnf9U",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5903,7 +5770,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767594-lBhiZTmXmrnUaAzu83cp",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5947,7 +5813,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767600-eDiJN7L93sfEQXEL8OLo",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -5991,7 +5856,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767600-lZHwSX2BAxHfMfhPzHhN",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6035,7 +5899,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767616-zj7NAL63ylcdZoBJTxFf",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6079,7 +5942,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767618-CWMuEQ7zOQH41g6J8LyP",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6123,7 +5985,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767634-mUEr51TQ9j2kxPhoyL2Q",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6167,7 +6028,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767637-f0oNkNwxn4J4MOADGA5w",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6211,7 +6071,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767645-V90z1yw8X3hvVNeqRiT1",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6255,7 +6114,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767655-NsVICK7TuMbFpNyxvFoT",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6299,7 +6157,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767655-rrgTkvfkpOo4CE67suS1",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6343,7 +6200,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767662-RsqQ8oTX2YxXR5CNtcLf",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6387,7 +6243,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767679-MQkSSFBRHFOWmbqep19Z",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6431,7 +6286,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767681-XfkUwb2MVv8terHOElKC",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6475,7 +6329,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767684-HpBW56Wz4BS187G9gKve",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6519,7 +6372,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767692-PicJ6tZgMaFzDwLRzK7J",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6563,7 +6415,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767707-k69m47SfWueyY2hIkYGh",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6607,7 +6458,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767720-OLKkc3zkuNlSKfrmAvjS",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6651,7 +6501,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767736-ZXnpStFafsbgkOIkzGZn",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6695,7 +6544,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767742-y6JR7XAB5RPQ6vTYIQlt",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6739,7 +6587,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767742-mIofFhtVpwcJvzRc5O44",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6783,7 +6630,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767754-qke153zGUs4twIG95abK",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6827,7 +6673,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767759-onE4JrGQ8KVuw96ivuyx",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6871,7 +6716,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767772-yBkegn4SGDqlfCGBZRiE",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6915,7 +6759,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767778-CrNVedMRuiZttZBjHFEh",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -6959,7 +6802,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767778-DwcQ89ax7pGeLwapCr8l",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7003,7 +6845,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767793-u5ywLj6zBUTRf6eYnsN3",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7047,7 +6888,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767795-tyhsQV3ZkAr6Gb3vid9z",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7091,7 +6931,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788775800-vx6nbUvdMSMkdRpnF1sE",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7135,7 +6974,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767813-cDvQ1C2czdlJlcSaIEPQ",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7179,7 +7017,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767829-qroJ2mBr36GwJuRE0hIl",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7223,7 +7060,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767830-FfO4AkDnngEO2secCkyF",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7267,7 +7103,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788781249-MXz37UbRAxqr7M9gBPtc",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7312,7 +7147,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767832-qUsdyR4SVYFbRJMexpvz",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7356,7 +7190,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767850-XxO09nvHinljptTD5tKF",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7400,7 +7233,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788781249-nyBkH06CoTTu2MtU1VjL",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7445,7 +7277,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767868-WqvuMPlWVUN6FLVX9eaF",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7489,7 +7320,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767871-NXevtrWCFnXqCRttT8pq",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7533,7 +7363,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767892-SJNseirreAPsLGCSjGSv",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7577,7 +7406,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767903-MCZnVJkhiW4vvujAfjiv",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7621,7 +7449,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767910-rvyc5tzxvoG5HQHIUvwm",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7665,7 +7492,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767916-Z4vSL8WWpAJzA0AI6EMx",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7709,7 +7535,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767917-DtIx4bRTiCnZreGlQEVt",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7753,7 +7578,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767931-mYSwleoZfSnwOMfdS1NS",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7797,7 +7621,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767933-d8feRXhn3kOasRqaWM4N",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7841,7 +7664,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767937-EZ35QSeyQZEO0VX0T3RR",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7885,7 +7707,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767947-ywn8hvrCQ3mfcit37DwC",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [
@@ -7929,7 +7750,6 @@
       },
       "http_status": 200,
       "response": {
-        "id": "gen-1788767948-aOUT7F0iqPHJZLODCijp",
         "model": "qwen/qwen3.8-2.4t-a95b",
         "provider": "SiliconFlow",
         "choices": [

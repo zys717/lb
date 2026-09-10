@@ -248,7 +248,6 @@
       "automatic_stop_behavior",
       "safety_distance_enforcement"
     ],
-    "created_date": "",
     "scenario_version": "1.0",
     "keywords": [
       "realtime_avoidance",

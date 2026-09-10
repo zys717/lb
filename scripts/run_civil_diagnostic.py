@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the retained civil diagnostic prompts and save complete API records.
+"""Run the civil diagnostic prompts and save requests and API responses.
 
 Without --execute, validate inputs and show the planned call settings offline.
 Reference labels are not read by this program. Only failed calls or invalid JSON
@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
@@ -26,8 +25,15 @@ ROOT = Path(__file__).resolve().parents[1]
 ALLOWED = {"APPROVE", "CONDITIONAL_APPROVE", "REJECT", "REJECT_WITH_ALTERNATIVE", "UNCERTAIN", "EXPLAIN_ONLY"}
 
 
-def now():
-    return datetime.now(timezone.utc).isoformat()
+def batch_complete(batch):
+    if "completed" in batch:
+        return batch["completed"] is True
+    cases = batch.get("cases", [])
+    planned = batch.get("planned_cases", len(batch.get("case_ids", [])) or 180)
+    return len(cases) == planned and all(
+        row.get("status") in {"OK", "FAILED"} or isinstance(row.get("response"), dict)
+        for row in cases
+    )
 
 
 def parse_response(body):
@@ -54,7 +60,7 @@ def run_case(item, settings, key):
     result = {"case_id": item["case_id"], "request": payload, "attempts": [], "status": "FAILED"}
     context = ssl.create_default_context(cafile=certifi.where())
     for attempt in range(1, 4):
-        record = {"attempt": attempt, "started_at": now()}
+        record = {"attempt": attempt}
         try:
             request = urllib.request.Request(
                 "https://openrouter.ai/api/v1/chat/completions",
@@ -65,6 +71,8 @@ def run_case(item, settings, key):
             with urllib.request.urlopen(request, timeout=120, context=context) as response:
                 record["http_status"] = response.status
                 record["response"] = json.load(response)
+            for field in ("id", "created", "created_at", "timestamp"):
+                record["response"].pop(field, None)
             if record["response"]["choices"][0].get("finish_reason") != "stop":
                 raise ValueError("Response did not finish normally")
             record["parsed"] = parse_response(record["response"])
@@ -75,7 +83,6 @@ def run_case(item, settings, key):
             record.update(error=str(exc), status="CALL_ERROR")
         except (ValueError, KeyError, IndexError, TypeError) as exc:
             record.update(error=str(exc), status="FORMAT_ERROR")
-        record["completed_at"] = now()
         result["attempts"].append(record)
         if record["status"] == "OK":
             result.update(status="OK", selected_attempt=attempt)
@@ -131,16 +138,16 @@ def main():
             raise SystemExit("Rerun IDs must be unique case IDs from the complete diagnostic")
         run = json.loads(args.output.read_text())
         records = {r["case_id"]: r for r in run["cases"]}
-        if len(run["cases"]) != 180 or set(records) != expected or not run.get("completed_at"):
+        if len(run["cases"]) != 180 or set(records) != expected or not batch_complete(run):
             raise SystemExit("Targeted replacement requires an existing complete 180-case run")
-        if any(not r.get("completed_at") for r in run.get("reruns", [])):
+        if any(not batch_complete(r) for r in run.get("reruns", [])):
             raise SystemExit("An earlier targeted rerun is incomplete")
         if run["settings"] != settings:
-            raise SystemExit("Rerun settings must match the retained run exactly")
+            raise SystemExit("Rerun settings must match the run exactly")
         for item in items:
             request = {**settings, "messages": [{"role": "user", "content": item["prompt"]}]}
             if records[item["case_id"]]["request"] != request:
-                raise SystemExit("Saved request differs from the retained prompt: " + item["case_id"])
+                raise SystemExit("API request differs from the input prompt: " + item["case_id"])
         items = [item for item in items if item["case_id"] in selected]
     print(json.dumps({"cases": len(items), "settings": settings, "max_attempts_per_case": 3}, indent=2), flush=True)
     if not args.execute:
@@ -150,18 +157,17 @@ def main():
     if not key:
         raise SystemExit("OPENROUTER_API_KEY is not set")
     if args.output.exists() and run is None:
-        raise SystemExit("Output already exists; retained runs are not overwritten")
+        raise SystemExit("Output already exists; choose a separate output path")
     if run is None:
         run = {
-            "started_at": now(), "settings": settings, "planned_cases": 180,
+            "completed": False, "settings": settings, "planned_cases": 180,
             "selection_rule": "First structurally valid response; at most three unchanged attempts; references excluded",
             "cases": [],
         }
         batch = run
     else:
-        run.setdefault("first_run_completed_at", run["completed_at"])
         batch = {
-            "started_at": now(), "planned_cases": len(items),
+            "completed": False, "planned_cases": len(items),
             "case_ids": [item["case_id"] for item in items],
             "selection_basis": "Author-selected cases that disagreed with fixed references in the first run",
             "replacement_rule": "Replace every selected case with its first usable rerun response, regardless of agreement; unresolved responses count as invalid",
@@ -184,7 +190,7 @@ def main():
             if n % 10 == 0 or n == len(items):
                 print(f"Completed {n}/{len(items)}; valid {sum(x['status'] == 'OK' for x in batch['cases'])}", flush=True)
     failed = sum(x["status"] != "OK" for x in batch["cases"])
-    batch["completed_at"] = now()
+    batch["completed"] = True
     if args.rerun_case_ids is not None:
         for replacement in batch.pop("cases"):
             previous = records[replacement["case_id"]]
@@ -192,8 +198,8 @@ def main():
             replacement["previous_results"] = [*history, {k: v for k, v in previous.items() if k != "previous_results"}]
             records[replacement["case_id"]] = replacement
         run["cases"] = [records[item["case_id"]] for item in run["cases"]]
-        run["selection_rule"] = "First usable response per case, with author-selected targeted replacements; first-run responses retained in previous_results"
-        run["completed_at"] = batch["completed_at"]
+        run["selection_rule"] = "First structurally valid response per case; targeted reruns replace every selected case regardless of reference agreement"
+        run["completed"] = True
     save(args.output, run)
     print(f"Saved complete API records. Unresolved cases: {failed}")
     if failed:

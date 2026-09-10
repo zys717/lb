@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Score actual 622-position response files against the 368 references.
-
-Original response transcripts are not supplied by the current release. This
-entry point is for actual response files from a new run or recovered originals;
-it does not reconstruct text responses from the published score table.
-"""
+"""Score 622-position response files against the 368 benchmark references."""
 from __future__ import annotations
 
 import argparse

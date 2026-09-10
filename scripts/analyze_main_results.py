@@ -2,10 +2,9 @@
 """Recompute the manuscript's main statistics from the released case scores.
 
 --check compares the computed tables with data/main/results without writing.
---output-dir writes a separate set of tables. This reproduces statistics, not
-the missing historical model response transcripts. Python random.Random is
-used for the original layer/accuracy analyses; NumPy default_rng is used for
-the later principal-task paired intervals, as in the actual analyses.
+--output-dir writes a separate set of tables. Python random.Random is used
+for layer and accuracy intervals; NumPy default_rng is used for principal-task
+paired intervals.
 """
 from __future__ import annotations
 

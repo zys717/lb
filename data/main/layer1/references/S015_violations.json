@@ -2,7 +2,6 @@
   "scenario_id": "S015_DynamicNFZAvoidance",
   "description": "Ground truth for Dynamic No-Fly Zone Avoidance scenario - path conflict detection and pre-flight rejection",
   "version": "1.0",
-  "created_date": "",
   
   "test_cases": [
     {

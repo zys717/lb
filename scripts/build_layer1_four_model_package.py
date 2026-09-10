@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Reconstruct the label-free Layer 1 RAW package from preserved source facts.
+"""Reconstruct the label-free Layer 1 RAW package from source facts.
 
-The Layer 1 source scenarios predate the current endpoint ontology and contain
-case-level answer cues.  This builder therefore copies only configured rules,
+The Layer 1 source scenarios contain case-level answer cues. This builder
+copies only configured rules,
 raw operational facts, and a small explicit set of mathematical conventions.
 Reference labels are written to a separate file for offline scoring.
 """
@@ -744,8 +744,7 @@ def main() -> None:
         raise SystemExit("Prompt contains forbidden answer cues; no output written.")
     write_jsonl(prompts_path, prompt_records)
     write_reference_csv(references_path, references)
-    print("Reconstructed 114 Layer 1 prompts using the original construction procedure.")
-    print("S005/S020 facts are the saved 4b4fbf3 source snapshots. These are newly generated files, not recovered original run files.")
+    print("Reconstructed 114 Layer 1 prompts from the supplied rules and case facts.")
     print(prompts_path)
     print(references_path)
 

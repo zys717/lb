@@ -101,6 +101,6 @@ NOTES.md
 /paper/
 /tmp/
 
-# Combined prompts are generated from the three retained input sets
+# Combined prompts are generated from the three input sets
 /data/main/prompts_main_reconstructed.jsonl
 .cache/

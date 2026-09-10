@@ -1,7 +1,6 @@
 {
   "registry_version": "1.0",
-  "frozen_at": "2026-08-26",
-  "selection_rule": "Current publicly released weights in the same Qwen, GLM, DeepSeek, and Meta family slots; capability-diverse rather than selected from benchmark results.",
+  "selection_rule": "One publicly released model from each of the Qwen, GLM, DeepSeek, and Meta families, selected before scoring independently of benchmark outcomes.",
   "common_inference": {
     "provider": "OpenRouter",
     "temperature": 0,

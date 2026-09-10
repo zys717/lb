@@ -2,7 +2,6 @@
   "scenario_id": "S018_MultiDroneCoordination",
   "description": "多无人机协同飞行规则 - Ground Truth",
   "version": "1.0",
-  "created": "",
   
   "test_cases": [
     {

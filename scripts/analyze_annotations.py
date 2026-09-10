@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-"""Recompute the recorded A1/A2 agreement statistics using Python's standard library.
+"""Compute agreement between independent A1 and A2 annotations.
 
-The statistical definitions follow the original annotation analysis. The input
-workbook is the preserved, readable A1 copy; this script does not repair or edit it.
+The script uses Python's standard library and does not modify the input files.
 """
 
 from __future__ import annotations
@@ -170,7 +169,7 @@ def agreement(pairs: list[tuple[str, str]]) -> dict:
     n = len(pairs)
     matches = sum(first == second for first, second in pairs)
     first_counts, second_counts = Counter(x for x, _ in pairs), Counter(y for _, y in pairs)
-    # Preserve first-appearance category ordering from the original JavaScript.
+    # Use categories in first-appearance order.
     categories = list(dict.fromkeys(value for pair in pairs for value in pair))
     expected = sum(first_counts[value] / n * (second_counts[value] / n) for value in categories)
     observed = matches / n
@@ -203,8 +202,6 @@ def build_statistics(comparisons: list[dict], decisions: dict[int, dict]) -> dic
         for row in reviewed
     )
     return {
-        # Date of the preserved annotation analysis, not the date of a later rerun.
-        "generated_at": "2026-08-12",
         "corpus": {"n": len(comparisons), "layers": sorted({row["layer"] for row in comparisons})},
         "pre_adjudication": {
             "primary_label": overall["outcome"],
@@ -219,7 +216,7 @@ def build_statistics(comparisons: list[dict], decisions: dict[int, dict]) -> dic
             "final_match_a2_within_disagreements": matches_a2,
             "final_match_neither_within_disagreements": neither,
         },
-        "reporting_rule": "Reliability statistics are pre-adjudication only. Report overall exact agreement descriptively and task-family-specific reliability; retain pooled kappa for audit diagnostics only. The final label is not treated as a third independent rating.",
+        "reporting_rule": "Reliability statistics compare A1 and A2 before coordinator review. Overall exact agreement is descriptive; reliability is reported by task family, with pooled kappa included as a diagnostic statistic. The final label is not a third independent rating.",
     }
 
 

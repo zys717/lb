@@ -249,8 +249,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -259,8 +257,7 @@
         "route_change",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming FAA/ATC constraints."
+      ]
     }
   },
   {
@@ -513,8 +510,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -523,8 +518,7 @@
         "airspace_violation",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming airspace class and ATC constraints."
+      ]
     }
   },
   {
@@ -777,8 +771,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -787,8 +779,7 @@
         "emergency",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming emergency classification and ATC constraints."
+      ]
     }
   },
   {
@@ -1041,8 +1032,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -1051,8 +1040,7 @@
         "runway_incursion",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming ground control clearance and runway status."
+      ]
     }
   },
   {
@@ -1305,8 +1293,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -1315,8 +1301,7 @@
         "weather",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming weather minima and operational constraints."
+      ]
     }
   },
   {
@@ -1569,8 +1554,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -1579,8 +1562,7 @@
         "go_around",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   },
   {
@@ -1833,8 +1815,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -1843,8 +1823,7 @@
         "minimum_fuel",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   },
   {
@@ -2097,8 +2076,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -2107,8 +2084,7 @@
         "tcas_ra",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   },
   {
@@ -2361,8 +2337,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -2371,8 +2345,7 @@
         "special_vfr",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming SVFR clearance and minima."
+      ]
     }
   },
   {
@@ -2625,8 +2598,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -2635,8 +2606,7 @@
         "ifr_clearance",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   },
   {
@@ -2889,8 +2859,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -2899,8 +2867,7 @@
         "notam_restricted_airspace",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   },
   {
@@ -3153,8 +3120,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -3163,8 +3128,7 @@
         "deicing",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   },
   {
@@ -3417,8 +3381,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -3427,8 +3389,7 @@
         "low_visibility",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   },
   {
@@ -3681,8 +3642,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -3691,8 +3650,7 @@
         "taxi_clearance",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   },
   {
@@ -3945,8 +3903,6 @@
       }
     ],
     "metadata": {
-      "created_by": "codex",
-      "created_date": "",
       "version": "0.1",
       "complexity": "basic",
       "tags": [
@@ -3955,8 +3911,7 @@
         "equipment_mel",
         "transfer_study",
         "no_layering"
-      ],
-      "notes": "Decisions are UNCERTAIN as sample; update with rule-based decisions after confirming operational constraints."
+      ]
     }
   }
 ]

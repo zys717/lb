@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Combine reconstructed L1 inputs and preserved complex inputs for a new run.
-
-This reconstructs 622 prompts; it does not recover the original run's input file.
-"""
+"""Combine reconstructed Layer 1 inputs and complex-case inputs into 622 prompts."""
 from __future__ import annotations
 
 import argparse
@@ -39,7 +36,7 @@ def main() -> None:
     rows = [dict(r) for r in l1 + raw]
     for original in rag:
         if original["condition"] != "RAG_REVISED_FULL":
-            raise SystemExit("Expected preserved RAG_REVISED_FULL records.")
+            raise SystemExit("Expected RAG_REVISED_FULL input records.")
         row = dict(original)
         row["condition"] = "RAG_REVISED"
         row["run_case_id"] = f"{row['record_id']}::RAG_REVISED"
@@ -52,7 +49,7 @@ def main() -> None:
         raise SystemExit("Unexpected condition counts.")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text("".join(json.dumps(r, ensure_ascii=False, sort_keys=True) + "\n" for r in rows))
-    print(f"Reconstructed 622 prompts (not the recovered historical input file): {args.output}")
+    print(f"Reconstructed 622 prompts: {args.output}")
 
 
 if __name__ == "__main__":

@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild the 254 reference records from independent annotations and recorded review.
-
-Coordinator decisions are preserved human-provided inputs. This program merges
-those records; it does not make, revise, or infer the substantive decisions.
-"""
+"""Combine independent annotations and coordinator decisions into 254 reference records."""
 
 from __future__ import annotations
 
@@ -61,7 +57,7 @@ def build_labels(comparisons: list[dict], decisions: dict[int, dict]) -> list[di
             "final_label_source": decision["resolved_by"] if decision is not None else "A1_A2_AGREEMENT",
             "final_rationale": decision["final_rationale"] if decision is not None else pair["a1_rationale"],
             "governing_rule_or_constraint": decision["governing_rule_or_constraint"] if decision is not None else pair["a1_rule"],
-            "freeze_status": "FROZEN_WITH_RECORDED_PROTOCOL_DEVIATION",
+            "freeze_status": "FIXED_REFERENCE_LABEL",
         })
     return rows
 

@@ -49,7 +49,7 @@ def calculate(folder):
         reference = refs[key]
         require(row["description"] == reference["description"], key + ": case narrative differs")
         require(isinstance(inputs[key], str) and row["description"] in inputs[key],
-                key + ": retained prompt does not contain the case narrative")
+                key + ": prompt does not contain the case narrative")
         expected_decision = reference["expected_behavior"]["decision"]
         require(row["ground_truth"]["decision"] == expected_decision, key + ": reference differs")
         answer = row["llm_result"]
@@ -60,7 +60,7 @@ def calculate(folder):
                 key + ": run and report prompt conditions differ")
         conditions[condition] += 1
         require(call["request"] == {**run["settings"], "messages": [{"role": "user", "content": inputs[key]}]},
-                key + ": saved API request differs from the retained inputs or settings")
+                key + ": API request differs from the inputs or settings")
         response = call["response"]
         require(call["http_status"] == 200 and len(response["choices"]) == 1
                 and response["choices"][0]["finish_reason"] == "stop",
@@ -108,7 +108,7 @@ def calculate(folder):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--folder", type=Path, default=ROOT / "data/civil")
-    parser.add_argument("--check", action="store_true", help="Print confirmation after checking the retained reports")
+    parser.add_argument("--check", action="store_true", help="Print confirmation after checking the reports")
     args = parser.parse_args()
     summary = calculate(args.folder)
     if args.check:

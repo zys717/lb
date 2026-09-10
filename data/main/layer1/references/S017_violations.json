@@ -2,7 +2,6 @@
   "scenario_id": "S017_PayloadAndDropRestrictions",
   "description": "Ground truth for Payload and Drop Restrictions scenario - weight limits and drop zone restrictions",
   "version": "1.0",
-  "created_date": "",
   
   "test_cases": [
     {

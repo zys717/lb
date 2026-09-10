@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Provider-neutral runner for the frozen Phase 2E prompt package.
+"""Provider-neutral runner for the benchmark prompt package.
 
 This runner never reads reference labels. Scoring is performed separately.
 """
@@ -16,7 +16,6 @@ import ssl
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -160,7 +159,6 @@ def call_openai_compatible(
         "upstream_provider": body.get("provider"),
         "finish_reason": choices[0].get("finish_reason"),
         "usage": body.get("usage"),
-        "request_id": body.get("request_id") or body.get("id"),
         "reasoning_present": bool(
             message.get("reasoning") or message.get("reasoning_content")
         ),
@@ -220,7 +218,6 @@ def main() -> None:
 
     mode = "a" if args.resume else "w"
     success = failure = skipped = 0
-    started = datetime.now(timezone.utc).isoformat()
     with output_path.open(mode, encoding="utf-8") as sink:
         for item in prompts:
             if item["run_case_id"] in completed:
@@ -236,7 +233,6 @@ def main() -> None:
                 "model_id": args.model_id,
                 "model": args.model,
                 "provider": args.provider,
-                "requested_at": datetime.now(timezone.utc).isoformat(),
             }
             if args.dry_run:
                 row = {**base, "status": "DRY_RUN", "attempts": 0, "raw_response": None, "parsed_response": None, "normalized_response": None}
@@ -288,9 +284,6 @@ def main() -> None:
                 failure += 1
 
     manifest = {
-        "run_id": f"{args.model_id}-{started}",
-        "started_at": started,
-        "finished_at": datetime.now(timezone.utc).isoformat(),
         "provider": args.provider,
         "upstream_provider": args.upstream_provider,
         "quantization": args.quantization,
