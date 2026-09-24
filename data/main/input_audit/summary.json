@@ -1,0 +1,39 @@
+{
+  "prompt_positions_screened": 622,
+  "scored_positions_checked": 2488,
+  "explicit_judgment_fields": [
+    "conflict_violations",
+    "rtl_compliant",
+    "rule_applicability",
+    "violations"
+  ],
+  "flagged_cases": 18,
+  "flagged_record_ids": [
+    "S021/TC8_TradeoffAnalysis",
+    "S023/TC1_Baseline",
+    "S023/TC2_Old_Rule",
+    "S023/TC3_New_Rule_Explicit",
+    "S023/TC4_Conflict_Explicit",
+    "S023/TC5_Implicit_Date",
+    "S023/TC6_Temporal_Boundary",
+    "S023/TC7_Retroactive_Application",
+    "S023/TC8_Multiple_Updates",
+    "S045/TC01_TrivialPairViolation",
+    "S045/TC02_TriangleConditionals",
+    "S045/TC03_StarVsLeaves",
+    "S045/TC04_LongChainOptimal",
+    "S045/TC05_DenseGridPenalty",
+    "S045/TC06_CliqueMisinterpretation",
+    "S045/TC07_FairnessVsUrgency",
+    "S045/TC08_HybridQuantumBenchmark",
+    "S046/TC08_CascadeFailure"
+  ],
+  "reference_boundary_cases": 15,
+  "retained_input_sha256": {
+    "data/main/layer1/generated/layer1_raw_prompt_package.jsonl": "9220dc5085037d4f14672db11893243c9116c37e5bf738931be1749ae77b756e",
+    "data/main/prompts_raw.jsonl": "95634903eaac7bc5f269ec80f8e3560b3a415533f1ec33629e9a678cb078333b",
+    "data/main/prompts_rag_revised.jsonl": "962969ef192f47e90514117f36b859f8a700e21a73b0287a9b46c426db888d02",
+    "data/main/results/case_results.csv": "d3d4cd9c165cadbbfd036ccce756919f71e618fcee837ebe85013bc8e37772ce"
+  },
+  "scope": "Post hoc screen of named structured case judgments; not an exhaustive natural-language cue detector. Exclusion uses retained predictions and does not estimate performance after prompt cleaning."
+}

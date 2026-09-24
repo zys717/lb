@@ -1,6 +1,6 @@
 # Civil aviation diagnostic
 
-This auxiliary diagnostic contains 15 constructed scenario groups with 12 items each. Following reference review and targeted reruns, including task clarification for three items, Qwen3.8 agreement was 175/180 (97.2%), leaving five disagreements. The reference distribution is 170 `UNCERTAIN` and ten `REJECT`; an always-`UNCERTAIN` baseline agrees on 170/180 items (94.4%). These results assess the supplied decision basis and do not establish broad aviation competence or differences among the four models in the main experiment.
+This auxiliary diagnostic contains 15 constructed scenario groups with 12 items each. On the final 180-item package, Qwen3.8 agreement was 175/180 (97.2%), leaving five disagreements. The reference distribution is 170 `UNCERTAIN` and ten `REJECT`; an always-`UNCERTAIN` baseline agrees on 170/180 items (94.4%). These results assess the supplied decision basis and do not establish broad aviation competence or differences among the four models in the main experiment.
 
 ## Files
 

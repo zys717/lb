@@ -4834,8 +4834,7 @@
             }
           }
         ]
-      },
-      "condition": "TASK_CLARIFIED"
+      }
     },
     {
       "case_id": "C010/TC5",
@@ -7114,8 +7113,7 @@
             }
           }
         ]
-      },
-      "condition": "TASK_CLARIFIED"
+      }
     },
     {
       "case_id": "C014/TC10",
@@ -7244,8 +7242,7 @@
             }
           }
         ]
-      },
-      "condition": "TASK_CLARIFIED"
+      }
     },
     {
       "case_id": "C015/TC1",

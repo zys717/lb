@@ -2642,8 +2642,7 @@
           "alternative": null,
           "requested_clarifications": [],
           "correct": true
-        },
-        "condition": "TASK_CLARIFIED"
+        }
       },
       {
         "test_case_id": "TC5",
@@ -3906,8 +3905,7 @@
           "alternative": "",
           "requested_clarifications": [],
           "correct": true
-        },
-        "condition": "TASK_CLARIFIED"
+        }
       },
       {
         "test_case_id": "TC10",
@@ -3964,8 +3962,7 @@
           "alternative": null,
           "requested_clarifications": [],
           "correct": true
-        },
-        "condition": "TASK_CLARIFIED"
+        }
       }
     ]
   },

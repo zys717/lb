@@ -17,6 +17,8 @@ The main study contains 368 cases in 49 scenario clusters: 114 Layer 1 cases, 78
 
 The construction script maps the supported condition name to `RAG_REVISED` in the combined panel input. Reference outcomes and coordinator rationales are excluded from the prompt text supplied to models.
 
+Some retained case records nevertheless include intermediate judgments, such as rule-applicability, compliance, or violation summaries. The [retained-input review](input_audit/README.md) identifies 18 cases with named structured judgment fields in both conditions and reports an exclusion sensitivity using the existing predictions. The [rule-attribution notes](../../regulations/benchmark_rule_attribution_notes.md) distinguish constructed assumptions from the regulations cited in S021–S023. Historical prompts are preserved; neither review is a clean-input rerun.
+
 Running `python3 scripts/build_main_prompts.py` from the repository root reconstructs the 114 Layer 1 inputs and the combined 622-position package from the supplied construction procedure. The combined file is named `prompts_main_reconstructed.jsonl`.
 
 ## References and analysis

@@ -1,4 +1,4 @@
-# Eight decisions reconstructed from official records
+# Eight decision vignettes based on official records
 
 This qualitative case check contains S051–S058, four models, two presentations, 64 final responses, and 32 paired trajectories. It is separate from the 368-case benchmark. The reference positions guide case interpretation; S051 permits more than one defensible treatment and S055 has no unique reference action. Do not pool these cases into an accuracy estimate or model ranking.
 
@@ -8,11 +8,14 @@ This qualitative case check contains S051–S058, four models, two presentations
 - `prompts.jsonl`: the 16 case-condition prompts. The same condition names, `RAW_SOURCE_PROBE_V1` and `RAG_SOURCE_PROBE_V1`, appear in `responses.csv`; the paired table uses `raw_` and `rag_` column prefixes.
 - `responses.csv`: all 64 final normalized responses, including reasons, controlling rules or constraints, and format-rerun flags.
 - `pair_coding.csv`: all 32 manually coded pairs, including both outcomes and the supporting quotations.
+- `coding_revision_log.csv`: the two pair-type revisions made on 24 September 2026, with prior codes, reasons, and response quotations.
 - `qualitative_reference.json`: the separate review keys and specified facts/missing items/rules/excluded information; it is not a model input.
 
 Four models were used: Qwen3.8-2.4T-A95B, GLM-5.2, DeepSeek-V4-Flash, and Muse-Glimmer-30B, with temperature 0 and low reasoning effort. The standard output limit was 2,048 tokens. Two positions required format recovery: DeepSeek/S055/RAG kept its settings; GLM/S051/RAG was truncated and was rerun with an 8,192-token output limit. Recovery did not select responses by their substantive answer.
 
-The coding identifies 14 changed outcomes, 23 pairs with decision-linked evidence, four with misstated evidence, three with mention-only evidence, and two without demonstrated evidence use. Six pairs were coded as evidence misuse. A change of outcome is not automatically an improvement. One coder applied the scheme; inter-coder reliability was not assessed.
+The coding identifies 14 changed outcomes, 23 pairs with decision-linked evidence, four with misstated evidence, three with mention-only evidence, and two without demonstrated evidence use. Four pairs are coded as evidence misuse. Two further pairs concern the boundary between rejection or deferral and conditional approval. A change of outcome is not automatically an improvement. One coder applied the scheme; inter-coder reliability was not assessed.
+
+On 24 September 2026, the DeepSeek/S051 and Muse-Glimmer/S056 pair types were revised from `EVIDENCE_MISUSED` to `CONDITIONAL_DISPOSITION_BOUNDARY`. Both responses explicitly require completion of the missing prerequisite before flight. They do not claim that the prerequisite has been met or permit flight without it. The revision distinguishes a disputed disposition from factual misuse; it does not declare the conditional outcome correct. The original codes and supporting quotations remain in `coding_revision_log.csv`. Model answers, evidence-use fields, and action-change counts are unchanged. The four S053 pairs retain the misuse code because they introduce crowd-overflight premises absent from the case record.
 
 From the repository root, `python3 scripts/reproduce_case_checks.py` checks identifiers, the 16-to-64 prompt/response correspondence, pair fields, and these counts without calling a model or recreating the qualitative judgments.
 
@@ -31,7 +34,7 @@ From the repository root, `python3 scripts/reproduce_case_checks.py` checks iden
 
 ## Qualitative codebook
 
-Case facts and coding definitions were specified before model inference. The unit of analysis is one source case × one model × one condition.
+Case facts and the initial coding definitions were specified before model inference. The conditional-disposition boundary category was introduced in the documented subsequent review above. The unit of analysis is one source case × one model × one condition. S057 and S058 introduce hypothetical proposals using the official operating context; the proposals themselves are authored case material.
 
 ## Reporting purpose
 
@@ -87,7 +90,7 @@ For each case and model, record:
 - `M_treatment_delta`.
 - `unsupported_claim_delta`: new or removed `S`, `U`, or `H` claims.
 - `certainty_delta`: `MORE_QUALIFIED`, `UNCHANGED`, `MORE_CATEGORICAL`, or `MIXED`.
-- `pair_type`: `ACTION_CHANGED_WITH_EVIDENCE`, `ACTION_UNCHANGED_REASON_CHANGED`, `EVIDENCE_MENTION_ONLY`, `NO_DEMONSTRABLE_EVIDENCE_USE`, `EVIDENCE_MISUSED`, or `NOT_COMPARABLE`.
+- `pair_type`: `ACTION_CHANGED_WITH_EVIDENCE`, `ACTION_UNCHANGED_REASON_CHANGED`, `EVIDENCE_MENTION_ONLY`, `NO_DEMONSTRABLE_EVIDENCE_USE`, `EVIDENCE_MISUSED`, `CONDITIONAL_DISPOSITION_BOUNDARY`, or `NOT_COMPARABLE`.
 
 An action change is not automatically an improvement, and an unchanged action does not establish that evidence had no effect.
 

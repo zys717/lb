@@ -136,14 +136,29 @@ def reproduce_official() -> None:
         changed += pair["raw_outcome"] != pair["rag_outcome"]
     evidence = Counter(pair["rag_evidence_use"] for pair in pairs.values())
     misuse = sum(pair["pair_type"] == "EVIDENCE_MISUSED" for pair in pairs.values())
+    boundaries = {key for key, pair in pairs.items()
+                  if pair["pair_type"] == "CONDITIONAL_DISPOSITION_BOUNDARY"}
     reruns = {key for key, row in responses.items() if row["format_rerun"].lower() == "true"}
-    require(changed == 14 and misuse == 6, "Official action-change or evidence-misuse counts differ")
+    require(changed == 14 and misuse == 4, "Official action-change or evidence-misuse counts differ")
+    require(boundaries == {("S051", "deepseek_v4_flash"), ("S056", "meta_muse_30b")},
+            "Conditional-disposition boundary cases differ")
+    revisions = read_csv(folder / "coding_revision_log.csv")
+    require({(r["case_id"], r["model_id"]) for r in revisions} == boundaries and len(revisions) == 2,
+            "Coding revision log does not cover the two revised pairs")
+    for revision in revisions:
+        key = (revision["case_id"], revision["model_id"])
+        require(revision["old_pair_type"] == "EVIDENCE_MISUSED"
+                and revision["new_pair_type"] == pairs[key]["pair_type"],
+                "Coding revision history differs from current code")
+        require(revision["supporting_quote"] in responses[(*key, rag)]["rationale"],
+                "Coding-revision quotation is absent from the retained response")
     require(evidence == {"DECISION_LINKED": 23, "MISSTATED": 4, "MENTION_ONLY": 3, "NOT_USED": 2},
             "Official evidence-use counts differ")
     require(reruns == {("S051", "glm52_flagship", rag), ("S055", "deepseek_v4_flash", rag)},
             "Official format-recovery positions differ")
     print("Official records: 8 cases, 16 prompts, 64 responses, 32 corresponding pairs")
     print(f"  Changed outcomes: {changed}; evidence-misuse pairs: {misuse}; format-recovered responses: {len(reruns)}")
+    print(f"  Conditional-disposition boundary pairs: {len(boundaries)}; prior codes retained in coding_revision_log.csv")
     print("  Evidence use: 23 decision-linked, 4 misstated, 3 mention-only, 2 not-used")
     print("  Existing qualitative codes were counted, not independently recoded; no pooled accuracy or model ranking.")
 

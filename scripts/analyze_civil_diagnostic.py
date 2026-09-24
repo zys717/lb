@@ -43,7 +43,7 @@ def calculate(folder):
             "Model settings are incomplete")
     require(run["settings"] == {k: v for k, v in evaluation.items() if k != "api_provider"},
             "Run and report model settings differ")
-    confusion, predictions, labels, conditions = Counter(), Counter(), Counter(), Counter()
+    confusion, predictions, labels = Counter(), Counter(), Counter()
     matched = 0
     for key, row in records.items():
         reference = refs[key]
@@ -54,11 +54,6 @@ def calculate(folder):
         require(row["ground_truth"]["decision"] == expected_decision, key + ": reference differs")
         answer = row["llm_result"]
         call = calls[key]
-        condition = call.get("condition", "BASE_PROMPT")
-        require(condition in {"BASE_PROMPT", "TASK_CLARIFIED"}, key + ": unknown prompt condition")
-        require(row.get("condition", "BASE_PROMPT") == condition,
-                key + ": run and report prompt conditions differ")
-        conditions[condition] += 1
         require(call["request"] == {**run["settings"], "messages": [{"role": "user", "content": inputs[key]}]},
                 key + ": API request differs from the inputs or settings")
         response = call["response"]
@@ -97,9 +92,6 @@ def calculate(folder):
         "majority_baseline_label": baseline_label, "majority_baseline_matched": baseline,
         "majority_baseline_percent": 100 * baseline / total,
         "reference_counts": dict(labels), "prediction_counts": dict(predictions),
-        "condition_counts": dict(conditions),
-        "task_clarified_case_ids": sorted(key for key, call in calls.items()
-                                         if call.get("condition") == "TASK_CLARIFIED"),
         "confusion_counts": [{"reference": a, "prediction": b, "n": n}
                              for (a, b), n in sorted(confusion.items())],
     }

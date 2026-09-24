@@ -1,0 +1,5 @@
+model_id,n,raw_permissive,rag_permissive,raw_other,rag_other,crossover_w
+qwen38_flagship,119,2,14,59,39,1.6666666666666667
+glm52_flagship,119,5,17,58,33,2.0833333333333335
+deepseek_v4_flash,119,0,4,75,52,5.75
+meta_muse_30b,119,2,11,72,45,3.0

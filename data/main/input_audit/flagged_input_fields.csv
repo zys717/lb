@@ -1,0 +1,37 @@
+record_id,scenario_id,condition,field,supplied_value
+S023/TC1_Baseline,S023,RAW,rule_applicability,"{""new_rule_150m"": ""合规（100 < 150）"", ""old_rule_120m"": ""合规（100 < 120）""}"
+S023/TC2_Old_Rule,S023,RAW,rule_applicability,"{""new_rule_150m"": ""合规（130 < 150）← Prompt中已提供"", ""old_rule_120m"": ""违反（130 > 120）""}"
+S023/TC3_New_Rule_Explicit,S023,RAW,rule_applicability,"{""new_rule_150m"": ""合规（140 < 150）← 应使用这个"", ""old_rule_120m"": ""违反（140 > 120）""}"
+S023/TC4_Conflict_Explicit,S023,RAW,rule_applicability,"{""legal_principle"": ""新法优于旧法"", ""new_rule_150m"": ""明确提及，当前有效"", ""old_rule_120m"": ""明确提及，已废止""}"
+S023/TC5_Implicit_Date,S023,RAW,rule_applicability,"{""new_rule_150m"": ""需要推理'修正案发布=规则变更'"", ""old_rule_120m"": ""LLM参数记忆"", ""reasoning_chain"": [""当前日期（）> 修正案发布日期（）"", ""修正案已生效"", ""推测：修正案涉及高度上限调整（基于常见修正案内容）"", ""若新上限为150m，则135m合规""]}"
+S023/TC6_Temporal_Boundary,S023,RAW,rule_applicability,"{""at_application_time"": ""125m > 120m（违反旧规则）"", ""at_flight_time"": ""125m < 150m（符合新规则）"", ""principle"": ""决策应基于'飞行执行时刻'而非'申请提交时刻'的规则""}"
+S023/TC8_Multiple_Updates,S023,RAW,rule_applicability,"{""current_effective_rule"": ""150m（2025年1月5日）"", ""rule_evolution"": ""100m → 120m → 150m""}"
+S021/TC8_TradeoffAnalysis,S021,RAW,distance_calculations.option_A.rtl_compliant,true
+S023/TC7_Retroactive_Application,S023,RAW,rule_applicability,"{""at_flight_time"": ""125m > 120m（违反当时有效规则）"", ""at_query_time"": ""新规则150m已生效，但不溯及既往""}"
+S045/TC01_TrivialPairViolation,S045,RAW,metrics.conflict_violations,"[[""UAV_01"", ""UAV_02"", 150]]"
+S045/TC02_TriangleConditionals,S045,RAW,metrics.conflict_violations,[]
+S045/TC03_StarVsLeaves,S045,RAW,metrics.conflict_violations,[]
+S045/TC04_LongChainOptimal,S045,RAW,metrics.conflict_violations,[]
+S045/TC05_DenseGridPenalty,S045,RAW,metrics.conflict_violations,[]
+S045/TC06_CliqueMisinterpretation,S045,RAW,metrics.conflict_violations,"[[""UAV_C1"", ""UAV_C2"", 250], [""UAV_C2"", ""UAV_C3"", 260], [""UAV_C5"", ""UAV_C8"", 270]]"
+S045/TC07_FairnessVsUrgency,S045,RAW,metrics.conflict_violations,[]
+S045/TC08_HybridQuantumBenchmark,S045,RAW,metrics.conflict_violations,[]
+S046/TC08_CascadeFailure,S046,RAW,candidate_plan.violations,"[""Plan still allocates G2 even though the charger is offline."", ""Four drones with SOC<20% left to wait >300 sec.""]"
+S023/TC1_Baseline,S023,RAG_REVISED_FULL,rule_applicability,"{""new_rule_150m"": ""合规（100 < 150）"", ""old_rule_120m"": ""合规（100 < 120）""}"
+S023/TC2_Old_Rule,S023,RAG_REVISED_FULL,rule_applicability,"{""new_rule_150m"": ""合规（130 < 150）← Prompt中已提供"", ""old_rule_120m"": ""违反（130 > 120）""}"
+S023/TC3_New_Rule_Explicit,S023,RAG_REVISED_FULL,rule_applicability,"{""new_rule_150m"": ""合规（140 < 150）← 应使用这个"", ""old_rule_120m"": ""违反（140 > 120）""}"
+S023/TC4_Conflict_Explicit,S023,RAG_REVISED_FULL,rule_applicability,"{""legal_principle"": ""新法优于旧法"", ""new_rule_150m"": ""明确提及，当前有效"", ""old_rule_120m"": ""明确提及，已废止""}"
+S023/TC5_Implicit_Date,S023,RAG_REVISED_FULL,rule_applicability,"{""new_rule_150m"": ""需要推理'修正案发布=规则变更'"", ""old_rule_120m"": ""LLM参数记忆"", ""reasoning_chain"": [""当前日期（）> 修正案发布日期（）"", ""修正案已生效"", ""推测：修正案涉及高度上限调整（基于常见修正案内容）"", ""若新上限为150m，则135m合规""]}"
+S023/TC6_Temporal_Boundary,S023,RAG_REVISED_FULL,rule_applicability,"{""at_application_time"": ""125m > 120m（违反旧规则）"", ""at_flight_time"": ""125m < 150m（符合新规则）"", ""principle"": ""决策应基于'飞行执行时刻'而非'申请提交时刻'的规则""}"
+S023/TC8_Multiple_Updates,S023,RAG_REVISED_FULL,rule_applicability,"{""current_effective_rule"": ""150m（2025年1月5日）"", ""rule_evolution"": ""100m → 120m → 150m""}"
+S021/TC8_TradeoffAnalysis,S021,RAG_REVISED_FULL,distance_calculations.option_A.rtl_compliant,true
+S023/TC7_Retroactive_Application,S023,RAG_REVISED_FULL,rule_applicability,"{""at_flight_time"": ""125m > 120m（违反当时有效规则）"", ""at_query_time"": ""新规则150m已生效，但不溯及既往""}"
+S045/TC01_TrivialPairViolation,S045,RAG_REVISED_FULL,metrics.conflict_violations,"[[""UAV_01"", ""UAV_02"", 150]]"
+S045/TC02_TriangleConditionals,S045,RAG_REVISED_FULL,metrics.conflict_violations,[]
+S045/TC03_StarVsLeaves,S045,RAG_REVISED_FULL,metrics.conflict_violations,[]
+S045/TC04_LongChainOptimal,S045,RAG_REVISED_FULL,metrics.conflict_violations,[]
+S045/TC05_DenseGridPenalty,S045,RAG_REVISED_FULL,metrics.conflict_violations,[]
+S045/TC06_CliqueMisinterpretation,S045,RAG_REVISED_FULL,metrics.conflict_violations,"[[""UAV_C1"", ""UAV_C2"", 250], [""UAV_C2"", ""UAV_C3"", 260], [""UAV_C5"", ""UAV_C8"", 270]]"
+S045/TC07_FairnessVsUrgency,S045,RAG_REVISED_FULL,metrics.conflict_violations,[]
+S045/TC08_HybridQuantumBenchmark,S045,RAG_REVISED_FULL,metrics.conflict_violations,[]
+S046/TC08_CascadeFailure,S046,RAG_REVISED_FULL,candidate_plan.violations,"[""Plan still allocates G2 even though the charger is offline."", ""Four drones with SOC<20% left to wait >300 sec.""]"
